@@ -1,0 +1,480 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 5 Field type reference</TITLE>
+<link rel="stylesheet" href="X3D.css" type="text/css">
+
+</head>
+<body>
+
+<div class="CenterDiv">
+<a href="X3D.html">
+<img class="x3dlogo" SRC="../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">5 Field type reference</p>
+</div>
+
+<img class="x3dbar" SRC="../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="General"></a>
+5.1 General</h1>
+
+<P>This clause describes the syntax and general semantics of <I>fields, </I>the 
+  elemental data types used by X3D to define the properties of nodes. Nodes are 
+  composed of fields whose types are defined in this clause. For more information 
+  on nodes, see <a href="concepts.html#ObjectModel">4.4.2&nbsp;Object model</a>. 
+</P>
+
+<P><a href="#t-topics">Table 5.1</a> provides links to the major topics in 
+  this clause.</P>
+
+<div class="CenterDiv">
+
+<p class="TableCaption"><a name="t-topics"></a>Table 5.1 &#8212; Topics</p>
+
+<table class="topics">
+  <tr> 
+    <td> 
+     <ul>
+      <li><a href="#General">5.1 General</a></li>
+	  <li><a href="#AbstractFieldTypes">5.2 Abstract field types</a>
+	    <ul>
+          <li><a href="#Overview">5.2.1 Overview</a></li>
+		  <li><a href="#X3DArrayField">5.2.2 <i>X3DArrayField</i></a></li>
+		  <li><a href="#X3DField">5.2.3 <i>X3DField</i></a></li>
+        </ul>
+      </li>
+      <li><a href="#FieldTypes">5.3 Field types</a>
+        <ul>
+          <li><a href="#SFBoolAndMFBool">5.3.1 SFBool and MFBool</a></li>
+		  <li><a href="#SFColorAndMFColor">5.3.2 SFColor and MFColor</a></li>
+		  <li><a href="#SFColorRGBAAndMFColorRGBA">5.3.3 SFColorRGBA and MFColorRGBA</a></li>
+		  <li><a href="#SFDoubleAndMFDouble">5.3.4 SFDouble and MFDouble</a></li>
+		  <li><a href="#SFFloatAndMFFloat">5.3.5 SFFloat and MFFloat</a></li>
+		  <li><a href="#SFImageAndMFImage">5.3.6 SFImage and MFImage</a></li>
+		  <li><a href="#SFInt32AndMFInt32">5.3.7 SFInt32 and MFInt32</a></li>
+		  <li><a href="#SFMatrix3dAndMFMatrix3d">5.3.8 SFMatrix3d and MFMatrix3d</a></li>
+			<li><a href="#SFMatrix3fAndMFMatrix3f">5.3.9 SFMatrix3f and MFMatrix3f</a></li>
+			<li><a href="#SFMatrix4dAndMFMatrix4d">5.3.10 SFMatrix4d and MFMatrix4d</a></li>
+			<li><a href="#SFMatrix4fAndMFMatrix4f">5.3.11 SFMatrix4f and MFMatrix4f</a></li>
+			<li><a href="#SFNodeAndMFNode">5.3.12 SFNode and MFNode</a></li>
+			<li><a href="#SFRotationAndMFRotation">5.3.13 SFRotation and MFRotation</a></li>
+			<li><a href="#SFStringAndMFString">5.3.14 SFString and MFString</a></li>
+			<li><a href="#SFTimeAndMFTime">5.3.15 SFTime&nbsp;and&nbsp;MFTime</a></li>
+			<li><a href="#SFVec2dAndMFVec2d">5.3.16 SFVec2d and MFVec2d</a></li>
+			<li><a href="#SFVec2fAndMFVec2f">5.3.17 SFVec2f and MFVec2f</a></li>
+			<li><a href="#SFVec3dAndMFVec3d">5.3.18 SFVec3d and MFVec3d</a></li>
+			<li><a href="#SFVec3fAndMFVec3f">5.3.19 SFVec3f and MFVec3f</a></li>
+			<li><a href="#SFVec4dAndMFVec4d">5.3.20 SFVec4d and MFVec4d</a></li>
+			<li><a href="#SFVec4fAndMFVec4f">5.3.21 SFVec4f and MFVec4f</a></li>
+        </ul>
+      </li> 
+     </ul>
+    </td>
+    </table>
+</div>
+
+<img class="x3dbar" SRC="../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="AbstractFieldTypes"></a>5.2 Abstract field types</h1>
+
+<h2><a name="Overview"></a>5.2.1 Overview</h2>
+
+<P>There are two general classes of field types: field types that contain a single 
+  value (where a value may be a single number, a vector, or even an image), and 
+  field types that contain an ordered list of multiple values. Single-valued field 
+  types have names that begin with <B><TT>SF. </TT></B>Multiple-valued field types 
+  have names that begin with <B><TT>MF</TT></B>. Multiple-valued fields are written 
+  as an ordered list of values. If the field has zero values, the value is empty 
+  but still represented.</P>
+
+<h2><a name="X3DArrayField"></a>5.2.2 <i>X3DArrayField</i></h2>
+<P><i>X3DArrayField</i> is the abstract field type from which all field types 
+that can contain multiple values are derived. All fields derived from <i>
+X3DArrayField</i> have names beginning with <b><tt>MF</tt></b>. MFxxxx fields 
+may zero or more values, each of which shall be of the type indicated by the 
+corresponding SFxxxx field type. It is illegal for any MFxxxx field to mix values of 
+different SFxxxx field types.</P>
+<P class="Example">EXAMPLE&nbsp; <span class="example">MFString</span> is a 
+field type that can contain zero or more character strings.</P>
+
+<h2><a name="X3DField"></a>5.2.3 <i>X3DField</i></h2>
+<P><i>X3DField</i> is the abstract field type from which all single values field 
+types are derived. All fields derived from <i>X3DField </i>have names beginning 
+with <TT><B>SF</B></TT>. SFxxxx fields may only contain a single value of the 
+type indicated by the name of the field type.</P>
+<P class="Example">EXAMPLE&nbsp; <span class="example">SFBool</span> is a field 
+type that can contain a single Boolean value.</P>
+
+<img class="x3dbar" SRC="../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="FieldTypes"></a>5.3 Field types</h1>
+<h2>
+<a NAME="SFBoolAndMFBool"></a>5.3.1 SFBool and MFBool</h2>
+
+<P>The SFBool field specifies a single Boolean value. The MFBool field specifies
+multiple Boolean values. Each Boolean value represents either <span class="code">TRUE</span> or 
+<span class="code">FALSE</span>. How
+these values are represented is encoding dependent.</P>
+
+<P>The default value of an uninitialized SFBool field is <span class="code">FALSE</span>. The 
+default value
+of an uninitialized MFBool field is the empty list.</P>
+
+<h2><a NAME="SFColorAndMFColor"></a>5.3.2 SFColor and MFColor</h2>
+
+<P>The SFColor field specifies one RGB (red-green-blue) colour
+triple. MFColor specifies zero or more RGB triples. Each colour is written
+to the X3D file as an RGB triple of floating point numbers in the
+range 0.0 to 1.0.</P>
+
+<P>The default value of an uninitialized SFColor field is (0 0 0). The default 
+value 
+  of an uninitialized MFColor field is the empty list.</P>
+
+<h2><a NAME="SFColorRGBAAndMFColorRGBA"></a>5.3.3 SFColorRGBA and MFColorRGBA</h2>
+
+<P>The SFColorRGBA field specifies one RGBA (red-green-blue-alpha) colour
+quadruple that includes alpha (opacity) information. MFColorRGBA specifies zero or
+more RGBA quadruples. Each colour is written to the X3D file as an RGBA quadruple of
+floating point numbers in the range 0.0 to 1.0. Alpha values range from 0.0 (fully transparent)
+to 1.0 (fully opaque).</P>
+
+<P>The default value of an uninitialized SFColorRGBA field is (0 0 0 0). The 
+default value 
+  of an uninitialized MFColorRGBA field is the empty list.</P>
+
+<h2><a NAME="SFDoubleAndMFDouble"></a>5.3.4 SFDouble and MFDouble</h2>
+
+<p>The SFDouble field specifies one double-precision floating point number. MFDouble 
+specifies zero or more double-precision floating point numbers. SFDouble and MFDouble 
+are represented in the X3D file as specified in the respective encoding.</p>
+
+<p>Implementation of these fields is targeted at the double precision floating
+point capabilities of processors. However, it is allowable to implement this
+field using fixed point numbering provided at least 14 decimal digits of
+precision are maintained and that exponents have range of at least [-12, 12] for
+both positive and negative numbers.</p>
+
+<p>The default value of an uninitialized&nbsp;SFDouble field is 0.0. The 
+default value
+of an MFDouble field is the empty list.</p>
+
+<h2><a NAME="SFFloatAndMFFloat"></a>5.3.5 SFFloat and MFFloat</h2>
+
+<P>The SFFloat field specifies one single-precision floating point number. MFFloat 
+specifies zero or more single-precision floating point numbers. SFFloats and 
+MFFloats are represented in the X3D file as specified in the respective encoding.</P>
+
+<p>Implementation of these fields is targeted at the single precision floating
+point capabilities of processors. However, it is allowable to implement this
+field using fixed point numbering provided at least six decimal digits of
+precision are maintained and that exponents have range of at least [-12, 12] for
+both positive and negative numbers.</p>
+
+<P>The default value of an uninitialized&nbsp; SFFloat field is 0.0. The default 
+value of
+an MFFloat field is the empty list.</P>
+
+<h2><a NAME="SFImageAndMFImage"></a>5.3.6 SFImage and MFImage</h2>
+
+<P>The SFImage field specifies a single uncompressed 2-dimensional
+pixel image. SFImage fields contain three
+integers representing the width, height and number of components in the
+image, followed by width×height hexadecimal or integer values representing
+the pixels in the image. MFImage fields contain zero or more SFImage fields.
+Each image in an MFImage field may contain different values for the width,
+height, and number of components in the image and hence may have a different
+number of hexadecimal or integer values.</P>
+
+<P>Pixel values are limited to 256 levels of intensity (<i>i.e.</i>, 0-255 decimal
+or 0x00-0xFF hexadecimal). A one-component image specifies one-byte hexadecimal
+or integer values representing the intensity of the image. For example,
+<TT>0xFF</TT> is full intensity in hexadecimal (255 in decimal), <TT>0x00</TT>
+is no intensity (0 in decimal). A two-component image specifies the intensity
+in the first (high) byte and the alpha opacity in the second (low) byte.
+Pixels in a three-component image specify the red component in the first
+(high) byte, followed by the green and blue components (<i>e.g.</i>,&nbsp;<TT>0xFF0000</TT>
+is red,<TT> 0x00FF00</TT> is green, <TT>0x0000FF</TT> is blue). Four-component
+images specify the alpha opacity byte after red/green/blue (<i>e.g.</i>,&nbsp;<TT>0x0000FF80</TT>
+is semi-transparent blue). A value of <TT>0x00</TT> is completely transparent,
+0xFF is completely opaque. Note that alpha equals (1.0&nbsp;-transparency),
+if alpha and transparency each range from 0.0 to 1.0.</P>
+
+<P>Each pixel is read as a single unsigned number. For example, a 3-component
+pixel with value <TT>0x0000FF</TT> may also be written as <TT>0xFF</TT>
+(hexadecimal) or <TT>255 </TT>(decimal). Pixels are specified from left
+to right, bottom to top. The first hexadecimal value is the lower left pixel
+and the last value is the upper right pixel.</P>
+
+<P>The default value of an SFImage outputOnly field is (0 0 0). The default 
+value of
+an MFImage field is the empty list.</P>
+
+<h2><a NAME="SFInt32AndMFInt32"></a>5.3.7 SFInt32 and MFInt32</h2>
+
+<P>The SFInt32 field specifies one 32-bit integer. The MFInt32
+field specifies zero or more 32-bit integers. SFInt32 and MFInt32
+fields are signed integers.</P>
+
+<P>The default value of an uninitialized&nbsp; SFInt32 field is 0. The default 
+value of
+an MFInt32 field is the empty list.</P>
+
+<h2>
+<a name="SFMatrix3dAndMFMatrix3d"></a>5.3.8 SFMatrix3d and MFMatrix3d</h2>
+<p>The SFMatrix3d field specifies a 3×3 matrix of double-precision floating 
+point numbers. MFMatrix3d specifies zero or more 3×3 matrices of 
+double-precision floating point numbers. Each floating point number is 
+represented in the X3D file as specified in the respective encoding. </p>
+<p>SFMatrix3d matrices are organized in row-major fashion. The first row of the 
+matrix stores information for the <i>x</i> dimension, and the second for the <i>
+y</i> dimension. Since these data types are commonly used for transformation 
+matrices, translation values are stored in the third row.</p>
+<p>The default value of an uninitialized SFMatrix3d field is the identity matrix 
+[1 0 0 0 1 0 0 0 1]. The default value of an uninitialized MFMatrix3d field is 
+the empty list.</p>
+
+<h2>
+<a name="SFMatrix3fAndMFMatrix3f"></a>5.3.9 SFMatrix3f and MFMatrix3f</h2>
+<p>The SFMatrix3f field specifies a 3×3 matrix of single-precision floating 
+point numbers. MFMatrix3f specifies zero or more 3×3 matrices of 
+single-precision floating point numbers. Each floating point number is 
+represented in the X3D file as specified in the respective encoding. </p>
+<p>SFMatrix3f matrices are organized in row-major fashion. The first row of the 
+matrix stores information for the <i>x</i> dimension, and the second for the <i>
+y</i> dimension. Since these data types are commonly used for transformation 
+matrices, translation values are stored in the third row.</p>
+<p>The default value of an uninitialized SFMatrix3f field is the identity matrix 
+[1 0 0 0 1 0 0 0 1]. The default value of an uninitialized MFMatrix3f field is 
+the empty list.</p>
+
+<h2>
+<a name="SFMatrix4dAndMFMatrix4d"></a>5.3.10 SFMatrix4d and MFMatrix4d</h2>
+<p>The SFMatrix4d field specifies a 4×4 matrix of double-precision floating 
+point numbers. MFMatrix4d specifies zero or more 4×4 matrices of 
+double-precision floating point numbers. Each floating point number is 
+represented in the X3D file as specified in the respective encoding. </p>
+<p>SFMatrix4d matrices are organized in row-major fashion. The first row of the 
+matrix stores information for the <i>x</i> dimension, the second for the <i>y</i> 
+dimension, and the third for the <i>z</i> dimension. Since these data types are 
+commonly used for transformation matrices, translation values are stored in the 
+fourth row.</p>
+<p>The default value of an uninitialized SFMatrix4d field is the identity matrix 
+[1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1]. The default value of an uninitialized 
+MFMatrix4d field is the empty list.</p>
+
+<h2>
+<a name="SFMatrix4fAndMFMatrix4f"></a>5.3.11 SFMatrix4f and MFMatrix4f</h2>
+<p>The SFMatrix4f field specifies a 4x4 matrix of single-precision floating 
+point numbers. MFMatrix4f specifies zero or more 4x4 matrices of 
+single-precision floating point numbers. Each floating point number is 
+represented in the X3D file as specified in the respective encoding. </p>
+<p>SFMatrix4f matrices are organized in row-major fashion. The first row of the 
+matrix stores information for the <i>x</i> dimension, the second for the <i>y</i> 
+dimension, and the third for the <i>z</i> dimension. Since these data types are 
+commonly used for transformation matrices, translation values are stored in the 
+fourth row.</p>
+<p>The default value of an uninitialized SFMatrix4f field is the identity matrix 
+[1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1]. The default value of an uninitialized 
+MFMatrix4f field is the empty list.</p>
+
+<h2><a NAME="SFNodeAndMFNode"></a>5.3.12 SFNode and MFNode</h2>
+
+<P>The SFNode field specifies an X3D node. The MFNode field specifies zero or 
+  more nodes.</P>
+
+<P>The default value of an uninitialized&nbsp; SFNode field is 
+<span class="code">NULL</span>. The default value of
+an MFNode field is the empty list.</P>
+
+<h1><a NAME="SFRotationAndMFRotation"></a>5.3.13 SFRotation and MFRotation</h1>
+
+<P>The SFRotation field specifies one arbitrary rotation. The
+MFRotation field specifies zero or more arbitrary rotations. An
+SFRotation is written to the X3D&nbsp;file as four floating
+point values. The allowable form for a floating point number is defined in the
+specific encoding. The first three values specify a normalized rotation axis
+vector about which the rotation takes place. The fourth value specifies
+the amount of right-handed rotation about that axis in angle base units.</P>
+
+<P>The 3x3 matrix representation of a rotation (x y z a) is</P>
+
+<blockquote>
+	<p class="equation">[ tx<sup>2</sup>+c&nbsp; txy+sz    txz-sy<br>&nbsp;
+      txy-sz   ty<sup>2</sup>+c&nbsp; tyz+sx<br>&nbsp;
+      txz+sy   tyz-sx    tz<sup>2</sup>+c&nbsp; ]</p>
+</blockquote>
+
+<p>where <span class="code">c = cos(a)</span>, <span class="code">s = sin(a)</span>, and 
+<span class="code">t = 1-c</span>.</p>
+
+<P>The default value of an uninitialized SFRotation field is (0 0 1 0). 
+The default value of an MFRotation field is the empty list.</P>
+
+<h2><a NAME="SFStringAndMFString"></a>5.3.14 SFString and MFString</h2>
+
+<P>The SFString and MFString fields contain strings encoded with the UTF-8 universal character set (see
+<a href="references.html#[I10646]">ISO/IEC 10646</a>).
+SFString specifies a single string. The MFString specifies zero or more
+strings. Strings are specified as a sequence of UTF-8
+octets.</P>
+
+<P>Any characters (including linefeeds and '#') may appear within the string.</P>
+
+<P>The default value of an uninitialized SFString outputOnly field is the empty string. The 
+default value of
+an MFString field is the empty list.</P>
+
+<p>Characters in&nbsp; <a href="references.html#[I10646]">ISO/IEC 10646</a> 
+
+  are encoded in multiple octets. Code space is divided into four units, as follows:</p>
+
+<pre class="listing">+-------------+-------------+-----------+------------+
+
+| Group-octet | Plane-octet | Row-octet | Cell-octet |
+
++-------------+-------------+-----------+------------+
+</pre>
+
+<p> <a href="references.html#[I10646]">ISO/IEC 10646</a> allows two basic forms for characters:</p>
+
+<ol start="1" type="a">
+  <li>UCS-2 (Universal Coded Character Set-2). This form is also known as the 
+    Basic Multilingual Plane (BMP). Characters are encoded in the lower two octets 
+    (row and cell).</li> 
+  <li>UCS-4 (Universal Coded Character Set-4). Characters are encoded in the full 
+    four octets.</li> 
+</ol>
+
+<!--/NOEDIT--> 
+
+<p>In addition, two transformation formats (UCS Transformation Format or UTF) 
+  are accepted:  UTF-8 and UTF-16. Each represents the nature of the transformation: 
+   
+  8-bit or 16-bit. UTF-8 and UTF-16 are referenced in
+<a href="references.html#[I10646]">ISO/IEC 10646</a>.</p>
+
+<p>UTF-8 maintains transparency for all ASCII code values (0...127). It allows 
+  ASCII text (0x0..0x7F) to appear without any changes and encodes all characters 
+  from 0x80.. 0x7FFFFFFF into a series of six or fewer bytes.</p>
+
+<p>If the most significant bit of the first character is 0, the remaining seven 
+  bits are interpreted as an ASCII character. Otherwise, the number of leading 
+  1 bits indicates the number of bytes following. There is always a zero bit between 
+  the count bits and any data.</p>
+
+<p>The first byte is one of the following. The X indicates bits available to encode 
+  the character:</p>
+
+<pre class="listing"> 0XXXXXXX only one byte   0..0x7F (ASCII)
+ 110XXXXX two bytes       Maximum character value is 0x7FF
+ 1110XXXX three bytes     Maximum character value is 0xFFFF
+ 11110XXX four bytes      Maximum character value is 0x1FFFFF
+ 111110XX five bytes      Maximum character value is 0x3FFFFFF
+ 1111110X six bytes       Maximum character value is 0x7FFFFFFF
+</pre>
+
+<p>All following bytes have the format 10XXXXXX.</p>
+
+<p>As a two byte example, the symbol for a registered trade mark &#174;, encoded as 0x00AE in UCS-2 of ISO 10646, has the following two 
+  byte encoding in UTF-8: 0xC2, 0xAE.</p>
+
+<h2><a NAME="SFTimeAndMFTime"></a>5.3.15 SFTime and MFTime</h2>
+
+<P>The SFTime field specifies a single time value. The MFTime field specifies zero or more time values. Time values are
+specified as a double-precision floating point number. The allowable form for a
+double precision floating point number is defined in the specific encoding.
+Time values are specified as the number of seconds from a specific time
+origin. Typically, SFTime fields represent the number of seconds
+since Jan 1, 1970, 00:00:00 GMT.</P>
+
+<P>The default value of an uninitialized SFTime field is -1. The default value of
+an MFTime field is the empty list.</P>
+
+<h2><a NAME="SFVec2dAndMFVec2d"></a>5.3.16 SFVec2d and MFVec2d</h2>
+
+<p>The SFVec2d field specifies a two-dimensional (2D) vector. An MFVec2d field
+specifies zero or more 2D vectors. SFVec2d's and MFVec2d's are represented as a
+pair of double-precision floating point values (see 
+<a href="#SFDoubleAndMFDouble">5.3.4 SFDouble 
+and MFDouble</a>). The allowable form for a double-precision floating point number is
+defined in the specific encoding.</p>
+<p>The default value of an uninitialized SFVec2d field is (0 0). The default 
+value of an MFVec2d field is the empty list.</p>
+
+<h1><a NAME="SFVec2fAndMFVec2f"></a>5.3.17 SFVec2f and MFVec2f</h1>
+
+<P>The SFVec2f field specifies a two-dimensional (2D) vector. An
+MFVec2f field specifies zero or more 2D vectors. SFVec2f's and
+MFVec2f's are represented as a pair of single-precision floating
+point values (see <a href="#SFFloatAndMFFloat">5.3.5 SFFloat 
+and MFFloat</a>). The allowable form for a single-precision floating point number is defined in the
+specific encoding.</P>
+
+<P>The default value of an uninitialized SFVec2f field is (0 0). The default 
+value of
+an MFVec2f field is the empty list.</P>
+
+<h2><a NAME="SFVec3dAndMFVec3d"></a>5.3.18 SFVec3d and MFVec3d</h2>
+
+<p>The SFVec3d field or event specifies a three-dimensional (3D) vector. An
+MFVec3d field or event specifies zero or more 3D vectors. SFVec3d's and
+MFVec3d's are represented as a 3-tuple of double-precision floating point values
+(see <a href="#SFDoubleAndMFDouble">5.3.4 SFDouble 
+and MFDouble</a>). The allowable form for a
+double-precision floating point number is defined in the specific encoding.</p>
+<p>The default value of an uninitialized SFVec3d field is (0 0 0). The default 
+value of an MFVec3d field is the empty list.</p>
+
+<h2><a NAME="SFVec3fAndMFVec3f"></a>5.3.19 SFVec3f and MFVec3f</h2>
+
+<P>The SFVec3f field or event specifies a three-dimensional (3D) vector.
+An MFVec3f field or event specifies zero or more 3D vectors. SFVec3f's and
+MFVec3f's are represented as a 3-tuple of single-precision floating
+point values (see <a href="#SFFloatAndMFFloat">5.3.5 SFFloat 
+and MFFloat</a>). The allowable form for a single-precision floating point number is defined in the
+specific encoding.</P>
+
+<P>The default value of an uninitialized SFVec3f field is (0 0 0). The default 
+value of
+an MFVec3f field is the empty list.</P>
+
+<h2>
+<a name="SFVec4dAndMFVec4d"></a>5.3.20 SFVec4d and MFVec4d</h2>
+<p>The SFVec4d field or event specifies a three-dimensional (3D) homogeneous 
+vector. An MFVec4d field or event specifies zero or more 3D homogeneous vectors. 
+SFVec4d&#39;s and MFVec4d&#39;s are represented as a 4-tuple of double-precision 
+floating point values (see
+<a href="#SFDoubleAndMFDouble">5.3.4 SFDouble 
+and MFDouble</a>). The 
+allowable form for a double-precision floating point number is defined in the 
+specific encoding.</p>
+<p>The default value of an uninitialized SFVec4d field is (0 0 0 1). The default 
+value of an MFVec4d field is the empty list.</p>
+
+<h2>
+<a name="SFVec4fAndMFVec4f"></a>5.3.21 SFVec4f and MFVec4f</h2>
+<p>The SFVec4f field or event specifies a three-dimensional (3D) homogeneous 
+vector. An MFVec4f field or event specifies zero or more 3D homogeneous vectors. 
+SFVec4f&#39;s and MFVec4f&#39;s are represented as a 4-tuple of single-precision 
+floating point values (see <a href="#SFFloatAndMFFloat">5.3.5 SFFloat 
+and MFFloat</a>). The allowable form for a single-precision floating point 
+number is defined in the specific encoding.</p>
+<p>The default value of an uninitialized SFVec4f field is (0 0 0 1). The default 
+value of an MFVec4f field is the empty list.</p>
+
+<img class="x3dbar" SRC="../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

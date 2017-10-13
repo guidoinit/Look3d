@@ -1,0 +1,800 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 12 Shape component</title>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+
+</head>
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">12 Shape component</p>
+
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Introduction"></a>12.1 Introduction</h1>
+
+<h2><a name="Name"></a>12.1.1 Name</h2>
+
+<p>The name of this component is &quot;Shape&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+
+<h2><a name="Overview"></a>12.1.2 Overview</h2>
+
+<p>This clause describes the Shape component of this part of ISO/IEC 19775. The 
+  Shape component defines nodes for associating geometry with their visible properties 
+  and the scene environment. <a href="#t-Topics">Table 12.1</a> provides links 
+  to the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 12.1 &#8212; Topics</p>
+
+<table class="topics">
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">12.1 Introduction</a> 
+          <ul>
+          <li><a href="#Name">12.1.1 Name</a> </li>
+          <li><a href="#Overview">12.1.2 Overview</a> </li>
+        </ul>
+          <li><a href="#Concepts">12.2 Concepts </a> 
+            <ul>
+              <li><a href="#Shapenodes">12.2.1 Shape nodes</a> 
+              <li><a href="#Appearancenode">12.2.2 Appearance node</a><li>
+				<a href="#TwoSidedMaterials">12.2.3 Two-sided materials</a></ul>
+          <li><a href="#Abstracttypes">12.3 Abstract types</a>  
+            <ul>
+              <li><a href="#X3DAppearanceChildNode">12.3.1 <i>X3DAppearanceChildNode</i></a></li>
+              <li><a href="#X3DAppearanceNode">12.3.2 <i>X3DAppearanceNode</i></a></li>
+              <li><a href="#X3DMaterialNode">12.3.3 <i>X3DMaterialNode</i></a></li>
+              <li><a href="#X3DShapeNode">12.3.4 <i>X3DShapeNode</i></a></li>
+            </ul>
+          <li><a href="#Nodereference">12.4 Node reference</a>  
+            <ul>
+              <li><a href="#Appearance">12.4.1 Appearance</a></li> 
+              <li><a href="#FillProperties">12.4.2 FillProperties</a></li> 
+              <li><a href="#LineProperties">12.4.3 LineProperties</a></li> 
+              <li><a href="#Material">12.4.4 Material</a></li> 
+              <li><a href="#Shape">12.4.5 Shape</a></li>
+				<li><a href="#TwoSidedMaterial">12.4.6 TwoSidedMaterial</a></li>
+            </ul>
+          <li><a href="#Shape">12.5 Support levels</a></li>
+        </ul>
+		<ul>
+		  <li><a href="#f-EffectsOfTwoSidedMaterials">Figure 12.1 &#8212; Effects of two-sided materials on geometry</a></li>
+		</ul>
+		<ul>
+		  <li><a href="#t-Topics">Table 12.1 &#8212; Topics</a></li>
+		  <li><a href="#t-Hatchstyles">Table 12.2 &#8212; International register of items hatchstyles</a></li>
+		  <li><a href="#t-Linetypes">Table 12.3 &#8212; International register of items linetypes</a></li>
+		  <li><a href="#t-supportlevels">Table 12.4 &#8212; Shape component support levels</a></li>
+		</ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>
+12.2 Concepts</h1>
+
+<h2><a name="Shapenodes"></a>
+12.2.1 Shape nodes</h2>
+
+<p>The <a href="#Shape">Shape</a> node associates a geometry node with nodes that 
+  define that geometry's appearance. Shape nodes shall be part of the transformation 
+  hierarchy to have any visible result, and the transformation hierarchy shall 
+  contain Shape nodes for any geometry to be visible (the only nodes that render 
+  visible results are Shape nodes and the background nodes described in 
+  <a href="enveffects.html">24 Environmental effects</a>). A Shape node contains 
+  exactly one geometry node in its <i>geometry</i> field, 
+which is of type <i>X3DGeometryNode</i>. 
+  The Shape node descends from the abstract base type <i>X3DShapeNode</i>.</p>
+
+<h2><a name="Appearancenode"></a>
+12.2.2 Appearance node</h2>
+
+<p>Shape nodes may specify an <a href="#Appearance">Appearance</a> 
+  node that describes the appearance properties (material, texture and texture 
+  transformation) to be applied to the Shape's geometry. All valid children of 
+  the Appearance node descend from the abstract base type <i>
+<a href="#X3DAppearanceChildNode">X3DAppearanceChildNode</a>.</i></p>
+
+<p>Nodes of the following types may be specified in the <i>material</i> field of 
+  the Appearance node:</p>
+
+<ul>
+  <li><a href="#Material">Material</a><li><a href="#TwoSidedMaterial">
+	TwoSidedMaterial</a></ul>
+
+<p>This set may be extended by creating new nodes derived from the <i>
+<a href="#X3DMaterialNode">X3DMaterialNode</a></i> 
+  abstract base type.</p>
+
+<p>The Appearance node specifies texture mapping in its <i>texture</i> field. 
+  Valid values of the texture field are descendants of <i>
+<a href="texturing.html#X3DTextureNode">X3DTextureNode</a></i>, 
+  including: </p>
+
+<ul>
+  <li><a href="texturing.html#ImageTexture">ImageTexture</a> 
+  <li><a href="texturing.html#PixelTexture">PixelTexture</a> 
+  <li><a href="texturing.html#MovieTexture">MovieTexture</a>
+  <li><a href="texturing.html#MultiTexture">MultiTexture</a> 
+</ul>
+
+<p>This set may be extended by creating new nodes derived from 
+the abstract <i>X3DTextureNode</i> base class as defined in
+<a href="texturing.html#X3DTextureNode">18.3.2 X3DTextureNode</a>.</p>
+
+<p>Nodes of the type <i><a href="texturing.html#X3DTextureTransformNode">X3DTextureTransformNode</a></i> may be 
+specified in the <i>textureTransform</i> 
+  field of the Appearance node (see
+<a href="texturing.html#X3DTextureTransformNode">18.3.4 X3DTextureTransformNode</a>), including:</p>
+
+<ul>
+  <li><a href="texturing.html#TextureTransform">TextureTransform</a> 
+</ul>
+
+<p>The interaction between the appearance properties and properties specific to 
+  geometry nodes&nbsp;is described in <a href="geometry3D.html">13 Geometry3D 
+component</a> and <a href="geometry2D.html">14 Geometry2D component</a></p>
+
+<p>An Appearance node ,may specify additional information about the appearance 
+of the geometry. Special properties may be defined for lines and filled areas. 
+These properties are defined in the <i>lineProperties</i> and <i>fillProperties</i> 
+fields by the following nodes, respectively:</p>
+
+    <ul>
+      <li><a href="#LineProperties">LineProperties</a></li>
+      <li><a href="#FillProperties">FillProperties</a> </li>
+    </ul>
+
+<h2><a name="TwoSidedMaterials"></a>12.2.3 Two-sided materials</h2>
+<p>A polygon defines a front face based on the direction of the normal. That 
+normal is either explicitly provided by the end user or implicitly calculated by 
+the browser based on the winding rules for the node (see the <i>ccw</i> field on many 
+of the polygonal geometry nodes such as <a href="geometry3D.html#IndexedFaceSet">IndexedFaceSet</a>). The TwoSidedMaterial 
+node provides a way to render the front and back sides of the polygon with 
+different material properties. <a href="#f-EffectsOfTwoSidedMaterials">Figure 12.1</a> 
+depicts the effects of the TwoSidedMaterial node.</p>
+<div class="CenterDiv"><a name="f-EffectsOfTwoSidedMaterials"></a>
+	<img src="../../Images/two_sided_material.png" alt="Two-sided material demonstration">
+
+	<p class="FigureCaption">Figure 
+	12.1 &#8212; Effects of two-sided materials on geometry</div>
+<p>When the back side of the material is rendered using the alternate colours, 
+the rendering shall follow the normal lighting equations for lit geometry. </p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Abstracttypes"></a>
+12.3 Abstract types</h1>
+<h2><a name="X3DAppearanceChildNode"></a>
+12.3.1 <i>X3DAppearanceChildNode</i></h2>
+
+<pre class="node">X3DAppearanceChildNode : X3DNode { 
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This is the base node type for the child nodes of the <i>X3DAppearanceNode 
+    </i>type.</p>
+
+<h2><a name="X3DAppearanceNode"></a>
+12.3.2 <i>X3DAppearanceNode</i></h2>
+
+<pre class="node">X3DAppearanceNode : X3DNode {
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This is the base node type for all Appearance nodes.</p>
+
+<h2><a name="X3DMaterialNode"></a>
+12.3.3 <i>X3DMaterialNode</i></h2>
+
+<pre class="node">X3DMaterialNode : X3DAppearanceChildNode {
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This is the base node type for all Material nodes.</p>
+
+<h2><a name="X3DShapeNode"></a>
+12.3.4 <i>X3DShapeNode</i></h2>
+
+<pre class="node">X3DShapeNode : X3DChildNode, X3DBoundedObject {
+  SFNode  [in,out] appearance NULL     [X3DAppearanceNode]
+  SFNode  [in,out] geometry   NULL     [X3DGeometryNode]
+  SFNode  [in,out] metadata   NULL     [X3DMetadataObject]
+  SFVec3f []       bboxCenter 0 0 0    (-&#8734;,&#8734;)
+  SFVec3f []       bboxSize   -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+<p>This is the base node type for all Shape nodes.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Nodereference"></a>
+12.4 Node reference</h1>
+
+<h2><a name="Appearance"></a>12.4.1 Appearance</h2>
+
+<pre class="node">Appearance : X3DAppearanceNode { 
+  SFNode [in,out] fillProperties   NULL [FillProperties]
+  SFNode [in,out] lineProperties   NULL [LineProperties]
+  SFNode [in,out] material         NULL [X3DMaterialNode]
+  SFNode [in,out] metadata         NULL [X3DMetadataObject]
+  MFNode [in,out] shaders          []   [X3DShaderNode]
+  SFNode [in,out] texture          NULL [X3DTextureNode]
+  SFNode [in,out] textureTransform NULL [X3DTextureTransformNode]
+}
+</pre>
+
+<p>The Appearance node specifies the visual properties of geometry. 
+    The value for each of the fields in this node may be <code>NULL</code>. 
+    However, if the field is non-<code>NULL</code>, it shall 
+    contain one node of the appropriate type.</p>
+
+<p>The <i>material</i> field, if specified, shall contain a <a href="#Material">Material</a> 
+    node. If the <i>material</i> field is <code>NULL </code>or 
+    unspecified, lighting is off (all lights are ignored during rendering of the 
+    object that references this Appearance) and the unlit object colour is (1,&nbsp;1,&nbsp;1). 
+    Details of the X3D lighting model are in 
+<a href="lighting.html#[PART8]">17 Lighting component</a>.</p>
+
+  <p>The <i>texture</i> field, if specified, shall contain one of the various 
+  types of texture nodes 
+    (see 
+<a href="texturing.html">18 Texturing component</a>). 
+    If the texture node is <code>NULL</code> or the <i>texture</i> 
+    field is unspecified, the object that references this Appearance is not textured.</p>
+
+  <p>The <i>textureTransform</i> field, if specified, shall contain 
+    a <a href="texturing.html#TextureTransform">TextureTransform</a> node as defined in
+  <a href="texturing.html#TextureTransform">18.4.8 TextureTransform</a>. If the <i>textureTransform</i> is 
+<code>NULL </code>or unspecified, the <i>textureTransform</i> field has no effect.</p>
+
+  <p>The <i>lineProperties</i> field, if specified, shall contain a 
+  <a href="#LineProperties">LineProperties</a> node as specified in <a href="#LineProperties">12.4.3 
+  LineProperties</a>. If <i>lineProperties</i> is
+  <code>NULL</code> or unspecified, the <i>lineProperties</i> 
+  field has no effect.</p>
+
+<p>The <i>fillProperties</i> field, if specified, shall contain a 
+  <a href="#FillProperties">FillProperties</a> node as specified in <a href="#FillProperties">12.4.2 
+FillProperties</a>. If <i>fillProperties</i> is
+  <code>NULL</code> or unspecified, the <i>fillProperties</i> 
+  field has no effect.</p>
+<p>The <i>shaders</i> field contains a listing, in order of preference, of nodes 
+that describe programmable shaders that replace the fixed rendering requirements 
+of this part of ISO/IEC 19775 with user-provided functionality. If the field is 
+not empty, one shader node is selected and the fixed rendering requirements 
+defined by this specification are ignored. The field shall contain one of the 
+various types of shader nodes as specified in <a href="shaders.html">31 
+Programmable shaders component</a>.</p>
+
+<h2>
+<a name="FillProperties"></a>12.4.2 FillProperties</h2>
+
+<pre class="node">FillProperties : X3DAppearanceChildNode { 
+  SFBool  [in,out] filled     TRUE
+  SFColor [in,out] hatchColor 1 1 1 [0,1]
+  SFBool  [in,out] hatched    TRUE
+  SFInt32 [in,out] hatchStyle 1     [0,&#8734;)
+  SFNode  [in,out] metadata   NULL  [X3DMetadataObject]
+}
+</pre>
+
+<p>The FillProperties node specifies additional properties to 
+    be applied to all polygonal areas on top of whatever appearance is specified 
+    by the other fields of the respective <a href="#Appearance">Appearance</a> 
+node. Thus, hatches are applied on top of the already rendered appearance of the 
+node. <span class="normal">Thus, if <em>filled</em> is </span>
+<span class="code" style="font-style: normal">TRUE</span><span class="normal">, 
+the polygonal area is filled according to the other fields of the Appearance 
+node. If <em>hatched</em> is </span>
+<span class="code" style="font-style: normal">TRUE</span><span class="normal">, 
+the polygonal area&nbsp;is hatched as specified by the <em>hatchStyle</em> field. 
+Hatches shall be applied after fills are applied.</span></p>
+
+<p>The <i>hatchStyle</i> field selects a hatch pattern as 
+    defined in the International Register of Graphical Items (see
+<a href="../references.html#[REG]">2.[REG]</a>). The hatches are rendered 
+    using the colour specified by the <i>hatchColor</i> field. Browsers shall 
+support hatchstyles 1-6 with hatchstyle 1 being the default. X3D browsers may 
+support any other of the registered hatchstyles. If a hatchstyle that is not 
+supported is requested, hatchstyle 1 shall be used. <a href="#t-Hatchstyles">
+Table 12.2</a> specifies the first nineteen hatch styles as defined in the
+<a href="http://isotc.iso.org/livelink/livelink/fetch/-8916524/8916549/8916590/6208440/class_pages/hatchstyle.html">
+Hatchstyle Section of the International Register of Items</a>. Examples of each 
+hatch style are available at the International Register of Items.</p>
+<div class="CenterDiv">
+				<p class="TableCaption"><a name="t-Hatchstyles"></a>Table 12.2 — 
+				International registry of items hatchstyles</p>
+				<table>
+								<tr>
+												<td align="center">1</td>
+												<td>Horizontal equally spaced 
+												parallel lines</td>
+								</tr>
+								<tr>
+												<td align="center">2</td>
+												<td>Vertical equally spaced 
+												parallel lines</td>
+								</tr>
+								<tr>
+												<td align="center">3</td>
+												<td>Positive slope equally 
+												spaced parallel lines</td>
+								</tr>
+								<tr>
+												<td align="center">4</td>
+												<td>Negative slope equally 
+												spaced parallel lines</td>
+								</tr>
+								<tr>
+												<td align="center">5</td>
+												<td>Horizontal/vertical 
+												crosshatch</td>
+								</tr>
+								<tr>
+												<td align="center">6</td>
+												<td>Positive slope/negative 
+												slope crosshatch</td>
+								</tr>
+								<tr>
+												<td align="center">7</td>
+												<td>(cast iron or malleable iron 
+												and general use for all 
+												materials)</td>
+								</tr>
+								<tr>
+												<td align="center">8</td>
+												<td>(steel)</td>
+								</tr>
+								<tr>
+												<td align="center">9</td>
+												<td>(bronze, brass, copper, and 
+												compositions)</td>
+								</tr>
+								<tr>
+												<td align="center">10</td>
+												<td>(white metal, zinc, lead, 
+												babbit, and alloys)</td>
+								</tr>
+								<tr>
+												<td align="center">11</td>
+												<td>(magnesium, aluminum, and 
+												aluminum alloys)</td>
+								</tr>
+								<tr>
+												<td align="center">12</td>
+												<td>(rubber, plastic, and 
+												electrical insulation)</td>
+								</tr>
+								<tr>
+												<td align="center">13</td>
+												<td>(cork,felt, fabric, leather, 
+												and fibre)</td>
+								</tr>
+								<tr>
+												<td align="center">14</td>
+												<td>(thermal insulation)</td>
+								</tr>
+								<tr>
+												<td align="center">15</td>
+												<td>(titanium and refractory 
+												material)</td>
+								</tr>
+								<tr>
+												<td align="center">16</td>
+												<td>(marble, slate, porcelain, 
+												glass, etc.)</td>
+								</tr>
+								<tr>
+												<td align="center">17</td>
+												<td>(earth)</td>
+								</tr>
+								<tr>
+												<td align="center">18</td>
+												<td>(sand)</td>
+								</tr>
+								<tr>
+												<td align="center">19</td>
+												<td>(repeating dot)</td>
+								</tr>
+				</table>
+</div>
+
+<p>The associated geometry shall be filled and/or hatched only when the 
+respective values of the <i>filled</i> and/or <i>hatched</i> fields have value
+<span class="code">TRUE</span>.</p>
+
+<h2><a name="LineProperties"></a>
+12.4.3 LineProperties</h2>
+
+<pre class="node">LineProperties : X3DAppearanceChildNode { 
+  SFBool  [in,out] applied              TRUE
+  SFInt32 [in,out] linetype             1    [1,&#8734;)
+  SFFloat [in,out] linewidthScaleFactor 0    (-&#8734;,&#8734;)
+  SFNode  [in,out] metadata             NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>The LineProperties node specifies additional properties to 
+    be applied to all line geometry. The linetype and linewidth shall only be 
+applied when the <i>applied</i> field has value <span class="code">TRUE</span>. 
+When the value of the <i>applied</i> field is <span class="code">FALSE</span>, a solid line of nominal 
+width shall be produced. The colour of the line is specified by the 
+    associated <a href="#Material">Material</a> node.<p>The <i>linetype</i> field selects a line pattern as defined 
+    in the International Register of Graphical Items (see
+<a href="../references.html#[REG]">2.[REG]</a>). X3D browsers shall 
+support linetypes 1 through 5 with linetype 1 being the default. X3D browsers 
+may support any other of the registered linetypes. If a linetype that is not 
+supported is requested, linetype 1 shall be used. <a href="#t-Linetypes">Table 12.2</a> specifies the first sixteen linetypes as defined in 
+the <a href="http://www.iso.org/jtc1/sc24/register/">Linetype Section of the International Register of Items</a>.</p>
+
+<div class="CenterDiv">
+<p class="TableCaption"><a name="t-Linetypes"></a>Table 12.3 &#8212; International registry of items linetypes</p>
+<table>
+  <tr>
+    <td align="center"> 1</td>
+    <td>Solid</td>
+  </tr>
+  <tr>
+     <td align="center">2</td>
+     <td>Dashed</td>
+  </tr>
+  <tr>
+     <td align="center">3</td>
+     <td>Dotted</td>
+  </tr>
+  <tr>
+     <td align="center">4</td>
+     <td>Dashed-dotted</td>
+  </tr>
+  <tr>
+     <td align="center">5</td>
+     <td>Dash-dot-dot</td>
+  </tr>
+  <tr>
+     <td align="center">6</td>
+     <td>(single arrow)</td>
+  </tr>
+  <tr>
+     <td align="center">7</td>
+     <td>(single dot)</td>
+  </tr>
+  <tr>
+     <td align="center">8</td>
+     <td>(double arrow)</td>
+  </tr>
+  <tr>
+     <td align="center">10</td>
+     <td>(chain line)</td>
+  </tr>
+  <tr>
+     <td align="center">11</td>
+     <td>(center line)</td>
+ </tr>
+ <tr>
+     <td align="center">12</td>
+     <td>(hidden line)</td>
+ </tr>
+ <tr>
+     <td align="center">13</td>
+     <td>(phantom line)</td>
+ </tr>
+ <tr>
+     <td align="center">14</td>
+     <td>(break line 1)</td>
+ </tr>
+ <tr>
+     <td align="center">15</td>
+     <td>(break line 2)</td>
+ </tr>
+ <tr>
+     <td align="center">16</td>
+     <td>User-specified dash pattern</td>
+ </tr>
+</table>
+</div>
+
+<p>The arrowhead is drawn as short lines forming barbs at any convenient angle 
+between 15 and 90 degrees. The arrowhead is closed and filled in. For linetype 
+&quot;single arrow&quot;, the arrowhead is rendered so that the arrow tip occurs at the 
+last point of the each individual list of points passed to a polyline and is in the direction of 
+the last vector. For linetype &quot;double arrow&quot;, the first arrowhead is rendered so 
+that the arrow tip occurs at the first point of the list of points passed to a 
+polyline and is in the reverse direction of the first vector. The second 
+arrowhead is rendered as for &quot;single arrow&quot; at the opposite end of the polyline.<p>The linewidthScaleFactor is a multiplicative value that scales a browser dependent 
+nominal linewidth by the linewidth scale factor. This resulting value shall then 
+be mapped to the nearest available line width. A value less than or equal to 
+zero refers to the minimum available line width.<h2><a name="Material"></a>
+12.4.4 Material</h2>
+
+<pre class="node">Material : X3DMaterialNode { 
+  SFFloat [in,out] ambientIntensity 0.2         [0,1]
+  SFColor [in,out] diffuseColor     0.8 0.8 0.8 [0,1]
+  SFColor [in,out] emissiveColor    0 0 0       [0,1]
+  SFNode  [in,out] metadata         NULL        [X3DMetadataObject]
+  SFFloat [in,out] shininess        0.2         [0,1]
+  SFColor [in,out] specularColor    0 0 0       [0,1]
+  SFFloat [in,out] transparency     0           [0,1]
+}
+</pre>
+
+<p>The Material node specifies surface material properties for 
+    associated geometry nodes and is used by the X3D lighting equations during 
+    rendering. <a href="lighting.html">17 Lighting component</a> contains a 
+    detailed description of the X3D lighting model equations.</p>
+
+  <p>All of the fields in the Material node range from 0.0 to 1.0.</p>
+
+  <p>The fields in the Material node determine how light reflects 
+    off an object to create colour:</p>
+
+<ol start="1" type="a">
+      <li>The <i>ambientIntensity</i> field specifies how much ambient light from 
+        light sources this surface shall reflect. Ambient light is omnidirectional 
+        and depends only on the number of light sources, not their positions with 
+        respect to the surface. Ambient colour is 
+calculated as
+ <i>ambientIntensity&nbsp;</i>&times;&nbsp;<i>diffuseColor</i>.</li> 
+      <li>The <i>diffuseColor</i> field reflects all X3D light sources depending 
+        on the angle of the surface with respect to the light source. The more 
+        directly the surface faces the light, the more diffuse light reflects.</li> 
+      <li>The <i>emissiveColor</i> field models &quot;glowing&quot; objects. This 
+        can be useful for displaying pre-lit models (where the light energy of 
+        the room is computed explicitly), or for displaying scientific data.</li> 
+      <li>The <i>specularColor</i> and <i>shininess</i> fields determine the specular 
+        highlights (<i>e.g.</i>,&nbsp;the shiny spots on an apple). When the angle from 
+        the light to the surface is close to the angle from the surface to the 
+        viewer, the <i>specularColor</i> is added to the diffuse and ambient colour 
+        calculations. Lower shininess values produce soft glows, while higher 
+        values result in sharper, smaller highlights.</li> 
+      <li>The <i>transparency </i>field specifies how &quot;clear&quot; an object 
+        is, with 1.0 being completely transparent, and 0.0 completely opaque.</li> 
+    </ol>
+
+<h2><a name="Shape"></a>
+12.4.5 Shape</h2>
+
+<pre class="node">Shape : X3DShapeNode {
+  SFNode  [in,out] appearance NULL     [X3DAppearanceNode]
+  SFNode  [in,out] geometry   NULL     [X3DGeometryNode]
+  SFNode  [in,out] metadata   NULL     [X3DMetadataObject]
+  SFVec3f []       bboxCenter 0 0 0    (-&#8734;,&#8734;)
+  SFVec3f []       bboxSize   -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+<p>The Shape node has two fields, <i>appearance</i> and <i>geometry,</i> 
+    that are used to create rendered objects in the world. The <i>appearance</i> 
+    field contains an Appearance node that 
+specifies the visual attributes (<i>e.g.</i>,&nbsp;material 
+    and texture) to be applied to the geometry. The <i>geometry</i> field contains 
+    a geometry node. The specified geometry node is rendered with the specified 
+    appearance nodes applied. See <a href="#Concepts">12.2 Concepts</a> for 
+more information.</p>
+
+  <p> <a href="lighting.html">17 Lighting component</a> 
+    contains details of the X3D lighting model and the interaction between Appearance 
+    nodes and geometry nodes.</p>
+
+  <p>If the <i>geometry</i> field is <font face="Courier New">NULL</font>, 
+    the object is not drawn.</p>
+
+  <p>The <i>bboxCenter</i> and <i>bboxSize</i> fields specify a bounding 
+    box that encloses the Shape node's geometry. This is a hint that may be used 
+    for optimization purposes. The results are undefined if the specified bounding 
+    box is smaller than the actual bounding box of the geometry at any time. A 
+    default <i>bboxSize</i> value, (-1, -1, -1), implies that the bounding box 
+    is not specified and, if needed, is calculated by the browser. A description 
+    of the <i>bboxCenter</i> and <i>bboxSize</i> fields is contained in 
+<a href="group.html#Boundingboxes">10.2.2 Bounding boxes</a>.</p>
+
+<h2><a name="TwoSidedMaterial"></a>12.4.6 TwoSidedMaterial</h2>
+<pre class=node>TwoSidedMaterial : X3DMaterialNode {
+  SFFloat [in,out] ambientIntensity     0.2         [0,1]
+  SFFloat [in,out] backAmbientIntensity 0.2         [0,1]
+  SFColor [in,out] backDiffuseColor     0.8 0.8 0.8 [0,1]
+  SFColor [in,out] backEmissiveColor    0 0 0       [0,1]
+  SFFloat [in,out] backShininess        0.2         [0,1]
+  SFColor [in,out] backSpecularColor    0 0 0       [0,1]
+  SFFloat [in,out] backTransparency     0           [0,1]
+  SFColor [in,out] diffuseColor         0.8 0.8 0.8 [0,1]
+  SFColor [in,out] emissiveColor        0 0 0       [0,1]
+  SFNode  [in,out] metadata             NULL        [X3DMetadataObject]
+  SFFloat [in,out] shininess            0.2         [0,1]
+  SFBool  [in,out] separateBackColor    FALSE
+  SFColor [in,out] specularColor        0 0 0       [0,1]
+  SFFloat [in,out] transparency         0           [0,1]
+}</pre>
+<p>This node defines material properties that can effect both the front and back 
+side of a polygon individually. These materials are used for both the front and 
+back side of the geometry whenever the X3D lighting model is active. </p>
+<p>If the <i>separateBackColor</i> field is set to <span class="code">TRUE</span>, 
+the rendering shall render the front and back faces of the geometry with 
+different values. If the value is <span class="code">FALSE</span>, the 
+front colours are used for both the front and back side of the polygon, as per 
+the existing X3D lighting rules. </p>
+<p>When calculating the terms in the lighting equations, the front geometry 
+shall use the fields <i>ambientIntensity</i>,<i> diffuseColor</i>,<i>emissiveColor</i>,
+<i>shininess</i>,<i> specularColor</i>, and <i>transparency</i>. The faces that 
+are determined to be the back side are rendered using <i>backAmbientIntensity</i>,
+<i>backDiffuseColor</i>, <i>backEmissiveColor</i>, <i>backShininess</i>, and<i> 
+backTransparency</i> as the appropriate components in the lighting equations.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>12.5 Support levels</h1>
+
+<p>The Shape component provides three levels of support as specified in 
+<a href="#t-supportlevels">Table 12.4</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+Table 12.4 &#8212; Shape component support levels</p>
+
+    <table>
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td align="center"><b>1</b></td>
+        <td>Core 1<br>
+        Rendering 1<br>
+        Texturing 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td><i>X3DAppearanceChildNode</i>(abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td><i>X3DAppearanceNode </i>(abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td>&nbsp;</td>
+        <td><i>X3DMaterialNode</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td><i>X3DShapeNode</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Appearance</td>
+        <td><i>textureTransform</i> optionally supported.<br>
+        <i>lineProperties</i> not supported. <i> 
+          fillProperties</i> not supported. Shaders not supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>Material</td>
+        <td><i>ambientIntensity</i> optionally supported. <i>shininess</i> 
+        optionally supported. <i>specularColour</i> optionally supported. A Material with 
+          <i>emissiveColour</i> not equal to (0,0,0), <i>diffuseColor</i> equal 
+          to (0,0,0) is an unlit material. One-bit transparency; transparency 
+          values &ge; 0.5 transparent.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>Shape</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>2</b></td>
+        <td>Core 1<br>
+        Rendering 1<br>
+        Texturing 
+          1</td>
+        <td></td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 1 Appearance nodes except Appearance</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>Appearance</td>
+        <td> <i> 
+          fillProperties</i> not supported. Shaders not supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>LineProperties</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>3</b></td>
+        <td>Core 1<br>
+        Rendering 1<br>
+        Texturing 
+          1</td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 2 Appearance nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>FillProperties</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>4</b></td>
+        <td>Core 1<br>
+		Grouping 1<br>
+		Rendering 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 3 Appearance nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+		<tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>TwoSidedMaterial</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      </table>
+</div>
+
+<img class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

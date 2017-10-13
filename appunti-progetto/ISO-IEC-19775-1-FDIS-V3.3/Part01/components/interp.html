@@ -1,0 +1,1045 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 19 Interpolation component</TITLE>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</HEAD>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+<p class="HeadingClause">19 Interpolation component</p>
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+19.1 Introduction</h1>
+<h2><a name="Name"></a>19.1.1 Name</h2>
+<p>The name of this component is &quot;Interpolation&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>19.1.2 Overview</h2>
+
+<p>This subclause describes the Interpolation component of this part of ISO/IEC 
+19775. <a href="#t-Topics">Table 19.1</a> provides links to the major 
+  topics in this subclause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a><b>
+Table 19.1 &#8212; Topics</b></p>
+
+  <table>
+    <tr> 
+      <td> 
+<ul>
+        <li><a href="#Introduction">19.1 Introduction</a>
+        <ul>
+          <li><a href="#Name">19.1.1 Name</a></li>
+          <li><a href="#Overview">19.1.2 Overview</a> </li>
+        </ul>
+        <li><a href="#Concepts">19.2 Concepts</a>
+<ul>
+<li><a href="#Interpolators">19.2.1 Interpolators</a></li>
+<li><a href="#Linearinterpolation">19.2.2 Linear interpolation</a></li>
+<li><a href="#NonlinearInterpolation">19.2.3 Non-linear interpolation</a></li>
+<li><a href="#HermiteSplineInterpolation">19.2.4 Hermite spline 
+interpolation</a></li>
+</ul>
+        <li><a href="#Abstracttypes">19.3 Abstract types</a><br>
+<ul>
+<li><a href="#X3DInterpolatorNode">19.3.1 <i>X3DInterpolatorNode</i></a></li>
+</ul>
+        <li><a href="#Nodereference">19.4 Node reference</a><br>
+<ul>
+<li><a href="#ColorInterpolator">19.4.1 ColorInterpolator</a></li>
+<li><a href="#CoordinateInterpolator">19.4.2 CoordinateInterpolator</a></li>
+<li><a href="#CoordinateInterpolator2D">19.4.3 CoordinateInterpolator2D</a></li>
+<li><a href="#EaseInEaseOut">19.4.4 EaseInEaseOut</a></li>
+<li><a href="#NormalInterpolator">19.4.5 NormalInterpolator</a></li>
+<li><a href="#OrientationInterpolator">19.4.6 OrientationInterpolator</a></li>
+<li><a href="#PositionInterpolator">19.4.7 PositionInterpolator</a></li>
+<li><a href="#PositionInterpolator2D">19.4.8 PositionInterpolator2D</a></li>
+<li><a href="#ScalarInterpolator">19.4.9 ScalarInterpolator</a></li>
+<li><a href="#SplinePositionInterpolator">19.4.10 SplinePositionInterpolator</a></li>
+<li><a href="#SplinePositionInterpolator2D">19.4.11 SplinePositionInterpolator2D</a></li>
+<li><a href="#SplineScalarInterpolator">19.4.12 SplineScalarInterpolator</a></li>
+<li><a href="#SquadOrientationInterpolator">19.4.13 SquadOrientationInterpolator</a></li>
+</ul>
+        <li><a href="#SupportLevels">19.5 Support levels</a></ul>
+<ul>
+<li><a href="#t-Topics">Table 19.1 &#8212; Topics</a></li>
+<li><a href="#t-supportlevels">Table 19.2 &#8212; Interpolation component support levels</a></li>
+</ul>
+<ul>
+<li><a href="#f-EaseInEaseOut">Figure 19.1 &#8212; EaseInEaseOut algorithm illustration</a></li>
+</ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>
+19.2 Concepts</h1>
+
+<p>This clause includes six Interpolator nodes 
+all of which provide keyframe-based animation capability.</p>
+
+<h2><a name="Interpolators"></a>
+19.2.1 Interpolators</h2>
+
+<p>The Interpolator nodes provide interpolation between animation key frame 
+  values. The following node types are Interpolator nodes, each based on the type 
+  of value that is interpolated:</p>
+
+<ul>
+  <li><a href="#ColorInterpolator">ColorInterpolator</a> </li>
+  <li><a href="#CoordinateInterpolator">CoordinateInterpolator</a></li>
+  <li><a href="#CoordinateInterpolator2D">CoordinateInterpolator2D</a> </li>
+  <li><a href="#NormalInterpolator">NormalInterpolator</a> </li>
+  <li><a href="#OrientationInterpolator">OrientationInterpolator</a> </li>
+  <li><a href="#PositionInterpolator">PositionInterpolator</a></li>
+  <li><a href="#PositionInterpolator2D">PositionInterpolator2D</a> </li>
+  <li><a href="#ScalarInterpolator">ScalarInterpolator</a></li>
+	<li><a href="#SplinePositionInterpolator">SplinePositionInterpolator</a></li>
+	<li><a href="#SplinePositionInterpolator2D">SplinePositionInterpolator2D</a></li>
+	<li><a href="#SplineScalarInterpolator">SplineScalarInterpolator</a></li>
+	<li><a href="#SquadOrientationInterpolator">SquadOrientationInterpolator</a></li>
+	<li><a href="#EaseInEaseOut">EaseInEaseOut</a></li>
+</ul>
+
+<p>All Interpolator nodes are based on the abstract type 
+<a href="#X3DInterpolatorNode">X3DInterpolatorNode</a>. 
+</p>
+
+
+<h2><a name="Linearinterpolation"></a>
+19.2.2 Linear interpolation</h2>
+
+<p>The X3D interpolator nodes specified in this clause are designed for linear 
+key framed animation. Each of these nodes defines a piecewise-linear function, 
+<i>f(t)</i>, on the interval <i>(&minus;</i>&#8734;,&#8734;<i>)</i>. The piecewise-linear 
+function is defined by <i>n</i> values of <i>t</i>, called <i>key</i>, and the 
+<i>n</i> corresponding values of <i>f(t)</i>, called <i>keyValue</i>. The keys 
+shall be monotonically non-decreasing, otherwise the results are undefined.</p>
+
+<p>An interpolator node evaluates <i>f(t)</i> given any value of <i>t</i> (via 
+the <i>fraction</i> field) as follows: Let the <i>n</i> keys <i>t<sub>0</sub></i>, 
+<i>t<sub>1</sub></i>, <i>t<sub>2</sub></i>, ..., <i>t<sub>n&minus;1</sub></i> partition 
+the domain <i>(&minus;</i>&#8734;,&#8734;<i>)</i> into the <i>n+1</i> subintervals 
+given by <i>(-</i>&#8734;, <i>t<sub>0</sub>)</i>, <i>[t<sub>0</sub></i>, <i>t<sub>1</sub>)</i>, 
+<i>[t<sub>1</sub></i>, <i>t<sub>2</sub>)</i>, ... , <i>[t<sub>n&minus;1</sub></i>, 
+<i>+</i>&#8734;<i>)</i>. Also, let the <i>n</i> values <i>v<sub>0</sub></i>, 
+<i>v<sub>1</sub></i>, <i>v<sub>2</sub></i>, ..., <i>v<sub>n-1</sub></i> be the 
+values of <i>f(t)</i> at the associated key values. The piecewise-linear interpolating 
+function, <i>f(t)</i>, is defined to be: </p>
+
+<p class="Equation">    &nbsp;&nbsp;&nbsp;    <i>f(t)</i> = <i>v<sub>0</sub></i>,&nbsp;&nbsp;&nbsp; if<i> t &le; t<sub>0</sub></i>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = <i>v<sub>n&minus;1</sub></i>,&nbsp;&nbsp; if <i>t &ge; t<sub>n&minus;1</sub></i>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = <i>linterp(t, v<sub>i</sub></i>, <i>v<sub>i+1</sub>)</i>,&nbsp;&nbsp;&nbsp; if <i>t<sub>i</sub> &le; t &le; t<sub>i+1</sub></i>,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp; where <i>linterp(t,x,y)</i> is the linear interpolant,
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+           <i>i</i> belongs to <i>{0,1,..., n&minus;2}</i>.<br>
+</p>
+
+<p>The third conditional value of <i>f(t)</i> allows the defining of multiple values 
+for a single key, (<i>i.e.</i>, limits from both the left and right at a discontinuity 
+in <i>f(t))</i>. The first specified value is used as the limit of <i>f(t)</i> from 
+the left, and the last specified value is used as the limit of <i>f(t)</i> from 
+the right. The value of <i>f(t)</i> at a multiply defined key is indeterminate, 
+but should be one of the associated limit values.</p>
+
+
+<h2><a name="NonlinearInterpolation"></a>19.2.3 Non-linear interpolation</h2>
+<p>This component also provides non-linear interpolator nodes that provide for 
+smoother animation than the linear interpolator nodes. Linear interpolators tend 
+to produce animations that have a discontinuous velocity vectors. The 
+transitions at the keys produce a noticeably jerky effect which will not occur 
+when using non-linear interpolator nodes.</p>
+<p align="left">The non-linear interpolator nodes consist of three spline 
+interpolator nodes for 3D, 2D, and scalar interpolation. These three nodes use 
+the Hermite spline interpolation with adjustments to accommodate non-uniform 
+key intervals (see <a href="#HermiteSplineInterpolation">19.2.4 Hermite 
+spline interpolation</a>). The <a href="#SquadOrientationInterpolator">SquadOrientationInterpolator</a> node supports 
+non-linear orientation interpolation.</p>
+<p>Each of non-linear interpolator nodes provides a SFBool <i>closed</i> field 
+that specifies whether the interpolator should provide a closed loop, with 
+continuous velocity vectors as the interpolator transitions from the last key to 
+the first key. If the velocity vectors at the first and last keys are specified, 
+the closed field is ignored. If the keyValues at the first and last key are not 
+identical, the closed field is ignored.</p>
+<p>The SFBool <i>normalizeVelocity</i> field specifies whether the velocity 
+vectors are to be transformed into tangency vectors. If the <i>normalizeVelocity</i> 
+field has value <span class="code">TRUE</span>, the <i>keyVelocity</i> values 
+are normalized, thus converting them to tangency vectors. In this case, the 
+vectors are normalized to produce smooth speed transitions, as described 
+mathematically below in <a href="#HermiteSplineInterpolation">19.2.4 
+Hermite spline interpolation</a>. The magnitude of the specified velocity 
+vectors is ignored.</p>
+<p>If the <i>normalizeVelocity</i> field has value <span class="code">FALSE</span>, 
+the units specified in the velocity field are defined to be <span class="code">
+length/cycleInterval</span>.</p>
+<p class="Example">EXAMPLE&nbsp; Using a <a href="#SplinePositionInterpolator">SplinePositionInterpolator</a>, in which 
+the velocity at a key is specified to be (0, 0, 1), and the cycleInterval that 
+drives the interpolator is 4 seconds, the actual speed of the object at that key 
+will be 0.25 metres per second<span class="normal"> (assuming the initial base 
+units have been specified)</span>.</p>
+
+
+<p>In addition to the interpolation nodes, this component provides a node that 
+modifies the time fraction that is typically fed from the 
+<a href="time.html#TimeSensor">TimeSensor</a> node into the 
+interpolator node. This is the <a href="#EaseInEaseOut">EaseInEaseOut</a> node. It allows for a deceleration 
+as the interpolator approaches a key, and an acceleration as the interpolator 
+exits a key. Authors can route time fraction events into the EaseInEaseOut node. 
+The EaseInEaseOut node will then send out a modified time fraction, which can 
+them be routed into one or more interpolators.</p>
+
+
+<h2><a name="HermiteSplineInterpolation"></a>19.2.4 Hermite spline 
+interpolation</h2>
+<p>The <a href="#SplinePositionInterpolator">SplinePositionInterpolator</a>, 
+<a href="#SplinePositionInterpolator2D">SplinePositionInterpolator2D</a>, and the
+<a href="#SplineScalarInterpolator">SplineScalarInterpolator</a> nodes all use the 
+Hermite spline interpolation with 
+adjustments to accommodate non-uniform key intervals. These three nodes all use 
+the same algorithm which is described below.</p>
+<p>The algorithm used by these interpolators is as follows. It defines the 
+output value sent form the <i>value_changed</i> field for a given segment of the 
+interpolation, between key(i), and key(i+1). This segment is valid when the 
+fraction value satisfies (t<sub>i</sub> &le; fraction &lt; t<sub>i+1</sub>), where t<sub>i</sub> is the 
+key at (i), and t<sub>i+1</sub> is the key at (i+1).</p>
+<p>The local fraction will vary from zero to one between the two keys, as 
+follows:</p>
+<blockquote>
+	<p>s = (t - t<sub>i</sub>) / (t<sub>i+1</sub> - t<sub>i</sub>)</p>
+</blockquote>
+<p>The velocity vectors at key (i) and key (i+1) are denoted by <b>T</b><sub>i</sub> 
+and <b>T</b><sub>i+1</sub> respectively. These velocity vectors need not be unit 
+vectors. The magnitude of these vectors specifies the relative speed of the 
+interpolation.</p>
+<p>If the size of the <i>keyVelocity</i> field is equal to the size of the <i>
+keyValue</i> field, the values of <b>T</b> used below should come from the <i>
+keyVelocity</i> field. If the size of the <i>keyVelocity</i> field is 2, the 
+first value is used as the velocity vector for the first key, and the second 
+value is used as the velocity for the last key. If the size of the <i>
+keyVelocity</i> field is anything other than those two values, the <i>
+keyVelocity</i> field is ignored. Any velocity vectors that are not specified 
+will be calculated using the following algorithm:</p>
+<p>The <i>keyValue</i> at key (i) is denoted as <b>v</b><sub>i</sub> and the <i>
+keyValue</i> at key (i+1) is denoted as <b>v</b><sub>i+1</sub>.</p>
+<p>With those parameters defined, the <i>value_changed</i> value (<b>v</b><sub>s</sub> 
+)can be calculated as follows:</p>
+<blockquote>
+	<p><b>v</b><sub>s</sub> = <b>S</b><sup>T</sup> <b>H C</b></p>
+</blockquote>
+<p>where</p>
+<blockquote>
+<div align="left">
+<table class="equation" style="border-width: 0; width:50%">
+ <tr class="equation">
+  <td class="equation_nb" rowspan=4 style="padding: 0" width="40">
+    <p class="CellBodyRight"><b>S</b>=</p>
+  </td>
+  <td class="equation_bb" style="border-left:2px solid #000000; border-right:2px solid #000000; padding:0; " width="34">
+    <p class="CellBodyCenter">s<sup>3</sup></p>
+  </td>
+  <td class="equation_nb" rowspan=4 style="padding: 0" width="34">
+    <p class="CellBodyCenter">&nbsp;</p>
+  </td>
+  <td class="equation_nb" rowspan=4 style="padding: 0" width="40">
+    <p class="CellBodyRight"><b>H</b>=</p>
+  </td>
+  <td class="equation_bl" style="border-left:2px solid #000000; padding:0; " width="34">
+    <p class="CellBodyCenter">2</p>
+  </td>
+  <td class="equation_nb" style="padding:0" width="34">
+    <p class="CellBodyCenter">-2</p>
+  </td>
+  <td class="equation_nb" style="padding:0" width="34">
+    <p class="CellBodyCenter">1</p>
+  </td>
+  <td class="equation_br" style="border-right:2px solid #000000; padding:0; " width="34">
+    <p class="CellBodyCenter">1</p>
+  </td>
+  <td class="equation_nb" rowspan=4 style="padding: 0" width= 34>
+    <p class=CellBodyCenter>&nbsp;</p>
+  </td>
+  <td class="equation_nb" rowspan=4 style="padding: 0" width="40">
+    <p class="CellBodyRight"><b>C</b>=</p>
+  </td>
+  <td class="equation_bb" style="border-left:2px solid #000000; border-right:2px solid #000000; padding:0; " width="34">
+    <p class="CellBodyCenter"><b>v</b><sub>i</sub></p>
+  </td>
+ </tr>
+ <tr class="equation">
+  <td class="equation_bb" style="border-left:2px solid #000000; border-right:2px solid #000000; padding:0; " height="34" width="33">
+    <p class="CellBodyCenter">s<sup>2</sup></p>
+  </td>
+  <td class="equation_nb" style="border-left:2px solid #000000; padding:0; " width="34">
+    <p class="CellBodyCenter">-3</p>
+  </td>
+  <td class="equation_nb" style="padding:0" width="34">
+    <p class="CellBodyCenter">3</p>
+  </td>
+  <td class="equation_nb" style="padding:0" width="34">
+    <p class="CellBodyCenter">-2</p>
+  </td>
+  <td class="equation_br" style="border-right:2px solid #000000; padding:0; " width="34">
+    <p class="CellBodyCenter">-1</p>
+  </td>
+  <td class="equation_bb" style="border-left:2px solid #000000; border-right:2px solid #000000; padding:0; " height="34" width="47">
+    <p class="CellBodyCenter"><b>v</b><sub>i+1</sub></p>
+  </td>
+ </tr>
+ <tr class="equation">
+  <td class="equation_bb" style="border-left:2px solid #000000; border-right:2px solid #000000; padding:0; " width="34">
+    <p class="CellBodyCenter">s</p>
+  </td>
+  <td class="equation_bl" style="border-left:2px solid #000000; padding:0; " width="34">
+    <p class="CellBodyCenter">0</p>
+  </td>
+  <td class="equation_nb" style="padding:0" width="34">
+    <p class="CellBodyCenter">0</p>
+  </td>
+  <td class="equation_nb" style="padding:0" width="34">
+    <p class="CellBodyCenter">1</p>
+  </td>
+  <td class="equation_br" style="border-right:2px solid #000000; padding:0; " width="34">
+    <p class="CellBodyCenter">0</p>
+  </td>
+  <td class="equation_bb" style="border-left:2px solid #000000; border-right:2px solid #000000; padding:0; " width="34">
+    <p class="CellBodyCenter"><b>T</b><sup>0</sup><sub>i</sub></p>
+  </td>
+ </tr>
+ <tr class="equation">
+  <td class="equation_bb" style="border-left:2px solid #000000; border-right:2px solid #000000; padding:0; " width="34">
+    <p class="CellBodyCenter">1</p>
+  </td>
+  <td class="equation_bl" style="border-left:2px solid #000000; padding:0; " width="34">
+    <p class="CellBodyCenter">1</p>
+  </td>
+  <td class="equation_nb" style="padding:0" width="34">
+    <p class="CellBodyCenter">0</p>
+  </td>
+  <td class="equation_nb" style="padding:0" width="34">
+    <p class="CellBodyCenter">0</p>
+  </td>
+  <td class="equation_br" style="border-right:2px solid #000000; padding:0; " width="34">
+    <p class="CellBodyCenter">0</p>
+  </td>
+  <td class="equation_bb" style="border-left:2px solid #000000; border-right:2px solid #000000; padding:0; " width="34">
+  <p class="CellBodyCenter"><b>T</b><sup>1</sup><sub>i+1</sub></p>
+  </td>
+ </tr>
+</table>
+</div>
+</blockquote>
+
+<p>The values of <b>T</b><sup>0</sup><sub>i</sub> and <b>T</b><sup>1</sup><sub>i+1</sub> 
+are defined as follows:<br>
+<br>
+The standard Hermite spline assumes that the keys are equally spaced. Since 
+this is not a valid assumption, these values are ajusted to calculate <b>T</b><sup>0</sup><sub>i</sub> 
+and <b>T</b><sup>1</sup><sub>i+1</sub> as follows. If the velocity vector is 
+specified by the author, the value of <b>T</b><sub>i</sub> is extracted from the
+<i>keyVelocity</i> field for the specific key. <br>
+<br>
+If the velocity vector is not specified, it is calculated as follows:</p>
+<blockquote>
+	<p><b>T</b><sub>i</sub> = (<b>v</b><sub>i+1</sub> - <b>v</b><sub>i-1</sub>) 
+	/ 2</p>
+</blockquote>
+<p>There are special cases as specified below:</p>
+<p>If the velocity vector is specified, and the <i>normalizeVelocity</i> flag 
+has value <span class="code">FALSE</span>, the velocity at the key is set to the 
+corresponding value of the <i>keyVelocity</i> field:</p>
+<blockquote>
+	<p><b>T</b><sub>i</sub> = keyVelocity[ i ] </p>
+</blockquote>
+<p>If the velocity vector is specified, and the <i>normalizeVelocity</i> flag is 
+<span class="code">TRUE</span>, 
+the velocity at the key is set using the corresponding value of the <i>keyVelocity</i> field:</p>
+<blockquote>
+	<p><b>T</b><sub>i</sub> = keyVelocity[i] &times; ( D<sub>tot</sub> / |keyVelocity[i]| )</p>
+</blockquote>
+<p>where:</p>
+<blockquote>
+	<p>D<sub>tot</sub> is the sum of the distance between all adjacent keys.</p>
+</blockquote>
+<p>or</p>
+<blockquote>
+	<p>D<sub>tot</sub> = SUM{i=0, i &lt; n-1}(|vi - vi+1|) </p>
+</blockquote>
+<p>Lastly, to accommodate the non-uniform key intervals, the values of <b>T</b><sup>0</sup><sub>i</sub> and <b>T</b><sup>1</sup><sub>i</sub> 
+are calculated as follows:</p>
+<blockquote>
+	<p> <b>T</b><sup>0</sup><sub>i</sub> = <b>F<sup>+</sup></b>i <b>T</b><sub>i</sub><br>
+	<b>T</b><sup>1</sup><sub>i</sub> = <b>F<sup>-</sup></b><sub>i</sub> <b>T</b><sub>i</sub>
+	</p>
+</blockquote>
+<p>where:</p>
+<blockquote>
+	<p><b>F<sup>-</sup></b><sub>i</sub>&nbsp; = 2 (t<sub>i+1</sub> - t<sub>i</sub>) 
+	/ (t<sub>i+1</sub> - t<sub>i-1</sub>)<br>
+	<b>F<sup>+</sup></b>i = 2 (t<sub>i</sub> - t<sub>i-1</sub>) / (t<sub>i+1</sub> 
+	- t<sub>i-1</sub>)</p>
+</blockquote>
+<p>If the interpolator is closed, the values of the <i>key</i> and <i>keyValue</i> 
+used in these calculations should wrap appropriately:</p>
+<blockquote>
+	<p>t<sub>-1</sub> = t<sub>N-2</sub> <br>
+	v<sub>-1</sub> = v<sub>N-2</sub> <br>
+	t<sub>N</sub> = t<sub>1</sub> <br>
+	v<sub>N</sub> = t<sub>1 </sub></p>
+</blockquote>
+<p>If the interpolator is not closed, and the first and last velocity vectors 
+are not specified by the author, the values are calculated as follows:</p>
+<blockquote>
+	<p><b>T</b><sup>0</sup><sub>0</sub> = <b>T</b><sup>1</sup><sub>0</sub> = <b>
+	T</b><sup>0</sup><sub>N-1</sub> = <b>T</b><sup>1</sup><sub>N-1</sub> = 0</p>
+</blockquote>
+<p>If the interpolator is not closed, and the first and last velocity vectors 
+are specified by the author, the values are calculated as follows:</p>
+<blockquote>
+	<p><b>T</b><sup>0</sup><sub>0</sub> = <b>T</b><sub>0</sub> <br>
+	<b>T</b><sup>1</sup><sub>N-1</sub> = <b>T</b><sub>N-1</sub></p>
+</blockquote>
+<p>where N is the size of the <i>keyValue</i> field.</p>
+<p>Additional information on the Hermite algorithm is available in 
+<a href="../bibliography.html#[CATROM]">[CATROM]</a>.<br>
+&nbsp;</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Abstracttypes"></a>
+19.3 Abstract types</h1>
+<h2><a name="X3DInterpolatorNode"></a>
+19.3.1 <i>X3DInterpolatorNode</i></h2>
+
+<pre class="node">X3DInterpolatorNode : X3DChildNode { 
+  SFFloat      [in]     set_fraction       (-&#8734;,&#8734;)
+  MFFloat      [in,out] key           []   (-&#8734;,&#8734;)
+  MF&lt;type>     [in,out] keyValue      []
+  SFNode       [in,out] metadata      NULL [X3DMetadataObject]
+  [S|M]F&lt;type> [out]    value_changed
+}
+</pre> 
+
+<p>The abstract node <i>X3DInterpolatorNode</i> forms the basis for all types of interpolators 
+  specified in this clause.</p>
+
+<p>The <i>key</i> field contains the list of key times, 
+which could appear as:</p>
+<pre class="listing">    key [0 0.25 0.65 0.75 1]
+</pre> 
+<p>to indicate there are five key frames in this node. 
+The <i>keyValue</i> field contains values for the target field, 
+one complete set of values for each key. Interpolator nodes containing no keys 
+    in the <i>key</i> field shall not produce any events. However, an input 
+    event that replaces an empty <i>key</i> field with one that contains keys 
+    will cause the interpolator node to produce events the next time that a <i>
+    set_fraction</i> event is received..</p>
+ 
+<p>The <i>set_fraction</i> inputOnly field receives an SFFloat event and causes the interpolator 
+node function to evaluate, resulting in a <i>value_changed</i> output event of the 
+specified type with the same timestamp as the <i>set_fraction</i> event. </p>
+
+<p>The contents of the <i>keyValue</i> and <i>value_changed</i> fields 
+are dependent on the type of the node (<i>e.g.</i>, the PositionInterpolator 
+fields use MFVec3f values). 
+Each value or set of values in the <i>keyValue</i> field corresponds 
+in order to the parameter value in the <i>key</i> field.</p>
+
+<p>For interpolator nodes that produce a single value, results are undefined if 
+the number of values in the <i>key</i> field is not the same as the number of 
+values in the <i>keyValue</i> field.</p>
+
+<p>For interpolator nodes that produce multiple values, the <i>keyValue</i> field 
+is an <i>n</i>x<i>m</i> array of values, where <i>n</i> is the number of values 
+in the <i>key</i> field and <i>m</i> is the number of values at each key frame. 
+Each <i>m</i> values in the <i>keyValue</i> field correspond, in order, to a 
+parameter value in the <i>key</i> field. Each <i>value_changed</i> event shall 
+contain <i>m</i> interpolated values. Results are undefined if the number of 
+values in the <i>keyValue</i> field is not a positive integer multiple of the 
+number of values in the <i>key</i> field. </p>
+
+<p>If an <i>X3DInterpolatorNode</i> <i>value_changed</i> outputOnly field is read before it receives 
+any inputs, <i>keyValue</i>[0] is returned if <i>keyValue</i> is not empty. 
+If <i>keyValue</i> is empty (<i>i.e.</i>, [ ]), the initial value for the respective 
+field 
+type is returned (<span class="code">EXAMPLE</span>&nbsp; (0, 0, 0) for SFVec3f); see 
+<a href="../fieldsDef.html">5 Field type reference</a> for initial event values.</p>
+
+<p>The location of an <i>X3DInterpolatorNode</i> in the transformation hierarchy has 
+no effect on its operation. For example, if a parent of an interpolator node 
+is a <a href="group.html#Switch">Switch</a> node with <i>whichChoice</i> set to &minus;1 (<i>i.e.</i>,&#160;ignore its children), 
+the interpolator continues to operate as specified (receives and sends events).</p>
+
+<p>A typical simplified structure for a key frame animation implementation involves 
+a <a href="time.html#TimeSensor">TimeSensor</a>, ROUTEs, and the target node. </p>
+
+<pre class="listing">  Transform { 
+    Shape 
+       IndexedFaceSet { coordIndex='... &minus;1 ... >
+           Coordinate DEF='Moved' point [ x y z, ... ] # <i>t0Geometry</i>
+       }                  
+    } 
+  } 
+
+  CoordinateInterpolator DEF='Mover' 
+      key [t0 t1 t2 ]            #   <i>list of key times, 0 to 1</i>
+      keyValue ' x y z, ... '    #   <i>one geometry per key time</i> 
+
+  TimeSensor DEF='Timer' cycleInterval 5 loop TRUE 
+
+  ROUTE Timer.fraction_changed TO Mover.set_value  
+  ROUTE Mover.value_changed TO Moved.point 
+</pre>
+
+<p>In typical operation, the key frame <i>set_fraction</i> event arrives from 
+a TimeSensor to signal that the time value has advanced. This value varies from 
+0 to 1 depending upon where the TimeSensor is in its cycle time.</p>
+<p class="Example">EXAMPLE&nbsp; If the TimeSensor has a cycleTime of 10 seconds, and 5 seconds has elapsed in 
+its cycle,  the set_fraction value will be 0.5. </p>
+
+<p>In this sample structure, the <a href="geometry3D.html#IndexedFaceSet">IndexedFaceSet</a> contains a 
+<a href="rendering.html#Coordinate">Coordinate</a> field named 
+<i>Moved</i>. This defines the time equals zero geometry for the node. The 
+<a href="#CoordinateInterpolator">CoordinateInterpolator</a> 
+node named <i>Mover</i> contains the list of key frame times and the corresponding 
+sets of coordinates in the keyValue field. When the <i>set_fraction</i> event 
+arrives for <i>key</i>,  the corresponding interpolated <i>keyValue</i> is sent 
+to the target Coordinate node for rendering.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Nodereference"></a>
+19.4 Node reference</h1>
+
+<h2><a name="ColorInterpolator"></a>
+19.4.1 ColorInterpolator</h2>
+
+<pre class="node">ColorInterpolator : X3DInterpolatorNode {
+  SFFloat [in]     set_fraction       (-&#8734;,&#8734;)
+  MFFloat [in,out] key           []   (-&#8734;,&#8734;)
+  MFColor [in,out] keyValue      []   [0,1]
+  SFNode  [in,out] metadata      NULL [X3DMetadataObject]
+  SFColor [out]    value_changed
+}</pre>
+
+<p>The ColorInterpolator node interpolates among a list of MFColor key values 
+to produce an SFColor (RGB) <i>value_changed</i> event. 
+The number of colours in the <i>keyValue</i> field shall be 
+equal to the number of key frames in the <i>key</i> field. 
+The <i>keyValue</i> field and <i>value_changed</i> 
+events are defined in RGB colour space. A linear interpolation using 
+the value of <i>set_fraction</i> as input is performed in HSV space 
+(see <a href="../bibliography.html#[FOLEY]">[FOLEY]</a> for description of 
+RGB and HSV colour spaces). The results are undefined when interpolating 
+between two consecutive keys with complementary hues.</p>
+
+<h2><a name="CoordinateInterpolator"></a>
+19.4.2 CoordinateInterpolator</h2>
+
+<pre class="node">CoordinateInterpolator : X3DInterpolatorNode {
+  SFFloat [in]     set_fraction       (-&#8734;,&#8734;)
+  MFFloat [in,out] key           []   (-&#8734;,&#8734;)
+  MFVec3f [in,out] keyValue      []   (-&#8734;,&#8734;)
+  SFNode  [in,out] metadata      NULL [X3DMetadataObject]
+  MFVec3f [out]    value_changed
+}</pre>
+
+<p>The CoordinateInterpolator node linearly interpolates among a list of MFVec3f 
+values to produce an MFVec3f <i>value_changed</i> event. 
+The number of coordinates in the <i>keyValue</i> field shall 
+be an integer multiple of the number of key frames in the <i>key</i> 
+field. That integer multiple defines how many coordinates will be contained 
+in the <i>value_changed </i>events.</p>
+
+<h2><a name="CoordinateInterpolator2D"></a>
+19.4.3 CoordinateInterpolator2D</h2>
+
+<pre class="node">CoordinateInterpolator2D : X3DInterpolatorNode {
+  SFFloat [in]     set_fraction       (-&#8734;,&#8734;)
+  MFFloat [in,out] key           []   (-&#8734;,&#8734;)
+  MFVec2f [in,out] keyValue      []   (-&#8734;,&#8734;)
+  SFNode  [in,out] metadata      NULL [X3DMetadataObject]
+  MFVec2f [out]    value_changed
+}
+</pre>
+
+<p>This node linearly interpolates among a list of MFVec2f values to produce an 
+MFVec2f <i>value_changed</i> event. The number of coordinates in the <i>keyValue</i> 
+field shall be an integer multiple of the number of key frames in the <i>key</i> 
+field. That integer multiple defines how many coordinates will be contained 
+in the <i>value_changed </i>events.</p>
+
+<h2><a name="EaseInEaseOut"></a>19.4.4 EaseInEaseOut</h2>
+
+<pre class="node">EaseInEaseOut : X3DNode {
+  SFFloat [in]     set_fraction                  (-&#8734;,&#8734;)
+  MFVec2f [in,out] easeInEaseOut            []   (-&#8734;,&#8734;)
+  MFFloat [in,out] key                      []   (-&#8734;,&#8734;) 
+  SFNode  [in,out] metadata                 NULL [X3DMetadataObject]
+  SFFloat [out]    modifiedFraction_changed
+}
+</pre>
+
+<p>The EaseInEaseOut node supports controlled gradual transitions by specifying 
+modifications for TimeSensor node fractions. The EaseInEaseOut node receives a<i>
+set_fraction</i> field event. It uses the values of the <i>key</i> field and the
+<i>easeInEaseOut</i> field to modify that fraction which is then issued as a <i>
+modifiedFraction_changed</i> event.</p>
+The first components of each pair of <em>easeInEaseOut</em> field Vec2f values 
+correspond to the easeIn/easeOut features following each key as the interpolator 
+progresses. The second components of each pair of <em>easeInEaseOut</em> field 
+Vec2f values correspond to the easeIn/easeOut features as the interpolator 
+progresses between <em>keyValues</em>.<p>The values of the <i>easeInEaseOut</i> field range from zero to one. At zero, there is no 
+modification of the fraction.</p>
+<p>The scope of the easeOut effect on the local fraction is equal to the easeOut 
+value.</p>
+<p class="Example">EXAMPLE 1&nbsp; If the easeOut value is 0.4, the object will 
+accelerate out of the previous key and reach a constant speed at 40% of the way 
+from the previous key to the next key.</p>
+<p>The scope of the easeIn effect on the local fraction begins when the local 
+fraction reaches (1.0 - easeIn).</p>
+<p class="Example">EXAMPLE 2&nbsp; If the easeIn value is 0.3, the object will 
+transition from a constant speed, and begin to decelerate when unmodified local 
+fraction reaches 0.7 (70% of the way from the previous key to the next key).</p>
+<p>If the sum of the previous easeIn value, plus the next easeIn value is 
+greater than 1.0, both values are scaled by the same amount so that the sum of 
+the values is equal 1.0. In that case, there is no period of constant speed.</p>
+<p>The algorithm for computing the <em>modifiedFraction_changed</em> value is:</p>
+<ol type="a">
+	<li>Let u be the value of the <em>set_fraction</em> field, representing the proportion the 
+	distance between key<sub>i</sub> and key<sub>i+1</sub>.</li>
+	<li>Let e<sub>out</sub> be the easeOut value for key<sub>i</sub>; (<em>i.e.</em>, easeOut = 
+	<em>easeInEaseOut</em><sub>i</sub>.y).</li>
+	<li>Let e<sub>in</sub> be the easeIn value for key<sub>i+1</sub>; (<em>i.e.</em>, easeIn = 
+	<em>easeInEaseOut</em><sub>i+1</sub>.x).</li>
+	<li>Let S be the sum of e<sub>in</sub>and e<sub>out</sub>.</li>
+	<li>If S &lt; 0, <i>modifiedFraction_changed</i> is set to u.</li>
+	<li>If S &gt; 1.0, divide e<sub>in</sub> and e<sub>out</sub> by S.</li>
+	<li>Compute t = 1.0 / (2.0 - e<sub>out</sub> - e<sub>in</sub>).</li>
+	<li>If u &lt; e<sub>out</sub>, <i>modifiedFraction_changed</i> is set to:<br>
+&nbsp;&nbsp;&nbsp; (t / e<sub>out</sub>) &times; u<sup>2</sup></li>
+	<li>If u &lt; 1.0 - e<sub>in</sub>, <i>modifiedFraction_changed</i> is set to:<br>
+&nbsp;&nbsp;&nbsp; (t &times; (2u - e<sub>out</sub>))</li>
+	<li>Else, <i>modifiedFraction_changed</i> is set to:<br>
+&nbsp;&nbsp;&nbsp; 1.0 - ((t &times; (1.0 - u)<sup>2</sup>) / e<sub>in</sub>)</li>
+</ol>
+
+<p><a href="#f-EaseInEaseOut">Figure 19.1</a> illustrates the algorithm above.</p>
+<div class="CenterDiv">
+<p>
+<a name="f-EaseInEaseOut"></a>
+<img alt="EaseInEaseOut algorithm illustration" src="../../Images/EaseInEaseOut.png" width="508" height="287"></p>
+<p class="FigureCaption">
+Figure 19.1&nbsp;&mdash;&nbsp; EaseInEaseOut algorithm illustration</p>
+</div>
+<p>The easeInEaseOut field values shall be monotonically non-decreasing, 
+otherwise results are undefined.</p>
+
+<h2><a name="NormalInterpolator"></a>
+19.4.5 NormalInterpolator</h2>
+
+<pre class="node">NormalInterpolator : X3DInterpolatorNode {
+  SFFloat [in]     set_fraction       (-&#8734;,&#8734;)
+  MFFloat [in,out] key           []   (-&#8734;,&#8734;)
+  MFVec3f [in,out] keyValue      []   (-&#8734;,&#8734;)
+  SFNode  [in,out] metadata      NULL [X3DMetadataObject]
+  MFVec3f [out]    value_changed
+}</pre>
+
+<p>The NormalInterpolator node interpolates among a list 
+of normal vector sets specified by the <i>keyValue</i> field
+to produce an MFVec3f <i>value_changed</i> event. 
+The output vector, <i>value_changed</i>, shall be 
+a set of normalized vectors.</p>
+
+<p>Values in the <i>keyValue</i> field shall be of unit length. 
+The number of normals in the <i>keyValue</i> field shall be an integer 
+multiple of the number of key frames in the <i>key</i> field. That integer 
+multiple defines how many normals will be contained in the 
+<i>value_changed</i> events.</p>
+
+<p>Normal interpolation shall be performed on the surface 
+of the unit sphere. That is, the output values for a linear interpolation 
+from a point P on the unit sphere to a point Q also on the unit sphere 
+shall lie along the shortest arc (on the unit sphere) connecting points 
+P and Q. Also, equally spaced input fractions shall result in arcs of 
+equal length. The results are undefined if P and Q are diagonally opposite.</p>
+
+<h2><a name="OrientationInterpolator"></a>
+19.4.6 OrientationInterpolator</h2>
+
+<pre class="node">OrientationInterpolator : X3DInterpolatorNode {
+  SFFloat    [in]     set_fraction       (-&#8734;,&#8734;)
+  MFFloat    [in,out] key           []   (-&#8734;,&#8734;)
+  MFRotation [in,out] keyValue      []   [-1,1] or (-&#8734;,&#8734;)
+  SFNode     [in,out] metadata      NULL [X3DMetadataObject]
+  SFRotation [out]    value_changed
+}</pre>
+
+<p>The OrientationInterpolator node interpolates among a 
+list of rotation values specified in the <i>keyValue</i> field 
+to produce an SFRotation <i>value_changed</i> event. 
+These rotations are absolute in object space and therefore are not cumulative. 
+The <i>keyValue</i> field shall contain exactly as many rotations as 
+there are key frames in the <i>key</i> field.</p>
+
+<p>An orientation represents the final position of an object 
+after a rotation has been applied. An OrientationInterpolator interpolates 
+between two orientations by computing the shortest path on the unit 
+sphere between the two orientations. The interpolation is linear in 
+arc length along this path. The results are undefined if the two orientations 
+are diagonally opposite.</p>
+
+<p>If two consecutive <i>keyValue </i>values exist such that 
+the arc length between them is greater than &#960;, 
+the interpolation will take place on the arc complement. 
+For example, the interpolation between the orientations</p>
+
+    <blockquote>
+
+<p>(0, 1, 0, 0) and (0, 1, 0, 5.0)</p>
+
+    </blockquote>
+
+<p>is equivalent to the rotation between the orientations</p>
+
+    <blockquote>
+
+<p>(0, 1, 0, 2<font face="Times New Roman">&#960;</font>) and (0, 1, 0, 5.0).</p>
+
+    </blockquote>
+
+<h2><a name="PositionInterpolator"></a>
+19.4.7 PositionInterpolator</h2>
+
+<pre class="node">PositionInterpolator : X3DInterpolatorNode {
+  SFFloat [in]     set_fraction       (-&#8734;,&#8734;)
+  MFFloat [in,out] key           []   (-&#8734;,&#8734;)
+  MFVec3f [in,out] keyValue      []   (-&#8734;,&#8734;)
+  SFNode  [in,out] metadata      NULL [X3DMetadataObject]
+  SFVec3f [out]    value_changed
+}
+</pre>
+
+<p>The PositionInterpolator node linearly interpolates among 
+a list of 3D vectors
+to produce an SFVec3f <i>value_changed</i> event. 
+The <i>keyValue</i> field shall contain exactly 
+as many values as in the <i>key</i> field.</p>
+
+<h2><a name="PositionInterpolator2D"></a>
+19.4.8 PositionInterpolator2D</h2>
+
+<pre class="node">PositionInterpolator2D : X3DInterpolatorNode {
+  SFFloat [in]     set_fraction       (-&#8734;,&#8734;)
+  MFFloat [in,out] key           []   (-&#8734;,&#8734;)
+  MFVec2f [in,out] keyValue      []   (-&#8734;,&#8734;)
+  SFNode  [in,out] metadata      NULL [X3DMetadataObject]
+  SFVec2f [out]    value_changed
+}
+</pre>
+
+<p>The PositionInterpolator node linearly interpolates among a list of 2D vectors 
+to produce an SFVec2f <i>value_changed</i> event. The <i>keyValue</i> field 
+shall contain exactly as many values as in the <i>key</i> field.</p>
+
+<h2><a name="ScalarInterpolator"></a>
+19.4.9 ScalarInterpolator</h2>
+
+<pre class="node">ScalarInterpolator : X3DInterpolatorNode {
+  SFFloat [in]     set_fraction       (-&#8734;,&#8734;)
+  MFFloat [in,out] key           []   (-&#8734;,&#8734;)
+  MFFloat [in,out] keyValue      []   (-&#8734;,&#8734;)
+  SFNode  [in,out] metadata      NULL [X3DMetadataObject]
+  SFFloat [out]    value_changed
+}
+</pre>
+
+<p>The ScalarInterpolator node linearly interpolates among a list of SFFloat 
+values to produce an SFFloat <i>value_changed</i> event.
+This interpolator is appropriate for any parameter defined using 
+a single floating point value.</p>
+<p class="Example">EXAMPLE 1&nbsp; width fields</p>
+<p class="Example">EXAMPLE 2&nbsp; radius fields</p>
+<p class="Example">EXAMPLE 3&nbsp; intensity fields</p>
+<p>The <i>keyValue</i> field shall contain exactly as many numbers 
+as there are key frames in the <i>key</i> field.</p>
+
+<h2><a name="SplinePositionInterpolator"></a>19.4.10 SplinePositionInterpolator</h2>
+
+<pre class="node">SplinePositionInterpolator : X3DInterpolatorNode {
+  SFFloat [in]     set_fraction            (-&#8734;,&#8734;)
+  SFBool  [in,out] closed            FALSE
+  MFFloat [in,out] key               []    (-&#8734;,&#8734;)
+  MFVec3f [in,out] keyValue          []    (-&#8734;,&#8734;)
+  MFVec3f [in,out] keyVelocity       []    (-&#8734;,&#8734;)
+  SFNode  [in,out] metadata          NULL  [X3DMetadataObject]
+  SFBool  [in,out] normalizeVelocity FALSE
+  SFVec3f [out]    value_changed
+}
+</pre>
+
+<p>The SplinePositionInterpolator node non-linearly interpolates among a list of 
+3D vectors to produce an SFVec3f <i>value_changed</i> event. The <i>keyValue</i>,
+<i>keyVelocity</i>, and <i>key</i> fields shall each have the same number of 
+values.</p>
+
+<h2><a name="SplinePositionInterpolator2D"></a>19.4.11 SplinePositionInterpolator2D</h2>
+
+<pre class="node">SplinePositionInterpolator2D : X3DInterpolatorNode {
+  SFFloat [in]     set_fraction            (-&#8734;,&#8734;)
+  SFBool  [in,out] closed            FALSE
+  MFFloat [in,out] key               []    (-&#8734;,&#8734;)
+  MFVec2f [in,out] keyValue          []    (-&#8734;,&#8734;)
+  MFVec2f [in,out] keyVelocity       []    (-&#8734;,&#8734;)
+  SFNode  [in,out] metadata          NULL  [X3DMetadataObject]
+  SFBool  [in,out] normalizeVelocity FALSE
+  SFVec2f [out]    value_changed
+}
+</pre>
+
+<p>The SplinePositionInterpolator2D node non-linearly interpolates among a list 
+of 2D vectors to produce an SFVec2f <i>value_changed</i> event. The <i>keyValue</i>,
+<i>keyVelocity</i>, and <i>key</i> fields shall each have the same number of 
+values.</p>
+
+<h2><a name="SplineScalarInterpolator"></a>19.4.12 SplineScalarInterpolator</h2>
+
+<pre class="node">SplineScalarInterpolator : X3DInterpolatorNode {
+  SFFloat [in]     set_fraction            (-&#8734;,&#8734;)
+  SFBool  [in,out] closed            FALSE
+  MFFloat [in,out] key               []    (-&#8734;,&#8734;)
+  MFFloat [in,out] keyValue          []    (-&#8734;,&#8734;)
+  MFFloat [in,out] keyVelocity       []    (-&#8734;,&#8734;)
+  SFNode  [in,out] metadata          NULL  [X3DMetadataObject]
+  SFBool  [in,out] normalizeVelocity FALSE
+  SFFloat [out]    value_changed
+}
+</pre>
+
+<p>The SplineScalarInterpolator node non-linearly interpolates among a list of 
+floats to produce an SFFloat <i>value_changed</i> event. The <i>keyValue</i>, <i>
+keyVelocity</i>, and <i>key</i> fields shall each have the same number of 
+values.</p>
+
+<h2><a name="SquadOrientationInterpolator"></a>19.4.13 SquadOrientationInterpolator</h2>
+
+<pre class="node">SquadOrientationInterpolator : X3DInterpolatorNode {
+  SFFloat    [in]     set_fraction            (-&#8734;,&#8734;)
+  MFFloat    [in,out] key               []    (-&#8734;,&#8734;)
+  MFRotation [in,out] keyValue          []    (-&#8734;,&#8734;)
+  SFNode     [in,out] metadata          NULL  [X3DMetadataObject]
+  SFBool     [in,out] normalizeVelocity FALSE
+  SFRotation [out]    value_changed
+}
+</pre>
+
+<p>The SquadOrientationInterpolator node non-linearly interpolates among a list of 
+rotations to produce an SFRotation <i>value_changed</i> event. The <i>keyValue</i> 
+field shall have the same number of values and the <i>key</i> field.</p>
+<p>The SquadOrientationInterpolator uses the industry standard Squad method for 
+smoothly interpolating orientations. Squad is an acronym for Spherical Cubic 
+Interpolation. The Linear <a href="#OrientationInterpolator">OrientationInterpolator</a> described 
+in <a href="#OrientationInterpolator">19.4.6 OrientationInterpolator</a> provides 
+spherical linear interpolation. The SquadOrientationInterpolator applies the 
+spline interpolation approach described above to interpolation in quaternion 
+space. For more information on Squad interpolation, see
+<a href="../bibliography.html#[SHOE]">[SHOE]</a>.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>19.5 Support levels</h1>
+
+<p>The Interpolation component provides three levels of 
+support as specified in 
+<a href="#t-supportlevels">Table 19.2</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+Table 19.2<b>
+&#8212; </b>Interpolation component support levels</p>
+  
+<table>
+    <tr> 
+      <th>Level</th>
+      <th>Prerequisites</th>
+      <th>Nodes/Features</th>
+      <th>Support</th>
+    </tr>
+    <tr> 
+      <td align="center"><b>1</b></td>
+      <td>Core 1<br>
+      Grouping 1<br>
+                      Shape 1</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr> 
+      <td align="center">&nbsp;</td>
+      <td></td>
+      <td><i>X3DInterpolatorNode </i>(abstract)</td>
+      <td>n/a</td>
+    </tr>
+    <tr> 
+      <td align="center">&nbsp;</td>
+      <td></td>
+      <td>CoordinateInterpolator</td>
+      <td>All fields fully supported.</td>
+    </tr>
+      <tr>
+      <td align="center"></td>
+      <td></td>
+      <td>OrientationInterpolator</td>
+      <td>All fields fully supported.</td>
+      </tr>
+    <tr> 
+      <td align="center"></td>
+      <td></td>
+      <td>PositionInterpolator</td>
+      <td>All fields fully supported.</td>
+    </tr>
+    <tr> 
+      <td align="center"></td>
+      <td></td>
+      <td>ScalarInterpolator</td>
+      <td>All fields fully supported.</td>
+    </tr>
+    <tr> 
+      <td align="center"><b>2</b></td>
+      <td>Core 1<br>
+      Grouping 1<br>
+      Shape 1</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr> 
+      <td align="center"></td>
+      <td></td>
+      <td>All Level 1 Interpolator nodes</td>
+      <td>All fields fully supported. </td>
+    </tr>
+      <tr>
+      <td align="center"></td>
+      <td></td>
+      <td>ColorInterpolator</td>
+      <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+      <td align="center"></td>
+      <td></td>
+      <td>NormalInterpolator</td>
+      <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+      <td align="center"><b>3</b></td>
+      <td>Core 1<br>
+      Grouping 1<br>
+      Shape 1</td>
+      <td></td>
+      <td></td>
+      </tr>
+      <tr>
+      <td align="center"></td>
+      <td></td>
+      <td>All Level 2 Interpolator nodes</td>
+      <td>All fields fully supported.</td>
+      </tr>
+    <tr>
+      <td align="center">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>CoordinateInterpolator2D</td>
+      <td>All fields fully supported.</td>
+    </tr>
+    <tr>
+      <td align="center">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>PositionInterpolator2D</td>
+      <td>All fields fully supported.</td>
+    </tr>
+    <tr>
+      <td align="center"><b>4</b></td>
+      <td>Core 1<br>
+      Grouping 1<br>
+      Shape 1</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="center">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>All Level 3 Interpolator nodes</td>
+      <td>All fields fully supported.</td>
+    </tr>
+    <tr>
+      <td align="center">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>EaseInEaseOut</td>
+      <td>All fields fully supported.</td>
+    </tr>
+    <tr>
+      <td align="center">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>SplinePositionInterpolator</td>
+      <td>All fields fully supported.</td>
+    </tr>
+    <tr>
+      <td align="center">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>SplinePositionInterpolator2D</td>
+      <td>All fields fully supported.</td>
+    </tr>
+    <tr>
+      <td align="center">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>SplineScalarInterpolator</td>
+      <td>All fields fully supported.</td>
+    </tr>
+    <tr>
+      <td align="center"><b>5</b></td>
+      <td>Core 1<br>
+      Grouping 1<br>
+      Shape 1</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="center">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>All Level 4 Interpolator nodes</td>
+      <td>All fields fully supported.</td>
+    </tr>
+    <tr>
+      <td align="center">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>SquadOrientationInterpolator</td>
+      <td>All fields fully supported.</td>
+    </tr>
+  </table>
+</div>
+
+<p>
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23"></p>
+
+</BODY>
+</HTML>

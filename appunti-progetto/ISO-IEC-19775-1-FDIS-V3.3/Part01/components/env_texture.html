@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 34 Cube map environmetal texturing component</TITLE>
+<link href="../X3D.css" type="text/css" rel=stylesheet>
+</head>
+
+<body bgcolor=white text=black>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<img class="x3dlogo" src="../../Images/x3d.png" alt="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">34 Cube map environmental texturing component</p>
+</div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+34.1. Introduction</h1>
+
+<h2><a name="Name"></a>34.1.1 Name</h2>
+
+<p>The name of this component is &quot;CubeMapTexturing&quot;. This name shall be used 
+when referring to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 COMPONENT statement</a>).</p>
+
+<h2><a name="Overview"></a>34.1.2 Overview</h2>
+
+This clause describes the cube map environmental texturing component of this 
+part of ISO/IEC 19775. This includes how additional texturing effects are 
+defined to produce environmental effects such as reflections from objects. 
+<a href="#t-Topics">Table 34.1</a> provides lists the major topics in this 
+clause.<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 34.1 &#8212; Topics</p>
+
+<table class="topics">
+<tr> 
+  <td> 
+	<ul>
+	  <li><a href="#Introduction">34.1 Introduction</a>
+	  <ul>
+		<li><a href="#Name">34.1.1 Name</a></li>
+		<li><a href="#Overview">34.1.2 Overview</a> </li>
+	  </ul>
+	  <li><a href="#Concepts">34.2 Concepts</a> 
+		<ul>
+		  <li><a href="#Conceptsoverview">34.2.1 Overview</a></li> 
+          <li><a href="#Texturemapformats">34.2.2 Texture map formats</a></li> 
+          <li><a href="#Texturemapimageformats">34.2.3 Texture map image formats</a></li> 
+		  <li><a href="#Texturecoordinates">34.2.4 Texture coordinates</a></li>
+			<li><a href="#Textureorientation">34.2.5 Texture orientation</a></li> 
+		</ul></li>
+	  <li><a href="#Abstracttypes">34.3 Abstract types</a>  
+		<ul>
+		  <li><a href="#X3DEnvironmentTextureNode">34.3.1 <i>
+			X3DEnvironmentTextureNode</i></a></li>
+		</ul></li>
+	  <li><a href="#NodeReference">34.4. Node reference</a>  
+		<ul>
+		  <li><a href="#ComposedCubeMapTexture">34.4.1 ComposedCubeMapTexture</a></li> 
+		  <li><a href="#GeneratedCubeMapTexture">34.4.2 GeneratedCubeMapTexture</a></li> 
+		  <li><a href="#ImageCubeMapTexture">34.4.3 ImageCubeMapTexture</a></li> 
+		</ul></li>
+	  <li> <a href="#SupportLevels">34.5 Support levels</a></li>  
+	</ul>
+	<ul>
+      <li><a href="#f-Textureorientation">Figure 34.1 &#8212; Mapping texture sides to 
+		the texture coordinate axes</a></li>
+    </ul>
+    <ul>
+		<li><a href="#t-Topics">Table 34.1 &#8212; Topics</a></li>
+		<li><a href="#t-supportlevels">Table 34.2 &#8212; Environment Texturing 
+		component support levels</a></li>
+	</ul>
+    </td>
+  </tr>
+</table>
+</div>
+
+<h1><a name="Concepts"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+34.2 Concepts</h1>
+
+<h2><a name="Conceptsoverview"></a>34.2.1 Overview</h2>
+
+<p>Cube map environmental texturing provides cubic environmental texture mapping 
+capabilities within X3D. Cubic environment maps support reflection and specular 
+highlighting in a simple way, often in combination with automatic texture 
+coordinate generation (see 
+<a href="texturing.html#TextureCoordinates">18.2.3 Texture coordinates</a>). 
+This component may be combined with the multitexture abilities of the Texturing 
+component (see
+<a href="texturing.html#Multitexturing">18.2.4 Multitexturing</a>) to provide 
+advanced visual effects.</p>
+
+<p>Cubic environment maps ignore most of the normal texture settings&nbsp; (<i>e.g.</i>, 
+there are no repeat fields) but they can be mipmapped. The sources can be drawn 
+from any 2D texture source whether dynamically generated or provided from 
+somewhere else as images or pixel arrays.
+</p>
+
+<h2><a name="Texturemapformats"></a>34.2.2 Texture Map Formats</h2>
+
+<p>Cubic environment mapping nodes defined as part of this component use a 
+collection of 2D texture maps to define each side of the cube. These may contain 
+from one to four component colour values. The interpretation of the image shall 
+follow the description in <a href="texturing.html#TextureMapFormats">18.2.1 
+Texture map formats</a>.</p>
+
+<p>All source images shall be square and provide source data in powers of two 
+numbers of pixels. Source images in a cubic environment map shall have identical 
+sizes. Providing differently sized images or rectangular images shall be an error.</p>
+<p class="Example">EXAMPLE&nbsp; It is not valid to define the front image as a 
+64×64 image and the left side image as 128×128 pixels.</p>
+
+<h2><a name="Texturemapimageformats"></a>34.2.3 Texture Map Image Formats</h2>
+
+<p>Texture nodes that require support for 2D images file formats shall follow 
+the description defined in <a href="texturing.html#TextureMapImageFormats">
+18.2.2 Texture map image formats</a>.</p>
+
+<h2><a name="Texturecoordinates"></a>34.2.4 Texture Coordinates</h2>
+
+<p>For each texture, the three-dimensional texture coordinates (s,t,r) are 
+treated as a direction vector from the local origin. Each texel drawn onto the 
+geometry is treated as the texel in the environment map that is &quot;seen&quot; from this 
+direction vector.</p>
+
+<p>Texture coordinates for using cubic environment mapped textures are usually 
+dynamically generated as this is far easier to handle for the content developer 
+than providing explicit texture coordinates. It is recommended that an 
+implementation shall also support a minimum of Level 2 Texturing component 
+capabilities (see <a href="texturing.html#SupportLevels">18.5 Support levels</a>) in 
+addition to this component. Typically, the <span class="code">CAMERASPACENORMAL</span> 
+or <span class="code">CAMERASPACEREFLECTIONVECTOR</span>
+modes are used.</p>
+
+<p>To specify explicit texture coordinates, the
+<a href="texture3D.html#TextureCoordinate3D">TextureCoordinate3D</a> node (see
+<a href="texture3D.html">33 Texture3D component</a>)
+shall be used.</p> 
+
+<h2><a name="Textureorientation"></a>34.2.5 Texture Orientation</h2>
+
+<p>Cubic environment maps define a single texture as consisting of six separate 
+images, one for each side of a cube. This component defines the six sides as 
+front, back, left, right, top and bottom. These sides shall be oriented as shown 
+in <a href="#f-Textureorientation">Figure 34.1</a>.</p>
+
+<div class="CenterDiv">
+
+<a name="f-Textureorientation"></a>
+<img src="../../Images/cubeMap.png" alt="Environment map textures" width="500" height="480"> 
+
+<p class="FigureCaption">
+Figure 34.1 &#8212; Mapping texture sides to the texture coordinate axes</p> 
+</div>
+
+
+<h1><a name="Abstracttypes"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+34.3 Abstract Types</h1>
+
+<h2><a name="X3DEnvironmentTextureNode"></a>34.3.1<i> X3DEnvironmentTextureNode </i></h2>
+
+<pre>
+X3DEnvironmentTextureNode : X3DTextureNode {
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This abstract node type is the base type for all node types that specify 
+cubic environment map sources for texture images.</p>
+
+<h1>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="NodeReference"></a>34.4 Node reference</h1>
+
+<h2><a name="ComposedCubeMapTexture"></a>34.4.1 ComposedCubeMapTexture</h2>
+
+<pre>
+ComposedCubeMapTexture : X3DEnvironmentTextureNode {
+  SFNode [in,out] back     NULL [X3DTexture2DNode]
+  SFNode [in,out] bottom   NULL [X3DTexture2DNode]
+  SFNode [in,out] front    NULL [X3DTexture2DNode]
+  SFNode [in,out] left     NULL [X3DTexture2DNode]
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+  SFNode [in,out] right    NULL [X3DTexture2DNode]
+  SFNode [in,out] top      NULL [X3DTexture2DNode]
+}
+</pre>
+
+<p>The ComposedCubeMapTexture node defines a cubic environment map source as an 
+explicit set of images drawn from individual 2D texture nodes. </p>
+
+<p>See <a href="#Concepts">34.2 Concepts</a> for a general description of 
+cube map environmental texture maps.</p>
+
+<p>See <a href="texturing.html">18 Texturing component</a> for a general 
+description of the X3DTexture2DNode abstract type and interpretation of 
+rendering for 2D images. When used as a source for cubic environment maps, the 
+fields <i>repeatS</i> and <i>repeatT</i> fields shall be ignored.</p>
+
+<h2><a name="GeneratedCubeMapTexture"></a>34.4.2 GeneratedCubeMapTexture</h2>
+
+<pre>
+GeneratedCubeMapTexture : X3DEnvironmentTextureNode {
+  SFNode   [in,out] metadata          NULL   [X3DMetadataObject]
+  SFString [in,out] update            &quot;NONE&quot; [&quot;NONE&quot;|&quot;NEXT_FRAME_ONLY&quot;|&quot;ALWAYS&quot;]
+  SFInt32  []       size              128    (0,&#8734;)
+  SFNode   []       textureProperties NULL   [TextureProperties]
+}
+</pre>
+
+The ComposedCubeMapTexture node defines a cubic environment map that sources its 
+data from internally generated images, rendered from a virtual situated 
+perspective in the scene.<p>The viewpoint of the generated texture is based on the location and 
+orientation of the associated geometry in world space.</p>
+<p class="Example">NOTE&nbsp; An object trying to render itself in the scene 
+graph can cause infinite loops in the renderer implementation and is thus not 
+permitted.</p>
+<p>The field of view shall be <font face="Times New Roman">&pi;</font>/2 radians
+<span class="normal">(or the equivalent angle base units)</span> with an aspect ratio of 1:1.</p>
+
+<p>The <i>size</i> field indicates the resolution of the generated images in 
+number of pixels per side.</p> 
+
+<p>The <i>update</i> field can be used to request a regeneration of the 
+texture. Setting this field to <span class="code">&quot;ALWAYS&quot;</span> will 
+cause the 
+texture to be rendered every frame. A value of <span class="code">&quot;NONE&quot;</span> 
+will stop rendering so that no further updates are performed even if the 
+contained scene graph changes. When the value is set to
+<span class="code">&quot;NEXT_FRAME_ONLY&quot;</span>, it is an instruction to render the 
+texture at the end of this frame, and then not render it again. In this case, the update frame indicator is set to this frame; at the start of the next frame, the 
+update value shall be automatically set back to <span class="code">&quot;NONE&quot;</span> to 
+indicate that the rendering has already taken place. Since this is a change of value 
+for the <i>update</i> field, an output event is automatically generated.</p>
+
+<h2><a name="ImageCubeMapTexture"></a>34.4.3 ImageCubeMapTexture </h2>
+
+<pre>
+ImageCubeMapTexture : X3DEnvironmentTextureNode, X3DUrlObject {
+  SFNode   [in,out] metadata          NULL [X3DMetadataObject]
+  MFString [in,out] url               []   [URI]
+  SFNode   []       textureProperties NULL [TextureProperties]
+}
+</pre>
+
+<p>The ImageCubeMapTexture node defines a cubic environment map source as a 
+single file format that contains multiple images, one for each side.</p>
+
+<p>The texture is read from the URL specified by the <i>url</i> field. When the
+<i>url</i> field contains no values, texturing is disabled. The <i>url</i> 
+field is defined in <a href="networking.html#URLs">9.2.1 URLs</a>. Browsers are 
+not required to support any specific cube map environment texture format. It is recommended that browsers 
+support the Microsoft DDS cube map environment texture file format (see
+<a href="../bibliography.html#[DDS]">[DDS]</a>).</p>
+
+<p>See <a href="texturing.html#Concepts">18.2 Concepts</a> for a general 
+description of texture maps.</p>
+
+
+<h1><a name="SupportLevels"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+34.5 Support levels</h1>
+
+<p>The Cube map environmental texturing component defines three levels of 
+support as specified in
+<a href="#t-supportlevels">Table 34.2</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption"><a name="t-supportlevels"></a>
+Table 34.2 &#8212; Cube map environmental texturing component support levels</p>
+<table>
+<tr><th>Level</th><th>Prequisites</th><th>Nodes/Features</th><th>Support</th></tr>
+<tr><td align="center"><b>1</b></td>
+    <td>Core 1<br> Grouping 1<br> Shape 1<br>Rendering 1<br> Texturing 1</td>
+    <td></td><td></td></tr>
+<tr><td align="center"></td><td></td>
+    <td><i>X3DEnvironmentTextureNode</i></td>
+    <td>n/a</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>ComposedCubeMapTexture</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"><b>2</b></td>
+    <td>Core 1<br> Grouping 1<br> Shape 1<br>Rendering 1<br> Texturing 1</td>
+    <td></td><td></td></tr>
+<tr><td align="center"></td><td></td>
+    <td>ImageCubeMapTexture</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"><b>3</b></td>
+    <td>Core 1<br> Grouping 1<br> Shape 1<br>Rendering 1<br> Texturing 1</td>
+    <td></td><td></td></tr>
+<tr><td align="center"></td><td></td>
+    <td>GeneratedCubeMapTexture</td>
+    <td>All fields fully supported.</td>
+</tr>
+</table>
+</div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

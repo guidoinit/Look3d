@@ -1,0 +1,553 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 38 Picking component</title>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</head>
+
+<body>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<img class="x3dlogo" src="../../Images/x3d.png" alt="X3D logo" style="border-width: 0px; width: 176px; height: 88px;"></a>
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+<p class="HeadingClause">38 Picking component</p>
+</div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" height="23" width="430">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" height="19" width="20">
+38.1 Introduction</h1>
+<h2><a name="Name"></a>38.1.1 Name</h2>
+<p>The name of this component is "Picking". This name shall be used when referring
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>38.1.2 Overview</h2>
+
+<p>This component provides the ability to test for arbitrary object collision in
+a somewhat limited form. In traditional 3D graphics terminology, this is termed
+picking. The intention is not to support full n-body object collision, but to
+provide an extended set of basic capabilities to provide some limited custom
+interactions, such as terrain following.
+<a href="#t-Topics">Table
+  38.1</a> provides links to the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a><b>
+Table 38.1 &mdash; Topics</b></p>
+  <table>
+    <tbody><tr>
+      <td>
+        <ul>
+          <li><a href="#Introduction">38.1 Introduction</a>
+            <ul>
+              <li><a href="#Name">38.1.1 Name</a></li>
+              <li><a href="#Overview">38.1.2 Overview</a></li>
+            </ul></li>
+		  <li><a href="#Concepts">38.2 Concepts</a>
+            <ul>
+              <li><a href="#OverviewOfPickingSensors">38.2.1 Overview</a></li>
+              <li><a href="#EventModelInteraction">38.2.2 Event model interaction</a></li>
+              <li><a href="#TransformationHierarchy">38.2.3 Transformation Hierarchy</a></li>
+            </ul></li>
+          <li><a href="#Abstracttypes">38.3 Abstract types</a>
+            <ul>
+              <li><a href="#X3DPickableObject">38.3.1 <i>X3DPickableObject</i></a></li>
+              <li><a href="#X3DPickSensorNode">38.3.2 <i>X3DPickSensorNode</i></a></li>
+            </ul></li>
+          <li><a href="#Nodereference">38.4 Node reference</a>
+            <ul>
+              <li><a href="#LinePickSensor">38.4.1 LinePickSensor</a></li>
+            </ul>
+         <ul>
+			<li><a href="#PickableGroup">38.4.2 PickableGroup</a></li>
+			<li><a href="#PointPickSensor">38.4.3 PointPickSensor</a></li>
+			<li><a href="#PrimitivePickSensor">38.4.4 PrimitivePickSensor</a></li>
+			<li><a href="#VolumePickSensor">38.4.5 VolumePickSensor</a></li>
+			</ul>
+			<li><a href="#SupportLevels">38.5 Support levels</a></li>
+        </ul>
+		<ul>
+		  <li><a href="#f-LineIntersection">Figure 38.1 &mdash; Illustration of the different conditions
+		      of intersections of lines and coplanar polygons</a></li>
+		</ul>
+        <ul>
+          <li><a href="#t-Topics">Table 38.1 &mdash; Topics</a></li>
+          <li><a href="#t-supportlevels">Table 38.2 &mdash; Picking component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </tbody></table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" height="19" width="20">
+<a name="Concepts"></a>38.2 Concepts</h1>
+
+<h2><a name="OverviewOfPickingSensors"></a>38.2.1 Overview</h2>
+
+<p>
+This component provides a means of testing for object intersection that
+permits a greater degree of programmable interaction of content. Various types of
+geometrical elements may be used to test for intersection between the renderable
+scene graph and the nodes provided by this component. When one or more
+intersections are found, the results are reported using the sensor model of
+this International Standard and are then available for further processing by the event model.
+</p>
+
+<p>
+Intersection testing consists of two parts: an object representing the type
+of intersection to be created and a scene graph tree to be tested. The
+intersecting object is represented by nodes that extend the
+<i>X3DPickSensorNode</i> abstract type. Instances of <i>X3DPickableObject</i>
+mark a scene graph subtree as a target for testing.
+</p>
+
+<h2><a name="EventModelInteraction"></a>38.2.2 Event model interaction</h2>
+
+<p>Picking is performed between rendered frames of the event model. A user
+sets up the picking request in one frame by placing, in the desired location, a 
+node derived from <em>X3DPickSensorNode.</em> Such a node is termed a <em>pick 
+sensor</em>. At the start of the next frame any intersections are reported from the
+pick sensor.</p>
+
+<p>Picking notification is performed at the start of the frame for all
+enabled pick sensors when all other
+sensors are processed (see <a href="../concepts.html#ExecutionModel">4.4.8.3 Execution model</a> step b).&nbsp; 
+Disabled pick sensors do not need to be evaluated. This allows the
+user to manipulate geometry and have the pick results returned at the start of
+the frame, thus ensuring a fixed, known state at all times.</p>
+
+<h2><a name="TransformationHierarchy"></a>38.2.3 Transformation Hierarchy</h2>
+
+<p>
+Testing for intersection tests is a global action within each execution context. 
+pick sensors may report intersections with contained contexts, but only
+to the wrapper and not the contents of that context.
+</p>
+<p class="Example">EXAMPLE&nbsp; Picking against a scene that contains an
+Inline node will return the Inline node as the picked geometry rather than
+a node from the contents of the geometry.
+</p>
+
+<p>
+A pick sensor is located at the desired position and orientation in the scene 
+graph using the transformation hierarchy. The pick sensor is effected by
+translation, orientation and scale operations. If a non-uniform scale is applied
+to the pick sensor, the results are dependent on the selected component level.
+</p>
+
+<p>The picked objects are those that have been given to that specific pick 
+sensor instance in its <em>pickTarget </em>field.&nbsp; All transformations 
+above those picked objects are applied to the picking process. Picking is 
+performed in world coordinate space after transformations have been applied to 
+both the pick sensor and the target nodes. </p>
+
+<p>Sections of the scene graph 
+contained by a <i>X3DPickableObject</i> are used for additional filtering of the 
+picking operations. The pickable object has a set of flags defined in the <em>
+objectType</em> field that can be used to classify sections of the scene graph 
+so that picking will only report intersections in those classifications.</p>
+<p class="example">EXAMPLE&nbsp; A 
+pickable object classifies itself as a &quot;WATER&quot; object and the pick sensor 
+declares that it is picking for &quot;GROUND&quot; objects. Even though the pick sensor 
+intersects with the picking object, no result is returned because the pickable 
+object and the pick sensor do not have the same object type category.</p>
+<p>When reporting results requires 
+specific geometry intersection points, the results are reported in the local 
+coordinate space of the pick sensor. </p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" height="19" width="20">
+<a name="Abstracttypes"></a>
+38.3 Abstract types</h1>
+
+<h2><a name="X3DPickableObject"></a>38.3.1 <i>X3DPickableObject</i></h2>
+
+<pre class="node">X3DPickableObject {
+  MFString [in,out] objectType "ALL" ["ALL","NONE","TERRAIN",...]
+  SFBool   [in,out] pickable   TRUE
+}
+</pre>
+
+<p>The <i>X3DPickableObject</i> abstract object type marks a node as being capable of having customized
+picking performed on its contents or children.</p>
+<p>The <i>pickable</i> field is used to independently control whether picking
+may be performed on this node or its children. Setting the value to <code>FALSE</code>
+will remove the children from the list of potential matches for picking. This
+only affects children that are accessed through the transformation hierarchy of
+the parent. If one or more of the children of this instance is accessible
+through another transformation hierarchy through DEF/USE that still has picking
+enabled, they shall still be pickable through that path only. </p>
+<p>The <i>objectType</i> field specifies a label that is used in the picking 
+process. Each string specified is treated as an independent label that needs to 
+be matched against the same type in one of the pick sensor instances.</p>
+<p class="Example">EXAMPLE&nbsp; Labeling a group with the value <span class="code">"WATER"</span> 
+and then attempting to intersect a pick sensor with <i>objectType</i>
+<span class="code">"GROUND"</span> would fail as the types are not matching.</p>
+<p>The
+special object type <span class="code">"ALL"</span> means that it is available 
+for picking regardless of the type specified by the pick sensor. The special 
+value "NONE" overrides the presence of any other string values in this <em>
+objectType</em> field, thereby disabling picking for this node. The presence of 
+the "ALL" special value indicates that all <em>objectType</em>s defined within 
+the scope defined by the construct derived from X3DPickableObject are eligible. 
+If both "NONE" and "ALL" are specified, the special value "NONE" applies. The user may
+define any value for <em>objectType</em>.</p>
+
+<h2><a name="X3DPickSensorNode"></a>38.3.2 <i>X3DPickSensorNode</i></h2>
+
+<pre class="node">X3DPickSensorNode : X3DSensorNode {
+  SFBool   [in,out] enabled          TRUE
+  SFNode   [in,out] metadata         NULL        [X3DMetadataObject]
+  SFString [in,out] matchCriterion   "MATCH_ANY" ["MATCH_ANY"|"MATCH_EVERY"|
+                                                  "MATCH_ONLY_ONE"]
+  MFString [in,out] objectType       "ALL"       ["ALL","NONE","TERRAIN",...]
+  SFNode   [in,out] pickingGeometry  NULL        [X3DGeometryNode]
+  MFNode   [in,out] pickTarget       []          [X3DGroupingNode|X3DShapeNode|Inline]
+  MFNode   [out]    pickedGeometry
+  SFBool   [out]    isActive
+  SFString []       intersectionType "BOUNDS"    ["GEOMETRY"|"BOUNDS"|...]
+  SFString []       sortOrder        "CLOSEST"   ["ANY"|"CLOSEST"|"ALL"|"ALL_SORTED"]
+}
+</pre>
+
+<p>The <i>X3DPickSensorNode</i> abstract node type is the base node type that represents the lowest common
+denominator of picking capabilities. An <i>X3DPickSensorNode</i> is a type of <i>
+X3DSensorNode</i>. The field <i>isActive</i> is <span class="code">TRUE</span> 
+whenever there is a picked item available. If the intersecting object is not 
+picked by the picking geometry, the pick sensor is not active.</p>
+<p>The <i>intersectionType</i> field specifies the precision of the collision
+computation. The <i>intersectionType</i> constants may be extended by the
+individual concrete node to provide additional options.</p>
+<p class="Example">EXAMPLE 1&nbsp; An <i>intersectionType</i> may be used to
+specify the specific algorithm used for the detection.</p>
+<p>The <i>objectType</i> field lists the types of object that are to be tested
+for intersections. The apecial value "NONE" overrides the presence of any other 
+string values in this objectType field, thereby disabling picking for this node. 
+The presence of the "ALL" special value indicates that all <em>objectType</em>s 
+are potential pick targets. If both "NONE" and "ALL" are specified, the value 
+"NONE" applies. An arbitrary label may be specified here as well as the
+predefined types. </p>
+<p>The <em>matchCriterion</em> field defines whether the X3DPickSensorNode pick 
+matches one or more <em>objectType</em> value(s), as follows: </p>
+<ul>
+	<li>"MATCH_ANY" means that any match of <em>objectType</em> values is 
+	acceptable.</li>
+	<li>&nbsp;"MATCH_EVERY" means that every <em>objectType</em> value in the 
+	X3DPickSensorNode shall match an <em>objectType </em>value in the 
+	X3DPickableObject.</li>
+	<li>"MATCH_ONLY_ONE" means that one and only one <em>objectType</em> value 
+	can match.</li>
+</ul>
+<p>The <i>pickingGeometry</i> field specifies the exact coordinates of the
+geometry that will be performing the intersection testing. The acceptable range
+of node types and how they are to be interpreted shall be defined by the
+individual concrete nodes.</p>
+<p>The <i>pickTarget</i> field specifies the list of nodes against which the
+picking operation should be performed. All nodes declared in this field and 
+their descendents shall be evaluated for intersections based on the specific 
+sensor definition. If a descendent of the nodes declared
+in this field includes another <i>X3DPickSensorNode</i> instance, the children of
+the descendent <i>X3DPickSensorNode</i>&#39;s<i> pickTarget</i> field are not considered for picking.</p>
+<p>The <i>pickedGeometry</i> field communicates the node or nodes that have been
+found to intersect with the picking geometry from the last time this node
+performed a picking operation. The values provided shall be dependent on the
+setting of the <i>sortOrder</i> field.</p>
+
+<p>The values of the <i>sortOrder</i> has four predefined values.</p>
+<ol type="a">
+<li><code>"ANY"&nbsp; </code>Any single object that satisfies the
+picking conditions for this pick sensor. Consistency of results is not
+guaranteed.</li>
+<li><code>"ALL"&nbsp; </code>Every object that satisfies the 
+picking conditions for this pick sensor shall be returned.</li>
+<li><code>"ALL_SORTED"&nbsp; </code>Every object that satisfies 
+the picking conditions for this pick sensor shall be returned with the order of the
+output fields provided in a distance-sorted order from closest to farthest
+away. The exact algorithm for sorting is defined by the individual node
+definitions.</li>
+<li><code>"CLOSEST"&nbsp; </code>The closest object by distance that
+satisfies the conditions of this pick sensor. The exact algorithm for distance
+determination shall be defined by the individual node definitions.</li>
+</ol>
+
+<p>Browser implementations may define additional values and algorithms beyond 
+these four required values.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" height="19" width="20">
+<a name="Nodereference"></a>
+38.4 Node reference</h1>
+
+<h2><a name="LinePickSensor"></a>38.4.1 LinePickSensor</h2>
+
+<pre class="node">LinePickSensor : X3DPickSensorNode {
+  SFBool   [in,out] enabled                 TRUE
+  SFNode   [in,out] metadata                NULL      [X3DMetadataObject]
+  MFString [in,out] objectType              "ALL"     ["ALL","NONE","TERRAIN",...]
+  SFNode   [in,out] pickingGeometry         NULL      [IndexedLineSet|LineSet]
+  MFNode   [in,out] pickTarget              []        [X3DGroupingNode|X3DShapeNode|Inline]
+  SFBool   [out]    isActive
+  MFNode   [out]    pickedGeometry
+  MFVec3f  [out]    pickedNormal
+  MFVec3f  [out]    pickedPoint
+  MFVec3f  [out]    pickedTextureCoordinate
+  SFString []       intersectionType        "BOUNDS"  ["GEOMETRY"|"BOUNDS"|...]
+  SFString []       sortOrder               "CLOSEST" ["ANY"|"CLOSEST"|"ALL"|"ALL_SORTED"]
+}</pre>
+<p>The LinePickSensor node picks one or more line segments as the test object with
+which to pick. As a line intersect generates a known point in space, normal, geometry and texCoord information can be returned that is useful.<br>
+</p>
+
+<p>Line picking, for sort order determination is based on the pair of coordinates
+that defines the line segment. The first declared vertex of the segment is
+defined to be the start of the line to which the intersection points are closest.</p>
+
+<p>When the picking line segment intersects a coplanar polygon and one vertex
+lies outside the polygon, the intersection point(s) will be those on the edge(s) of the
+polygon (see Figure 38.1 (a)). If the entire segment lies entirely within the
+polygon then the intersection point shall be defined to be the start point of
+the segment. For concave polygons where both ends of the segment lie in the
+polygon but the line exits the polygon for some portion (see 
+<a href="#f-LineIntersectionConditions">Figure 38.1</a> (b)),
+the intersection points are the intersecting edges of the polygon, where sort
+order is defined as in the previous paragraph.
+</p>
+
+<div class="CenterDiv">
+<a name="f-LineIntersectionConditions"></a>
+<a name="f-LineIntersection"></a>
+<img src="../../Images/LineIntersection.png" alt="Illustration of Line Intersection conditions" height="300" width="600">
+
+<p class="FigureCaption">
+Figure 38.1 &mdash; Illustration of the different conditions of intersections
+of lines and coplanar polygons. (a) One end point contained in the polygon and
+one external. (b)Both end points internal to the polygon.  Point A is the start
+point of the line and the numbers indicate the sort order that shall be
+returned.</p>
+</div>
+
+<p>Picked texture coordinates are in three dimensions. If the target object has
+multiple textures defined, only the texture coordinates for the first
+texture are returned. All other textures are ignored. If the target texture coordinate has
+two dimensions, the third coordinate (z component of an SFVec3f) shall be zero.
+</p>
+
+
+<h2><a name="PickableGroup"></a>38.4.2 PickableGroup</h2>
+
+<pre class="node">PickableGroup : X3DGroupingNode, X3DPickableObject {
+  MFNode   [in]     addChildren
+  MFNode   [in]     removeChildren
+  MFNode   [in,out] children       []       [X3DChildNode]
+  SFNode   [in,out] metadata       NULL     [X3DMetadataObject]
+  MFString [in,out] objectType     "ALL"    ["ALL","NONE","TERRAIN",...]
+  SFBool   [in,out] pickable       TRUE
+  SFVec3f  []       bboxCenter     0 0 0    (-&#8734;,&#8734;)
+  SFVec3f  []       bboxSize       -1 -1 -1 [0,&#8734;) or -1 -1 -1
+}</pre>
+<p>A PickableGroup node is an X3DGroupingNode that contains <i>children</i> that 
+are marked as being of
+a given classification of picking types, as well as the ability to enable or
+disable picking of the <i>children</i>.</p>
+<p>For field definitions, see <a href="#X3DPickableObject">38.3.1 <i>X3DPickableObject</i></a> 
+and <a href="group.html#X3DGroupingNode">10.3.2 X3DGroupingNode</a>.<br>
+</p>
+
+<h2><a name="PointPickSensor"></a>38.4.3 PointPickSensor</h2>
+
+<pre class="node">PointPickSensor : X3DPickSensorNode {
+  SFBool   [in,out] enabled          TRUE
+  SFNode   [in,out] metadata         NULL      [X3DMetadataObject]
+  MFString [in,out] objectType       "ALL"     ["ALL","NONE","TERRAIN",...]
+  SFNode   [in,out] pickingGeometry  NULL      [PointSet]
+  MFNode   [in,out] pickTarget       []        [X3DGroupingNode|X3DShapeNode|Inline]
+  SFBool   [out]    isActive
+  MFNode   [out]    pickedGeometry
+  MFVec3f  [out]    pickedPoint
+  SFString []       intersectionType "BOUNDS"  ["GEOMETRY"|"BOUNDS"|...]
+  SFString []       sortOrder        "CLOSEST" ["CLOSEST"|"ALL"|"ALL_SORTED"]
+}</pre>The PointPickSensor node tests one or more points in space as lying inside
+the provided target geometry. For each point that lies inside the geometry, the
+point coordinate is returned in the <em>pickedGeometry</em> field with the corresponding geometry
+inside which the point lies.
+<p>Because points represent an infinitely small location in space, the
+<span class="code">"CLOSEST"</span>
+and <span class="code">"ALL_SORTED"</span> sort orders are defined to mean
+<span class="code">"ANY"</span> and <span class="code">"ALL"</span>
+respectively.</p>
+
+<h2><a name="PrimitivePickSensor"></a>38.4.4 PrimitivePickSensor</h2>
+
+<pre class="node">PrimitivePickSensor : X3DPickSensorNode {
+  SFBool   [in,out] enabled          TRUE
+  SFNode   [in,out] metadata         NULL      [X3DMetadataObject]
+  MFString [in,out] objectType       "ALL"     ["ALL","NONE","TERRAIN",...]
+  SFNode   [in,out] pickingGeometry  NULL      [Cone|Cylinder|Sphere|Box]
+  MFNode   [in,out] pickTarget       []        [X3DGroupingNode|X3DShapeNode|Inline]
+  SFBool   [out]    isActive
+  MFNode   [out]    pickedGeometry
+  SFString []       intersectionType "BOUNDS"  ["GEOMETRY"|"BOUNDS"|...]
+  SFString []       sortOrder        "CLOSEST" ["ANY"|"CLOSEST"|"ALL"|"ALL_SORTED"]
+}
+</pre>
+
+The PrimitivePickSensor node picks against the target geometry using one of the basic primitive object types 
+specified in the <em>pickingGeometry</em> field.<p>Boolean fields used to control visibility of subsections
+of a primitive are ignored when evaluating the picking routines.</p>
+<p class="Example">EXAMPLE&nbsp; A cylinder missing the end caps is still
+treated as an enclosed cylinder. </p>
+<p>Sorting is defined based on the primitive type as follows:</p>
+<ol type="a">
+	<li>For Cone, the closest picked primitive is defined to be that closest to the vertex point.</li>
+	<li>For Cylinder, Box, and Sphere, the closest picked primitive is defined 
+	to be that closest to the
+	centre.</li>
+</ol>
+
+<h2><a name="VolumePickSensor"></a>38.4.5 VolumePickSensor</h2>
+
+<pre class="node">VolumePickSensor : X3DPickSensorNode {
+  SFBool   [in,out] enabled          TRUE
+  SFNode   [in,out] metadata         NULL      [X3DMetadataObject]
+  MFString [in,out] objectType       "ALL"     ["ALL","NONE","TERRAIN",...]
+  SFNode   [in,out] pickingGeometry  NULL      [X3DGeometryNode]
+  MFNode   [in,out] pickTarget       []        [X3DGroupingNode|X3DShapeNode|Inline]
+  SFBool   [out]    isActive
+  MFNode   [out]    pickedGeometry
+  SFString []       intersectionType "BOUNDS"  ["GEOMETRY"|"BOUNDS"|...]
+  SFString []       sortOrder        "CLOSEST" ["ANY"|"CLOSEST"|"ALL"|"ALL_SORTED"]
+}
+</pre>
+
+<p>The VolumePickSensor picks against an arbitrary volume defined by the geometry.
+The volume is defined by the convex hull of the enclosing planes of the provided
+geometry. If the provided volume is not manifold, the pick results are undefined.
+</p>
+
+<p>A pick is successful if any vertex of the pickTarget geometry intersects the 
+volume defined by the pickingGeometry.&nbsp; The sort order is based on the distance between the
+centers of the bounds of the picking geometry and the picked geometry.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" height="19" width="20">
+<a name="SupportLevels"></a>38.5 Support levels</h1>
+
+<p>The Picking component provides three levels of support as specified
+  in <a href="#t-supportlevels">Table 38.2</a>. </p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+Table 38.2<b>
+&mdash; </b> Picking component support levels</p>
+
+<table>
+      <tbody><tr>
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr>
+        <td align="center"><b>1</b></td>
+        <td>Core 1<br>
+		Grouping 1<br>
+		Shape 1<br>
+		Rendering 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DPickSensorNode</i></td>
+        <td>n/a</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DPickableObject</i></td>
+        <td>n/a</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>LinePickSensor</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>PickableGroup</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>PointPickSensor</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"><b>2</b></td>
+        <td>Core 1<br>
+		Grouping 1<br>
+		Shape 1<br>
+		Rendering 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>All Level 1 nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>PrimitivePickSensor</td>
+        <td>All fields fully supported. Non uniform scale not
+            supported.</td>
+      </tr>
+      <tr>
+        <td align="center"><b>3</b></td>
+        <td>Core 1<br>
+		Grouping 1<br>
+		Shape 1<br>
+		Rendering 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>All Level 2 nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>PrimitivePickSensor</td>
+        <td>All fields fully supported. Non-uniform scale supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>VolumePickSensor</td>
+        <td>All fields fully supported.</td>
+      </tr>
+    </tbody></table>
+</div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" height="23" width="430">
+
+</body></html>

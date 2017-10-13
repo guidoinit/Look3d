@@ -1,0 +1,458 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 33 Texturing3D component</TITLE>
+<link href="../X3D.css" type="text/css" rel=stylesheet>
+</head>
+
+<body bgcolor=white text=black>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<img class="x3dlogo" src="../../Images/x3d.png" alt="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">33&nbsp; Texturing3D Component</p>
+</div>
+
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+33.1 Introduction</h1>
+
+<h2><a name="Name"></a>33.1.1 Name</h2>
+
+<p>The name of this component is &quot;Texturing3D&quot;. This name shall be used when 
+referring to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+
+<h2><a name="Overview"></a>33.1.2 Overview</h2>
+
+This clause describes the Texturing3D component of this part of ISO/IEC 19775. <a href="#t-Topics">
+Table 33.1</a> provides links to the major topics in this clause.
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 33.1 &#8212; Topics</p>
+
+<table class="topics">
+<tr> 
+  <td> 
+	<ul>
+	  <li><a href="#Introduction">33.1 Introduction</a>
+	  <ul>
+		<li><a href="#Name">33.1.1 Name</a></li>
+		<li><a href="#Overview">33.1.2 Overview</a> </li>
+	  </ul>
+	  <li><a href="#Concepts">33.2 Concepts</a> 
+		<ul>
+		  <li><a href="#Conceptsoverview">33.2.1 Overview</a></li> 
+		  <li><a href="#3DTextureconcepts">33.2.2 3D texturing concepts</a></li> 
+		  <li><a href="#Texturecoordinates">33.2.3 Texture coordinates</a></li> 
+		  <li><a href="#Texturecoordinategeneration">33.2.4 Texture coordinate 
+			generation for primitive objects</a></li> 
+          <li><a href="#Texturemapimageformats">33.2.5 Texture map image formats</a></li> 
+		</ul></li>
+	  <li><a href="#X3DTexture3DNode">33.3 Abstract types</a>  
+		<ul>
+		  <li><a href="#X3DTexture3DNode">33.3.1 <i>X3DTexture3DNode</i></a></li>
+		</ul></li>
+	  <li><a href="#Nodereference">33.4 Node reference</a>  
+		<ul>
+		  <li><a href="#ComposedTexture3D">33.4.1 ComposedTexture3D</a></li> 
+		  <li><a href="#ImageTexture3D">33.4.2 ImageTexture3D</a></li> 
+		  <li><a href="#PixelTexture3D">33.4.3 PixelTexture3D</a></li> 
+		  <li><a href="#TextureCoordinate3D">33.4.4 TextureCoordinate3D</a></li> 
+		  <li><a href="#TextureCoordinate4D">33.4.5 TextureCoordinate4D</a></li> 
+		  <li><a href="#TextureTransformMatrix3D">33.4.6 TextureTransformMatrix3D</a></li>
+		  <li><a href="#TextureTransform3D">33.4.7 TextureTransform3D</a></li>
+		</ul></li>
+	  <li> <a href="#SupportLevels">33.5 Support levels</a></li>  
+	</ul>
+	<ul>
+      <li><a href="#f-3DTexture">Figure 33.1 &#8212; Illustration of how two 2D images 
+		can form a 3D volume of texture</a></li> 
+	</ul>
+	<ul>
+      <li><a href="#t-Topics">Table 33.1 &#8212; Topics</a></li>
+      <li><a href="#t-supportlevels">Table 33.2 &#8212; Texturing component support 
+		levels</a></li>
+	</ul>
+    </td>
+  </tr>
+</table>
+</div>
+
+<h1><a name="Concepts"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+33.2 Concepts</h1>
+
+<h2><a name="Conceptsoverview"></a>33.2.1 Overview</h2>
+
+<p>This component provides additional texturing extensions to the basic 
+capabilities defined in X3D. Many applications need to describe surface 
+properties as data points in a volume of space, rather than a flat surface. 
+These textures operate with three dimensions. A texture of this type is termed a
+<i>volumetric texture</i>.</p>
+
+<p>Volumetric textures are essential for advanced rendering effects related to fog 
+and lighting, as well as industry-specific needs such as medical and CAD 
+visualization. </p>
+
+<h2><a name="3DTextureconcepts"></a>33.2.2 3D texturing concepts</h2>
+
+<p>3D texturing specifies texel colours based on a volume of space. An object that 
+is being rendered on that 3D texture effectively cuts a volume out of the texels 
+provided by the texture.</p>
+
+<p>This part of ISO/IEC 19775 assumes standard commodity hardware that presents 
+3D textures as a series of 2D slices of the volume that can then be interpolated 
+and composited together to form a 3D volume of space. There is no assumption 
+about the existence of true voxel rendering hardware capability.</p> 
+
+<p>A 3D volume of texture is specified as a number of 2D planes (images) of data 
+that are ordered in a depth-wise manner. 
+<a href="#f-3DTexture">Figure 33.1</a> 
+shows two base images that can be layered together resulting in the volume of a 
+3D texture. In this example, the texture would have a dimension of n × m × 2.
+</p>
+
+<div class="CenterDiv">
+
+<a name="f-3DTexture"></a>
+<img src="../../Images/3d_textures.png" alt="Description of 3D texture" width="500" height="300"> 
+
+<p class="FigureCaption">
+Figure 33.1 &#8212; Formation of 3D texture from two 2D textures</p> 
+</div>
+
+<h2><a name="Texturecoordinates"></a>
+33.2.3 Texture coordinates</h2>
+
+<p>The coordinate system of the texture is a right-handed coordinate system as 
+defined in <a href="#f-3DTexture">Figure 33.1</a>. The coordinate components are 
+defined to be (s,t,r) as values along the S, T, and R axes defined by
+<a href="#f-3DTexture">Figure 33.1</a>.</p> 
+
+<h2><a name="Texturecoordinategeneration"></a>33.2.4 Texture coordinate 
+generation for primitive objects</h2>
+
+<p>Some geometry nodes are not capable of having 3D texture coordinates set by 
+the user (<i>e.g.</i>, Box and Cone). For these cases, 3D textures coordinates 
+are automatically generated based on the following rules:</p>
+
+<ol type="a">
+	<li>All coordinates are generated in the range [0, 1] for the given axis. 0 
+	is for the minimum value of the coordinate vertex on that axis, and 1 is 
+	assigned to the maximum value of the coordinate vertex on that axis.</li>
+	<li>Orientation is oriented along the z-axis, looking in the -Z direction 
+	with a zero angle aligned with the axis.</li>
+	<li>S coordinate is generated from left to right based on the maximum 
+	extents of the X-axis vertex values.</li>
+	<li>T coordinate is generated from top to bottom based on the maximum 
+	extents of the Y-axis vertex values.</li>
+	<li>R coordinate is generated from front (+Z) to back (-Z) based on the 
+	maximum extents of the Z-axis vertex values.</li>
+</ol>
+
+<h2><a name="Texturemapimageformats"></a>
+33.2.5 Texture map image formats</h2>
+
+<p>Node types specifying 3D texture maps may supply data with a number of color 
+components between one and four. The valid types and interpretations of 3D 
+textures are identical to that for 2D textures. The definition of texture formats 
+is defined in <a href="texturing.html#TextureMapFormats">18.2.1 Texture map 
+formats</a>.</p>
+
+<h1><a name="Abstracttypes"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+33.3 Abstract types</h1>
+
+<h2><a name="X3DTexture3DNode"></a>33.3.1 <i>X3DTexture3DNode</i></h2>
+
+<pre>
+X3DTexture3DNode : X3DTextureNode {
+  SFNode [in,out] metadata          NULL  [X3DMetadataObject]
+  SFBool []       repeatS           FALSE
+  SFBool []       repeatT           FALSE
+  SFBool []       repeatR           FALSE
+  SFNode []       textureProperties NULL  [TextureProperties]
+}
+</pre>
+
+<p>This abstract node type is the base type for all node types that specify 3D 
+sources for texture images. </p>
+
+<p class="Example">NOTE&nbsp; The base node type diverges from the standard X3D 
+textures by making the default repeat modes <span class="code">FALSE</span>, rather that <span class="code">
+TRUE</span>. This is because 3D textures are almost never used in a repeated 
+rendering mode, and because repeat mode <span class="code">
+TRUE</span> for 3D textures can produce odd 
+rendering artifacts.</p>
+
+<h1><a name="Nodereference"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+33.4 Node reference</h1>
+
+<h2><a name="ComposedTexture3D"></a>33.4.1 ComposedTexture3D</h2>
+
+<pre>
+ComposedTexture3D : X3DTexture3DNode {
+  SFNode [in,out] metadata          NULL  [X3DMetadataObject]
+  MFNode [in,out] texture           []    [X3DTexture2DNode]
+  SFNode []       textureProperties NULL  [TextureProperties]
+  SFBool []       repeatS           FALSE
+  SFBool []       repeatR           FALSE
+  SFBool []       repeatT           FALSE
+}
+</pre>
+
+<p>The ComposedTexture3D node defines a 3D image-based texture map as a&nbsp; 
+collection of 2D texture sources at various depths and parameters controlling 
+tiling repetition of the texture onto geometry.</p>
+
+<p>The texture values are interpreted with the first image being at depth 0 and 
+each following image representing an increasing depth value in the R direction. 
+A user shall provide 2<sup>n</sup> source textures in this array. The individual 
+source textures will ignore their <i>repeat</i> field values.</p> 
+
+<p>See <a href="#Concepts">33.2 Concepts</a>, for a general description of 
+texture maps.</p>
+
+<p>See <a href="texturing.html">18 Texturing component</a> for a general 
+description of the <i><a href="texturing.html#X3DTexture2DNode">X3DTexture2DNode</a></i> abstract type and interpretation of 
+rendering for 2D images. When used as a source for cubic environment maps, the 
+fields <i>repeatS</i> and <i>repeatT</i> fields shall be ignored.</p>
+
+<h2><a name="ImageTexture3D"></a>33.4.2 ImageTexture3D</h2>
+
+<pre>
+ImageTexture3D : X3DTexture3DNode, X3DUrlObject {
+  SFNode   [in,out] metadata          NULL  [X3DMetadataObject]
+  MFString [in,out] url               []    [URI]
+  SFBool   []       repeatS           FALSE
+  SFBool   []       repeatT           FALSE
+  SFBool   []       repeatR           FALSE
+  SFNode   []       textureProperties NULL  [TextureProperties]
+}
+</pre>
+
+<p>The ImageTexture3D node defines a texture map by specifying a single image 
+file that contains complete 3D data and general parameters for mapping texels to 
+geometry.</p>
+
+<p>The texture is read from the URL specified by the <i>url</i> field. When the
+<i>url</i> field contains no values ([]), texturing is disabled. The <i>url</i> 
+field is defined in <a href="networking.html#URLs">9.2.1 URLs</a>. While there 
+are no required file formats, it is recommended that one of the following 
+formats be supported:</p>
+<ol type="a">
+	<li>DDS (see <a href="../bibliography.html#[DDS]">[DDS]</a>),h</li>
+	<li>DICOM (see <a href="../references.html#[DICOM]">2.[DICOM]</a>),</li>
+	<li>NRRD (see <a href="../bibliography.html#[NRRD]">[NRRD]</a>), and/or</li>
+	<li>.vol (see <a href="../bibliography.html#[VOL]">[VOL]</a>).</li>
+</ol>
+
+<p>See <a href="#Concepts">33.2 Concepts</a> for a general description of 
+texture maps.</p>
+
+<h2><a name="PixelTexture3D"></a>33.4.3 PixelTexture3D</h2>
+
+<pre>
+PixelTexture3D : X3DTexture3DNode {
+  SFNode  [in,out] metadata          NULL      [X3DMetadataObject]
+  MFInt32 [in,out] image             [0 0 0 0]
+  SFBool  []       repeatS           FALSE
+  SFBool  []       repeatR           FALSE
+  SFBool  []       repeatT           FALSE
+  SFNode  []       textureProperties NULL      [TextureProperties]
+}
+</pre>
+
+<p>The PixelTexture3D node defines a 3D image-based texture map as an explicit 
+array of pixel values (image field) and parameters controlling tiling repetition 
+of the texture onto geometry.</p>
+
+<p>The <i>image</i> field describes the raw data to be used for this 3D texture. 
+The first value of the array is the number of components to the image and shall 
+be a value between 0 and 4. The following three numbers are the size of the 
+texture: width, height and depth, respectively. The remaining values of the 
+array are treated as the pixels for the image. There shall be at least width × 
+height × depth number of pixel values provided. Each of the width, height and 
+depth values is required to be a power of two.</p>
+
+<p>See <a href="#Concepts">33.2 Concepts</a> for a general description of 3D 
+texture maps.</p>
+
+<p>See <a href="lighting.html">17 Lighting component</a> for a description of 
+how the texture values interact with the appearance of the geometry. <a href="../fieldsDef.html#SFImage">
+5.7 SFImage and MFImage</a>  describes the specification of an image.</p>
+
+<h2><a name="TextureCoordinate3D"></a>33.4.4 TextureCoordinate3D</h2>
+
+<pre>
+TextureCoordinate3D : X3DTextureCoordinateNode {
+  SFNode  [in,out] metadata NULL [X3DMetadataObject]
+  MFVec3f [in,out] point    []   (-&#8734;,&#8734;)
+}
+</pre>
+
+<p>The TextureCoordinate3D node is a geometry property node that specifies a set 
+of 3D texture coordinates used by vertex-based geometry nodes (<i>e.g.</i>, 
+<a href="geometry3D.html#IndexedFaceSet">IndexedFaceSet</a> and 
+<a href="geometry3D.html#ElevationGrid">ElevationGrid</a>) to map 3D textures to vertices.</p>
+
+<p>Providing 3D texture coordinates to objects that only have 2D textures 
+defined shall result in implementation dependent rendering.</p>
+
+<h2><a name="TextureCoordinate4D"></a>33.4.5 TextureCoordinate4D</h2>
+
+<pre>
+TextureCoordinate4D : X3DTextureCoordinateNode {
+  SFNode  [in,out] metadata NULL [X3DMetadataObject]
+  MFVec4f [in,out] point    []   (-&#8734;,&#8734;)
+}
+</pre>
+
+<p>The TextureCoordinate4D node is a geometry property node that specifies a set 
+of 4D (homogeneous 3D) texture coordinates used by vertex-based geometry nodes (<i>e.g.</i>, 
+<a href="geometry3D.html#IndexedFaceSet">IndexedFaceSet</a> and 
+<a href="geometry3D.html#ElevationGrid">ElevationGrid</a>) to map 3D textures to vertices.</p>
+
+<p>Providing 4D texture coordinates to objects that only have 2D textures 
+defined shall result in implementation dependent rendering.</p>
+
+<h2><a name="TextureTransformMatrix3D"></a>33.4.6 TextureTransformMatrix3D</h2>
+
+<pre>
+TextureTransformMatrix3D : X3DTextureTransformNode {
+  SFNode     [in,out] metadata    NULL    [X3DMetadataObject]
+  SFMatrix4f [in,out] matrix      1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1  (-&#8734;,&#8734;)
+}
+</pre>
+
+<p>The <i>matrix</i> field specifies a generalized, unfiltered 4×4 
+transformation matrix that can be used to modify the texture. Any set of values 
+is permitted. 
+</p>
+
+<h2><a name="TextureTransform3D"></a>33.4.7 TextureTransform3D</h2>
+
+<pre>
+TextureTransform3D : X3DTextureTransformNode {
+  SFVec3f    [in,out] center      0 0 0   (-&#8734;,&#8734;)
+  SFNode     [in,out] metadata    NULL    [X3DMetadataObject]
+  SFRotation [in,out] rotation    0 0 1 0 (-&#8734;,&#8734;)
+  SFVec3f    [in,out] scale       1 1 1   (-&#8734;,&#8734;)
+  SFVec3f    [in,out] translation 0 0 0   (-&#8734;,&#8734;)
+}
+</pre>
+
+<p>The TextureTransform3D node specifies a 3D transformation that is applied to 
+texture coordinates (see <a href="#TextureCoordinate3D">33.4.4 
+TextureCoordinate3D</a>). This node affects the way texture coordinates are 
+applied to the geometric surface. The transformation consists of (in order):</p>
+
+<ol type="a">
+<li>a translation;</li>
+<li>a rotation about the centre point; and</li>
+<li>a non-uniform scale about the centre point.</li>
+</ol>
+
+<p>These parameters support changes to the size, orientation, and position of 
+textures on shapes. These operations appear reversed when viewed on the surface 
+of geometry.</p>
+<p class="Example">EXAMPLE&nbsp; A scale value of (1 2 2) will scale the texture 
+coordinates and have the net effect of shrinking the texture size by a factor of 
+2 (texture coordinates are twice as large and thus cause the texture to repeat) 
+in the T and R dimensions and leave the S dimension unscaled. A translation of 
+(0.5 0.0 0.0) translates the texture coordinates +0.5 units along the S-axis and 
+has the net effect of translating the texture -0.5 along the S-axis on the 
+geometry&#39;s surface. A rotation of
+<font face="Times New Roman" style="font-size: 120%">π</font>/2 of the texture 
+coordinates results in a -<font face="Times New Roman" style="font-size: 120%">π</font>/2 
+rotation of the texture on the geometry.</p>
+
+<p>The <i>center</i> field specifies a translation offset in texture coordinate space 
+about which the <i>rotation</i> and <i>scale</i> fields are applied. The <i>scale</i> field specifies 
+a scaling factor in S, T and R of the texture coordinates about the center 
+point. All <i>scale</i> values shall be in the range (-&#8734;,&#8734;). The <i>rotation</i> field specifies a 
+rotation of the texture coordinates about the center point after the 
+scale has been applied. A positive rotation value makes the texture coordinates 
+rotate counterclockwise about the centre, thereby rotating the appearance of the 
+texture itself clockwise. The <i>translation</i> field specifies a translation of the 
+texture coordinates.</p>
+
+<p>A 3D transform may be applied to 2D textures. The results are implementation 
+dependent.</p>
+
+<h1><a name="SupportLevels"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+33.5 Support levels</h1>
+
+<p>The 3D Texturing component defines two levels of support as specified in
+<a href="#t-supportlevels">Table 33.2</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption"><a name="t-supportlevels"></a>
+Table 33.2 &#8212; 3D texturing component support levels</p>
+<table>
+<tr><th>Level</th><th>Prerequisites</th><th>Nodes/Features</th><th>Support</th></tr>
+<tr><td align="center"><b>1</b></td>
+    <td>Core 1<br> Grouping 1<br> Shape 1<br>Rendering 1<br> Texturing 1</td>
+    <td></td><td></td></tr>
+<tr><td align="center"></td><td></td>
+    <td><i>X3DTexture3DNode</i></td>
+    <td>n/a</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>TextureMatrixTransform</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>TextureTransform3D</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>TextureCoordinate3D</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>TextureCoordinate4D</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>ComposedTexture3D</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>PixelTexture3D</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"><b>2</b></td>
+    <td>Core 1<br> Grouping 1<br> Shape 1<br>Rendering 1<br> Texturing 1</td>
+    <td></td><td></td></tr>
+<tr><td align="center"></td><td></td>
+    <td>ImageTexture3D</td>
+    <td>All fields fully supported.</td>
+</tr>
+</table>
+</div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

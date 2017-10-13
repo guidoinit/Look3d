@@ -1,0 +1,1479 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 18 Texturing component</title>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+
+</head>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">18 Texturing component</p>
+
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+18.1 Introduction</h1>
+<h2><a name="Name"></a>18.1.1 Name</h2>
+<p>The name of this component is &quot;Texturing&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>18.1.2 Overview</h2>
+
+<p>This clause describes the Texturing component of this part of ISO/IEC 19775. 
+  This includes how textures are specified and how they are positioned on the 
+  subject geometry. 
+<a href="#t-Topics">Table 18.1</a> provides links to the 
+  major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 18.1 &#8212; Topics</p>
+
+<table class="topics">
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">18.1 Introduction</a>
+          <ul>
+            <li><a href="#Name">18.1.1 Name</a></li>
+            <li><a href="#Overview">18.1.2 Overview</a></li>
+          </ul></li>
+          <li><a href="#Concepts">18.2 Concepts</a> 
+            <ul>
+              <li><a href="#TextureMapFormats">18.2.1 Texture map formats</a></li> 
+              <li><a href="#TextureMapImageFormats">18.2.2 Texture map image formats</a></li> 
+              <li><a href="#Texturecoordinates">18.2.3 Texture coordinates</a></li> 
+              <li><a href="#Multitexturing">18.2.4 Multitexturing</a></li>
+			  <li><a href="#ProgrammableShaders">18.2.5 Programmable shaders</a></li> 
+            </ul></li>
+          <li> <a href="#Abstracttypes">18.3 Abstract types</a>  
+            <ul>
+              <li><a href="#X3DTextureCoordinateNode">18.3.1 <i>X3DTextureCoordinateNode</i></a></li>
+              <li><a href="#X3DTextureNode">18.3.2 <i>X3DTextureNode</i></a></li>
+              <li><a href="#X3DTexture2DNode">18.3.3 <i>X3DTexture2DNode</i></a></li>
+              <li><a href="#X3DTextureTransformNode">18.3.4 <i>X3DTextureTransformNode</i></a></li>
+            </ul></li>
+          <li> <a href="#Nodereference">18.4 Node reference</a>  
+            <ul>
+              <li><a href="#ImageTexture">18.4.1 ImageTexture</a></li> 
+              <li><a href="#MovieTexture">18.4.2 MovieTexture</a></li> 
+              <li><a href="#MultiTexture">18.4.3 MultiTexture</a></li> 
+              <li><a href="#MultiTextureCoordinate">18.4.4 MultiTextureCoordinate</a></li> 
+              <li><a href="#MultiTextureTransform">18.4.5 MultiTextureTransform</a></li> 
+              <li><a href="#PixelTexture">18.4.6 PixelTexture</a></li> 
+              <li><a href="#TextureCoordinate">18.4.7 TextureCoordinate</a></li> 
+              <li><a href="#TextureCoordinateGenerator">18.4.8 TextureCoordinateGenerator</a></li>
+			  <li><a href="#TextureProperties">18.4.9 TextureProperties</a></li>
+              <li><a href="#TextureTransform">18.4.10 TextureTransform</a></li>
+            </ul></li>
+          <li> <a href="#SupportLevels">18.5 Support levels</a></li>  
+        </ul>
+        <ul>
+          <li><a href="#f-TextureMapCoordSystem">Figure 18.1 &#8212; Texture map coordinate system</a></li> 
+          <li><a href="#f-Lightmapexample">Figure 18.2 &#8212; Lightmap example</a></li>
+        </ul>
+        <ul>
+          <li><a href="#t-Topics">Table 18.1 &#8212; Topics</a></li>
+          <li><a href="#t-SingleAndMultitextureAttrs">Table 18.2 &#8212; Comparison of single texture and multitexture attributes</a></li>
+          <li><a href="#t-MultitextureModes">Table 18.3 &#8212; Multitexture modes</a></li>
+          <li><a href="#t-ValuesForSourceField">Table 18.4 &#8212; Values for the <i>source</i> field</a></li>
+          <li><a href="#t-ValuesForFunctionField">Table 18.5 &#8212; Values for the <i>function</i> field</a></li>
+          <li><a href="#t-Texturecoordgeneration">Table 18.6 &#8212; Texture coordinate generation modes</a></li>
+          <li><a href="#t-TextureBoundaryModes">Table 18.7 &#8212; Texture boundary modes</a></li>
+          <li><a href="#t-TextureMagnificationModes">Table 18.8 &#8212; Texture magnification modes</a></li>
+          <li><a href="#t-TextureMinificationModes">Table 18.9 &#8212; Texture minification modes</a></li>
+          <li><a href="#t-TextureCompressionModes">Table 18.10 &#8212; Texture compression modes</a></li> 
+          <li><a href="#t-SupportLevels">Table 18.11 &#8212; Texturing component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>
+18.2 Concepts</h1>
+
+<h2><a name="TextureMapFormats"></a>18.2.1 Texture map formats</h2>
+
+<p>Node types specifying texture maps include 
+<a href="enveffects.html#Background">Background</a>, 
+<a href="#ImageTexture">ImageTexture</a>, 
+<a href="#MovieTexture">MovieTexture</a>, 
+<a href="#MultiTexture">MultiTexture</a>, and 
+<a href="#MultiTextureTransform">PixelTexture</a>. 
+  In all cases, texture maps are defined by 2D images that contain an array of 
+  colour values describing the texture. The texture map values are interpreted 
+  differently depending on the number of components in the texture map and the 
+  specifics of the image format. In general, texture maps may be described using 
+  one of the following forms:</p>
+
+<ol type="a">
+  <li><i>Intensity textures</i> (one-component)</li>
+  <li><i>Intensity plus alpha opacity textures</i> (two-component)</li>
+  <li><i>Full RGB textures</i> (three-component)</li>
+  <li><i>Full RGB plus alpha opacity textures</i> (four-component)</li>
+</ol>
+
+<p>Note that  image formats specify  alpha (<i>i.e.</i>, opacity), not transparency (where 
+  alpha&nbsp;=&nbsp;1&nbsp;&minus;&nbsp;transparency).</p>
+
+<p>See <a href="lighting.html">17 Lighting component</a> for 
+  a description of how the various texture types are applied.</p>
+
+<p>This part of ISO/IEC 19775 only supports two-dimensional map formats. See
+<a href="texture3D.html">33 Texturing3D component</a> for a description of the 
+use of 3D textures and <a href="env_texture.html">34 Cube map environmental 
+texture component</a> for a description of the use of cube map textures.</p>
+
+<h2><a name="TextureMapImageFormats"></a>18.2.2 Texture map image formats</h2>
+
+<p>Texture nodes that require support for the PNG (see
+<a href="../references.html#[I15948]">2.[I15948]</a>) 
+  image format shall interpret the PNG pixel formats in the following way:</p>
+
+<ol type="a">
+  <li>Greyscale pixels without alpha or simple 
+    transparency are treated as intensity textures.</li>
+  <li>Greyscale pixels with alpha or simple transparency 
+    are treated as intensity plus alpha textures.</li>
+  <li>RGB pixels without alpha channel or simple 
+    transparency are treated as full RGB textures.</li>
+  <li>RGB pixels with alpha channel or simple transparency 
+    are treated as full RGB plus alpha textures.</li>
+</ol>
+
+<p>If the image specifies colours as indexed-colour (<i>i.e.</i>,&nbsp;palettes or colourmaps), 
+  the following semantics shall be used (where `greyscale' refers to a palette 
+  entry with equal red, green, and blue values):</p>
+
+<ol type="a" start="5">
+  <li>If all the colours in the palette are greyscale 
+    and there is no transparency chunk, it is treated as an intensity texture.</li>
+  <li>If all the colours in the palette are greyscale 
+    and there is a transparency chunk, it is treated as an intensity plus opacity 
+    texture.</li>
+  <li>If any colour in the palette is not grey 
+    and there is no transparency chunk, it is treated as a full RGB texture.</li>
+  <li>If any colour in the palette is not grey 
+    and there is a transparency chunk, it is treated as a full RGB plus alpha 
+    texture.</li>
+</ol>
+
+<p>Texture nodes that require support for JPEG files (see 
+<a href="../references.html#[JPEG]">2.[JPEG]</a>) 
+  shall interpret JPEG files as follows:</p>
+
+<ol type="a" start="9">
+  <li>Greyscale files (number of components equals 
+    1) are treated as intensity textures.</li>
+  <li>YCbCr files are treated as full RGB textures.</li>
+  <li>No other JPEG file types are required. It 
+    is recommended that other JPEG files are treated as a full RGB textures.</li>
+</ol>
+
+<p>Texture nodes that support MPEG files (see
+<a href="../references.html#[I11172_1]">ISO/IEC 11172-1]</a>) 
+  shall treat MPEG files as full RGB textures.</p>
+
+<p>Texture nodes that recommend support for GIF files (see 
+<a href="../bibliography.html#[GIF]">[GIF]</a>) 
+  shall follow the applicable semantics described above for the PNG format.</p>
+<p>Texture nodes that recommend support for Joint Photographic Experts Group 
+(JPEG) 2000, Geographic Tagged Image File Format (GeoTIFF), National Imagery 
+Transmission Format (NITF) or Basic Image Interchange Format (BIIF) formats 
+shall follow the applicable semantics described above for the PNG format.</p>
+
+<h2><a name="Texturecoordinates"></a>
+18.2.3 Texture coordinates</h2>
+
+<p>Texture maps are defined in a 2D coordinate system (s,&nbsp;t) 
+  that ranges from [0.0, 1.0] in both directions. The bottom edge of the image 
+  corresponds to the S-axis of the texture map, and left edge of the image corresponds 
+  to the T-axis of the texture map. The lower-left pixel of the image corresponds 
+  to s=0, t=0, and the top-right pixel of the image corresponds to s=1, t=1. Texture 
+  maps may be viewed as two dimensional colour functions that, given an <i>(s,&nbsp;t)</i> 
+  coordinate, return a colour value <i>colour(s,&nbsp;t)</i>. These relationships 
+  are depicted in 
+<a href="#f-TextureMapCoordSystem">Figure 18.1</a>.</p>
+
+<div class="CenterDiv">
+
+<a name="f-TextureMapCoordSystem"></a>
+<img src="../../Images/ImageTexture.gif" alt="Texture map coord system" width="413" height="228"> 
+
+<p class="FigureCaption">
+Figure 18.1 &#8212; Texture map coordinate system</p>
+
+</div>
+
+<p>The texture map nodes 
+<a href="#ImageTexture">ImageTexture</a>, 
+<a href="#MovieTexture">MovieTexture</a>, and 
+<a href="#PixelTexture">PixelTexture</a> 
+  contain two fields, <i>repeatS</i> and <i>repeatT, </i>that specify how the 
+  texture wraps in the S and T directions. If <i>repeatS</i> is <code>TRUE</code> 
+  (the default), the texture map is repeated outside the [0.0,&nbsp;1.0] texture 
+  coordinate range in the S direction so that it fills the shape. If <i>repeatS</i> 
+  is <code>FALSE</code>, the texture coordinates are clamped 
+  in the S direction to lie within the [0.0,&nbsp;1.0] range. The <i>repeatT</i> 
+  field is analogous to the <i>repeatS</i> field.</p>
+<p>Textures nodes with a <i>textureProperties</i> field allow fined grained 
+control of the texture setup including further modes for handling clamping and 
+repeating texture coordinates and specifying how a texture should be filtered. 
+Texture nodes with a provided <a href="#TextureProperties">TextureProperties</a> node shall ignore the settings 
+of <i>repeatS</i> and <i>repeatT</i> and shall use the provided values in the <i>
+boundaryMode</i> fields.</p>
+
+<p>Each vertex-based geometry node (<i>e.g.</i>,&nbsp;<a href="geometry3D.html#IndexedFaceSet">IndexedFaceSet</a> and 
+  <a href="geometry3D.html#ElevationGrid">ElevationGrid</a>) uses a set of 2D texture coordinates that map textures to vertices. 
+  Texture coordinates for geometry nodes are specified using the <a href="#TextureCoordinate">TextureCoordinate</a> 
+  and 
+<a href="#TextureCoordinateGenerator">TextureCoordinateGenerator</a> nodes. 
+  Texture map values (ImageTexture, 
+MovieTexture, and PixelTexture) 
+range from [0.0, 1.0] along the S-axis and T-axis. 
+However, texture coordinate values may be in the range 
+(&minus;&#8734;,&#8734;). Texture coordinates identify a location 
+  (and thus a colour value) in the texture map. The horizontal coordinate <i>s</i> 
+  is specified first, followed by the vertical coordinate <i>t</i>.</p>
+
+<p>If the texture map is repeated in a given direction (S-axis or 
+  T-axis), a texture coordinate C (s or t) is mapped into a texture map that has 
+  N pixels in the given direction as follows:</p>
+
+<pre class="listing">    Texture map location = (C &minus; floor(C)) &times; N
+</pre>
+
+<p>If the texture map is not repeated, the texture coordinates are 
+  clamped to the 0.0 to 1.0 range as follows:</p>
+
+<pre class="listing">    Texture map location = N,     if C &gt; 1.0,
+                         = 0.0,   if C &lt; 0.0,
+                         = C &times; N, if 0.0 &le; C &le; 1.0.
+</pre>
+
+<p>Texture coordinates may be transformed (scaled, rotated, translated) 
+  by supplying a <a href="#TextureTransform">TextureTransform</a> node as a component 
+  of the texture's containing <a href="shape.html#Appearance">Appearance</a> 
+  node.</p>
+
+<p>Details on repeating textures are specific to texture map node 
+  types described in 
+ImageTexture, 
+MovieTexture, and PixelTexture.</p>
+
+<h2><a name="Multitexturing"></a>
+18.2.4 Multitexturing</h2>
+
+<p>Multiple textures may be applied to a single geometry node and blended according 
+  to a predefined set of operations. This enables a variety of visual effects 
+  that include light mapping and environment mapping. Multiple textures may be applied 
+  using multi-stage or multi-pass techniques, depending upon the available hardware. 
+  The number of textures to be blended may have a significant impact on performance, 
+  depending upon the available hardware.</p>
+
+<p><a href="#f-Lightmapexample">Figure 18.2</a> depicts an example of 
+light mapping, simulating a pre-lit object. Texture 2 
+  is added on top of texture 1.</p>
+
+<div class="CenterDiv">
+
+<p class="FigureCaption"><a name="f-Lightmapexample"></a>
+Base Texture 
+<img class="multi" src="../../Images/MTimage002.gif" alt=" Base Texture" width="128" height="128"> + Lightmap
+<img class="multi" src="../../Images/MTimage004.jpg" alt=" Plus Lightmap" width="128" height="128"> = Result 
+<img class="multi" src="../../Images/MTimage006.jpg" alt="equals Result" width="128" height="128">
+</p>
+
+<p class="FigureCaption">
+Figure 18.2 &#8212; Lightmap example</p>
+
+</div>
+
+<p>Multitexturing is accomplished using the 
+<a href="#MultiTexture">MultiTexture</a>, 
+<a href="#MultiTextureCoordinate">MultiTextureCoordinate</a>, and
+<a href="#MultiTextureTransform">MultiTextureTransform</a> nodes. 
+MultiTexture 
+  specifies a grouping of single textures and texture transformations. MultiTextureCoordinate 
+  specifies a grouping of texture coordinates to be used with the associated textures. 
+MultiTextureTransform specifies a grouping of texture transforms to be used with 
+the associated textures.</p>
+
+<p><a href="#t-SingleAndMultitextureAttrs">Table 18.2</a> compares the usage of 
+single texture and multitexture attributes within 
+<a href="shape.html#Appearance">Appearance</a> 
+and geometry nodes.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-SingleAndMultitextureAttrs"></a>
+Table 18.2: Comparison of single texture and multitexture attributes</p>
+
+<table>
+  <tr> 
+    <th>Texture Node
+        appearance.texture</th>
+    <th>Texture Transform</th>
+    <th>Texture coordinate
+        geometry.texCoord</th>
+    <th>Texture mode</th>
+  </tr>
+  <tr> 
+    <td><b>ImageTexture</b> { ...}</td>
+    <td> 
+  <p><b>appearance.textureTransform</b><br>
+<b>TextureTransform</b> {}</p>
+</td>
+    <td><b>TextureCoordinate</b> { <b>coord</b> [ ] }</td>
+    <td>implicit in lighting model:<br>
+        <span class="code">[&quot;REPLACE&quot; &quot;MODULATE&quot;]</span></td>
+  </tr>
+  <tr> 
+    <td><b>MultiTexture</b> {<br>
+        <b>texture</b> [<br>
+        ImageTexture&nbsp;{ ...}<br>
+        ImageTexture { ...}<br>
+        ]}
+</td>
+    <td><b>MultiTexture</b> {<br>
+        <b>textureTransform</b> [<br>
+        TextureTransform { ...}<br>
+        TextureTransform { ...}<br>
+        ]}
+</td>
+    <td><b>MultiTextureCoordinate</b> {<br>
+        <b>coord</b> [<br>
+        TextureCoordinate { coord [ ] }TextureCoordinate { coord [ ] }<br>
+        ]}
+</td>
+    <td><b>MultiTexture</b> {<br>
+        <b>mode</b> <span class="code">[<br>
+        &quot;MODULATE&quot;<br>
+        &quot;MODULATE&quot;<br>
+        ]</span>}</td>
+  </tr>
+</table>
+</div>
+
+<h2><a name="ProgrammableShaders"></a>18.2.5 Programmable shaders</h2>
+<p>If a programmable shader is defined for the <a href="shape.html#Appearance">Appearance</a> node containing 
+textures, texture mapping shall be disabled. Textures defined shall be 
+considered as sources of input and/or output for a programmable shader. See
+<a href="shaders.html#Perobjectattributes">31.2.2.5 Per-object attributes</a> 
+for details on how to map textures to shader program inputs.</p>
+
+<h1><img src="../../Images/cube.gif" width="20" height="19" alt="cube">
+<a name="Abstracttypes"></a>
+18.3 Abstract types</h1>
+<h2><a name="X3DTextureCoordinateNode"></a>
+18.3.1 <i>X3DTextureCoordinateNode</i></h2>
+
+<pre class="node">X3DTextureCoordinateNode : X3DGeometricPropertyNode { 
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This abstract node type is the base type for all node types 
+    which specify texture coordinates. It adds a new geometric property node type 
+    to those specified in <a href="rendering.html">11 Rendering component</a>.</p>
+
+<h2><a name="X3DTextureNode"></a>
+18.3.2 <i>X3DTextureNode</i></h2>
+
+<pre class="node">X3DTextureNode : X3DAppearanceChildNode { 
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This abstract node type is the base type for all node types 
+    which specify sources for texture images.</p>
+
+<h2><a name="X3DTexture2DNode"></a>
+18.3.3 <i>X3DTexture2DNode</i></h2>
+
+<pre class="node">X3DTexture2DNode : X3DTextureNode {
+  SFNode [in,out] metadata          NULL [X3DMetadataObject]
+  SFBool []       repeatS           TRUE
+  SFBool []       repeatT           TRUE
+  SFNode []       textureProperties NULL [TextureProperties]
+}
+</pre>
+
+<p>This abstract node type is the base type for all node types 
+    which specify 2D sources for texture images.</p>
+
+<h2><a name="X3DTextureTransformNode"></a>
+18.3.4 <i>X3DTextureTransformNode</i></h2>
+
+<pre class="node">X3DTextureTransformNode : X3DAppearanceChildNode { 
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This abstract node type is the base type for all node types 
+    which specify a transformation of texture coordinates.</p>
+
+<h1><img src="../../Images/cube.gif" width="20" height="19" alt="cube">
+<a name="Nodereference"></a>18.4 Node reference</h1>
+
+<h2><a name="ImageTexture"></a>18.4.1 ImageTexture</h2>
+
+<pre class="node">ImageTexture : X3DTexture2DNode, X3DUrlObject { 
+  SFNode   [in,out] metadata          NULL [X3DMetadataObject]
+  MFString [in,out] url               []   [URI]
+  SFBool   []       repeatS           TRUE 
+  SFBool   []       repeatT           TRUE
+  SFNode   []       textureProperties NULL [TextureProperties]
+}
+</pre>
+
+<p>The ImageTexture node defines a texture map by specifying an 
+    image file and general parameters for mapping to geometry.</p>
+
+  <p>The texture is read from the URL specified by the <i>url</i> 
+    field. When the <i>url</i> field contains no values ([]), texturing is disabled. 
+    Browsers shall support the JPEG (see 
+<a href="../references.html#[JPEG]">2. [JPEG]</a>) 
+    and PNG (see&nbsp;<a href="../references.html#[I15948]">ISO/IEC 15948</a>) image 
+    file formats. In addition, browsers may support other image formats (<span class="code">EXAMPLE</span> 
+  &nbsp;CGM, <a href="../references.html#[I8632]">ISO/IEC 8632</a>) that can be rendered into 
+    a 2D image. Support for the GIF format (see 
+<a href="../bibliography.html#[GIF]">[GIF]</a>) 
+    is also recommended (including transparency). Details on the <i>url</i> field 
+    can be found in <a href="networking.html#URLs">9.2.1 URLs</a>.</p>
+
+  <p>See <a href="#Concepts">18.2 Concepts</a>, for a general 
+    description of texture maps.</p>
+
+  <p>See <a href="lighting.html">17 Lighting component</a> for a description 
+    of lighting equations and the interaction between textures, materials, and 
+    geometry appearance.</p>
+
+<h2><a name="MovieTexture"></a>
+18.4.2 MovieTexture</h2>
+
+<pre class="node">MovieTexture : X3DTexture2DNode, X3DSoundSourceNode, X3DUrlObject { 
+  SFString [in,out] description       &quot;&quot;
+  SFBool   [in,out] loop              FALSE
+  SFNode   [in,out] metadata          NULL  [X3DMetadataObject]
+  SFTime   [in,out] pauseTime         0     (-&#8734;,&#8734;)
+  SFFloat  [in,out] pitch             1.0   (0,&#8734;)
+  SFTime   [in,out] resumeTime        0     (-&#8734;,&#8734;)
+  SFFloat  [in,out] speed             1.0   (-&#8734;,&#8734;)
+  SFTime   [in,out] startTime         0     (-&#8734;,&#8734;)
+  SFTime   [in,out] stopTime          0     (-&#8734;,&#8734;)
+  MFString [in,out] url               []    [URI]
+  SFTime   [out]    duration_changed
+  SFTime   [out]    elapsedTime
+  SFBool   [out]    isActive
+  SFBool   [out]    isPaused
+  SFBool   []       repeatS           TRUE
+  SFBool   []       repeatT           TRUE
+  SFNode   []       textureProperties NULL [TextureProperties]
+}
+</pre>
+
+<p>The MovieTexture node defines a time dependent texture map (contained 
+    in a movie file) and parameters for controlling the movie and the texture 
+    mapping. A MovieTexture node can also be used as the source of sound data 
+    for a <a href="sound.html#Sound">Sound</a> node. In this 
+    special case, the MovieTexture node is not used for rendering.</p>
+
+  <p>The <i>url</i> field that defines the movie data shall support 
+    MPEG1-Systems (audio and video) or MPEG1-Video (video-only) movie file formats 
+  as defined in <a href="../references.html#[I11172_1]">ISO/IEC 11172-1</a>. 
+Details on the <i>url</i> field can be 
+    found in <a href="networking.html#URLs">9.2.1 URLs</a>.</p>
+
+  <p>MovieTexture nodes can be referenced by an <a href="shape.html#Appearance">Appearance</a> node's 
+    <i>texture</i> field (as a movie texture) and by a 
+	<a href="sound.html#Sound">Sound</a> node's <i>source</i> 
+    field (as an audio source only).</p>
+
+  <p>As soon as the movie is loaded, a <i>duration_changed</i> field 
+    is sent. This indicates the duration of the movie in seconds. This field value 
+    can be read (for instance, by a <a href="scripting.html#Script">Script</a> node) to determine the duration of 
+    a movie. A value of &quot;-1&quot; implies the movie has not yet loaded or 
+    the value is unavailable for some reason.</p>
+
+  <p>The<i> loop, pauseTime, resumeTime, startTime,</i> and<i> stopTime</i> inputOutput fields 
+          and the <i>elapsedTime, isActive, </i>and<i> isPaused</i> outputOnly 
+  fields, and their effects on the MovieTexture node, are discussed 
+    in detail in <a href="time.html">8 Time component</a>. 
+    The cycle<i> </i>of a MovieTexture node is the length of time in seconds for 
+    one playing of the movie at the specified <i>speed</i>.</p>
+
+  <p>The <i>speed</i> field indicates how fast the movie shall be 
+    played. A <i>speed</i> of 2 indicates the movie plays twice as fast. 
+The <i>duration_changed</i> 
+    output is not affected by the <i>speed</i> field. <i>set_speed</i> events 
+    are ignored while the movie is playing. A negative <i>speed</i> implies that 
+    the movie will play backwards.</p>
+
+  <p>If a MovieTexture node is inactive when the movie is first loaded, 
+    frame 0 of the movie texture is displayed if <i>speed</i> is non-negative 
+    or the last frame of the movie texture is shown if <i>speed</i> is negative 
+(see <a href="time.html#Time-dependent">8.2.4 Time-dependent nodes</a>). 
+    A MovieTexture node shall display frame 0 if <i>speed</i> = 0. For positive 
+    values of <i>speed</i>, an active MovieTexture node displays the frame at 
+    movie time <i>t</i> as follows (<i>i.e.</i>,&nbsp;in the movie's local time system 
+    with frame 0 at time 0 with <i>speed</i> = 1):</p>
+
+<pre class="listing">    t = (now &minus; startTime) modulo (<tt>duration</tt>/speed)
+</pre>
+
+  <p>If <i>speed</i> is negative, the MovieTexture node displays 
+    the frame at movie time:</p>
+
+<pre class="listing">
+    t = duration - ((now - startTime) modulo |duration/speed|)
+</pre>
+
+<p>When a MovieTexture node becomes inactive, the frame corresponding 
+    to the time at which the MovieTexture became inactive will remain as the texture.</p>
+
+  <p>See <a href="#Concepts">18.2 Concepts</a>, for a general 
+    description of texture maps.</p>
+
+  <p><a href="lighting.html">17 Lighting component</a> contains 
+details on lighting equations and the interaction between 
+    textures, materials, and geometries.</p>
+
+<h2><a name="MultiTexture"></a>18.4.3 MultiTexture</h2>
+
+<pre class="node">MultiTexture : X3DTextureNode {
+  SFFloat  [in,out] alpha    1     [0,1]
+  SFColor  [in,out] color    1 1 1 [0,1] 
+  MFString [in,out] function []
+  SFNode   [in,out] metadata NULL  [X3DMetadataObject]
+  MFString [in,out] mode     []
+  MFString [in,out] source   []
+  MFNode   [in,out] texture  []    [X3DTextureNode]
+}
+</pre>
+
+  <p>The MultiTexture node specifies the application of several individual textures to a 3D object 
+  to achieve a more complex visual effect. MultiTexture 
+    can be used as a value for the texture field in an 
+	<a href="shape.html#Appearance">Appearance</a> node.</p>
+
+  <p>The <strong style="font-weight: 400; font-style: italic">texture</strong> field contains a list of 
+  texture 
+    nodes (<i>e.g.</i>, <a href="#ImageTexture">ImageTexture</a>, 
+	<a href="#PixelTexture">PixelTexture</a>, and <a href="#MovieTexture">MovieTexture</a>). 
+  The texture field may not contain another MultiTexture node.</p>
+  <p>The <i>color</i> and <i>alpha</i> fields define base RGB and alpha values 
+  for <span class="code">SELECT</span> mode operations.</p>
+
+  <p>The <i>mode</i> 
+	field controls the type of blending operation. The available modes include&nbsp;<span class="code">MODULATE</span> 
+	for a lit Appearance, <span class="example">REPLACE</span> 
+	for an unlit Appearance, and several variations of the two. The value chosen 
+	for the <em>mode</em> field may also specify the blending mode for the alpha 
+	channel.</p>
+<p class="Example">EXAMPLE&nbsp; The mode value &#39;&quot;<span class="code">MODULATE&quot;,&quot;REPLACE</span>&quot;&#39; 
+specifies Color = (Arg1.color × Arg2.color, Arg1.alpha).</p>
+<p>The number of used texture stages is determined by the length of the texture 
+field. If there are fewer mode values, the default mode is &quot;<span class="code">MODULATE</span>&quot;.</p>
+
+  <p><a href="#t-MultitextureModes">Table 18.3</a> lists possible multitexture modes.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-MultitextureModes"></a>Table 18.3 &#8212; Multitexture modes</p>
+
+<table>
+<tr>
+<th>MODE</th>
+<th>Description</th>
+</tr>
+  <tr> 
+    <td><span class="code">&quot;MODULATE&quot; </span>
+	<span class="code" style="font-size: 100%">(default)</span></td>
+    <td>Multiply texture color with current color<br>
+        Arg1 &#215;  Arg2 </td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;REPLACE&quot;</span></td>
+    <td>Replace current color<br>
+        Arg2</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;MODULATE2X&quot;</span></td>
+    <td>Multiply the components of the arguments, and shift the products 
+to the left 1 bit (effectively multiplying them by 2) for brightening.</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;MODULATE4X&quot;</span></td>
+    <td>Multiply the components of the arguments, and shift 
+the products to the left 2 bits (effectively multiplying them by 4) 
+for brightening.</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;ADD&quot;</span></td>
+    <td>Add the components of the arguments<br>
+        Arg1 + Arg2</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;ADDSIGNED&quot;</span></td>
+    <td>Add the components of the arguments with a -0.5 bias, 
+making the effective range of values from &minus;0.5 through 0.5.</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;ADDSIGNED2X&quot; </span> </td>
+    <td>Add the components of the arguments with a -0.5 bias, 
+and shift the products to the left 1 bit. </td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;SUBTRACT&quot;</span></td>
+    <td>Subtract the components of the second argument from those of the 
+first argument.<br>
+       Arg1 &minus; Arg2</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;ADDSMOOTH&quot; </span> </td>
+    <td>Add the first and second arguments, then subtract their product from 
+the sum. <br>
+        Arg1 + Arg2 &minus; Arg1 × Arg2 = Arg1 + (1 &minus; Arg1) × Arg2</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;BLENDDIFFUSEALPHA&quot;</span></td>
+    <td>Linearly blend this texture stage, using the interpolated alpha from 
+each vertex.<br>
+        Arg1 × (Alpha) + Arg2 × (1 &minus; Alpha)</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;BLENDTEXTUREALPHA&quot;</span></td>
+    <td>Linearly blend this texture stage, using the alpha from this stage's 
+texture.<br>
+        Arg1 × (Alpha) + Arg2 × (1 − Alpha)</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;BLENDFACTORALPHA&quot;</span></td>
+    <td>Linearly blend this texture stage, using the alpha factor from the 
+MultiTexture node.<br>
+        Arg1 × (Alpha) + Arg2 × (1 − Alpha)</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;BLENDCURRENTALPHA&quot;</span></td>
+    <td>Linearly blend this texture stage, using the alpha taken from the 
+previous texture stage.<br>
+        Arg1 × (Alpha) + Arg2 × (1 − Alpha)</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;MODULATEALPHA_ADDCOLOR&quot;</span></td>
+    <td>Modulate the color of the second argument, using the alpha of the 
+first argument; then add the result to argument one.<br>
+        Arg1.RGB + Arg1.A × Arg2.RGB</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;MODULATEINVALPHA_ADDCOLOR&quot;</span></td>
+    <td>Similar to MODULATEALPHA_ADDCOLOR, but use the inverse of the alpha 
+of the first argument.<br>
+        (1 − Arg1.A) × Arg2.RGB + Arg1.RGB</td>
+  </tr>
+  <tr> 
+    <td> 
+  <p><span class="code">&quot;MODULATEINVCOLOR_ADDALPHA&quot;</span></p>
+</td>
+    <td>Similar to MODULATECOLOR_ADDALPHA, but use the inverse of the color of 
+    the first argument.<br>
+    (1 − Arg1.RGB) × Arg2.RGB + Arg1.A</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;OFF&quot;</span></td>
+    <td>Turn off the texture unit</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;SELECTARG1&quot;</span></td>
+    <td>Use color argument 1<br>
+        Arg1</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;SELECTARG2&quot;</span></td>
+    <td>Use color argument 1<br>
+        Arg2&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;DOTPRODUCT3&quot;</span></td>
+    <td>Modulate the components of each argument (as signed components), 
+add their products, then replicate the sum to all color channels, 
+including alpha.<br>
+       This can do either diffuse or specular bump mapping with correct 
+input. Performs the function (Arg1.R × Arg2.R + Arg1.G × Arg2.G + Arg1.B × Arg2.B) 
+where each component has been scaled and offset to make it signed. 
+The result is replicated into all four (including alpha) channels.</td>
+  </tr>
+</table>
+</div>
+
+  <p>The <i>source</i> field determines the colour source for the second 
+  argument.
+  <a href="#t-ValuesForSourceField">Table 18.4</a> lists valid values for the <i>
+  source</i> field. Typically, there are the same number of <em>source</em> 
+	field values as textures. Otherwise, the default <em>source</em> field value 
+	is used.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-ValuesForSourceField"></a>Table 18.4 &#8212; Values for the <i>source</i> 
+field</p>
+
+<table>
+<tr>
+<th>MODE</th>
+<th>Description</th>
+</tr>
+  <tr> 
+    <td><span class="code">&quot;&quot;</span>&nbsp;(default)</td>
+    <td>The second argument color (ARG2) is the color from 
+the previous rendering stage (DIFFUSE for first stage).</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;DIFFUSE&quot;</span></td>
+    <td>The texture argument is the diffuse color interpolated 
+from vertex components during Gouraud shading.</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;SPECULAR&quot;&nbsp;&nbsp; </span></td>
+    <td>The texture argument is the specular color interpolated 
+from vertex components during Gouraud shading.</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;FACTOR&quot;</span></td>
+    <td>The texture argument is the factor (color, alpha) from the texture 
+	provided for the current stage of the MultiTexture node.</td>
+  </tr>
+</table>
+</div>
+
+<p>The <i>function</i> field defines an optional function to be applied to the 
+argument after the mode has been evaluated. <a href="#t-ValuesForFunctionField">Table 18.5</a> lists valid values for the
+<i>function</i> field. 
+
+Typically, there are the same number of <em>function</em> field values as 
+textures. Otherwise, the default <em>function</em> field value is used.<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-ValuesForFunctionField"></a>Table 18.5 &#8212; Values for the <i>function</i> field</p>
+
+<table>
+<tr>
+<th>Operator</th>
+<th>Description</th>
+</tr>
+  <tr> 
+    <td>&quot;&quot; (default)</td>
+    <td>No function is applied.</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;COMPLEMENT&quot;</span></td>
+    <td>Invert the argument so that, if the result of the 
+argument were referred to by the variable x, the value would be 1.0 
+minus x.</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;ALPHAREPLICATE&quot;</span></td>
+    <td>Replicate the alpha information to all color channels 
+before the operation completes.</td>
+  </tr>
+</table>
+</div>
+
+<h2><a name="MultiTextureCoordinate"></a>
+18.4.4 MultiTextureCoordinate</h2>
+
+<pre class="node">MultiTextureCoordinate : X3DTextureCoordinateNode {
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+  MFNode [in,out] texCoord NULL [X3DTextureCoordinateNode]
+}
+</pre>
+
+<p>MultiTextureCoordinate supplies multiple texture coordinates per 
+    vertex. This node can be used to set the texture coordinates for the different 
+    texture channels.</p>
+
+  <p>Each entry in the texCoord field may contain a <a href="#TextureCoordinate">TextureCoordinate</a> 
+    or <a href="#TextureCoordinateGenerator">TextureCoordinateGenerator</a> node.</p>
+
+  <p>If using a MultiTexture node with a geometry node without a MultiTextureTransform 
+node, identity matrices are assumed for all channels. If there are too few 
+entries in the <i>textureTransform</i> field, identity matrices shall be used 
+	for all remaining undefined channels.</p>
+
+  <p>Example:</p>
+
+<pre class="listing">Shape { 
+  appearance Appearance { 
+    texture MultiTexture {  
+      mode [ &quot;MODULATE&quot; &quot;MODULATE&quot; ] 
+      texture [ 
+        ImageTexture { url &quot;brick.jpg&quot;)  
+        ImageTexture { repeatS FALSE repeatT FALSE url &quot;light_gray.png&quot;} 
+      ]
+    }
+  }
+  geometry IndexedFaceSet {  
+      ... 
+    texCoord MultiTextureCoordinate {
+      texCoord [ 
+        TextureCoordinate { ... } 
+        TextureCoordinate { ... } 
+      ] 
+    }
+  }
+}
+</pre>
+
+<h2><a name="MultiTextureTransform"></a>18.4.5 MultiTextureTransform</h2>
+
+<pre class="node">MultiTextureTransform : X3DTextureTransformNode { 
+  SFNode [in,out] metadata         NULL [X3DMetadataObject]
+  MFNode [in,out] textureTransform NULL [X3DTextureTransformNode]
+}</pre>
+
+<p>MultiTextureTransform supplies multiple texture transforms per appearance. 
+This node can be used to set the texture transform for each of the different 
+texture channels. MultiTextureTransform may appear in the scene graph wherever 
+any <a href="#X3DTextureTransformNode">X3DTextureTransformNode</a> appears.</p>
+
+<p>Each entry in the <i>textureTransform</i> field shall contain an
+<a href="#X3DTextureTransformNode">X3DTextureTransformNode</a> or 
+<span class="code">NULL</span>. The <i>textureTransform</i> field may not 
+contain another MultiTextureTransform node.</p>
+
+<p>If using MultiTexture with an IndexedFaceSet without a MultiTextureTransform 
+node, texture coordinates for channel 0 are replicated along the other channels. 
+Similarly, if there are too few entries in the <i>textureTransform</i> field, the last 
+entry is replicated.</p>
+
+<p>Example:</p>
+
+    <pre class="listing">Shape { 
+  appearance Appearance { 
+    texture MultiTexture {  
+      mode [ &quot;MODULATE&quot; &quot;MODULATE&quot; ] 
+      texture [ 
+        ImageTexture { url &quot;brick.jpg&quot;)  
+        ImageTexture { repeatS FALSE repeatT FALSE url &quot;light_gray.png&quot;} 
+      ]
+    }
+
+    textureTransform MultiTextureTransform {
+      textureTransform [  
+	TextureTransform {}  
+	TextureTransform { scale 0.5 0.5 } 
+      ]
+    } 
+  }
+}</pre>
+
+<h2><a name="PixelTexture"></a>
+18.4.6 PixelTexture</h2>
+
+<pre class="node">PixelTexture : X3DTexture2DNode { 
+  SFImage [in,out] image             0 0 0
+  SFNode  [in,out] metadata          NULL  [X3DMetadataObject]
+  SFBool  []       repeatS           TRUE
+  SFBool  []       repeatT           TRUE
+  SFNode  []       textureProperties NULL  [TextureProperties]
+}
+</pre>
+
+<p>The PixelTexture node defines a 2D image-based texture map as 
+    an explicit array of pixel values (<i>image</i> field) and parameters controlling 
+    tiling repetition of the texture onto geometry.</p>
+
+  <p>The <i>repeatS</i> and <i>repeatT</i> fields specify how the 
+    texture wraps in the S and T directions. If <i>repeatS</i> is <code>
+  <span style="font-weight: 400">TRUE</span></code> 
+    (the default), the texture map is repeated outside the 0-to-1 texture coordinate 
+    range in the S direction so that it fills the shape. If <i>repeatS</i> is 
+    <code><span style="font-weight: 400">FALSE</span></code>, the texture coordinates are clamped 
+    in the S direction to lie within the 0.0 to 1.0 range. The <i>repeatT</i> 
+    field is analogous to the <i>repeatS</i> field.</p>
+
+  <p>See <a href="#Concepts">18.2 Concepts</a>, for a general 
+    description of texture maps. </p>
+
+  <p>See <a href="lighting.html">17 Lighting component</a> 
+    for a description of how the texture values interact with the appearance 
+    of the geometry. <a href="../fieldsDef.html#SFImageAndMFImage">5.7 SFImage and MFImage</a>
+    describes the specification of an image.</p>
+
+
+<h2><a name="TextureCoordinate"></a>
+18.4.7 TextureCoordinate</h2>
+
+<pre class="node">TextureCoordinate : X3DTextureCoordinateNode { 
+  SFNode  [in,out] metadata NULL [X3DMetadataObject]
+  MFVec2f [in,out] point    []   (-&#8734;,&#8734;)
+}
+</pre>
+
+<p>The TextureCoordinate node is a geometry property node that 
+    specifies a set of 2D texture coordinates used by vertex-based geometry nodes 
+    (<span class="example">EXAMPLE</span> &nbsp;<a href="geometry3D.html#IndexedFaceSet">IndexedFaceSet</a> and 
+<a href="geometry3D.html#ElevationGrid">ElevationGrid</a>) to map textures to vertices.</p>
+
+<h2><a name="TextureCoordinateGenerator"></a>
+18.4.8 TextureCoordinateGenerator</h2>
+
+<pre class="node">TextureCoordinateGenerator : X3DTextureCoordinateNode {
+  SFNode   [in,out] metadata  NULL     [X3DMetadataObject]
+  SFString [in,out] mode      "SPHERE" [see Table 18.6]
+  MFFloat  [in,out] parameter []       [see Table 18.6]
+}
+</pre>
+
+  <p>TextureCoordinateGenerator supports the automatic generation 
+    of texture coordinates for geometric shapes. </p>
+
+  <p>This node can be used to set the texture coordinates for a node 
+    with a texCoord field.</p>
+
+  <p><i>The mode</i> field describes the algorithm used to compute texture 
+    coordinates, as depicted in <a href="#t-Texturecoordgeneration">Table 18.6.</a></p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Texturecoordgeneration"></a>
+Table 18.6 &#8212; Texture coordinate generation modes</p> 
+
+<table>
+<tr>
+<th>Mode</th>
+<th>Description</th>
+</tr>
+  <tr> 
+    <td><span class="code">&quot;SPHERE&quot;</span></td>
+    <td>Creates texture coordinates for a spherical environment or &quot;chrome&quot; 
+mapping based on the vertex normals transformed to camera space.<br>
+  u = Nx/2 + 0.5<br>
+  v = Ny/2 + 0.5<br>
+  where u and v are the texture coordinates being computed, and Nx and Ny 
+are the x and y components of the camera-space vertex normal. If the 
+normal has a positive x component, the normal points to the right, 
+and the u coordinate is adjusted to address the texture appropriately. 
+Likewise for the v coordinate: positive y indicates that the normal 
+points up. The opposite is of course true for negative values in each 
+component. If the normal points directly at the camera, the resulting 
+coordinates should receive no distortion. The +0.5 bias to both coordinates 
+places the point of zero-distortion at the center of the sphere map, 
+and a vertex normal of (0, 0, z) addresses this point. Note that this 
+formula doesn't take account for the z component of the normal.</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;CAMERASPACENORMAL&quot;</span></td>
+    <td>Use the vertex normal, transformed to camera space, 
+as input texture coordinates, resulting coordinates are in &minus;1 to 1 range.</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;CAMERASPACEPOSITION&quot;</span></td>
+    <td>Use the vertex position, transformed to camera space, 
+as input texture coordinates</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;CAMERASPACEREFLECTIONVECTOR&quot;</span></td>
+    <td>Use the reflection vector, transformed to camera space, as input 
+texture coordinates. The reflection vector is computed from the input 
+vertex position and normal vector. <br>
+     R=2 &times; DotProd(E,N) × N &minus; E;<br>
+     In the preceding formula, R is the reflection vector being computed, 
+E is the normalized position-to-eye vector, and N is the camera-space 
+vertex normal. <br>
+     Resulting coordinates are in &minus;1 to 1 range.</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;SPHERE-LOCAL&quot;</span></td>
+    <td>Sphere mapping but in local coordinates</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;COORD&quot;</span></td>
+    <td>use vertex coordinates</td>
+  </tr>
+  <tr>
+    <td><span class="code">&quot;COORD-EYE&quot;</span></td>
+    <td>use vertex coordinates transformed to camera space</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;NOISE&quot;</span></td>
+    <td>computed by applying Perlin solid noise function 
+on vertex coordinates, parameter contains scale and translation 
+[scale.x scale.y scale.z translation.x translation.y translation.z]</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;NOISE-EYE&quot;</span></td>
+    <td>same as above but transform vertex coordinates to 
+camera space first</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;SPHERE-REFLECT&quot;</span></td>
+    <td>similar to &quot;CAMERASPACEREFLECTIONVECTOR&quot; 
+with optional index of refraction, parameter[0] 
+contains index of refraction 
+    <p>Resulting coordinates are in &minus;1 to 1 range.</td>
+  </tr>
+  <tr> 
+    <td><span class="code">&quot;SPHERE-REFLECT-LOCAL&quot;</span></td>
+    <td>Similar to &quot;SPHERE-REFLECT&quot;, parameter[0] 
+contains index of refraction, parameter[1 to 3] the eye point in local 
+coordinates. By animating parameter [1 to 3] the reflection changes 
+with respect to the point. <br>
+      Resulting coordinates are in &minus;1 to 1 range.</td>
+  </tr>
+</table>
+  </div>
+
+  <p>Some modes may be hardware accelerated. Some modes are view dependent.</p>
+
+<h2><a name="TextureProperties"></a>18.4.9 TextureProperties</h2>
+<pre class="node">TextureProperties : X3DNode
+  SFFloat     [in,out] anisotropicDegree   1.0       [1,&infin;)
+  SFColorRGBA [in,out] borderColor         0 0 0 0   [0,1]
+  SFInt32     [in,out] borderWidth         0         [0,1]
+  SFString    [in,out] boundaryModeS       &quot;REPEAT&quot;  [see <a href="#t-TextureBoundaryModes">Table 18.7</a>]
+  SFString    [in,out] boundaryModeT       &quot;REPEAT&quot;  [see <a href="#t-TextureBoundaryModes">Table 18.7</a>]
+  SFString    [in,out] boundaryModeR       &quot;REPEAT&quot;  [see <a href="#t-TextureBoundaryModes">Table 18.7</a>]
+  SFString    [in,out] magnificationFilter &quot;FASTEST&quot; [see <a href="#t-TextureMagnificationModes">Table 18.8</a>]
+  SFNode      [in,out] metadata            NULL      [X3DMetadataObject]
+  SFString    [in,out] minificationFilter  &quot;FASTEST&quot; [see <a href="#t-TextureMinificationModes">Table 18.9</a>]
+  SFString    [in,out] textureCompression  &quot;FASTEST&quot; [see <a href="#t-TextureCompressionModes">Table 18.10</a>]
+  SFFloat     [in,out] texturePriority     0         [0,1]
+  SFBool      []       generateMipMaps     FALSE
+}</pre>
+<p>TextureProperties allows fine control over a texture&#39;s application. </p>
+<p>This node can be used to set the texture properties for a node with a <i>
+textureProperties</i> field. A texture with a TextureProperties node will ignore 
+the <i>repeatS</i> and <i>repeatT</i> fields on the texture.</p>
+<p><i>The anisotropicDegree</i> field describes the minimum degree of anisotropy 
+to account for in texture filtering. A value of 1 implies no anisotropic 
+filtering. Values above the system&#39;s maximum supported value will be clamped to 
+the maximum allowed. Browsers are allowed to use higher values as deemed 
+appropriate. </p>
+<p>The <i>borderColor</i> field describes the color to use for border pixels.</p>
+<p>The <i>borderWidth</i> field describes the number of pixels to use for a 
+texture border.</p>
+<p>The <i>boundaryModeS</i> field describes the way S texture coordinate 
+boundaries are handled, as depicted in
+<a href="#t-TextureBoundaryModes">
+Table 18.7.</a></p>
+<p>The <i>boundaryModeT</i> field describes the way T texture coordinate 
+boundaries are handled, as depicted in
+<a href="#t-TextureBoundaryModes">
+Table 18.7.</a></p>
+<p>The <i>boundaryModeR</i> field describes the way R texture coordinate 
+boundaries are handled, as depicted in
+<a href="#t-TextureBoundaryModes">
+Table 18.7.</a> This field only applies to three dimensional textures and shall 
+be ignored by other texture types.</p>
+<p>The <i>magnificationFilter</i> field describes the way textures are filtered 
+when the image is smaller than the screen space representation. Valid values are 
+depicted in <a href="#t-TextureMagnificationModes">Table 18.8.</a></p>
+<p>The <i>minificationFilter</i> field describes the way textures are filtered 
+when the image is larger than the screen space representation. Valid values are 
+depicted in <a href="#t-TextureMinificationModes">Table 18.9.</a> Modes with MIPMAP in the name require mipmaps. If mipmaps are 
+not provided, the mode shall pick the corresponding non-mipmapped mode (<i>e.g.</i>, 
+<span class="code">AVG_PIXEL_NEAREST_MIPMAP</span> becomes <span class="code">AVG_PIXEL</span>).</p>
+<p>The <i>texturePriority</i> field describes the texture residence priority for 
+allocating texture memory. Zero indicates the lowest priority and 1 indicates 
+the highest priority. Values are clamped to the range [0,1].</p>
+<p>The <em>textureCompression</em> field specifies the preferred image 
+compression method to be used during rendering. Valid values are in
+<a href="#t-TextureCompressionModes">Table 18.10</a>. </p>
+<p>The <i>generateMipMaps</i> field describes whether mipmaps should be 
+generated for the texture. Mipmaps are required for filtering modes with MIPMAP 
+in their value.</p>
+<div class="CenterDiv">
+	<p class="TableCaption"><a name="t-TextureBoundaryModes"></a>Table 18.7 &#8212; Texture boundary modes</p>
+	<table id="table1">
+		<tr>
+			<th>Mode</th>
+			<th>Description</th>
+		</tr>
+		<tr>
+			<td><span class="code">&quot;CLAMP&quot;</span></td>
+			<td>Clamp texture coordinates to the range [0,1]</td>
+		</tr>
+		<tr>
+			<td><span class="code">&quot;CLAMP_TO_EDGE&quot;</span></td>
+			<td>Clamp texture coordinates such that a border texel is never 
+			sampled. <br>
+			Coordinates are clamped to the range [1/(2N), 1 - 1/(2N)], where N is 
+			the size of the texture in the direction of clamping.</td>
+		</tr>
+		<tr>
+			<td><span class="code">&quot;CLAMP_TO_BOUNDARY&quot;</span></td>
+			<td>Clamp texture coordinates such that texture samples are border 
+			texels for fragments<br>
+			whose corresponding texture coordinate is sufficiently outside the 
+			range [0,1].<br>
+			Texture coordinates are clamped to the range [-1/(2N), 1 + 1/(2N)].</td>
+		</tr>
+		<tr>
+			<td><span class="code">&quot;MIRRORED_REPEAT&quot;</span></td>
+			<td>Texture coordinates are mirrored and then clamped as in 
+			CLAMP_TO_EDGE</td>
+		</tr>
+		<tr>
+			<td><span class="code">&quot;REPEAT&quot;</span></td>
+			<td>Repeat a texture across the fragment. Ignore the integer part of 
+			the texture coordinates, using only the fractional part.</td>
+		</tr>
+	</table>
+
+<p class="TableCaption"><a name="t-TextureMagnificationModes"></a>Table 18.8 &#8212; Texture magnification modes</p>
+<table id="table2">
+	<tr>
+		<th>Mode</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;AVG_PIXEL&quot;</span></td>
+		<td>Select the weighted average of the four texture elements that are 
+		closest to the center of the pixel being textured.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;DEFAULT&quot;</span></td>
+		<td>Select the browser-specified default magnification mode.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;FASTEST&quot;</span></td>
+		<td>Select the fastest method available.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;NEAREST_PIXEL&quot;</span></td>
+		<td>Select the pixel that is nearest to the center of the pixel being 
+		textured.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;NICEST&quot;</span></td>
+		<td>Select the highest quality method available.</td>
+	</tr>
+</table>
+<p class="TableCaption"><a name="t-TextureMinificationModes"></a>Table 18.9 &#8212; Texture minification modes</p>
+<table id="table3">
+	<tr>
+		<th>Mode</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;AVG_PIXEL&quot;</span></td>
+		<td>Select the weighted average of the four texture elements that are 
+		closest to the center of the pixel being textured.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;AVG_PIXEL_AVG_MIPMAP&quot;</span></td>
+		<td>Performs tri-linear filtering. Choose the two mipmaps that most 
+		closely match the size of the pixel being textured and use the weighted 
+		average of the four texture elements that are closest to the center of 
+		the pixel to produce a texture value from each mipmap. The final texture 
+		value is a weighted average of those two values. </td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;AVG_PIXEL_NEAREST_MIPMAP&quot;</span></td>
+		<td>Choose the mipmap that most closely matches the size of the pixel 
+		being textured and use the weighted average of the four texture 
+		elements that are closest to the center of the pixel to produce a 
+		texture value.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;DEFAULT&quot;</span></td>
+		<td>Select the browser-specified default minification mode.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;FASTEST&quot;</span></td>
+		<td>Select the fastest method available. Mipmaps shall be used, if 
+		available.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;NEAREST_PIXEL&quot;</span></td>
+		<td>Select the pixel that is nearest to the center of the pixel being 
+		textured.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;NEAREST_PIXEL_AVG_MIPMAP&quot;</span></td>
+		<td>Choose the two mipmaps that most closely match the size of the 
+		pixel being textured and use the texture element nearest to the center 
+		of the pixel to produce a texture value from each mipmap. The final 
+		texture value is a weighted average of those two values.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;NEAREST_PIXEL_NEAREST_MIPMAP&quot;</span></td>
+		<td>Choose the mipmap that most closely matches the size of the pixel 
+		being textured and use the texture element nearest to the center of the 
+		pixel) to produce a texture value.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;NICEST&quot;</span></td>
+		<td>Select the highest quality method available. Mipmaps shall be used, if 
+		available.</td>
+	</tr>
+</table>
+
+<p class="TableCaption"><a name="t-TextureCompressionModes"></a>Table 18.10 &#8212; 
+Texture compression modes</p>
+<table id="table4">
+	<tr>
+		<th>Mode</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;DEFAULT&quot;</span></td>
+		<td>Select the browser-specified default compression mode.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;FASTEST&quot;</span></td>
+		<td>Select the fastest compression mode available.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;HIGH&quot;</span></td>
+		<td>Select the compression mode with the greatest amount of compression.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;LOW&quot;</span></td>
+		<td>Select the compression mode with the least amount of compression.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;MEDIUM&quot;</span></td>
+		<td>Select a compression mode with a moderate amount of compression.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;NICEST&quot;</span></td>
+		<td>Select the compression mode that produces the nicest effect.</td>
+	</tr>
+</table>
+</div>
+
+<h2><a name="TextureTransform"></a>
+18.4.10 TextureTransform</h2>
+
+<pre class="node">TextureTransform : X3DTextureTransformNode { 
+  SFVec2f [in,out] center      0 0  (-&#8734;,&#8734;)
+  SFNode  [in,out] metadata    NULL [X3DMetadataObject]
+  SFFloat [in,out] rotation    0    (-&#8734;,&#8734;)
+  SFVec2f [in,out] scale       1 1  (-&#8734;,&#8734;)
+  SFVec2f [in,out] translation 0 0  (-&#8734;,&#8734;)
+}
+</pre>
+
+<p>The TextureTransform node defines a 2D transformation that is 
+    applied to texture coordinates (see <a href="#TextureCoordinate">TextureCoordinate</a>). 
+    This node affects the way textures coordinates are applied to the geometric 
+    surface. The transformation consists of (in order):</p>
+
+<ol start="1" type="a">
+      <li>a translation;</li> 
+      <li>a rotation about the centre point;</li> 
+      <li>a non-uniform scale about the centre point.</li> 
+    </ol>
+
+  <p>These parameters support changes to the size, orientation, and 
+    position of textures on shapes. Note that these operations appear reversed 
+    when viewed on the surface of geometry. For example, a <i>scale</i> value 
+    of (2 2) will scale the texture coordinates and have the net effect of shrinking 
+    the texture size by a factor of 2 (texture coordinates are twice as large 
+    and thus cause the texture to repeat). A translation of (0.5 0.0)<b> </b>translates 
+    the texture coordinates +.5 units along the S-axis and has the net effect 
+    of translating the texture &minus;0.5 along the S-axis on the geometry's surface. 
+    A rotation of <font face="Times New Roman">&#960;</font>/2 of the texture 
+  coordinates results in a −<font face="Times New Roman">&#960;</font>/2 rotation of the texture on the geometry.</p>
+
+  <p>The <i>center</i> field specifies a translation offset in texture 
+    coordinate space about which the <i>rotation</i> and <i>scale</i> fields are 
+    applied. The <i>scale</i> field specifies a scaling factor in S and T of the 
+    texture coordinates about the <i>center</i> point. <i>scale</i> values shall 
+    be in the range (&minus;&#8734;,&#8734;). The <i>rotation</i> field 
+    specifies a rotation in angle base units of the texture coordinates about the <i>center</i> 
+    point after the scale has been applied. A positive rotation value makes the 
+    texture coordinates rotate counterclockwise about the centre, thereby rotating 
+    the appearance of the texture itself clockwise. The <i>translation</i> field 
+    specifies a translation of the texture coordinates.</p>
+
+  <p>In matrix transformation notation, where<i> Tc</i> is the untransformed 
+    texture coordinate, <i>Tc'</i> is the transformed texture coordinate, <i>C</i> 
+    (<i>center</i>), <i>T</i> (<i>translation</i>), <i>R</i> (<i>rotation</i>), 
+    and <i>S</i> (<i>scale</i>) are the intermediate transformation matrices,</p>
+
+<pre class="listing">    Tc' = &minus;C &times; S &times; R &times; C &times; T &times; Tc
+</pre>
+
+<p class="Example">NOTE&nbsp; This transformation order is the reverse of the
+<a href="group.html#Transform">Transform</a> 
+    node transformation order since the texture coordinates, not the texture, 
+    are being transformed (<i>i.e.</i>,&nbsp;the texture coordinate system).</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>18.5 Support levels</h1>
+
+<p>The Texturing component provides three levels of support as specified 
+in <a href="#t-SupportLevels">Table 18.7</a>. </p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption"><a name="t-SupportLevels"></a>
+Table 18.11 &#8212; Texturing component support levels</p>
+
+    <table>
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td align="center"><b>1</b></td>
+        <td>Core 1<br>
+        Grouping 1<br>
+        Shape 1<br>
+        Rendering 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DTextureCoordinateNode </i>(abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td><i>X3DTextureNode </i>(abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td><i>X3DTexture2DNode </i>(abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DTextureTransformNode </i>(abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>ImageTexture</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>PixelTexture</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>TextureCoordinate</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>TextureTransform</td>
+        <td>All field fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>2</b></td>
+        <td>Core 1<br>
+        Grouping 1<br>
+        Shape 1<br>
+        Rendering 1</td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td>&nbsp;</td>
+        <td>All Level 1 Texturing nodes</td>
+        <td>All fields as supported in Level 1.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>MultiTexture</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>MultiTextureCoordinate</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>MultiTextureTransform</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>TextureCoordinateGenerator</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>TextureProperties</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>3</b></td>
+        <td>Core 1<br>
+        Grouping 1<br>
+        Shape 1<br>
+        Rendering 1</td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 2 Texturing nodes</td>
+        <td>All fields as supported in Level 2.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>MovieTexture</td>
+        <td>All fields fully supported.</td>
+      </tr>
+    </table>
+</div>
+
+<p>
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23"></p>
+
+</body>
+</html>

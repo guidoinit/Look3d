@@ -1,0 +1,89 @@
+﻿Build started 04/12/2012 05:44:19.
+     1>Project "I:\prj\Look3D-qt\Look3D-0.0.3\scene\exports\3ds\lib3ds-20080909\src\lib3ds.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\lib3ds.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D LIB3DS_EXPORTS /D _WINDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Za /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TC /analyze- /errorReport:none lib3ds_atmosphere.c lib3ds_background.c lib3ds_camera.c lib3ds_chunk.c lib3ds_chunktable.c lib3ds_file.c lib3ds_io.c lib3ds_light.c lib3ds_material.c lib3ds_math.c lib3ds_matrix.c lib3ds_mesh.c lib3ds_node.c lib3ds_quat.c lib3ds_shadow.c lib3ds_track.c lib3ds_util.c lib3ds_vector.c lib3ds_viewport.c
+         lib3ds_viewport.c
+         lib3ds_vector.c
+         lib3ds_util.c
+         lib3ds_track.c
+         lib3ds_shadow.c
+         lib3ds_quat.c
+         lib3ds_node.c
+         lib3ds_mesh.c
+         lib3ds_matrix.c
+         lib3ds_math.c
+         lib3ds_material.c
+         lib3ds_light.c
+         lib3ds_io.c
+         lib3ds_file.c
+         lib3ds_chunktable.c
+         lib3ds_chunk.c
+         lib3ds_camera.c
+         lib3ds_background.c
+         lib3ds_atmosphere.c
+         Generating Code...
+       ResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /l"0x0409" /nologo /fo"Debug\lib3ds.res" lib3ds.rc 
+       ManifestResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\lib3ds.dll.embed.manifest.res" Debug\lib3ds_manifest.rc 
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(990,5): warning MSB8012: TargetPath(I:\prj\Look3D-qt\Look3D-0.0.3\scene\exports\3ds\lib3ds-20080909\Debug\lib3ds.dll) does not match the Linker's OutputFile property value (I:\prj\Look3D-qt\Look3D-0.0.3\scene\exports\3ds\lib3ds-20080909\Debug\lib3ds-2_0.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(992,5): warning MSB8012: TargetName(lib3ds) does not match the Linker's OutputFile property value (lib3ds-2_0). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"I:\prj\Look3D-qt\Look3D-0.0.3\scene\exports\3ds\lib3ds-20080909\Debug\lib3ds-2_0.dll" /VERSION:"2.0" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\lib3ds.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"I:\prj\Look3D-qt\Look3D-0.0.3\scene\exports\3ds\lib3ds-20080909\Debug\lib3ds.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"I:\prj\Look3D-qt\Look3D-0.0.3\scene\exports\3ds\lib3ds-20080909\Debug\lib3ds.lib" /MACHINE:X86 /DLL Debug\lib3ds.res
+         Debug\lib3ds.dll.embed.manifest.res
+         Debug\lib3ds_atmosphere.obj
+         Debug\lib3ds_background.obj
+         Debug\lib3ds_camera.obj
+         Debug\lib3ds_chunk.obj
+         Debug\lib3ds_chunktable.obj
+         Debug\lib3ds_file.obj
+         Debug\lib3ds_io.obj
+         Debug\lib3ds_light.obj
+         Debug\lib3ds_material.obj
+         Debug\lib3ds_math.obj
+         Debug\lib3ds_matrix.obj
+         Debug\lib3ds_mesh.obj
+         Debug\lib3ds_node.obj
+         Debug\lib3ds_quat.obj
+         Debug\lib3ds_shadow.obj
+         Debug\lib3ds_track.obj
+         Debug\lib3ds_util.obj
+         Debug\lib3ds_vector.obj
+         Debug\lib3ds_viewport.obj
+            Creating library I:\prj\Look3D-qt\Look3D-0.0.3\scene\exports\3ds\lib3ds-20080909\Debug\lib3ds.lib and object I:\prj\Look3D-qt\Look3D-0.0.3\scene\exports\3ds\lib3ds-20080909\Debug\lib3ds.exp
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\lib3ds.dll.embed.manifest" /manifest Debug\lib3ds.dll.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\lib3ds.dll.embed.manifest.res" Debug\lib3ds_manifest.rc 
+       LinkEmbedManifest:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"I:\prj\Look3D-qt\Look3D-0.0.3\scene\exports\3ds\lib3ds-20080909\Debug\lib3ds-2_0.dll" /VERSION:"2.0" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\lib3ds.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"I:\prj\Look3D-qt\Look3D-0.0.3\scene\exports\3ds\lib3ds-20080909\Debug\lib3ds.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"I:\prj\Look3D-qt\Look3D-0.0.3\scene\exports\3ds\lib3ds-20080909\Debug\lib3ds.lib" /MACHINE:X86 /DLL Debug\lib3ds.res
+         Debug\lib3ds.dll.embed.manifest.res
+         Debug\lib3ds_atmosphere.obj
+         Debug\lib3ds_background.obj
+         Debug\lib3ds_camera.obj
+         Debug\lib3ds_chunk.obj
+         Debug\lib3ds_chunktable.obj
+         Debug\lib3ds_file.obj
+         Debug\lib3ds_io.obj
+         Debug\lib3ds_light.obj
+         Debug\lib3ds_material.obj
+         Debug\lib3ds_math.obj
+         Debug\lib3ds_matrix.obj
+         Debug\lib3ds_mesh.obj
+         Debug\lib3ds_node.obj
+         Debug\lib3ds_quat.obj
+         Debug\lib3ds_shadow.obj
+         Debug\lib3ds_track.obj
+         Debug\lib3ds_util.obj
+         Debug\lib3ds_vector.obj
+         Debug\lib3ds_viewport.obj
+         lib3ds.vcxproj -> I:\prj\Look3D-qt\Look3D-0.0.3\scene\exports\3ds\lib3ds-20080909\Debug\lib3ds.dll
+       FinalizeBuildStatus:
+         Deleting file "Debug\lib3ds.unsuccessfulbuild".
+         Touching "Debug\lib3ds.lastbuildstate".
+     1>Done Building Project "I:\prj\Look3D-qt\Look3D-0.0.3\scene\exports\3ds\lib3ds-20080909\src\lib3ds.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:18.37

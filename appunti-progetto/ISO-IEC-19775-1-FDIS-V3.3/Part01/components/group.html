@@ -1,0 +1,536 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 10 Grouping component</title>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+
+</head>
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">10 Grouping component</p>
+
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Introduction"></a>10.1 Introduction</h1>
+
+<h2><a name="Name"></a>10.1.1 Name</h2>
+
+<p>The name of this component is &quot;Grouping&quot;. This name shall be used when 
+referring to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+
+<h2><a name="Overview"></a>10.1.2 Overview</h2>
+
+<p>This clause describes the Grouping component of this part of ISO/IEC 19775. 
+  This includes how nodes are organized into groups to establish a transformation 
+  hierarchy for the X3D scene graph. <a href="#t-Topics">Table 10.1</a> provides 
+  links to the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 10.1 &#8212; Topics</p>
+
+<table class="topics">
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">10.1 Introduction</a>
+            <ul>
+              <li><a href="#Name">10.1.1 Name</a></li>
+              <li><a href="#Overview">10.1.2 Overview</a></li>
+            </ul></li> 
+          <li><a href="#Concepts">10.2 Concepts </a> 
+            <ul>
+              <li><a href="#GroupingAndChildrenNodes">10.2.1 Grouping and children node types</a></li> 
+              <li><a href="#BoundingBoxes">10.2.2 Bounding boxes</a></li>
+            </ul></li>
+          <li><a href="#Abstracttypes">10.3 Abstract types</a> 
+            <ul>
+              <li><a href="#X3DBoundedObject">10.3.1 <i>X3DBoundedObject</i></a></li> 
+              <li><a href="#X3DGroupingNode">10.3.2 <i>X3DGroupingNode</i></a></li> 
+            </ul></li>
+          <li><a href="#Nodereference">10.4 Node reference</a> 
+            <ul>
+			  <li><a href="#Group">10.4.1 Group</a></li>
+              <li><a href="#StaticGroup">10.4.2 StaticGroup</a></li>
+              <li><a href="#Switch">10.4.3 Switch</a></li>
+              <li><a href="#Transform">10.4.4 Transform</a></li>
+            </ul></li>
+          <li><a href="#SupportLevels">10.5 Support levels</a></li>  
+        </ul>
+        <ul>
+          <li><a href="#t-Topics">Table 10.1 &#8212; Topics</a></li>
+          <li><a href="#t-supportlevels">Table 10.2 &#8212; Grouping component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>
+10.2 Concepts</h1>
+
+<h2><a name="GroupingAndChildrenNodes"></a>10.2.1 Grouping and children node types</h2>
+
+<p>Grouping nodes have a field that contains a list of children nodes. Each grouping 
+  node defines a coordinate space for its children. This coordinate space is relative 
+  to the coordinate space of the node of which the group node is a child. Such 
+  a node is called a <i>parent</i> node. This means that transformations accumulate 
+  down the scene graph hierarchy.</p>
+
+<p>This part of ISO/IEC 19775 defines several grouping 
+  nodes, including the following:</p>
+
+<ul>
+  <li><a href="networking.html#Anchor">Anchor</a></li> 
+  <li><a href="navigation.html#Billboard">Billboard</a></li> 
+  <li><a href="navigation.html#Collision">Collision</a></li>
+  <li><a href="#Group">Group</a></li> 
+  <li><a href="navigation.html#LOD">LOD</a></li> 
+  <li><a href="#Switch">Switch</a></li> 
+  <li><a href="#Transform">Transform</a></li> 
+</ul>
+
+<p>Components may add the following:</p>
+
+<ul>
+  <li>new grouping node types,</li>
+  <li>new node types that may be used as children, and</li>
+  <li>node types that may not be used as children.</li>
+</ul>
+
+<p>All grouping nodes have <i>addChildren</i> and <i>removeChildren</i> inputOnly fields. 
+  The <i>addChildren</i> event appends nodes to the <i>children</i> 
+  field of a grouping node. Any nodes passed to the <i>addChildren</i> inputOnly 
+field that are already in 
+  the  children list of the grouping node are ignored. For example, if the <i>children</i> field 
+  contains the nodes Q, L and S (in order) and the group receives an <i>addChildren</i> 
+event containing (in order) nodes A, L, and Z, the result is a <i>children</i> 
+  field containing (in order) nodes Q, L, S, A, and Z.</p>
+
+<p>The <i>removeChildren</i> event removes nodes from the <i>children</i> 
+  field of the grouping node . Any nodes in the <i>removeChildren</i> event that 
+are not in the <i>children</i> list of the grouping node are ignored. For 
+example, if the <i>children</i> field contains 
+  the nodes Q, L, S, A and Z and it receives a <i>removeChildren</i> event containing 
+  nodes A, L, and Z, the result is Q, S.</p>
+
+<p>Note that a variety of node types reference other node types through fields. 
+  Some of these are parent-child relationships, while others are not (there are 
+  node-specific semantics).</p>
+
+<p>All grouping nodes shall have a <i>children </i>field of type MFNode<i>.</i> 
+  Adding a node to this field will add that node to the grouping node&#39;s set of 
+children. A <i>children</i> field is not allowed to directly contain multiple 
+instances of the same node. A <i>children</i> field is not allowed to contain 
+nodes that are ancestors of the grouping node.&nbsp; 
+
+<p>A variety of node types reference other node types through fields. Some of 
+  these are parent-child relationships (<i>e.g.</i>, the children field of the Transform 
+  node) while others are not (<i>e.g.</i>, the appearance field of the Shape node). The 
+  field type specifies which type of node may be placed in them. For instance, 
+  the node type of the children field of the Transform node is MFNode where all 
+nodes shall be derived from <i>X3DChildNode</i>. Therefore, only node types 
+  derived from <i>X3DChildNode </i>may be placed there. Shape is legal in the 
+  children field because it is derived from <i>X3DChildNode</i>, while Appearance 
+  is not. See <a href="../concepts.html#f-Objecthierarchy">Figure 4.2</a> for a complete derivation 
+  hierarchy. 
+
+<p>New nodes types may be defined using the extension mechanisms. These new node 
+  types can be placed in a node field as long as the node field's type is in the 
+  new type's derivation hierarchy.</p>
+
+<h2><a name="BoundingBoxes"></a>10.2.2 Bounding boxes </h2>
+
+<p>Several node types include a bounding box specification comprised of two fields, 
+  <i>bboxSize </i>and <i>bboxCenter</i>. A bounding box is a rectangular parallelepiped 
+  of dimension <i>bboxSize </i>centred on the location <i>bboxCenter </i>in the 
+  local coordinate system. This is typically used by grouping nodes to provide 
+  a hint to the browser on the group's approximate size for culling optimizations. 
+  The default size for bounding boxes (&minus;1,&nbsp;&minus;1,&nbsp;&minus;1) indicates that the 
+  user did not specify the bounding box and the effect shall be as if the bounding 
+  box were infinitely large. A <i>bboxSize</i> value of (0,&nbsp;0,&nbsp;0) is 
+  valid and represents a point in space (<i>i.e.</i>,&nbsp;an<i> </i>infinitely small 
+  box). Specified <i>bboxSize</i> field values shall be &ge; 0.0 or equal to 
+  (−1,&nbsp;−1,&nbsp;−1). The <i>bboxCenter</i> fields specify a position offset 
+  from the local coordinate system.</p>
+
+<p>The <i>bboxCenter</i> and <i>bboxSize</i> fields may be used to specify a maximum 
+  possible bounding box for the objects inside a grouping node (<span class="example">EXAMPLE &nbsp;Transform</span>). 
+  These are used as hints to optimize certain operations such as determining whether 
+  or not the group needs to be drawn. The bounding box shall be large enough at 
+  all times to enclose the union of the group's children's bounding boxes; it 
+  shall not include any transformations performed by the group itself (<i>i.e.</i>, the 
+  bounding box is defined in the local coordinate system of the children). Results 
+  are undefined if the specified bounding box is smaller than the true bounding 
+  box of the group.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Abstracttypes"></a>
+10.3 Abstract types</h1>
+<h2><a name="X3DBoundedObject"></a>
+10.3.1 <i>X3DBoundedObject</i></h2>
+
+<pre class="node">X3DBoundedObject { 
+  SFVec3f [] bboxCenter 0 0 0    (-&#8734;,&#8734;)
+  SFVec3f [] bboxSize   -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+<p>This abstract node type is the basis for all node types that have bounds specified 
+  as part of the definition.</p>
+
+<p>The <i>bboxCenter</i> and <i>bboxSize</i> fields specify a bounding box that 
+  encloses the grouping node's children. This is a hint that may be used for optimization 
+  purposes. The results are undefined if the specified bounding box is smaller 
+  than the actual bounding box of the children at any time. A default <i>bboxSize</i> 
+  value, (-1, -1, -1), implies that the bounding box is not specified and, if 
+  needed, is calculated by the browser. A description of the <i>bboxCenter</i> 
+  and <i>bboxSize</i> fields is contained in <a href="#BoundingBoxes">10.2.2 
+  Bounding boxes</a>.</p>
+
+
+<h2><a name="X3DGroupingNode"></a>
+10.3.2 <i>X3DGroupingNode</i></h2>
+
+<pre class="node">X3DGroupingNode : X3DChildNode, X3DBoundedObject { 
+  MFNode  [in]     addChildren             [X3DChildNode]
+  MFNode  [in]     removeChildren          [X3DChildNode]
+  MFNode  [in,out] children       []       [X3DChildNode]
+  SFNode  [in,out] metadata       NULL     [X3DMetadataObject]
+  SFVec3f []       bboxCenter     0 0 0    (-&#8734;,&#8734;)
+  SFVec3f []       bboxSize       -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+<p>This abstract node type indicates that concrete node types derived from it 
+  contain children nodes and is the basis for all aggregation.</p>
+
+<p>More details on the <i>children</i>, <i>addChildren</i>, and <i>removeChildren</i> 
+fields can be found in <a href="#GroupingAndChildrenNodes">10.2.1 
+  Grouping and children node types</a>.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Nodereference"></a>
+10.4 Node reference</h1>
+
+<h2><a name="Group"></a>
+10.4.1 Group</h2>
+
+<pre class="node">Group : X3DGroupingNode {
+  MFNode  [in]     addChildren             [X3DChildNode]
+  MFNode  [in]     removeChildren          [X3DChildNode]
+  MFNode  [in,out] children       []       [X3DChildNode]
+  SFNode  [in,out] metadata       NULL     [X3DMetadataObject]
+  SFVec3f []       bboxCenter     0 0 0    (-&#8734;,&#8734;)
+  SFVec3f []       bboxSize       -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+<p>A Group node contains children nodes without introducing a new transformation. 
+  It is equivalent to a <a href="#Transform">Transform</a> node containing an identity transform.</p>
+
+<p>More details on the <i>children</i>, <i>addChildren</i>, and <i>removeChildren</i> 
+fields can be found in <a href="#GroupingAndChildrenNodes">10.2.1 
+  Grouping and children node types</a>.</p>
+
+<p>The <i>bboxCenter</i> and <i>bboxSize</i> fields specify a bounding box that 
+  encloses the Group node's children. This is a hint that may be used for optimization 
+  purposes. The results are undefined if the specified bounding box is smaller 
+  than the actual bounding box of the children at any time. A default <i>bboxSize</i> 
+  value, (-1, -1, -1), implies that the bounding box is not specified and, if 
+  needed, is calculated by the browser. A description of the <i>bboxCenter</i> 
+  and <i>bboxSize</i> fields is contained in <a href="#BoundingBoxes">10.2.2 
+  Bounding boxes</a>.</p>
+
+<h2><a name="StaticGroup"></a>
+10.4.2 StaticGroup</h2>
+
+<pre class="node">StaticGroup : X3DChildNode, X3DBoundedObject {
+  SFNode  [in,out] metadata   NULL     [X3DMetadataObject]
+  MFNode  []       children   []       [X3DChildNode]
+  SFVec3f []       bboxCenter 0 0 0    (-&#8734;,&#8734;)
+  SFVec3f []       bboxSize   -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+<p>The StaticGroup node contains children nodes which cannot be modified. StaticGroup 
+  children are guaranteed to not change, send events, receive events or contain 
+  any USE references outside the StaticGroup. This allows the browser to optimize 
+  this content for faster rendering and less memory usage.</p>
+
+<p>A browser shall prevent all illegal attempts to modify the StaticGroup and 
+  its children. Children of the StaticGroup are guaranteed not to generate events.</p>
+
+<p>Implementations are free to rearrange or remove nodes inside a StaticGroup 
+  as long as the final rendering is the same. These optimizations might include 
+  flattening a series of transformations into one transform, performing appearance 
+  bundling or heavy analysis of the scene graph for maximal rendering speed. A 
+  StaticGroup does not need to maintain its children's X3D representations (such 
+  as field data), as they cannot be accessed after creation time. </p>
+
+<h2><a name="Switch"></a>
+10.4.3 Switch</h2>
+
+<pre class="node">Switch : X3DGroupingNode {
+  MFNode  [in]     addChildren             [X3DChildNode]
+  MFNode  [in]     removeChildren          [X3DChildNode]
+  MFNode  [in,out] children       []       [X3DChildNode]
+  SFNode  [in,out] metadata       NULL     [X3DMetadataObject]
+  SFInt32 [in,out] whichChoice    -1       [-1,&#8734;)
+  SFVec3f []       bboxCenter     0 0 0    (-&#8734;,&#8734;)
+  SFVec3f []       bboxSize       -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+
+</pre>
+
+<p>The Switch grouping node traverses zero or one of the nodes specified in the 
+  <i>children</i> field.</p>
+
+<p><a href="#GroupingAndChildrenNodes">10.2.1 Grouping and children node types</a>, 
+  describes details on the types of nodes that are legal values for <i>children</i>.</p>
+
+<p>The <i>whichChoice </i>field specifies the index of the child to traverse, 
+  with the first child having index 0. If <i>whichChoice </i>is less than zero 
+  or greater than the number of nodes in the <i>children</i> field, nothing is chosen.</p>
+
+<p>All nodes under a Switch continue to receive and send events regardless of 
+  the value of <i>whichChoice</i>. For example, if an active TimeSensor is contained 
+  within an inactive choice of an Switch, the TimeSensor sends events regardless 
+  of the Switch's state.</p>
+
+<p>The <i>bboxCenter</i> and <i>bboxSize</i> fields specify a bounding box that 
+  encloses the Switch node's children. This is a hint that may be used for optimization 
+  purposes. The results are undefined if the specified bounding box is smaller 
+  than the actual bounding box of the child with the largest bounding box at any 
+  time. A default <i>bboxSize</i> value, (-1, -1, -1), implies that the bounding 
+  box is not specified and, if needed, is calculated by the browser. A description 
+  of the <i>bboxCenter</i> and <i>bboxSize</i> fields is contained in
+<a href="#BoundingBoxes">10.2.2 
+  Bounding boxes</a>.</p>
+
+<h2><a name="Transform"></a>
+10.4.4 Transform</h2>
+
+<pre class="node">Transform : X3DGroupingNode {
+  MFNode     [in]     addChildren               [X3DChildNode]
+  MFNode     [in]     removeChildren            [X3DChildNode]
+  SFVec3f    [in,out] center           0 0 0    (-&#8734;,&#8734;)
+  MFNode     [in,out] children         []       [X3DChildNode]
+  SFNode     [in,out] metadata         NULL     [X3DMetadataObject]
+  SFRotation [in,out] rotation         0 0 1 0  [-1,1] or (-&#8734;,&#8734;)
+  SFVec3f    [in,out] scale            1 1 1    (-&#8734;, &#8734;)
+  SFRotation [in,out] scaleOrientation 0 0 1 0  [-1,1] or (-&#8734;,&#8734;)
+  SFVec3f    [in,out] translation      0 0 0    (-&#8734;,&#8734;)
+  SFVec3f    []       bboxCenter       0 0 0    (-&#8734;,&#8734;)
+  SFVec3f    []       bboxSize         -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+<p>The Transform node is a grouping node that defines a coordinate system for 
+  its children that is relative to the coordinate systems of its ancestors. 
+See <a href="../concepts.html#Transformationhierarchy">4.3.5 Transformation 
+  hierarchy</a> and <a href="../concepts.html#Standardunitscoordinates">4.3.6 
+  Standard units and coordinate system</a> for a description of coordinate 
+  systems and transformations.</p>
+
+<p><a href="#GroupingAndChildrenNodes">10.2.1 Grouping and children node types</a>, 
+  provides a description of the <i>children</i>, 
+<i>addChildren</i>, and <i>removeChildren</i> fields.</p>
+
+<p>The <i>bboxCenter</i> and <i>bboxSize</i> fields specify a bounding box that 
+  encloses the children of the Transform node. This is a hint that may be used 
+  for optimization purposes. The results are undefined if the specified bounding 
+  box is smaller than the actual bounding box of the children at any time. A default 
+  <i>bboxSize</i> value, (-1,&nbsp;-1,&nbsp;-1), implies that the bounding box 
+  is not specified and, if needed, shall be calculated by the browser. The bounding 
+  box shall be large enough at all times to enclose the union of the group's children's 
+  bounding boxes; it shall not include any transformations performed by the group 
+  itself (<i>i.e.</i>, the bounding box is defined in the local coordinate system of 
+  the children). The results are undefined if the specified bounding box is smaller 
+  than the true bounding box of the group. A description of the <i>bboxCenter</i> 
+  and <i>bboxSize</i> fields is provided in <a href="#BoundingBoxes">10.2.2 
+  Bounding boxes</a>.</p>
+
+<p>The <i>translation</i>, <i>rotation</i>, <i>scale</i>, <i>scaleOrientation</i> 
+  and <i>center</i> fields define a geometric 3D transformation consisting of 
+  (in order):</p>
+
+<ol start="1" type="a">
+  <li>a (possibly) non-uniform scale about an arbitrary point;</li> 
+  <li>a rotation about an arbitrary point and axis;</li> 
+  <li>a translation.</li> 
+</ol>
+
+<p>The <i>center</i> field specifies a translation offset from the origin of the 
+  local coordinate system (0,0,0). The <i>rotation</i> field specifies a rotation 
+  of the coordinate system. The <i>scale</i> field specifies a non-uniform scale 
+  of the coordinate system. Scale values may have any value: positive, negative 
+(indicating a reflection), or zero. A value of zero indicates that any child 
+geometry shall not be displayed. 
+  The <i>scaleOrientation</i> specifies a rotation of the coordinate system before 
+  the scale (to specify scales in arbitrary orientations). The <i>scaleOrientation</i> 
+  applies only to the scale operation. The <i>translation</i> field specifies 
+  a translation to the coordinate system.</p>
+<p>Given a 3-dimensional point <b>P</b> and Transform node, <b>P</b> is transformed 
+  into point <b>P'</b> in its parent's coordinate system by a series of intermediate 
+  transformations. In matrix transformation notation, where C (<i>center</i>), 
+  SR (<i>scaleOrientation</i>), T (<i>translation</i>), R (<i>rotation</i>), and 
+  S (<i>scale</i>) are the equivalent transformation matrices,</p>
+
+<pre class="listing">  P' = T * C * R * SR * S * -SR * -C * P
+</pre>
+
+<p>The following Transform node:</p>
+
+<pre class="listing">Transform {
+  center           C
+  rotation         R
+  scale            S
+  scaleOrientation SR
+  translation      T
+  children         [
+    # Point P (or children holding other geometry)
+  ]
+}
+</pre>
+
+<p>is equivalent to the nested sequence of:</p>
+
+<pre class="listing">Transform {
+  translation T 
+  children Transform {
+    translation C
+    children Transform {
+      rotation R
+      children Transform {
+        rotation SR 
+        children Transform {
+          scale S 
+          children Transform {
+            rotation -SR 
+            children Transform {
+              translation -C
+              children [
+                # Point P (or children holding other geometry)
+              ]
+}}}}}}}
+</pre>
+
+
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>10.5 Support levels</h1>
+
+<p>The Grouping component provides four levels of support 
+  as specified in <a href="#t-supportlevels">Table 10.2</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+Table 10.2 &#8212; Grouping component support levels</p>
+
+    <table>
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td align="center"><b>1</b></td>
+        <td>Core 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DBoundedObject</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DGroupingNode </i>(abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>Group</td>
+        <td><i>addChildren</i> optionally supported. <i>removeChildren</i> 
+        optionally supported. Otherwise as for all groups.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Transform</td>
+        <td><i>addChildren</i> optionally supported. <i>removeChildren</i> 
+        optionally supported. Otherwise as for all groups.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>2</b></td>
+        <td>Core 1</td>
+        <td> </td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>All Level 1 Grouping nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Switch</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>3</b></td>
+        <td> 
+          <p>Core 1</p>
+        </td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>All Level 2 Grouping nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>StaticGroup</td>
+        <td>All fields fully supported.</td>
+      </tr>
+         </table>
+</div>
+
+<img class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

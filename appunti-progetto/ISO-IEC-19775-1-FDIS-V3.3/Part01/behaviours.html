@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, Annex G Recommended navigation behaviours</TITLE>
+<link rel="stylesheet" href="X3D.css" type="text/css">
+</head>
+
+<body>
+
+<div class="CenterDiv">
+<a href="X3D.html">
+<img class="x3dlogo" SRC="../Images/x3d.png" ALT="X3D logo"  style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart" align="center">
+    Extensible 3D (X3D)<br>  
+    Part 1: Architecture and base components</p>  
+
+<p class="AnnexHeadingBottom" align="center">
+    Annex G Recommended navigation behaviours</p> 
+
+<p class="AnnexType" align="center">
+(informative)</p>
+
+</div>
+
+<img class="x3dbar" SRC="../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a NAME="IntroductionAndTOC"></a>G.1 Introduction and table of contents</H1>     
+
+<p>This annex describes basic X3D scene navigation recommended 
+practice. This recommended practice describes a browser-independent 
+standardized keyboard interface which implements 
+X3D frequently used scene interactivity.
+Features that imply interactivity are fundamental in X3D. 
+The author expects to be able to specify multiple viewpoints in a 
+predicable sequence, the ability to point and select, 
+and to enable continuous navigation within the scene. 
+Likewise the interactor expects to 
+be able to exercise scene functionality using predictable 
+methods.</p>
+
+<p>This recommended practice is intended to allow use of 
+a core subset of the functionality of an X3D browser, 
+not unnecessarily limit interactive functionality 
+which may be provided by a browser.</p>
+
+<p><a href="#t-Topics">Table G.1</a> lists the major topics in this annex.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table G.1 &#8212; Topics</p>
+
+<table class="topics">
+ <tr> 
+  <td> 
+   <ul>
+<li><a href="#IntroductionAndTOC">G.1 Introduction and table of contents</a></li>
+<li><a href="#SelectFromMulitpleViewpoints">G.2 Select from multiple viewpoints</a></li>
+<li><a href="#EmulatePointDevice">G.3 Emulate pointing device</a></li>
+<li><a href="#SelectOrActivatePointingDevice">G.4 Select or activate pointing device</a></li>
+<li><a href="#DisableEnableKeyboard">G.5 Disable/enable keyboard</a><br>
+&nbsp;</li>
+<li><a href="#t-Topics">Table G.1&nbsp; Topics</a></li>
+   </ul>
+  </td>
+ </tr>
+</table>
+</div>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a NAME="SelectFromMulitpleViewpoints"></a>G.2 Select from multiple viewpoints</H1> 
+
+<p>User navigation in X3D environments includes definition of 
+multiple viewpoints. Where the user is allowed to freely 
+select between viewpoints, typical controls allow 
+simple selection of: </p>
+ 
+   <ul>
+<li>Home (Initial) ViewPoint,</li> 
+<li>Last (Final) Viewpoint,</li>
+<li>Next Viewpoint in Sequence, and</li>
+<li>Previous Viewpoint in Sequence.</li>
+</ul>
+
+<p>This annex recommends using the following 
+keys: </p>
+
+<pre class="listing">HOME    Initial Viewpoint 
+PGDN    Next Viewpoint 
+PGUP    Previous Viewpoint 
+END     Final Viewpoint 
+</pre>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a NAME="EmulatePointDevice"></a>G.3 Emulate pointing device</H1>
+
+<p>The pointing device is used to control navigation through the scene. Where 
+the user is allowed to interact using the pointing device, typical controls 
+allow up/down/right/left pointing device movement
+to control movement of the viewpoint.</p>
+
+   The objective is not to actually move the screen tracking cursor, but to allow 
+navigation control as if the tracking cursor or pointer is moved under control 
+of the pointing device.
+
+<p>This annex recommends using the following 
+(arrow) keys to emulate relative tracking pointer 
+movement as follows:</p> 
+
+<pre class="listing">UP        Up  
+DOWN      Down 
+LEFT      Left
+RIGHT     Right
+</pre>
+
+<p>Movement left/right/up/down refers to motion of the user&#39;s view while 
+navigating.</p>
+<p>Activation of these keys causes movement of the viewpoint 
+according to currently selected navigation type:</p>
+
+<pre class="listing">WALK:      forward/backward/left/right
+FLY:       forward/backward/left/right
+EXAMINE:   orbit up/down/left/right around center of rotation
+           with camera pointed at center of rotation
+</pre>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a NAME="SelectOrActivatePointingDevice"></a>G.4 Select or activate pointing device</H1>
+ 
+<p>The pointing device is used to provide 
+a means of selecting of a scene 
+element. Where the user is allowed to 
+use this, the following action is recommended: activate pointing device (left mouse click).<p>This annex recommends using the following key:</p>
+
+<pre class="listing">ENTER  Left Mouse Click
+</pre>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a NAME="DisableEnableKeyboard"></a>G.5 Disable/enable keyboard</h1>
+
+<p>It is recommended that the browser provide a 
+means for the author to enable and  disable 
+the keyboard.</p> 
+
+<p>
+<img class="x3dbar" src="../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23"></p>
+
+</body>
+</html>

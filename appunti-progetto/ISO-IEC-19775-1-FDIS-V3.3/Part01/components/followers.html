@@ -1,0 +1,1064 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 39 Followers component</TITLE>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</head>
+
+<body>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<img class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+
+Extensible 3D (X3D)<br>
+Part 1: Architecture and base components</p>
+<p class="HeadingClause">39 Followers component</p>
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">39.1 Introduction</h1>
+<h2><a name="Name"></a>39.1.1 Name</h2>
+  
+<p>The name of this component is &quot;Followers&quot;. This name shall be used when referring
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+
+<h2><a name="Overview"></a>39.1.2 Overview</h2>
+<p>This clause describes the Followers component of this part of ISO/IEC 19775.
+This includes how Followers are specified and how they behave.
+<a href="#t-Topics">Table 39.1</a> provides links to the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 39.1 &mdash; Topics</p>
+
+<table class="topics">
+    <TR>
+      <td>
+        <ul>
+          <li><a href="#Introduction">39.1 Introduction</a>
+          <ul>
+            <li><a href="#Name">39.1.1 Name</a></li>
+            <li><a href="#Overview">39.1.2 Overview</a></li>
+          </ul></li>
+          <li><a href="#Concepts">39.2 Concepts</a></li>
+          <li><a href="#Abstracttypes">39.3 Abstract types</a>
+            <ul>
+              <li><a href="#X3DChaserNode">39.3.1 <i>X3DChaserNode</i></a></li>
+              <li><a href="#X3DDamperNode">39.3.2 <i>X3DDamperNode</i></a></li>
+              <li><a href="#X3DFollowerNode">39.3.3 <i>X3DFollowerNode</i></a></li>
+            </ul></li>
+          <li> <a href="#Nodereference">39.4 Node reference</a>
+            <ul>
+              <li><a href="#ColorChaser">39.4.1 ColorChaser</a></li>
+				<li><a href="#ColorDamper">39.4.2 ColorDamper</a></li>
+              <li><a href="#CoordinateChaser">39.4.3 CoordinateChaser</a></li>
+				<li><a href="#CoordinateDamper">39.4.4 CoordinateDamper</a></li>
+              <li><a href="#OrientationChaser">39.4.5 OrientationChaser</a></li>
+              <li><a href="#OrientationDamper">39.4.6 OrientationDamper</a></li>
+              <li><a href="#PositionChaser">39.4.7 PositionChaser</a></li>
+              <li><a href="#PositionChaser2D">39.4.8 PositionChaser2D</a></li>
+              <li><a href="#PositionDamper">39.4.9 PositionDamper</a></li>
+              <li><a href="#PositionDamper2D">39.4.10 PositionDamper2D</a></li>
+              <li><a href="#ScalarChaser">39.4.11 ScalarChaser</a></li>
+              <li><a href="#ScalarDamper">39.4.12 ScalarDamper</a></li>
+              <li><a href="#TexCoordChaser2D">39.4.13 TexCoordChaser2D</a></li>
+              <li><a href="#TexCoordDamper2D">39.4.14 TexCoordDamper2D</a></li>
+            </ul></li>
+          <li> <a href="#SupportLevels">39.5 Support levels</a></li>
+        </ul>
+        <ul>
+          <li><a href="#f-CalculatingTheOutputOfAnX3DFollowerNode">Figure 39.1 &#8212; 
+			Calculating the output of an <i>X3DFollowerNode</i></a></li>
+		  <li><a href="#f-ConceptOfAnX3DDamperNode">Figure 39.2 &#8212; Concept of an <i>
+			X3DDamperNode</i></a></li>
+          <li><a href="#f-ModeOfOperationOfAnX3DFollowerNode">Figure 39.3 &#8212; Mode 
+			of operation of an <i>X3DFollowerNode</i></a></li>
+        </ul>
+        <ul>
+		  <li><a href="#t-Topics">Table 39.1 &#8212; Topics</a></li>
+		  <li><a href="#t-supportlevels">Table 39.2 &#8212; Followers component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+     <h1><a name="Concepts"></a>
+     <img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">39.2
+     Concepts</h1>
+  
+<p>The group of <i>Follower</i> nodes supports the creation of transitions of 
+parameters at runtime (dynamically) by receiving a destination value upon which 
+they create an animation that transitions their output value from its current 
+value towards the newly set destination value.
+</p>
+
+<p>In case a transition triggered by reception of a previous destination value 
+is not yet finished while the new destination is received, both the new and old 
+transition are merged, so that a smooth animation is created where the previous 
+movement degrades and gradually becomes a movement towards the new destination 
+which is then eventually reached.
+</p>
+
+<p><i>Follower</i> nodes accomplish the transition by implementing <b>f</b>inite
+<b>i</b>mpulse <b>r</b>esponse (FIR) filters and <b>i</b>nfinite <b>i</b>mpulse
+<b>r</b>esponse (IIR) filters from the field of system theory. Due to this 
+filter distinction, the <i>Follower</i> nodes are divided into <i>Chaser</i> 
+nodes (FIR) and <i>Damper</i> nodes (IIR).
+</p>
+
+<p>Like <i>TimeSensor</i> nodes, <i>Follower</i> nodes often send output events 
+at times when they have not received input events. Their behaviour is completely 
+determined by the events they receive from the scene graph itself at earlier 
+times.</p>
+
+<p><i>Follower</i> nodes are not affected by their position in the transformation hierarchy nor
+are they affected by the state of containing <a href="group.html#Switch">Switch</a> nodes, 
+<a href="navigation.html#LOD">LOD</a> nodes and
+other nodes that affect the visibility of their children.
+</p>
+
+<h1><a name="Abstracttypes"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">39.3 Abstract types</h1>
+  
+<h2><a name="X3DChaserNode"></a>39.3.1 <i>X3DChaserNode</i></h2>
+  
+
+<pre class="node"><tt><span style="font-weight: 400">X3DChaserNode : X3DFollowerNode {
+  [S|M]F&lt;type&gt; [in]     set_destination
+  [S|M]F&lt;type&gt; [in]     set_value
+  SFNode       [in,out] metadata           NULL  [X3DMetadataObject]
+  SFBool       [out]    isActive
+  [S|M]F&lt;type&gt; [out]    value_changed
+  SFTime       []       duration           1     [0,&#8734;)
+  [S|M]F&lt;type&gt; []       initialDestination 
+  [S|M]F&lt;type&gt; []       initialValue
+}</span></tt></pre>
+
+<p>The <i>X3DChaserNode</i> abstract node type calculates the output on <i>value_changed</i> as a
+finite impulse response (FIR) based on the events received on <i>set_destination</i> 
+in the following manner.
+</p>
+
+<p>Each time an event is received on <i>set_destination</i>, a transition <i>A<sub>n</sub></i> from the previously 
+received destination to the new destination is created according to Equation (1).
+The data types of all variables are floating point numbers, or integers in the case of indices, except for
+<i>d<sub>n</sub></i>, <i>d<sub>n-1</sub></i>, <i>A<sub>n</sub>(t)</i> and <i>O(t)</i>. 
+These variables have the data type of the node (<i>e.g.</i>, <i>SFVec3f</i> or <i>SFColor</i>).
+</p>
+
+<div class=CenterDiv>
+<img src="../../Images/equ-1.png" alt="Equation (1)">
+</div>
+
+
+
+<p>where:</p>
+<p><i>T<sub>n</sub></i> is the point in time where the event has been received<i><br>
+D</i> is the
+value of the <i>duration</i> field<i><br>
+d<sub>n</sub></i> is the new destination value received with the event<i><br>
+d<sub>n-1</sub></i> is the value that was the destination before the event<i><br>
+R(x)</i> is the core function of the filter:
+</p>
+
+<div class=CenterDiv>
+<img src="../../Images/equ-2.png" alt="Equation (2)">
+</div>
+
+<p>All the transitions created for every event on <i>set_destination</i> are added together
+to form the output on <i>value_changed</i>.
+</p>
+
+
+<div class=CenterDiv>
+<img src="../../Images/equ-3.png" alt="Equation (3)">
+</div>
+
+
+<p>where <i>l</i> is the number of events received so far on <i>set_destination</i>.
+If <i>k</i> is set to 0, <i>d<sub>-1</sub></i> is the value of the <i>initialValue</i> field
+and <i>d<sub>0</sub></i> is the value of <i>initialDestination</i>. This way the initial transition
+determined by these two fields is produced.
+</p>
+
+<p>Theoretically the start index <i>k</i> could be always set to zero meaning that all <i>set_destination</i> events since initialization 
+are to be stored. However, <i>k</i> can be increased without changing
+the result <i>O(t)</i> as long as the time stamp <i>T<sub>k-1</sub></i> is more than <i>D</i> seconds
+before the current time stamp.  This is due to the facts:</p>
+<ol type="a">
+	<li>after a period of <i>D</i> seconds (the
+<i>duration</i> field), the transitions <i>A<sub>n</sub>(t)</i> are constantly 
+	<i>d<sub>n</sub> - d<sub>n-1</sub></i><sub>;</sub> and</li>
+	<li><i>d<sub>k-1</sub></i> is the sum of all differences <i>d<sub>n</sub> - d<sub>n-1</sub></i> so far.
+	</li>
+</ol>
+
+<p>This way the <i>X3DChaserNode</i> implementation remembers the values and time stamps of all
+<i>set_destination</i> events received in the last period of <i>duration</i> seconds plus the value received
+latest before that period. For calculating the current value of <i>value_changed</i>, 
+the <i>X3DChaserNode</i> uses that latest received
+value as a starting point (<i>d<sub>k-1</sub></i>) and adds to it all transitions <i>A<sub>n</sub>(t)</i> generated
+by the stored events.
+</p>
+
+<p>A more optimal implementation could divide the time-line into equidistant time-slots and
+store only the latest <i>set_destination</i> event received for each time-slot. This way a fixed length array
+could be used for describing the input during the period of the last <i>duration</i> seconds.
+This however can create little jumps in the animation created at <i>value_changed</i> 
+since a <i>set_destination</i> event may cause the beginning of a transition being produced and may then be replaced by a later event 
+received
+in the same time-slot. To avoid this, events are associated with the end of the time-slot rather
+than with the time-stamp when they are received.
+</p>
+
+<p>Thus, the output reaches the
+value received at <i>set_destination</i> up to the length of a time-slot later than is dictated by the <i>duration</i> field. To compensate, an implementation 
+shall subtract the length of a time-slot from <i>duration</i> and use
+the result for <i>D</i>.</p>
+
+<p>It is suggested that the implementation uses (about) 10 time-slots per duration <i>duration</i> 
+as depicted in <a href="#f-CalculatingTheOutputOfAnX3DFollowerNode">Figure 39.1</a>.
+</p>
+
+<div style="text-align:center">
+<a name="f-CalculatingTheOutputOfAnX3DFollowerNode"></a>
+<img src="../../Images/follower_2.png" alt="CalculatingOutput">
+</div>
+<div style="text-align:center">
+<p class="FigureCaption">Figure 39.1 &#8212; Calculating the output of an <i>
+X3DFollowerNode</i></div>
+
+<p>The above diagram illustrates how an implementation calculates the output at an arbitrary point in time.
+Figure 39.1 depicts only four time-slots per duration <i>D</i>. The period goes from the current time-stamp <i>Now</i>
+back by <i>D</i> seconds, not necessarily matching the grid of the time slots. The events <i>d<sub>1</sub></i>
+and <i>d<sub>2</sub></i> have happened before this period and are therefore summarized by the value of
+<i>d<sub>2</sub></i>. The event <i>d<sub>3</sub></i> however falls into the period of <i>D</i> seconds. It is moved
+towards the end of the time-slot it falls into and generates the transition <i>A<sub>3</sub>(t)</i> with
+the amplitude <i>d<sub>3</sub> - d<sub>2</sub></i>. The event <i>d<sub>4</sub></i> gets ignored because
+it is followed by <i>d<sub>5</sub></i> in the same time-slot. Therefore only <i>d<sub>5</sub></i> generates a transition,
+which is
+<i>A<sub>5</sub>(t)</i>. The amplitude of <i>A<sub>5</sub>(t)</i> is <i>d<sub>5</sub> - d<sub>3</sub></i> because <i>d<sub>4</sub></i>
+got ignored. The output <i>O(t)</i> is thus calculated as specified in Equation 
+(4):
+</p>
+
+<div style="text-align:center">
+<img src="../../Images/equ-4.png" alt="Equation (4)">
+</div>
+
+
+<p>When the current time-stamp has advanced until after the end of curve <i>A<sub>3</sub>(t)</i>, which is when
+the time-slot containing event <i>d<sub>3</sub></i> is
+no longer part of the last <i>D</i> seconds, the start value for the addition <i>d<sub>2</sub></i> is replaced
+with <i>d<sub>3</sub></i> and the curve <i>A<sub>3</sub>(t)</i> is removed from the addition, so that
+<i>O(t)&nbsp;=&nbsp;d<sub>3</sub>&nbsp;+&nbsp;A<sub>5</sub>(t)</i>.
+</p>
+
+<p>The above diagram uses four time-slots per duration <i>D</i>. With the above recommendations of making <i>D</i>
+one time-slot shorter than the <i>duration</i> field specifies, this means that 
+a time-slot is a fifth
+of what is specified by <i>duration</i>.
+</p>
+
+  <h2><a name="X3DDamperNode"></a>39.3.2 <i>X3DDamperNode</i></h2>
+  
+<pre class="node"><tt><span style="font-weight: 400">X3DDamperNode : X3DFollowerNode {
+  [S|M]F&lt;type&gt; [in]     set_destination
+  [S|M]F&lt;type&gt; [in]     set_value
+  SFNode       [in,out] metadata           NULL   [X3DMetadataObject]
+  SFTime       [in,out] tau                0.3    [0,&#8734;)
+  SFFloat      [in,out] tolerance          -1     -1 or [0,&#8734;)
+  SFBool       [out]    isActive
+  [S|M]F&lt;type&gt; [out]    value_changed
+  [S|M]F&lt;type&gt; []       initialDestination
+  [S|M]F&lt;type&gt; []       initialValue
+  SFInt32      []       order              3     [0..5]
+}</span></tt></pre>
+
+<p>The <i>X3DDamperNode</i> abstract node type creates an IIR response that approaches the 
+destination value according to the shape of the <i>e</i>-function only 
+asymptotically but very quickly.
+</p>
+
+<p>An <i>X3DDamperNode</i> node is parameterized by the <i>tau</i>, <i>order</i> and <i>tolerance</i> fields. Internally,
+it consists of a set of linear first-order filters each of which processes the output of the previous filter 
+as shown in <a href="#f-ConceptOfAnX3DDamperNode">Figure 39.2</a>.
+The input of the first filter is fed by the values received on <i>set_destination</i> and the output of the
+last filter goes to the <i>value_changed</i> field.</p>
+
+<div class=CenterDiv>
+<a name="f-ConceptOfAnX3DDamperNode"></a>
+<img src="../../Images/follower_3.png" alt="Concept of an X3DDamperNode" width="662" height="106">
+<p class="FigureCaption">Figure 39.2 &#8212; Concept of an <i>X3DDamperNode</i></p>
+</div>
+
+<p>The calculations of the output for the current time-stamp <i>T<sub>n</sub></i> for each filter are based
+on the output of that filter from the previous time-stamp <i>T<sub>n-1</sub></i> and the current input using
+the Equation (5):
+</p>
+
+<div style="text-align:center;">
+  <img src="../../Images/equ-5.png" alt="Equation(5)">
+</div>
+
+<p>The field <i>order</i> specifies the number of such internal filters. Specifying 
+zero for <i>order</i> means that no filter is used. In this case the events received on <i>set_destination</i> are forwarded directly
+to <i>output_changed</i>. The larger the value for <i>order,</i> the smoother the output on <i>value_changed</i> will be, but the more delay will be introduced. Since values larger than 
+five do not introduce any more smoothing, the
+range for <i>order</i> is limited to a maximum of five.
+</p>
+
+<p>The field <i>tau</i> specifies the time-constant of the internal filters and thus the speed 
+that the output of an <i>X3DDamperNode</i> responds to the input. Its value is assigned to the variable <i>&tau;</i> in the above equation.
+A value of zero for <i>tau</i> means immediate response and the events received on <i>set_destination</i> are forwarded directly to <i>output_changed</i>. The field <i>tau</i> specifies how long it takes the output
+of an internal filter to reach the value of its input by 63% (<i>1 - 1/e</i>).
+The remainder after that period is reduced by 63% during another
+period of <i>tau</i> seconds provided that the input of the filter does not change. This behavior
+can be exposed if <i>order</i> is set to one.
+</p>
+
+<p>Since the output of an <i>X3DDamperNode</i> approaches the input value only asymptotically, there must be
+a means to determine when the destination value can be assumed to be reached and the node can stop emitting
+values and set <i>isActive</i> to <span class="code">FALSE</span>. This is governed by the <i>tolerance</i> field. if <i>tolerance</i> is 
+set to its default value -1, the browser implementation is allowed to find a good way for detecting the
+end of a transition. Browsers that do not have an elaborate algorithm can just use .001 as the tolerance value instead.
+If a value larger than zero is specified for <i>tolerance,</i> the browser shall calculate the difference
+between output and input for each internal filter being used and stop the animation only when all filters fall below
+that limit or are equal to it. If zero is specified for <i>tolerance</i>, a transition should be stopped
+only if input and output match exactly for all internal filters. This can happen if
+<i>set_value</i> receives an event.
+</p>
+
+<p>An implementation shall test for end of transition before it calculates the new output value. 
+Then, the implementation shall
+either assign the <i>destination value</i> to the <i>output value</i>, if the difference falls below the tolerance
+limit, or calculate an updated output value.
+</p>
+  
+  <h2><a name="X3DFollowerNode"></a>39.3.3 <i>X3DFollowerNode</i></h2>
+  
+<pre class="node"><tt><span style="font-weight: 400">X3DFollowerNode : X3DChildNode {
+  [S|M]F&lt;type&gt; [in]     set_destination
+  [S|M]F&lt;type&gt; [in]     set_value
+  SFNode       [in,out] metadata           NULL [X3DMetadataObject]
+  SFBool       [out]    isActive
+  [S|M]F&lt;type&gt; [out]    value_changed
+  [S|M]F&lt;type&gt; []       initialDestination
+  [S|M]F&lt;type&gt; []       initialValue
+}</span></tt></pre>
+
+
+<p>The abstract node <i>X3DFollowerNode</i> forms the
+basis for all nodes
+specified in this clause. The data type
+place holder <i>[S|M]F&lt;type&gt;</i> evaluates to the same
+data type for all fields of a specialization of the abstract node class
+<i>X3DFollowerNode</i>.
+</p>
+
+<p>An <i>X3DFollowerNode</i> maintains an internal state that consists of a <i>
+current value</i> and a <i>destination value</i>. Both values are of the same 
+data type into which the term <i>[S|M]F&lt;type&gt;</i> evaluatesfor a given 
+specialization. It is the <i>&#39;data type of the node&#39;</i>. In certain cases of 
+usage, the terms <i>input</i> and <i>output</i> fit better for <i>destination 
+value</i> and <i>current value</i>, respectively.
+</p>
+
+<p>Whenever the <i>current value</i> differs from the <i>destination value</i>, 
+the current value gradually changes until it reaches the <i>destination value</i> 
+producing a smooth transition. It generally moves towards the <i>destination 
+value</i> but, if a transition triggered by a prevous <i>destination value</i> 
+is still in progress, it may take a short while until the movement becomes a 
+movement towards the new destination value.
+<a href="#f-ModeOfOperationOfAnX3DFollowerNode">Figure 39.3</a> depicts this 
+action.</p>
+<div class=CenterDiv>
+<a name="f-ModeOfOperationOfAnX3DFollowerNode"></a><img src="../../Images/follower_1.png" alt="ModeOfOperation">
+<p class="FigureCaption">Figure 39.3 &#8212; Mode of operation of an <i>X3DFollowerNode</i></p>
+</div>
+
+
+<p>The <i>value_changed</i> outputOnly field outputs the current value of the 
+internal state.
+</p>
+
+<p>The <i>set_destination</i> inputOnly field receives new destination values, 
+resulting in the <i>value_changed</i> field sending output values in most cases.</p>
+
+<p>The initializeOnly fields, <i>initialDestination</i> and <i>initialValue</i>, initialize the internal state
+of the <i>X3DFollowerNode</i>. The <i>current value</i> receives the
+value of <i>initialValue</i> and the
+<i>destination value</i> receives the value of <i>initialDestination</i>.
+If both fields have the same
+values, the <i>X3DFollowerNode</i> sends that value through the <i>value_changed</i> field in a single
+event upon initialization. If both fields have different values, the <i>X3DFollowerNode</i> creates an animation from the value of <i>initialValue</i> towards the value
+of <i>initialDestination</i>. The shape of that transition is the same as if the
+<i>current value</i> internal state had always been at the value of <i>initialValue</i> and the node had just received the <i>destination value</i>.
+</p>
+
+<p>With the <i>set_value</i> inputOnly field, one can immediately force
+the <i>current value</i> towards
+a certain value. When the <i>X3DFollowerNode</i> receives a value on <i>set_value</i>,
+any current
+transition is stopped and the <i>current value</i> assumes that value.
+The <i>value_changed</i> field outputs that value and then moves towards the value currently set for the <i>destination
+value</i>.
+This animation has the same shape as if the <i>current value</i> had
+already been at the newly received value for a long time
+and the node had just received an event on <i>set_destination</i> carrying the
+value of the currently set <i>destination value</i>.
+</p>
+
+<p>One can achieve various results by sending certain values to
+<i>set_value</i>, <i>set_destination</i> or both at the same time:
+</p>
+
+<ul>
+  <li><b><i>set_destination</i> and <i>set_value</i> receive different values:</b><br>
+      A transition is created that goes from the value of <i>set_value</i> towards the value
+      of <i>set_destination</i>. The transition is independent of the previous history of
+      the node. With most parameter settings, the transition starts with zero speed and then
+      accelerates towards the destination.</li>
+  <li><b><i>set_destination</i> and <i>set_value</i> receive the same value:</b><br>
+      <i>Output_changed</i> assumes the specified value immediately and stays there. No 
+	transition is created.</li>
+  <li><b><i>set_value</i> receives the value <i>value_changed</i> currently has:</b><br>
+      <i>Value_changed</i> stops moving immediately and begins a new transition towards
+      the currently set <i>destination value</i>. With most parameter settings, the result is that
+      <i>value_changed</i> stops moving and then accelerates towards the <i>destination value</i> 
+	to which it was already targeted.</li>
+  <li><b><i>set_value</i> receives the value currently set as destination:</b><br>
+      The <i>output_changed</i> value jumps to the <i>destination value</i> immediately.</li>
+  <li><b><i>set_destination</i> and <i>set_value</i> both receive the current value of <i>value_changed</i>:</b><br>
+      The transition produced comes to an immediate halt at its current value.</li>
+</ul>
+
+
+<p>The <i>isActive</i> outputOnly field identifies the beginning and end of a 
+transition. It sends <span class="code">TRUE</span> before <i>set_value</i> 
+begins animating and it sends <span class="code">FALSE</span> after <i>set_value</i> 
+has reached the <i>destination</i> or has been stopped by another means. When <i>
+set_value</i> receives an event while <i>isActive</i> is <span class="code">TRUE</span>,
+<i>isActive</i> sends <span class="code">FALSE</span> after <i>value_changed</i> 
+has output the received value. If <i>isActive</i> is <span class="code">FALSE</span> 
+at that moment, <i>isActive</i> generates no event.</p>
+
+<h1><a name="Nodereference"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">39.4 Node reference</h1>
+<h2><a name="ColorChaser"></a>39.4.1 ColorChaser</h2>
+<pre class="node">
+ColorChaser: X3DChaserNode {
+  SFColor [in]     set_destination
+  SFColor [in]     set_value
+  SFNode  [in,out] metadata           NULL        [X3DMetadataObject]
+  SFBool  [out]    isActive
+  SFColor [out]    value_changed
+  SFTime  []       duration           1           [0,∞)
+  SFColor []       initialDestination 0.8 0.8 0.8 [0,1]
+  SFColor []       initialValue       0.8 0.8 0.8 [0,1]
+}
+</pre>
+
+<p>The ColorChaser animates transitions for single colour values. Whenever the 
+<em>set_destination</em> field receives a
+floating point number, the <em>value_changed</em> creates a transition from its current value to the newly set number.
+It creates a smooth transition that ends <em>duration</em> seconds after the last number has been received.</p>
+
+<p>When <em>set_value</em> receives a colour value, any transition currently in process is stopped and 
+<em>value_changed</em> sends
+this value immediately, creating a jump. The field <em>initialValue</em> can be used to set the initial value of
+<em>value_changed</em>. The field <em>initialDestination</em> should be set to the same value unless a transition to a certain value
+is to be created right after the scene is loaded or right after the ColorChaser node is created dynamically.</p>
+
+<h2><a name="ColorDamper"></a>39.4.2 ColorDamper</h2>
+  
+<pre class="node">ColorDamper : X3DDamperNode {
+  SFColor [in]     set_destination
+  SFColor [in]     set_value
+  SFNode  [in,out] metadata           NULL        [X3DMetadataObject]
+  SFTime  [in,out] tau                0.3         [0,&#8734;)
+  SFFloat [in,out] tolerance          -1          -1 or [0,&#8734;)
+  SFBool  [out]    isActive
+  SFColor [out]    value_changed
+  SFColor []       initialDestination <tt><span style="font-weight: 400">0.8 0.8 0.8 [0,1]</span></tt>
+  SFColor []       initialValue       <tt><span style="font-weight: 400">0.8 0.8 0.8 [0,1]</span></tt>
+  SFInt32 []       order              3           [0..5]
+}</pre>
+
+<p>The ColorDamper animates colour values. Whenever the <i>
+set_destination </i>field receives a colour, the ColorDamper node creates 
+a transition from the current colour to the newly set colour. The transition 
+created approaches the newly set position asymptotically during a time period of 
+approximately three to four times the value of the field <i>tau</i> depending on 
+the desired accuracy and the value of <i>order</i>. The <i>order</i> field 
+specifies the smoothness of the transition.</p>
+<p>When <i>set_value</i> receives a colour, any transition currently in process 
+is stopped and <i>value_changed</i> sends this value immediately, creating a 
+jump to the new colour. The field <i>initialValue</i> can be used to set the 
+initial colour. The field <i>initialDestination</i> should be set to the same 
+value unless a transition to a certain colour is to be created right after the 
+scene is loaded or right after the ColorDamper<i> </i>node is created 
+dynamically.</p>
+
+<h2><a name="CoordinateChaser"></a>39.4.3 CoordinateChaser</h2>
+<pre class="node">CoordinateChaser: X3DChaserNode {
+  MFVec3f [in]     set_destination
+  MFVec3f [in]     set_value
+  SFNode  [in,out] metadata           NULL  [X3DMetadataObject]
+  SFBool  [out]    isActive
+  MFVec3f [out]    value_changed
+  SFTime  []       duration           1     [0,∞)
+  MFVec3f []       initialDestination 0 0 0
+  MFVec3f []       initialValue       0 0 0
+}
+</pre>
+
+<p>The CoordinateChaser animates transitions for array of 3D vectors (<em>e.g.</em>, the coordinates of a mesh). Whenever
+the <em>set_destination</em> field receives an array of 3D vectors, the <em>value_changed</em> creates a transition from its current
+value to the newly set number. It creates a smooth transition that ends <em>duration</em> seconds after the last number
+has been received.</p>
+
+<p>When <em>set_value</em> receives an array of 3D vectors, any transition currently in process is stopped and
+<em>value_changed</em> sends this value immediately, creating a jump. The field 
+<em>initialValue</em> can be used to
+set the initial value of <em>value_changed</em>. The field <em>initialDestination</em> should be set to the
+same value unless a transition to a certain value is to be created right after the scene is loaded
+or right after the CoordinateChaser node is created dynamically.</p>
+
+<h2><a name="CoordinateDamper"></a>39.4.4 CoordinateDamper</h2>
+  
+<pre class="node">CoordinateDamper : X3DDamperNode {
+  MFVec3f [in]     set_destination
+  MFVec3f [in]     set_value
+  SFNode  [in,out] metadata           NULL  [X3DMetadataObject]
+  SFTime  [in,out] tau                0.3   [0,&#8734;)
+  SFFloat [in,out] tolerance          -1    -1 or [0,&#8734;)
+  SFBool  [out]    isActive
+  MFVec3f [out]    value_changed
+  MFVec3f []       initialDestination 0 0 0
+  MFVec3f []       initialValue       0 0 0
+  SFInt32 []       order              3     [0..5]
+}</pre>
+
+<p>The CoordinateDamper animates transitions for an array of 3D vectors (<i>e.g.</i>, 
+the coordinates of a mesh). Whenever the <i>set_destination</i> field receives 
+an array of 3D vectors, <i>value_changed</i> begins sending an array of the same 
+length, where each element moves from its current value towards the value at the 
+same position in the array received. Each element approaches its destination 
+value asymptotically during a time period of approximately three to four times 
+the value of the field <i>tau</i> depending on the desired accuracy and the 
+value of <i>order</i>. The <i>order</i> field specifies the smoothness of the 
+transition. The transition ends when all elements have reached their 
+destination.
+</p>
+<p>When <i>set_value</i> receives an event, any transition currently in process 
+is stopped and <i>value_changed</i> sends this array immediately, creating a 
+jump. The field <i>initialValue</i> can be used to set the initial value of <i>
+value_changed</i>. The field <i>initialDestination</i> should be set to the same 
+value unless a transition to a certain 3D vector value is to be created right 
+after the scene is loaded or right after the CoordinateDamper<i> </i>node is 
+created dynamically.</p>
+<p>The MFVec3f arrays that are sent to the <i>set_destination</i> or <i>
+set_value</i> field shall have the same length (number of elements). The length 
+of the arrays shall not change over time. Values assigned to <i>
+initialDestination</i> or <i>initialValue</i> shall either be an empty array or 
+an array with the same number of elements as is sent to the <i>set_destination</i> 
+or <i>set_value</i> fields. In any other case, the behavior is not defined.</p>
+<h2><a name="OrientationChaser"></a>39.4.5 OrientationChaser</h2>
+  
+<pre class="node">OrientationChaser : X3DChaserNode {
+  SFRotation [in]     set_destination
+  SFRotation [in]     set_value
+  SFNode     [in,out] metadata           NULL    [X3DMetadataObject]
+  SFBool     [out]    isActive
+  SFRotation [out]    value_changed
+  SFTime     []       duration           1       [0,&#8734;)
+  SFRotation []       initialDestination 0 1 0 0
+  SFRotation []       initialValue       0 1 0 0
+}</pre>
+
+<p>The OrientationChaser animates transitions for orientations. If the <i>
+value_changed</i> field is routed to a <i>rotation</i> field of a <i>Transform</i> 
+node that contains an object, whenever the <i>set_destination</i> field receives 
+an orientation, the OrientationChaser node rotates the object from its 
+current orientation to the newly set orientation. It creates a smooth transition 
+that ends <i>duration</i> seconds after the last orientation has been received.</p>
+<p>When <i>set_value</i> receives an orientation, any transition currently in 
+process is stopped and the object jumps directly to the given orientation. The 
+field <i>initialValue</i> can be used to set the initial orientation of the 
+object. The field <i>initialDestination</i> should be set to the same value 
+unless a transition to a certain orientation is to be created right after the 
+scene is loaded or right after the OrientationChaser<i> </i>node is created 
+dynamically.</p>
+<p>The OrientationChaser node can be implemented by combining Equations 
+(1), (2), and (3) to form Equation (6):
+</p>
+
+<div style="text-align:center">
+<img src="../../Images/equ-6.png" alt="Equation (6)">
+</div>
+
+<p>This leads to the following loop denoted in pseudo code:
+</p>
+<p class="Equation">    &nbsp;&nbsp;&nbsp; var Result= <i>d<sub>k-1</sub></i>;<br>
+&nbsp;&nbsp;&nbsp; for (var n from k to l) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var Delta = <i>d<sub>n</sub> - d<sub>n-1</sub></i>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Result = Result + Delta &times; <i>R(...)</i>;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;
+    <i>O(t) </i>= Result;</p>
+
+<p>Since <i>d<sub>k-1</sub></i>, <i>d<sub>n</sub></i>, <i>d<sub>n-1</sub></i> and thus <span class="code">Result</span> contain rotation
+values (SFRotation), the above code must be converted to use operations 
+available for rotations.
+This can be achieved using the <i>slerp</i> operation.
+For the following, let <span class="code">slerp(A, B, t)</span> be a function that calculates the linear spherical interpolation from
+<i>A</i> to <i>B</i> by the amount <i>t</i>. Let also <span class="code">Core(.)</span> be a function that calculates <i>R(...)</i> and
+let <span class="code">Buffer</span> be an array so that <span class="code">Buffer[i]</span> evaluates to <i>d<sub>i</sub></i>.
+Then, the above loop can be implemented as:
+</p>
+<p class="Equation">    &nbsp;&nbsp;&nbsp; var Result= Buffer[k-1];<br>
+&nbsp;&nbsp;&nbsp; for(var n from k to l) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var Delta = Buffer[n-1].inverse().multiply(Buffer[n]);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Result = slerp(Result, Result.multiply(Delta), Core(...));<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;
+    <i>O(t) </i>= Result;</p>
+
+<h2><a name="OrientationDamper"></a>39.4.6 OrientationDamper</h2>
+  
+<pre class="node">OrientationDamper : X3DDamperNode {
+  SFRotation [in]     set_destination
+  SFRotation [in]     set_value
+  SFNode     [in,out] metadata           NULL    [X3DMetadataObject]
+  SFTime     [in,out] tau                0.3     [0,&#8734;)
+  SFFloat    [in,out] tolerance          -1      -1 or [0..&#8734;]
+  SFBool     [out]    isActive
+  SFRotation [out]    value_changed
+  SFRotation []       initialDestination 0 1 0 0
+  SFRotation []       initialValue       0 1 0 0
+  SFInt32    []       order              3       [0..5]
+}</pre>
+
+<p>The OrientationDamper animates transitions of orientations. If the <i>
+value_changed</i> field is routed to an <i>orientation</i> field of a 
+<a href="group.html#Transform">Transform</a> node that contains an object, then, whenever the <i>set_destination</i> 
+field receives an orientation, the OrientationDamper node rotates the 
+object from its current orientation to the newly set orientation. It creates a 
+transition that approaches the newly set orientation asymptotically during a 
+time period of approximately three to four times the value of the field <i>tau</i> 
+depending on the desired accuracy and the value of <i>order</i>. Through this 
+asymptotic approach of the destination orientation, a very smooth transition is 
+created. The <i>order</i> field specifies the smoothness of the transition.</p>
+<p>When <i>set_value</i> receives an orientation, any transition currently in 
+process is stopped and the object jumps directly to the given orientation. The 
+field <i>initialValue</i> can be used to set the initial orientation of the 
+object. The field <i>initialDestination</i> should be set to the same value 
+unless a transition to a certain orientation is to be created right after the 
+scene is loaded or right after the OrientationDamper<i> </i>node is created 
+dynamically.</p>
+<p>The OrientationDamper node is implemented by calculating Equation (5) 
+for each internal filter. For SFRotation values, the equation is 
+equivalent to the following term:</p>
+<p class="Equation">    &nbsp;&nbsp;&nbsp; output = input.slerp(output, alpha);</p>
+<p>where: </p>
+<p class="Equation">    &nbsp;&nbsp;&nbsp;    output: <i>o<sub>n</sub></i> or <i>o<sub>n-1</sub></i>, respectively<br>
+&nbsp;&nbsp;&nbsp; input:&nbsp;  <i>d<sub>n</sub></i><br>
+&nbsp;&nbsp;&nbsp;
+    alpha:&nbsp;  <i>e<sup>-ΔT/τ</sup></i></p>
+    
+<h2><a name="PositionChaser"></a>39.4.7 PositionChaser</h2>
+  
+<pre class="node">PositionChaser : X3DChaserNode {
+  SFVec3f [in]     set_destination
+  SFVec3f [in]     set_value
+  SFNode  [in,out] metadata           NULL  [X3DMetadataObject]
+  SFBool  [out]    isActive
+  SFVec3f [out]    value_changed
+  SFTime  []       duration           1     [0,&#8734;)
+  SFVec3f []       initialDestination 0 0 0
+  SFVec3f []       initialValue       0 0 0
+}</pre>
+
+<p>The PositionChaser animates transitions for 3D vectors. If the <i>
+value_changed</i> field is routed to a <i>translation</i> field of a 
+<a href="group.html#Transform">Transform</a> node that contains an object, then, whenever the <i>set_destination</i> 
+field receives a 3D position, the PositionChaser node moves the object 
+from its current position to the newly set position. It creates a smooth 
+transition that ends <i>duration</i> seconds after the last position has been 
+received.</p>
+<p>When <i>set_value</i> receives a position, any transition currently in 
+process is stopped and the object jumps directly to the given position. The 
+field <i>initialValue</i> can be used to set the initial position of the object. 
+The field <i>initialDestination</i> should be set to the same value unless a 
+transition to a certain position is to be created right after the scene is 
+loaded or right after the PositionChaser<i> </i>node is created dynamically.</p>
+
+<h2><a name="PositionChaser2D"></a>39.4.8 PositionChaser2D</h2>
+  
+<pre class="node">PositionChaser2D : X3DChaserNode {
+  SFVec2f [in]     set_destination
+  SFVec2f [in]     set_value
+  SFNode  [in,out] metadata           NULL  [X3DMetadataObject]
+  SFBool  [out]    isActive
+  SFVec2f [out]    value_changed
+  SFTime  []       duration           1     [0,&#8734;)
+  SFVec2f []       initialDestination 0 0
+  SFVec2f []       initialValue       0 0
+}</pre>
+
+<p>The PositionChaser2D animates transitions for 2D vectors. Whenever the
+<i>set_destination</i> field receives a 2D vector the <i>value_changed</i> 
+creates a transition from its current 2D vector value to the newly set value. It 
+creates a smooth transition that ends <i>duration</i> seconds after the last 2D 
+vector has been received.</p>
+<p>When <i>set_value</i> receives a 2D vector, any transition currently in 
+process is stopped and <i>value_changed</i> sends this value immediately. The 
+field <i>initialValue</i> can be used to set the initial initial value of <i>
+value_changed</i>. The field <i>initialDestination</i> should be set to the same 
+value unless a transition to a certain 2D vector value is to be created right 
+after the scene is loaded or right after the PositionChaser2D<i> </i>node is 
+created dynamically.</p>
+
+<h2><a name="PositionDamper"></a>39.4.9 PositionDamper</h2>
+  
+<pre class="node">PositionDamper : X3DDamperNode {
+  SFVec3f [in]     set_destination
+  SFVec3f [in]     set_value
+  SFNode  [in,out] metadata           NULL  [X3DMetadataObject]
+  SFTime  [in,out] tau                0.3   [0,&#8734;)
+  SFFloat [in,out] tolerance          -1    -1 or [0,&#8734;)
+  SFBool  [out]    isActive
+  SFVec3f [out]    value_changed
+  SFVec3f []       initialDestination 0 0 0
+  SFVec3f []       initialValue       0 0 0
+  SFInt32 []       order              3     [0..5]
+}</pre>
+
+<p>The PositionDamper animates transitions for 3D vectors. If the <i>
+value_changed</i> field is routed to a <i>translation</i> field of a 
+<a href="group.html#Transform">Transform</a> node that contains an object, then, whenever the <i>set_destination</i> 
+field receives a 3D position, the PositionDamper node moves the object 
+from its current position to the newly set position. It creates a transition 
+that approaches the newly set position asymptotically during a time period of 
+approximately three to four times the value of the field <i>tau</i> depending on 
+the desired accuracy and the value of <i>order</i>. Through this asymptotic 
+approach of the destination value, a smooth transition is created. The <i>order</i> 
+field specifies the smoothness of the transition.</p>
+<p>When <i>set_value</i> receives a position, any transition currently in 
+process is stopped and the object jumps directly to the given position. The 
+field <i>initialValue</i> can be used to set the initial position of the object. 
+The field <i>initialDestination</i> should be set to the same value unless a 
+transition to a certain position is to be created right after the scene is 
+loaded or right after the PositionDamper<i> </i>node is created dynamically.</p>
+<h2><a name="PositionDamper2D"></a>39.4.10 PositionDamper2D</h2>
+  
+<pre class="node">PositionDamper2D : X3DDamperNode {
+  SFVec2f [in]     set_destination
+  SFVec2f [in]     set_value
+  SFNode  [in,out] metadata           NULL [X3DMetadataObject]
+  SFTime  [in,out] tau                0.3  [0,&#8734;)
+  SFFloat [in,out] tolerance          -1   -1 or [0..&#8734;]
+  SFBool  [out]    isActive
+  SFVec2f [out]    value_changed
+  SFVec2f []       initialDestination 0 0
+  SFVec2f []       initialValue       0 0
+  SFInt32 []       order              3    [0..5]
+}</pre>
+
+<p>The PositionDamper2D animates transitions for 2D vectors. Whenever the
+<i>set_destination</i> field receives a 2D vector, the <i>value_changed</i> 
+creates a transition from its current 2D vector value to the newly set value. It 
+creates a transition that approaches the newly set 2D vector asymptotically 
+during a time period of approximately three to four times the value of the field
+<i>tau</i> depending on the desired accuracy and the value of <i>order</i>. The
+<i>order</i> field specifies the smoothness of the transition.</p>
+<p>When <i>set_value</i> receives a 2D vector, any transition currently in 
+process is stopped and <i>value_changed</i> sends this value immediately, 
+creating a jump. The field <i>initialValue</i> can be used to set the initial 
+initial value of <i>value_changed</i>. The field <i>initialDestination</i> 
+should be set to the same value unless a transition to a certain 2D vector value 
+is to be created right after the scene is loaded or right after the 
+PositinChaser2D<i>
+</i>node is created dynamically.</p>
+<h2><a name="ScalarChaser"></a>39.4.11 ScalarChaser</h2>
+  
+<pre class="node">ScalarChaser : X3DChaserNode {
+  SFFloat [in]     set_destination
+  SFFloat [in]     set_value
+  SFNode  [in,out] metadata           NULL [X3DMetadataObject]
+  SFBool  [out]    isActive
+  SFFloat [out]    value_changed
+  SFTime  []       duration           1    [0,&#8734;)
+  SFFloat []       initialDestination 0
+  SFFloat []       initialValue       0
+}</pre>
+
+<p>The ScalarChaser animates transitions for single float values. 
+Whenever the <i>set_destination</i> field receives a floating point number, the
+<i>value_changed</i> creates a transition from its current value to the newly 
+set number. It creates a smooth transition that ends <i>duration</i> seconds 
+after the last number has been received.</p>
+<p>When <i>set_value</i> receives a floating point number, any transition 
+currently in process is stopped and <i>value_changed</i> sends this value 
+immediately, creating a jump. The field <i>initialValue</i> can be used to set 
+the initial initial value of <i>value_changed</i>. The field <i>
+initialDestination</i> should be set to the same value unless a transition to a 
+certain value is to be created right after the scene is loaded or right 
+after the ScalarChaser node is created dynamically.</p>
+
+<h2><a name="ScalarDamper"></a>39.4.12 ScalerDamper</h2>
+<pre class="node">
+ScalarDamper: X3DDamperNode {
+  SFFloat [in]     set_destination
+  SFFloat [in]     set_value
+  SFNode  [in,out] metadata           NULL  [X3DMetadataObject]
+  SFTime  [in,out] tau                0.3   [0,∞)
+  SFFloat [in,out] tolerance          -1    -1 or [0,∞)
+  SFBool  [out]    isActive
+  SFFloat [out]    value_changed
+  SFFloat []       initialDestination 0
+  SFFloat []       initialValue       0
+  SFInt32 []       order              3     [0..5]
+}
+</pre>
+
+<p>The ScalarDamper animates transitions for single float values. If the <em>value_changed</em> field is routed
+to a <em>transparency</em> field of a Material node, then, whenever the <em>set_destination</em> field receives a single
+float value, the ScalarDamper node creates a transition from its current value to the newly set value.
+It creates a transition that approaches the newly set value asymptotically during a time period of
+approximately three to four times the value of the field <em>tau</em> depending on the desired accuracy and
+the value of order. Through this asymptotic approach of the destination value, a smooth transition is
+created. The <em>order</em> field specifies the smoothness of the transition.</p>
+
+<p>When <em>set_value</em> receives a value, any transition currently in process is stopped and 
+<em>value_changed</em>
+sends this value immediately, creating a jump to the new value. The field <em>initialValue</em> can be used
+to set the initial value of the node. The field <em>initialDestination</em> should be set to the same value
+unless a transition to a certain value is to be created right after the scene is loaded or right
+after the ScalarDamper node is created dynamically.</p>
+
+<h2><a name="TexCoordChaser2D"></a>39.4.13 TexCoordChaser2D</h2>
+<pre class="node">TexCoordChaser2D: X3DChaserNode {
+  MFVec2f [in]     set_destination
+  MFVec2f [in]     set_value
+  SFNode  [in,out] metadata           NULL [X3DMetadataObject]
+  SFBool  [out]    isActive
+  MFVec2f [out]    value_changed
+  SFTime  []       duration           1    [0,∞)
+  MFVec2f []       initialDestination []
+  MFVec2f []       initialValue       []
+}
+</pre>
+
+<p>The TexCoordChaser2D animates transitions for an array of 2D vectors (<em>e.g.</em>, the texture
+coordinates of a mesh). Whenever the <em>set_destination</em> field receives an array of 2D vectors,
+the <em>value_changed</em> creates a transition from its current value to the newly set number. It
+creates a smooth transition that ends <em>duration</em> seconds after the last number has been received.</p>
+
+<p>When <em>set_value</em> receives an array of 2D vectors, any transition currently in process is stopped
+and <em>value_changed</em> sends this value immediately, creating a jump. The field 
+<em>initialValue</em> can be
+used to set the initial value of <em>value_changed</em>. The field <em>initialDestination</em> should be
+set to the same value unless a transition to a certain value is to be created right after the
+scene is loaded or right after the TexCoordChaser2D node is created dynamically.</p>
+
+<h2><a name="TexCoordDamper2D"></a>39.4.14 TexCoordDamper2D</h2>
+  
+<pre class="node">TexCoordDamper2D : X3DDamperNode {
+  MFVec2f [in]     set_destination
+  MFVec2f [in]     set_value
+  SFNode  [in,out] metadata           NULL [X3DMetadataObject]
+  SFTime  [in,out] tau                0.3  [0,&#8734;)
+  SFFloat [in,out] tolerance          -1   -1 or [0..&#8734;]
+  SFBool  [out]    isActive
+  MFVec2f [out]    value_changed
+  MFVec2f []       initialDestination []
+  MFVec2f []       initialValue       []
+  SFInt32 []       order              3    [0..5]
+}</pre>
+
+<p>The TexCoordDamper2D node animates transitions for an array of 2D vectors (<i>e.g.</i>, 
+the texture coordinates of a mesh). Whenever the <i>set_destination</i> field 
+receives an array of 2D vectors, <i>value_changed</i> begins sending an array of 
+the same length, where each element moves from its current value towards the 
+value at the same position in the array received. Each element approaches its 
+destination value asymptotically during a time period of approximately three to 
+four times the value of the field <i>tau</i> depending on the desired accuracy 
+and the value of <i>order</i>. The <i>order</i> field specifies the smoothness 
+of the transition. The transition ends when all elements have reached their 
+destination.
+</p>
+<p>When <i>set_value</i> receives an event, any transition currently in process 
+is stopped and <i>value_changed</i> sends this array immediately, creating a 
+jump. The field <i>initialValue</i> can be used to set the initial value of <i>
+value_changed</i>. The field <i>initialDestination</i> should be set to the same 
+value unless a transition to a certain 2D vector value is to be created right 
+after the scene is loaded or right after the CoordinateDamper<i> </i>node is 
+created dynamically.</p>
+<p>The MFVec2f arrays that are sent to the <i>set_destination</i> or <i>
+set_value</i> field shall have the same length (number of elements). The length 
+of the arrays shall not change over time. Values assigned to <i>
+initialDestination</i> or <i>initialValue</i> shall either be an empty array or 
+an array with the same number of elements as is sent to the <i>set_destination</i> 
+or <i>set_value</i> fields. In any other case, the behavior is not defined.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>39.5 Support levels</h1>
+
+<p>The Followers component provides one level of support as specified 
+  in <a href="#t-supportlevels">Table 39.2</a>. </p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+Table 39.2<b>
+&#8212; Followers</b> component support levels</p>
+  
+<table id="table1">
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td align="center"><b>1</b></td>
+        <td>Core 1<br>
+		Grouping 1<br>
+		Shape 1<br>
+		Rendering 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DChaserNode</i></td>
+        <td>n/a</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DDamperNode</i></td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DFollowerNode</i></td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ColorChaser</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ColorDamper</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>CoordinateChaser</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>CoordinateDamper</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>OrientationChaser</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>OrientationDamper</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>PositionChaser</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>PositionChaser2D</td>
+        <td>All fields fully supported.</td>
+      </tr>
+		<tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>PositionDamper</td>
+        <td>All fields fully supported.</td>
+      </tr>
+		<tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>PositionDamper2D</td>
+        <td>All fields fully supported.</td>
+      </tr>
+	  <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ScalerChaser</td>
+        <td>All fields fully supported.</td>
+      </tr>
+	  <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ScalerDamper</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>TexCoordChaser</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>TexCoordDamper</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      </table>
+</div>
+
+<p>
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23"></p>
+
+</BODY>
+</HTML>
+
+
+
+
+  
+  
+  

@@ -1,0 +1,654 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, Annex B Interchange profile</TITLE>
+<link rel="stylesheet" href="X3D.css" type="text/css">
+</head>
+<body>
+
+<div class="CenterDiv">
+<a href="X3D.html">
+<img class="x3dlogo" SRC="../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br> 
+    Part 1: Architecture and base components</p> 
+
+<p class="AnnexHeadingBottom">
+    Annex B</p>
+
+<p class="AnnexType">
+        (normative)
+<p class="AnnexHeadingBottom">
+Interchange profile
+</p>
+</div>
+
+<img class="x3dbar" SRC="../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="General"></a>B.1 General</h1>   
+
+<p>This annex defines the X3D components that comprise the Interchange profile. 
+  This includes not only the nodes that shall be supported but also which fields 
+  in the supported nodes may be ignored.&nbsp;</p>
+
+<p>This profile is targeted towards:</p>   
+ 
+<ul>
+  <li>Exchange of geometry and animations between authoring systems,</li>
+  <li>Possible implementation in a low-footprint engine requiring no interaction 
+    (<span class="example">EXAMPLE&nbsp; an applet or small browser plug-in</span>),</li>
+  <li>Addressing the limitations of software renders not capable of dealing with 
+    all details of the full X3D lighting model, and<li>Allowing a broader range of implementations by eliminating some complexity 
+    of a complete X3D implementation.</ul>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Topics"></a>B.2 Topics</h1>   
+
+<p><a href="#t-Topics">Table B.1</a> provides links to the major topics in 
+  this annex.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a><b>
+Table B.1 &#8212; Topics</b></p>
+
+  <table>
+    <tr> 
+      <td>
+        <ul>
+          <li><a href="#General">B.1 General</a></li> 
+          <li><a href="#Topics">B.2 Topics in this annex</a></li> 
+          <li><a href="#ComponentSupport">B.3 Component support</a></li> 
+          <li><a href="#ConformanceCriteria">B.4 Conformance criteria</a></li> 
+          <li><a href="#NodeSet">B.5 Node set</a></li> 
+          <li><a href="#OtherLimitations">B.6 Other limitations</a></li>
+        </ul>
+        <ul>
+<li><a href="#t-Topics">Table B.1 &#8212; Topics</a></li>
+<li><a href="#t-ComponentsAndLevels">Table B.2 &#8212; Components and levels</a></li>
+<li><a href="#t-NodesForConformingToInterchangeProfile">Table B.3 &#8212; Nodes for conforming to the Interchange profile</a></li>
+<li><a href="#t-OtherLimitations">Table B.4 &#8212; Other limitations</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="ComponentSupport"></a>B.3 Component support</H1>   
+
+<P><a href="#t-ComponentsAndLevels">Table B.2</a> lists the components and their 
+  levels which shall be supported in the Interchange profile. Tables B.2 and B.3 
+  describe limitations on required support for nodes and fields contained within 
+  these components.</P>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-ComponentsAndLevels"></a>Table B.2 &#8212; Components and levels</p>   
+
+<table>
+      <TR> 
+        <th>Component</th>
+        <th>Level</th>
+        <th>Reference</th>
+      </TR>
+      <TR> 
+        <TD>Core</TD>
+        <TD>1</TD>
+        <TD><a href="components/core.html#SupportLevels">7.5 Support levels</a></TD>
+      </TR>
+      <TR> 
+        <TD>Time</TD>
+        <TD>1</TD>
+        <TD><a href="components/time.html#SupportLevels">8.5 Support levels</a></TD>
+      </TR>
+      <TR> 
+        <TD>Networking</TD>
+        <TD>1</TD>
+        <TD><a href="components/networking.html#SupportLevels">9.5 Support 
+        levels</a></TD>
+      </TR>
+      <TR> 
+        <TD>Grouping</TD>
+        <TD>1</TD>
+        <TD><a href="components/group.html#SupportLevels">10.5 Support levels</a></TD>
+      </TR>
+      <TR> 
+        <TD>Rendering</TD>
+        <TD>3</TD>
+        <TD><a href="components/rendering.html">11.5 Support levels</a></TD>
+      </TR>
+      <tr> 
+        <td>Shape</td>
+        <td>1</td>
+        <td><a href="components/shape.html#SupportLevels">12.5 Support levels</a></td>
+      </tr>
+      <TR> 
+        <TD>Geometry3D</TD>
+        <TD>2</TD>
+        <TD><a href="components/geometry3D.html#SupportLevels">13.4 Support 
+        levels</a></TD>
+      </TR>
+      <TR> 
+        <TD>Lighting</TD>
+        <TD>1</TD>
+        <TD><a href="components/lighting.html#SupportLevels">17.5 Support levels</a></TD>
+      </TR>
+      <tr> 
+        <td>Texturing</td>
+        <td>2</td>
+        <td><a href="components/texturing.html#SupportLevels">18.5 Support 
+        levels</a></td>
+      </tr>
+      <TR> 
+        <TD>Interpolation</TD>
+        <TD>2</TD>
+        <TD><a href="components/interp.html#SupportLevels">19.5 Support levels</a></TD>
+      </TR>
+      <tr> 
+        <td>Navigation</td>
+        <td>1</td>
+        <td><a href="components/navigation.html#SupportLevels">23.4 Support 
+        levels</a></td>
+      </tr>
+      <tr> 
+        <td>Environmental effects</td>
+        <td>1</td>
+        <td><a href="components/enveffects.html#SupportLevels">24.5 Support 
+        levels</a></td>
+      </tr>
+    </TABLE>
+</div>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="ConformanceCriteria"></a>B.4 Conformance criteria</h1>   
+
+<P>Conformance to this profile shall include conformance criteria defined by the 
+  specifications for those components and levels listed in
+<a href="#t-ComponentsAndLevels">Table B.2</a>.</P>
+
+<P>In Tables B.3 and B.4, the first column defines the item for which conformance 
+  is being defined. In some cases, general limits are defined but are later overridden 
+  in specific cases by more restrictive limits. The second column defines the 
+  requirements for a X3D file conforming to the Interchange profile; if a X3D 
+  file contains any items that exceed these limits, it may not be possible for 
+  a X3D browser conforming to the Interchange profile to successfully parse that 
+  X3D file. The third column defines the minimum complexity for a X3D scene that 
+  a X3D browser conforming to the Interchange profile shall be able to present 
+  to the user. Fields flagged as &quot;not supported&quot; may be supported by 
+  browsers which conform to the Interchange profile. The word &quot;ignore&quot; 
+  in the minimum browser support column refers only to the display of the item; 
+  in particular, <I>set_</I> events to ignored inputOutput fields shall still generate corresponding 
+  <I>_changed</I> events.</P>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="NodeSet"></a>B.5 Node set</H1>   
+
+<P><a href="#t-NodesForConformingToInterchangeProfile">Table B.3</a> lists the nodes which shall be 
+  supported in the Interchange profile and specifies any fields in these nodes 
+  for which this profile requires less than full support.</P>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-NodesForConformingToInterchangeProfile"></a>Table B.3 &#8212; Nodes for conforming to the Interchange profile</p>   
+
+  <table>
+  <TR> 
+    <TH>Item</TH>
+    <TH>X3D File Limit</TH>
+    <TH>Minimum Browser Support</TH>
+  </TR>
+  <TR> 
+    <TD>Appearance</TD>
+    <TD>No restrictions.</TD>
+    <TD><i>textureTransform</i> optionally supported.<br>
+    <i>lineProperties</i> not supported. <i>fillProperties</i> not 
+    supported.</TD>
+  </TR>
+  <TR> 
+    <TD>Background</TD>
+    <TD>No restrictions.</TD>
+    <TD><i>groundAngle</i> and <i>groundColor</i> optionally supported.<i> 
+      backURL</i>, <i>frontURL</i>, <i>leftURL</i>, <i>rightURL</i>, <i>topURL</i> optionally supported. <i>skyAngle</i> optionally supported. One <I>skyColor</I>.</TD>
+  </TR>
+  <tr> 
+    <td>Box</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <TR> 
+    <TD>Color</TD>
+    <TD>15,000 colours.</TD>
+    <TD>15,000 colours.</TD>
+  </TR>
+  <tr> 
+    <td>ColorInterpolator</td>
+    <td>Restrictions as for all interpolators.</td>
+    <td>Full support except as for all interpolators.</td>
+  </tr>
+  <tr> 
+    <td>ColorRGBA</td>
+    <td>15,000 colours.</td>
+    <td>15,000 colours. Alpha component optionally supported.</td>
+  </tr>
+  <tr> 
+    <td>Cone</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <TR> 
+    <TD>Coordinate</TD>
+    <TD>65,535 points</TD>
+    <TD>65,535 points.</TD>
+  </TR>
+  <TR> 
+    <TD>CoordinateInterpolator</TD>
+    <TD>15,000 coordinates per <I>keyValue</I>. Restrictions as for all interpolators.</TD>
+    <TD>15,000 coordinates per <I>keyValue</I>. Support as for all interpolators.</TD>
+  </TR>
+  <tr> 
+    <td>Cylinder</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <TR> 
+    <TD>DirectionalLight</TD>
+    <TD>No restrictions.</TD>
+    <TD>Not scoped by parent Group or Transform.</TD>
+  </TR>
+  <TR> 
+    <TD>Group</TD>
+    <TD>Restrictions as for all groups.</TD>
+    <TD><i>addChildren</i> optionally supported. <i>removeChildren</i> 
+    optionally supported. 
+      Otherwise as for all groups.</TD>
+  </TR>
+  <TR> 
+    <TD>ImageTexture</TD>
+    <TD>JPEG (<a href="references.html#[JPEG]">2.[JPEG]</a>) and PNG (<a href="references.html#[I15948]">2.[I15948]</a>) 
+    format.</TD>
+    <TD>JPEG (<a href="references.html#[JPEG]">2.[JPEG]</a>) and PNG (<a href="references.html#[I15948]">2.[I15948]</a>) 
+    format.</TD>
+  </TR>
+  <TR> 
+    <TD>IndexedFaceSet</TD>
+    <TD>10 vertices per face. 5000 faces. Less than 65,535 indices.</TD>
+    <TD><i>ccw </i>optionally supported<i>. set_colorIndex</i> 
+    optionally supported. <i>set_normalIndex</i> optionally supported. <i>normal</i> 
+    optionally supported. Only convex indexed 
+      face sets supported. Hence, <i>convex</i> optionally supported. For <i>creaseAngle</i>, 
+      only 0 and <font face="Times New Roman">&pi;</font> <span class="normal">
+	radians supported (or the equivalent if a different angle base unit has been 
+	specified)</span>. 10 
+    vertices per face. 5000 faces. 65,535 indices in any index field. 
+      <p>Face list shall be well-defined as follows: </p>
+      <ol>
+        <li>Each face is terminated with -1, including the last face in the array.</li>
+        <li>Each face contains at least three non-coincident vertices.</li>
+        <li>A given <i>coordIndex</i> is not repeated in a face.</li>
+        <li>The vertices of a face shall define a planar polygon.</li>
+        <li>The vertices of a face shall not define a self-intersecting polygon.</li>
+      </ol>
+    </TD>
+  </TR>
+  <TR> 
+    <TD>IndexedLineSet</TD>
+    <TD>15,000 total vertices. 15,000 indices in any index field.</TD>
+    <TD>15,000 total vertices. 15,000 indices in any index field.</TD>
+  </TR>
+  <tr>
+    <TD>IndexedTriangleFanSet</TD>
+    <TD>5,000 total faces. 15,000 indices in any index field.</TD>
+    <TD>5,000 total faces. 15,000 indices in any index field.</TD>
+  </tr>
+  <tr>
+    <TD>IndexedTriangleSet</TD>
+    <TD>5,000 total faces. 15,000 indices in any index field.</TD>
+    <TD>5,000 total faces. 15,000 indices in any index field.</TD>
+  </tr>
+  <tr>
+    <TD>IndexedTriangleStripSet</TD>
+    <TD>5,000 total faces. 15,000 indices in any index field.</TD>
+    <TD>5,000 total faces. 15,000 indices in any index field.</TD>
+  </tr>
+  <tr>
+    <TD>LineSet</TD>
+    <TD>15,000 total vertices.</TD>
+    <TD>15,000 total vertices.</TD>
+  </tr>
+  <TR> 
+    <TD>Material</TD>
+    <TD>No restrictions.</TD>
+    <TD><i> ambientIntensity</i> optionally supported. <i>shininess</i> 
+    optionally supported. 
+      <i>specularColor</i> optionally supported. A Material with <i>emissiveColor</i> 
+      not equal to (0,0,0), <i>diffuseColor</i> equal to (0,0,0) is an unlit material. 
+      One-bit transparency; transparency values &ge; 0.5 transparent.</TD>
+  </TR>
+  	<tr>
+    <td>MetadataBoolean</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  	</tr>
+  <tr>
+    <td>MetadataDouble</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MetadataFloat</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MetadataInteger</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MetadataSet</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MetadataString</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MultiTexture</td>
+    <td>No restrictions.</td>
+    <td>At least one texture displayed per node with any number specified.<p>Full support.</td>
+  </tr>
+  <tr>
+    <td>MultiTextureCoordinate</td>
+    <td>15,000 coordinates.</td>
+    <td>15,000 coordinates.</td>
+  </tr>
+  <TR> 
+    <TD>MultiTextureTransform</TD>
+    <td>No restrictions.</td>
+    <td>At least one texture displayed per node with any number specified.<p>Full support.</td>
+  </TR>
+  <TR> 
+    <TD>NavigationInfo</TD>
+    <TD>No restrictions.</TD>
+    <TD><I>avatarSize</I> optionally supported. <i>speed</i> optionally 
+    supported. <i>type</i> optionally supported. <i>visibilityLimit</i> 
+    optionally supported.</TD>
+  </TR>
+  <tr> 
+    <td>Normal</td>
+    <td>15,000 normals</td>
+    <td>15,000 normals.</td>
+  </tr>
+  <tr> 
+    <td>NormalInterpolator</td>
+    <td>15,000 normals</td>
+    <td>15,000 normals.</td>
+  </tr>
+  <TR> 
+    <TD>OrientationInterpolator</TD>
+    <TD>Restrictions as for all interpolators.</TD>
+    <TD>Full support except as for all interpolators.</TD>
+  </TR>
+  <tr>
+    <td>PixelTexture</td>
+    <td>512 width. 512 height.</td>
+    <td>512 width. 512 height. Display fully transparent and fully 
+      opaque pixels.</td>
+  </tr>
+  <TR> 
+    <TD>PointSet</TD>
+    <TD>5,000 points.</TD>
+    <TD>5000 points.</TD>
+  </TR>
+  <TR> 
+    <TD>PositionInterpolator</TD>
+    <TD>Restrictions as for all interpolators.</TD>
+    <TD>Full support except as for all interpolators.</TD>
+  </TR>
+  <tr> 
+    <td>ScalarInterpolator</td>
+    <td>Restrictions as for all interpolators.</td>
+    <td>Full support except as for all interpolators.</td>
+  </tr>
+  <TR> 
+    <TD>Shape</TD>
+    <TD>No restrictions.</TD>
+    <TD>Full support.</TD>
+  </TR>
+  <tr> 
+    <td>Sphere</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <TR> 
+    <TD>TextureCoordinate</TD>
+    <TD>65,535 coordinates.</TD>
+    <TD>65,535 coordinates.</TD>
+  </TR>
+  <tr>
+    <td>TextureCoordinateGenerator</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>TextureTransform</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <TR> 
+    <TD>TimeSensor</TD>
+    <TD>No restrictions.</TD>
+    <TD><i>pause,</i> optionally supported.<br>
+    <i>isPaused,</i> optionally supported. <i>resumeTime</i>, optionally 
+    supported.</TD>
+  </TR>
+  <TR> 
+    <TD>Transform</TD>
+    <TD>Restrictions as for all groups.</TD>
+    <TD><i>addChildren</i> optionally supported. <i>removeChildren</i> 
+    optionally supported. 
+      Otherwise, full support except as for all groups.</TD>
+  </TR>
+  <TR> 
+    <TD>TriangleFanSet</TD>
+    <TD>5,000 triangles per fan. 15,000 total triangles.</TD>
+    <TD>5,000 triangles per fan. 15,000 total triangles.</TD>
+  </TR>
+  <TR> 
+    <TD>TriangleSet</TD>
+    <TD>15,000 triangles</TD>
+    <TD>15,000 triangles.</TD>
+  </TR>
+  <TR> 
+    <TD>TriangleStripSet</TD>
+    <TD>5,000 triangles per strip. 15,000 total triangles</TD>
+    <TD>5,000 triangles per strip. 15,000 total triangles.</TD>
+  </TR>
+  <TR> 
+    <TD>Viewpoint</TD>
+    <TD>No restrictions.</TD>
+    <TD><i>fieldOfView</i> optionally supported.<br>
+    <i>description</i> optionally supported.</TD>
+  </TR>
+  <TR> 
+    <TD>WorldInfo</TD>
+    <TD>No restrictions.</TD>
+    <TD><i>info</i>, <i>title</i> Ignored.</TD>
+  </TR>
+</TABLE>
+</div>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="OtherLimitations"></a>B.6 Other limitations</H1>   
+
+<p><a href="#t-OtherLimitations">Table B.4</a> 
+  specifies other aspects of X3D functionality which are supported by this profile. 
+  Note that general items refer only to those specific nodes listed in
+<a href="#t-NodesForConformingToInterchangeProfile">Table B.3</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-OtherLimitations"></a>Table B.4 &#8212; Other limitations</p>   
+
+    <table>
+<TR>
+<TH>Item</TH>
+<TH>X3D File Limit</TH>
+<TH>Minimum Browser Support</TH>
+</TR>
+<TR>
+<TD>All groups</TD>
+<TD>500 children.</TD>
+<TD>500 children. Ignore <I>bboxCenter</I> and <I>bboxSize</I>.</TD></TR>
+<TR>
+<TD>All interpolators</TD>
+<TD>1000 key-value pairs.</TD>
+<TD>1000 key-value pairs.</TD></TR>
+<TR>
+<TD>All lights</TD>
+<TD>8 simultaneous lights.</TD>
+<TD>8 simultaneous lights.</TD></TR>
+<TR>
+<TD>Names for DEF/field</TD>
+<TD>50 utf8 octets.</TD>
+<TD>50 utf8 octets.</TD></TR>
+<TR>
+<TD>All <I>url</I> fields</TD>
+<TD>10 URLs.</TD>
+<TD>10 URLs. URN's ignored.<BR>
+Support `http', `file', and `ftp' protocols.<BR>
+Support relative URLs where relevant.</TD></TR>
+<TR>
+<TD>SFBool</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD></TR>
+<TR>
+<TD>SFColor</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD></TR>
+<tr>
+<TD>SFColorRGBA</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD>
+</tr>
+<TR>
+<TD>SFDouble</TD>
+<TD>Mp restrictions.</TD>
+<TD>Full support. Range &plusmn;1e&plusmn;12. Precision 1e-7.</TD></TR>
+<TR>
+<TD>SFFloat</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD></TR>
+<TR>
+<TD>SFImage</TD>
+<TD>512 width. 512 height.</TD>
+<TD>512 width. 512 height.</TD></TR>
+<TR>
+<TD>SFInt32</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD></TR>
+<TR>
+<TD>SFNode</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD></TR>
+<TR>
+<TD>SFRotation</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD></TR>
+<TR>
+<TD>SFString</TD>
+<TD>30,000 utf8 octets.</TD>
+<TD>30,000 utf8 octets.</TD></TR>
+<TR>
+<TD>SFTime</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD></TR>
+<TR>
+<TD>SFVec2d</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<TR>
+<TD>SFVec2f</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<TR>
+<TD>SFVec3d</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<TR>
+<TD>SFVec3f</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<TR>
+<TD>MFColor</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<tr>
+<TD>MFColorRGBA</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD>
+</tr>
+<TR>
+<TD>MFDouble</TD>
+<TD>1000 values.</TD>
+<TD>1000 values.</TD></TR>
+<TR>
+<TD>MFFloat</TD>
+<TD>1,000 values.</TD>
+<TD>1,000 values.</TD></TR>
+<TR>
+<TD>MFInt32</TD>
+<TD>20,000 values.</TD>
+<TD>20,000 values.</TD></TR>
+<TR>
+<TD>MFNode</TD>
+<TD>500 values.</TD>
+<TD>500 values.</TD></TR>
+<TR>
+<TD>MFRotation</TD>
+<TD>1,000 values.</TD>
+<TD>1,000 values.</TD></TR>
+<TR>
+<TD>MFString</TD>
+<TD>30,000 utf8 octets per string, 10 strings.</TD>
+<TD>30,000 utf8 octets per string, 10 strings.</TD></TR>
+<TR>
+<TD>MFTime</TD>
+<TD>1,000 values.</TD>
+<TD>1,000 values.</TD></TR>
+<TR>
+<TD>MFVec2d</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<TR>
+<TD>MFVec2f</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<TR>
+<TD>MFVec3d</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<TR>
+<TD>MFVec3f</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+</TABLE>
+</div>
+
+<img class="x3dbar" src="../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</BODY>
+</HTML>

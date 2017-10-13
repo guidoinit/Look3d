@@ -1,0 +1,842 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 17 Lighting component</title>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+
+</head>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">17 Lighting component</p>
+
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+17.1 Introduction</h1>
+<h2><a name="Name"></a>17.1.1 Name</h2>
+<p>The name of this component is &quot;Lighting&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>17.1.2 Overview</h2>
+
+<p>This clause describes the Lighting component of this part of ISO/IEC 19775. 
+  This includes how light sources are defined and positioned as well as how lights 
+  effect the rendered image. <a href="#t-Topics">Table 17.1</a> provides links 
+  to the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 17.1 &#8212; Topics</p>
+
+<table class="topics">
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">17.1 Introduction</a>
+            <ul>
+              <li><a href="#Name">17.1.1 Name</a></li>
+              <li><a href="#Overview">17.1.2 Overview</a> </li>
+            </ul></li>
+          <li><a href="#Concepts">17.2 Concepts</a> 
+            <ul>
+              <li><a href="#Lightsourcesemantics">17.2.1 Light source semantics</a> 
+                <ul>
+                  <li><a href="#LightSourceSemanticsOverview">17.2.1.1 Overview</a></li> 
+                  <li><a href="#Scopingoflights">17.2.1.2 Scoping of lights</a></li> 
+                </ul></li>
+              <li><a href="#Lightingmodel">17.2.2 Lighting model</a> 
+                <ul>
+                  <li><a href="#LightingModelIntroduction">17.2.2.1 Introduction</a></li> 
+                  <li><a href="#Lightingoff">17.2.2.2 Lighting 'off'</a></li> 
+                  <li><a href="#Lightingon">17.2.2.3 Lighting 'on'</a></li> 
+                  <li><a href="#Lightingequations">17.2.2.4 Lighting equations</a></li> 
+                  <li><a href="#References">17.2.2.5 References</a></li>
+                </ul></li>
+            </ul></li>
+          <li><a href="#Abstracttypes">17.3 Abstract types</a> 
+            <ul>
+              <li><a href="#X3DLightNode">17.3.1 <i>X3DLightNode</i></a></li> 
+            </ul></li>
+          <li><a href="#Nodereference">17.4 Node reference</a> 
+            <ul>
+              <li><a href="#DirectionalLight">17.4.1 DirectionalLight</a></li> 
+              <li><a href="#PointLight">17.4.2 PointLight</a></li> 
+              <li><a href="#SpotLight">17.4.3 SpotLight</a></li> 
+            </ul></li>
+          <li><a href="#SupportLevels">17.5 Support levels</a></li>  
+        </ul>
+        <ul>
+          <li><a href="#f-SpotLightnode">Figure 17.1 &#8212; SpotLight node</a></li> 
+        </ul>
+        <ul>
+          <li><a href="#t-Topics">Table 17.1 &#8212; Topics</a></li>
+          <li><a href="#t-Unlitcolourandalpha">Table 17.2 &#8212; Unlit colour and alpha mapping</a></li> 
+          <li><a href="#t-Litcolourandalpha">Table 17.3 &#8212; Lit colour and alpha mapping</a></li> 
+          <li><a href="#t-spotlightfactor">Table 17.4 &#8212; Calculation of the spotlight factor</a></li> 
+          <li><a href="#t-foginterpolant">Table 17.5 &#8212; Calculation of the fog interpolant</a></li> 
+          <li><a href="#t-supportlevels">Table 17.6 &#8212; Lighting component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>
+17.2 Concepts</h1>
+
+<h2><a name="Lightsourcesemantics"></a>
+17.2.1 Light source semantics</h2>
+
+<h3><a name="LightSourceSemanticsOverview"></a>17.2.1.1 Overview</h3>
+
+<p>Shape nodes are illuminated by the sum of all of the lights in the world that 
+  affect them. This includes the contribution of both the direct and ambient illumination 
+  from light sources. Ambient illumination results from the scattering and reflection 
+  of light originally emitted directly by light sources. The amount of ambient 
+  light is associated with the individual lights in the scene. This is a gross 
+  approximation to how ambient reflection actually occurs in nature. 
+
+<p>Any node used as a source of illumination is derived 
+from <i><a href="#X3DLightNode">X3DLightNode</a></i>. 
+  All light sources contain an <i>intensity</i>, 
+a <i>color</i>, and an <i>ambientIntensity</i> 
+  field. The <i>intensity</i> field specifies the brightness of the direct emission 
+  from the light, and the <i>ambientIntensity</i> specifies the intensity of the 
+  ambient emission from the light. Light intensity may range from 0.0 (no light 
+  emission) to 1.0 (full intensity). The <i>color </i>field specifies the spectral 
+  colour properties of both the direct and ambient light emission as an RGB value. 
+  The on field specifies whether the light is enabled or disabled. If the value 
+  is <code>FALSE</code>, the light is disabled and will 
+  not affect any nodes in the scene. If the value is <code>TRUE</code>, 
+  the light will affect other nodes according to 
+the <a href="#Scopingoflights">17.2.1.2 Scoping of lights.</a> 
+
+<p>The following node types are light source nodes:</p>
+
+<ul>
+  <li><a href="#DirectionalLight">DirectionalLight</a></li> 
+  <li><a href="#PointLight">PointLight</a></li> 
+  <li><a href="#SpotLight">SpotLight</a></li> 
+</ul>
+
+<p>PointLight and SpotLight illuminate all objects in the world that fall within 
+  their volume of lighting influence regardless of location within the transformation 
+  hierarchy. PointLight defines this volume of influence as a sphere centred at 
+  the light (defined by a radius). SpotLight defines the volume of influence as 
+  a solid angle defined by a radius and a cut-off angle. DirectionalLight nodes 
+  illuminate only the objects descended from the light's parent grouping node, 
+  including any descendent children of the parent grouping nodes.</p>
+
+<h3><a name="Scopingoflights"></a>
+17.2.1.2 Scoping of lights</h3>
+
+<p>Each light type defines a <i>global</i> field that determines whether the 
+light is global or scoped. Global lights illuminate all objects that fall within 
+their volume of lighting influence. Scoped lights only illuminate objects that 
+are in the same transformation hierarchy as the light; <i>i.e.</i>, only the 
+children and descendants of its enclosing parent group are illuminated. This 
+allows the creation of realistic effects such as lights that illuminate a single 
+room.</p> 
+
+<h2><a name="Lightingmodel"></a>
+17.2.2 Lighting model</h2>
+
+<h3><a name="LightingModelIntroduction"></a>17.2.2.1 Introduction</h3>
+
+<p>The X3D lighting model provides detailed equations that specify the colours 
+  to apply to each geometric object. For each object, the values of the 
+<a href="shape.html#Material">Material</a>, color, and/or texture currently being applied to the object are combined 
+  with the lights illuminating the object and the currently bound <i>
+<a href="enveffects.html#X3DFogObject">X3DFogObject</a></i> (if specified). These 
+  equations are designed to simulate the physical properties of light striking 
+  a surface.</p>
+<p>If a programmable shader is defined for an <a href="shape.html#Appearance">Appearance</a> node, the lighting 
+model shall be disabled and replaced by the functionality implemented by the 
+shader program. See <a href="shaders.html">31 Programmable shaders component</a> 
+for more information.</p>
+
+<h3><a name="Lightingoff"></a>
+17.2.2.2 Lighting 'off'</h3>
+
+<p>A <a href="shape.html#Shape">Shape</a> node is unlit if either of the following is true:</p>
+
+<ol start="1" type="a">
+  <li>The shape's <i>appearance</i> field is <span class="code">NULL</span> (default).</li> 
+  <li>The <i>material</i> field in the Appearance node is <span class="code">NULL</span> (default).</li> 
+</ol>
+
+<p class="Example">NOTE Geometry nodes that represent lines or points do not support lighting.</p>
+<p>If the shape is unlit, the colour (I<sub><font size=-2>rgb</font></sub>) and 
+  alpha (A,&nbsp;1&minus;transparency) of the shape at each point on the shape's geometry 
+  is specified in <a href="#t-Unlitcolourandalpha">Table 17.2</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Unlitcolourandalpha"></a>
+Table 17.2 &#8212; Unlit colour and alpha mapping</p>
+
+  <table class="main">
+    <tbody> 
+    <tr> 
+      <th>Texture type</th>
+      <th>Colour per-vertex<br>
+        or per-face</th>
+      <th>Colour NULL</th>
+    </tr>
+    <tr> 
+      <td>No texture</td>
+      <td>I<sub><font size="-2">rgb</font></sub>= I<sub><font size="-1">C</font><font size="-2">rgb</font></sub><br>
+        A = 1</td>
+      <td>I<sub><font size="-2">rgb</font></sub>= (1, 1, 1)<br>
+        A = 1</td>
+    </tr>
+    <tr> 
+      <td>Intensity<br>
+        (one-component)</td>
+      <td>I<sub><font size="-2">rgb</font></sub>= I<sub><font size="-1">T</font></sub> 
+      &times; I<sub><font size="-1">C</font><font size="-2">rgb</font></sub><br>
+        A = 1</td>
+      <td>I<sub><font size="-2">rgb</font></sub> = (I<sub><font size="-1">T</font></sub>,I<sub><font size="-1">T</font></sub>,I<sub><font size="-1">T</font></sub> 
+        )<br>
+        A = 1</td>
+    </tr>
+    <tr> 
+      <td>Intensity+Alpha<br>
+        (two-component)</td>
+      <td>I<sub><font size="-2">rgb</font></sub>= I<sub> <font size="-1">T</font></sub> 
+      &times; I<sub><font size="-1">C</font><font size="-2">rgb</font></sub><br>
+        A = A<sub><font size="-1">T</font></sub></td>
+      <td>I<sub><font size="-2">rgb</font></sub>= (I<sub><font size="-1">T</font></sub>,I<sub><font size="-1">T</font></sub>,I<sub><font size="-1">T</font></sub> 
+        )<br>
+        A = A<sub><font size="-1">T</font></sub></td>
+    </tr>
+    <tr> 
+      <td>RGB<br>
+        (three-component)</td>
+      <td>I<sub><font size="-2">rgb</font></sub>= I<sub><font size="-1">T</font><font size="-2">rgb</font></sub><br>
+        A = 1</td>
+      <td>I<sub><font size="-2">rgb</font></sub>= I<sub><font size="-1">T</font><font size="-2">rgb</font></sub><br>
+        A = 1</td>
+    </tr>
+    <tr> 
+      <td>RGBA<br>
+        (four-component)</td>
+      <td>I<sub><font size="-2">rgb</font></sub>= I<sub><font size="-1">T</font><font size="-2">rgb</font></sub><br>
+        A = A<sub><font size="-1">T</font></sub></td>
+      <td>I<sub><font size="-2">rgb</font></sub>= I<sub><font size="-1">T</font><font size="-2">rgb</font></sub> 
+        A = A<sub><font size="-1">T</font></sub></td>
+    </tr>
+    </tbody> 
+  </table>
+</div>
+
+<p>where:</p>
+
+<p>A<sub><font size=-1>T</font></sub> = normalized [0, 1] alpha value from 2 or 
+  4 component texture image<br>
+  I<sub><font size=-1>C</font><font size=-2>rgb</font></sub> = interpolated per-vertex 
+  colour, or per-face colour, from Color node<br>
+  I<sub><font size=-1>T</font></sub> = normalized [0, 1] intensity from 1 or 2 
+  component texture image<br>
+  I<sub><font size=-1>T</font><font size=-2>rgb</font></sub>= colour from 3-4 
+  component texture image</p>
+
+<h3><a name="Lightingon"></a>
+17.2.2.3 Lighting 'on'</h3>
+
+<p>If the <a href="shape.html#Shape">Shape</a> node is lit (<i>i.e.</i>,&nbsp;a 
+<a href="shape.html#Material">Material</a> and an 
+<a href="shape.html#Appearance">Appearance</a> node are specified 
+  for the Shape), the Material and Texture nodes determine the diffuse colour 
+  for the lighting equation as specified in 
+<a href="#t-Litcolourandalpha">Table&nbsp;17.3</a>.</p>
+
+<p>The Material's diffuseColor field modulates the color in the texture. Hence, 
+  a diffuseColor of white will result in the pure color of the texture, while 
+  a diffuseColor of black will result in a black diffuse factor regardless of 
+  the texture. 
+
+<p>The Material's transparency field modulates the alpha in the texture. Hence, 
+  a transparency of 0 will result in an alpha equal to that of the texture. A 
+  transparency of 1 will result in an alpha of 0 regardless of the value in the 
+  texture.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Litcolourandalpha"></a>
+Table 17.3 &#8212; Lit colour and alpha mapping</p>
+
+  <table class="main">
+    <tbody> 
+    <tr> 
+      <td><b>Texture type</b></td>
+      <td><b>Colour per-vertex</b><br>
+        <b>&nbsp;&nbsp;&nbsp;&nbsp; or per-face</b></td>
+      <td><b>Color node NULL</b></td>
+    </tr>
+    <tr> 
+      <td>No texture</td>
+      <td>O<sub><font size="-1">D</font><font size="-2">rgb</font></sub> 
+        = I<sub><font size="-1">C</font><font size="-2">rgb</font></sub><br>
+        A = 1-T<sub>M</sub></td>
+      <td>O<sub><font size="-1">D</font><font size="-2">rgb</font></sub> 
+        = I<sub><font size="-1">D</font><font size="-2">rgb</font></sub><br>
+        A = 1-T<sub>M</sub></td>
+    </tr>
+    <tr> 
+      <td>Intensity texture<br>
+        (one-component)</td>
+      <td>O<sub><font size="-1">D</font><font size="-2">rgb</font></sub> 
+        = I<sub><font size="-1">T</font></sub> &times; I<sub><font size="-1">C</font><font size="-2">rgb</font></sub><br>
+        A = 1-T<sub>M</sub></td>
+      <td>O<sub><font size="-1">D</font><font size="-2">rgb</font></sub> 
+        = I<sub><font size="-1">T</font></sub> &times; I<sub><font size="-1">D</font><font size="-2">rgb</font></sub><br>
+        A = 1-T<sub>M</sub></td>
+    </tr>
+    <tr> 
+      <td>Intensity+Alpha texture<br>
+        (two-component)</td>
+      <td>O<sub><font size="-1">D</font><font size="-2">rgb</font></sub> 
+        = I<sub><font size="-1">T</font></sub> &times; I<sub><font size="-1">C</font><font size="-2">rgb</font></sub><br>
+        A = A<sub><font size="-1">T</font></sub></td>
+      <td>O<sub><font size="-1">D</font><font size="-2">rgb</font></sub> 
+        = I<sub><font size="-1">T</font></sub> &times; I<sub><font size="-1">D</font><font size="-2">rgb</font></sub><br>
+        A = A<sub><font size="-1">T</font></sub></td>
+    </tr>
+    <tr> 
+      <td>RGB texture<br>
+        (three-component)</td>
+      <td>O<sub><font size="-1">D</font><font size="-2">rgb</font></sub> 
+        = I<sub><font size="-1">T</font><font size="-2">rgb</font></sub><br>
+        A = 1-T<sub>M</sub></td>
+      <td>O<sub><font size="-1">D</font><font size="-2">rgb</font></sub> 
+        = I<sub><font size="-1">T</font><font size="-2">rgb</font></sub><br>
+        A = 1-T<sub>M</sub></td>
+    </tr>
+    <tr> 
+      <td>RGBA texture<br>
+        (four-component)</td>
+      <td>O<sub><font size="-1">D</font><font size="-2">rgb</font></sub> 
+        = I<sub><font size="-1">T</font><font size="-2">rgb</font></sub><br>
+        A = A<sub><font size="-1">T</font></sub></td>
+      <td>O<sub><font size="-1">D</font><font size="-2">rgb</font></sub> 
+        = I<sub><font size="-1">T</font><font size="-2">rgb</font></sub><br>
+        A = A<sub>T</sub></td>
+    </tr>
+    </tbody> 
+  </table>
+</div>
+
+<p>where:</p>
+
+<p>I<sub><font size=-1>D</font><font size=-2>rgb</font></sub> = material <i>diffuseColor</i><br>
+  O<sub><font size=-1>D</font><font size=-2>rgb</font></sub> = diffuse factor, 
+  used in lighting equations below<br>
+
+  T<sub>M</sub> = material <i>transparency</i></p>
+
+<p>All other terms are as defined in 
+<a href="#Lightingoff">17.2.2.2 Lighting off</a>.</p>
+
+<h3><a name="Lightingequations"></a>
+17.2.2.4 Lighting equations</h3>
+
+<p>An ideal X3D implementation will evaluate the following lighting equation at 
+  each point on a lit surface. RGB intensities at each point on 
+a geometry (I<sub><font size=-2>rgb</font></sub>) 
+  are given by:</p>
+
+<p class="Equation">I<sub><font size=-2>rgb</font></sub> = I<sub><font size=-1>F</font><font
+ size=-2>rgb</font></sub> &times; (1 -f<sub><font size=-1>0</font></sub>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + f<sub><font size=-1>0</font></sub> 
+  &times; (O<sub><font size=-1>E</font>
+<font size=-2>rgb</font></sub> + SUM( on<sub><font size=-1>i</font></sub>
+<font size=-2> </font>&times;<font size=-2> </font>attenuation<sub><font size=-1>i</font></sub> 
+  &times; spot<sub><font size=-1>i</font></sub> &times; I<sub><font size=-1>L</font><font
+ size=-2>rgb</font></sub><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&times; (ambient<sub><font size=-1>i</font></sub> + diffuse<sub><font size=-1>i</font></sub> 
+  + specular<sub> <font size=-1>i</font></sub>)))</p>
+
+<p>where:</p>
+
+<p>attenuation<sub><font size=-1>i</font></sub> = 1 / max(c<sub><font size=-2>1</font></sub> 
+  + c<sub><font size=-2>2 </font></sub>&times; d<sub><font size=-2>L</font></sub> 
+  + c<sub><font size=-2>3 </font></sub>&times; d<sub><font size=-2>L</font></sub><sup>&sup2;</sup> 
+  ,&nbsp;1 )<br>
+  ambient<sub><font size=-1>i</font></sub> = I<sub><font size=-1>ia</font></sub> 
+  &times; O<sub><font size=-1>D</font><font size=-2>rgb</font></sub> &times; O<sub><font size=-1>a</font><br>
+  </sub><br>
+  diffuse<sub><font size=-1>i</font></sub> = I<sub><font size=-1>i</font></sub> 
+  &times; O<sub><font size=-1>D</font><font size=-2>rgb</font></sub> &times; ( 
+  <b><tt><font size="+1">N</font></tt></b> &middot; <b><tt><font size="+1">L</font></tt></b> 
+  )<br>
+  specular<sub> <font size=-1>i</font></sub> = I<sub><font size="-1">i</font></sub> 
+  &times; O<sub><font size=-1>S</font><font size=-2>rgb</font></sub> &times; ( 
+  <b><tt><font size="+1">N</font></tt></b> &middot; ((<b><tt><font size="+1">L</font></tt></b> 
+  + <b><tt>V</tt></b>) / |<b><tt><font size="+1">L</font></tt></b> + <b><tt>V</tt></b>|))<sup>shininess 
+  &times; 128</sup></p>
+
+<p>and:</p>
+
+<dl> 
+  <dt>&middot; = modified vector dot product:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if dot product &lt; 0, 
+<a name="CalculationOfTheSpotlightFactor"></a>then 0.0, 
+otherwise, dot product</dt>
+	<dt>c<sub><font size=-2>1</font></sub> , c<sub><font size=-2>2</font></sub>, 
+    c<sub> <font size=-2>3</font></sub> = light i <i>attenuation</i><br>
+    d<sub><font size=-2>V</font></sub> = distance from point on geometry to viewer's 
+    position, in coordinate system of current fog node<br>
+    d<sub><font size=-2>L</font></sub> = distance from light to point on geometry, 
+    in light's coordinate system<br>
+    f<sub><font size=-1>0</font></sub> = fog interpolant, see
+  <a href="#t-foginterpolant">Table 17.5</a> for calculation<br>
+    I<sub><font size=-1>F</font><font size=-2>rgb</font></sub> = currently bound 
+    fog's <i>color</i><br></dt>
+  <dt>I<sub> <font size=-1>L</font><font size=-2>rgb</font></sub> = light i <i>color</i></dt>
+  <dt>I<sub><font size=-1>i</font></sub> = light i <i>intensity</i><br>
+    I<sub><font size=-1>ia</font></sub> = light i <i>ambientIntensity<br>
+    </i><b><tt><font size="+1">L</font></tt></b> = (<a href="#PointLight">PointLight</a>/<a href="#SpotLight">SpotLight</a>) normalized 
+    vector from point on geometry to light source i position<br>
+    <b><tt><font size="+1">L</font></tt></b> = (<a href="#DirectionalLight">DirectionalLight</a>) -direction of 
+    light source i<br>
+    <b><tt><font size="+1">N</font></tt></b> = normalized normal vector at this 
+    point on geometry (interpolated from vertex normals specified in a node 
+	derived from <i><a href="rendering.html#X3DNormalNode">X3DNormalNode</a></i> or calculated by browser)<br>
+    O<sub><font size=-1>a</font></sub> = <i>
+	<a href="shape.html#X3DMaterialNode">X3DMaterialNode</a></i> <i>ambientIntensity</i><br>
+    O<sub><font size=-1>D</font><font size=-2>rgb</font></sub> = diffuse colour, 
+    from a node derived from <i>X3DMaterialNode</i>,&nbsp; a node derived from
+	<i><a href="rendering.html#X3DColorNode">X3DColorNode</a></i>, and/or a texture node<br>
+    O<sub><font size=-1>E</font><font size=-2>rgb</font></sub> = <i>
+	X3DMaterialNode</i> <i>emissiveColor</i><br>
+    O<sub><font size=-1>S</font><font size=-2>rgb</font></sub> = <i>
+	X3DMaterialNode</i> <i>specularColor</i><br>
+    on<sub> <font size=-1>i</font></sub> = 1, if light source i affects this point 
+    on the geometry,</dt> 
+  <dd>&nbsp; 0, if light source i does not affect this geometry. The following 
+	conditions indicate that light source i does not affect this geometry:<br>
+	&nbsp;<br>
+	&nbsp;&nbsp; a. if the geometry is farther away than <i>radius</i> for PointLight or 
+	SpotLight;<br>
+	&nbsp;&nbsp; b. if the geometry is outside the enclosing <i>
+	<a href="group.html#X3DGroupingNode">X3DGroupingNode</a></i>; and/or<br>
+	&nbsp;&nbsp; c. if the <i>on</i> field is <span class="code">FALSE</span>.</dd>
+  <dt>shininess = <i>X3DMaterialNode</i> <i>shininess</i><br></dt>
+  <dt>spotAngle = arccosine(<b><tt><font size="+1">-L</font></tt></b><font size="+1"> </font>&middot; 
+    <b><tt>spotDir</tt></b><sub>i</sub>)<br>
+    spot<sub> BW</sub> = SpotLight i beamWidth<br>
+    spot<sub> CO</sub> = SpotLight i <i>cutOffAngle</i><br>
+    spot<sub> i</sub> = spotlight factor, see <a href="#t-spotlightfactor">Table 
+    17.4</a> for calculation<br>
+    <b><tt>spotDir</tt></b><sub>i</sub> = normalized SpotLight i <i>direction</i><br>
+    SUM: sum over all light sources i<br>
+    <b><tt>V</tt></b> = normalized vector from point on geometry to viewer's position 
+    <br></dt>
+</dl>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-spotlightfactor"></a>
+Table 17.4 &#8212; Calculation of the spotlight factor</p>
+
+  <table>
+    <tr> 
+      <th>Condition (in order)</th>
+      <th>spot<sub><b>i</b></sub><b> =</b></th>
+    </tr>
+    <tr> 
+      <td>light<sub>i</sub> is PointLight or DirectionalLight</td>
+      <td>1</td>
+    </tr>
+    <tr> 
+      <td>spotAngle ≥ spot<sub>CO</sub></td>
+      <td>0</td>
+    </tr>
+    <tr> 
+      <td>spotAngle ≤ spot<sub>BW</sub></td>
+      <td>1</td>
+    </tr>
+    <tr> 
+      <td>spot<sub>BW</sub> &nbsp;&lt;&nbsp;spotAngle&nbsp;&lt;&nbsp;spot<sub> 
+        CO</sub></td>
+      <td>(spotAngle&nbsp;-&nbsp;spot<sub>CO</sub> )&nbsp;/&nbsp;(spot<sub>BW </sub>- spot<sub>CO</sub>)</td>
+    </tr>
+  </table>
+</div>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-foginterpolant"></a>
+Table 17.5 &#8212; Calculation of the fog interpolant</p>
+
+  <table>
+    <tr> 
+      <th>Condition</th>
+      <th>f<sub><font size=-1>0</font></sub> =</th>
+    </tr>
+    <tr> 
+      <td>no fog</td>
+      <td>1</td>
+    </tr>
+    <tr> 
+      <td>fogType &quot;LINEAR&quot;, d<sub><font size=-2>V</font></sub> &lt; 
+        fogVisibility</td>
+      <td>(fogVisibility-d<sub><font size=-2>V</font></sub>) / fogVisibility</td>
+    </tr>
+    <tr> 
+      <td>fogType &quot;LINEAR&quot;, d<sub><font size=-2>V</font></sub> <u>&gt;</u> 
+        fogVisibility</td>
+      <td>0</td>
+    </tr>
+    <tr> 
+      <td>fogType &quot;EXPONENTIAL&quot;, d<sub><font size=-2>V</font></sub> 
+        &lt; fogVisibility</td>
+      <td>exp(-d<sub><font size=-2>V</font></sub> / (fogVisibility-d<sub><font size=-2>V</font></sub> 
+        ) )</td>
+    </tr>
+    <tr> 
+      <td>fogType &quot;EXPONENTIAL&quot;, d<sub><font size=-2>V</font></sub> 
+        <u>&gt;</u> fogVisibility</td>
+      <td>0</td>
+    </tr>
+  </table>
+</div>
+
+<h3><a name="References"></a>
+17.2.2.5 References</h3>
+
+<p>The X3D lighting equations are based on the simple illumination equations given 
+  in <a href="../bibliography.html#[FOLEY]">[FOLEY]</a> 
+  and <a href="../bibliography.html#[OPENGL]">[OPENGL]</a>.
+</p>
+
+<h1><img src="../../Images/cube.gif" width="20" height="19" alt="cube">
+<a name="Abstracttypes"></a>
+17.3 Abstract types</h1>
+<h2><a name="X3DLightNode"></a>
+17.3.1 <i>X3DLightNode</i></h2>
+
+<pre class="node">X3DLightNode : X3DChildNode { 
+  SFFloat [in,out] ambientIntensity 0     [0,1]
+  SFColor [in,out] color            1 1 1 [0,1]
+  SFBool  [in,out] global           FALSE
+  SFFloat [in,out] intensity        1     [0,1]
+  SFNode  [in,out] metadata         NULL  [X3DMetadataObject]
+  SFBool  [in,out] on               TRUE
+}
+</pre>
+
+<p>The <i>X3DLightNode</i> abstract node type is the base type 
+      from which all node types that serve as light sources are derived. A description 
+      of the <i>ambientIntensity</i>, <i>color</i>, <i>intensity</i>, and <i>on</i> 
+      fields is in 
+<a href="#Lightsourcesemantics">17.2.1 Light source semantics</a>. A description 
+of the <i>global</i> field is in <a href="#Scopingoflights">17.2.1.2 Scoping of 
+lights.</a></p>
+
+
+<h1><img src="../../Images/cube.gif" width="20" height="19" alt="cube">
+<a name="Nodereference"></a>
+17.4 Node reference</h1>
+
+<h2><a name="DirectionalLight"></a>
+17.4.1 DirectionalLight</h2>
+
+<pre class="node">DirectionalLight : X3DLightNode {
+  SFFloat [in,out] ambientIntensity 0      [0,1]
+  SFColor [in,out] color            1 1 1  [0,1]
+  SFVec3f [in,out] direction        0 0 -1 (-&#8734;,&#8734;)
+  SFBool  [in,out] global           FALSE
+  SFFloat [in,out] intensity        1      [0,1]
+  SFNode  [in,out] metadata         NULL   [X3DMetadataObject]
+  SFBool  [in,out] on               TRUE
+}
+</pre>
+
+<p>The DirectionalLight node defines a directional light source 
+that illuminates along rays parallel to a given 3-dimensional vector. A 
+description of the <i>ambientIntensity</i>, <i>color</i>, <i>intensity</i>, 
+and <i>on</i> fields is in <a href="#Lightsourcesemantics">17.2.1 Light source semantics</a>. 
+A description of the <i>global</i> field is in <a href="#Scopingoflights">
+17.2.1.2 Scoping of lights.</a></p>
+
+<p>The <i>direction </i>field specifies the direction vector 
+of the illumination emanating from the light source in the local coordinate 
+system. Light is emitted along parallel rays from an infinite distance away. 
+A directional light source illuminates only the objects in its enclosing 
+parent group. The light may illuminate everything within this coordinate 
+system, including all children and descendants of its parent group. The 
+accumulated transformations of the parent nodes affect the light.</p>
+
+<p>DirectionalLight nodes do not attenuate with distance. A precise 
+description of X3D's lighting equations is contained in 
+<a href="#Lightingmodel">17.2.2 Lighting model</a>.</p>
+
+<h2><a name="PointLight"></a>
+17.4.2 PointLight</h2>
+
+<pre class="node">PointLight : X3DLightNode {
+  SFFloat [in,out] ambientIntensity 0     [0,1]
+  SFVec3f [in,out] attenuation      1 0 0 [0,&#8734;)
+  SFColor [in,out] color            1 1 1 [0,1]
+  SFBool  [in,out] global           TRUE
+  SFFloat [in,out] intensity        1     [0,1]
+  SFVec3f [in,out] location         0 0 0 (-&#8734;,&#8734;)
+  SFNode  [in,out] metadata         NULL  [X3DMetadataObject]
+  SFBool  [in,out] on               TRUE
+  SFFloat [in,out] radius           100   [0,&#8734;)
+}
+</pre>
+
+<p>The PointLight node specifies a point light source at a 3D 
+      location in the local coordinate system. A point light source emits light 
+      equally in all directions; that is, it is omnidirectional. PointLight nodes 
+      are specified in the local coordinate system and are affected by ancestor 
+      transformations. A description of the <i>global</i> field is in
+<a href="#Scopingoflights">17.2.1.2 Scoping of lights.</a></p>
+
+<p>Subclause <a href="#Lightsourcesemantics">17.2.1 Light source 
+      semantics</a>, contains a detailed description of the <i>ambientIntensity</i>, 
+      <i>color</i>, and <i>intensity</i> fields.</p>
+
+<p>A PointLight node illuminates geometry within <i>radius</i> 
+      length base units of its <i>location</i>. Both radius and location are affected by 
+      ancestors' transformations (scales affect <i>radius</i> and transformations 
+      affect <i>location</i>). The <i>radius</i> field shall be greater than or 
+      equal to zero.</p>
+
+<p>PointLight node's illumination falls off with distance as 
+      specified by three <i>attenuation</i> coefficients. The attenuation factor 
+      is:</p>
+
+<p align="center"> <i>1/max(attenuation[0]&nbsp;+&nbsp;attenuation[1] </i>&times;<i> r&nbsp;+&nbsp;attenuation[2] </i>&times;<i> r</i><sup><i>2</i></sup><i>,&nbsp;1)</i></p>
+
+<p>where <i>r</i> is the distance from the light to the surface being illuminated. 
+      The default is no attenuation. An <i>attenuation</i> value of (0, 0, 0) 
+      is identical to (1, 0, 0). Attenuation values shall be greater than or equal 
+      to zero. A detailed description of X3D's lighting equations is contained 
+      in <a href="#Lightingmodel">17.2.2 Lighting model</a>.</p>
+
+<h2><a name="SpotLight"></a>
+17.4.3 SpotLight</h2>
+
+<pre class="node">SpotLight : X3DLightNode {
+  SFFloat [in,out] ambientIntensity 0        [0,1]
+  SFVec3f [in,out] attenuation      1 0 0    [0,∞)
+  SFFloat [in,out] beamWidth        π/4      (0,π/2]
+  SFColor [in,out] color            1 1 1    [0,1]
+  SFFloat [in,out] cutOffAngle      π/2      (0,π/2]
+  SFVec3f [in,out] direction        0 0 -1   (-∞,∞)
+  SFBool  [in,out] global           TRUE
+  SFFloat [in,out] intensity        1        [0,1]
+  SFVec3f [in,out] location         0 0 0    (-∞,∞)
+  SFNode  [in,out] metadata         NULL     [X3DMetadataObject]
+  SFBool  [in,out] on               TRUE
+  SFFloat [in,out] radius           100      [0,∞)
+}
+</pre>
+
+<p>The SpotLight node defines a light source that emits light 
+      from a specific point along a specific direction vector and constrained 
+      within a solid angle. Spotlights may illuminate geometry nodes that respond 
+      to light sources and intersect the solid angle defined by the SpotLight. 
+      Spotlight nodes are specified in the local coordinate system and are affected 
+      by ancestors' transformations. A description of the <i>global</i> field is 
+in <a href="#Scopingoflights">17.2.1.2 Scoping of lights.</a></p>
+
+    <p>A detailed description of <i>ambientIntensity,</i> <i>color</i>, 
+      <i>intensity</i>, and the lighting equations of X3D is provided in
+    <a href="#Lightsourcesemantics">17.2.1 
+      Light source semantics</a>. More information on lighting concepts can be 
+      found in 
+<a href="#Lightingmodel">17.2.2 Lighting model</a>, including 
+      a detailed description of the X3D lighting equations.</p>
+
+    <p>The <i>location</i> field specifies a translation offset of 
+      the centre point of the light source from the light's local coordinate system 
+      origin. This point is the apex of the solid angle which bounds light emission 
+      from the given light source. The <i>direction</i> field specifies the direction 
+      vector of the light's central axis defined in the local coordinate system.</p>
+
+    <p>The <i>on</i> field specifies whether the light source emits 
+      light. If <i>on</i> is <span class="code">TRUE</span>, the light source is emitting light and may 
+      illuminate geometry in the scene. If <i>on</i> is <span class="code">FALSE</span>, the light source 
+      does not emit light and does not illuminate any geometry.</p>
+
+    <p>The <i>radius</i> field specifies the radial extent of the 
+      solid angle and the maximum distance from <i>location</i> that may be illuminated 
+      by the light source. The light source does not emit light outside this radius. 
+      The <i>radius</i> shall be greater than or equal to zero.</p>
+
+    <p>Both radius and location are affected by ancestors' transformations 
+      (scales affect <i>radius</i> and transformations affect <i>location</i>).</p>
+
+    <p>The <i>cutOffAngle</i> field specifies the outer bound of 
+      the solid angle. The light source does not emit light outside of this solid 
+      angle. The <i>beamWidth</i> field specifies an inner solid angle in which 
+      the light source emits light at uniform full intensity. The light source's 
+      emission intensity drops off from the inner solid angle (<i>beamWidth</i>) 
+      to the outer solid angle (<i>cutOffAngle</i>) as described in the following 
+      equations:</p>
+
+<pre class="listing">    angle = the angle between the Spotlight's direction vector
+            and the vector from the Spotlight location to the point
+            to be illuminated
+
+    if (angle &ge; cutOffAngle):
+        multiplier = 0
+    else if (angle &le; beamWidth):
+        multiplier = 1
+    else:
+        multiplier = (angle - cutOffAngle) / (beamWidth - cutOffAngle)
+    intensity(angle) = SpotLight.intensity &times; multiplier
+</pre>
+
+<p>If the <i>beamWidth</i> is greater than the <i>cutOffAngle</i>, 
+      <i>beamWidth</i> is defined to be equal to the <i>cutOffAngle</i> and the 
+      light source emits full intensity within the entire solid angle defined 
+      by <i>cutOffAngle</i>. Both <i>beamWidth</i> and <i>cutOffAngle</i> shall 
+      be greater than 0.0 and less than or equal to &#960;/2. 
+<a href="#f-SpotLightnode">Figure 17.1</a> 
+depicts the <i>beamWidth</i>, <i>cutOffAngle</i>, <i>direction</i>, 
+      <i>location</i>, and <i>radius</i> fields of the SpotLight node.</p>
+
+<div class="CenterDiv">
+
+<a name="f-SpotLightnode"></a>
+<img src="../../Images/spotlight.gif" alt="SpotLight node" width="396" height="297"> 
+
+<p class="FigureCaption">Figure 17.1 &#8212; SpotLight node</p>
+
+</div>   
+
+<p>SpotLight illumination falls off with distance as specified 
+      by three <i>attenuation</i> coefficients. The attenuation factor is:</p>
+
+
+<p align="center">1<i>/max(attenuation[0]&nbsp;+&nbsp;attenuation[1] </i>&times;<i> r&nbsp;+&nbsp;attenuation[2] </i>&times;<i> r</i><sup>2</sup>&nbsp;,&nbsp;1<i>)</i></p>
+
+
+<p>where <i>r</i> is the distance from the light to the surface being illuminated. 
+      The default is no attenuation. An <i>attenuation</i> value of (0, 0, 0) 
+      is identical to (1, 0, 0). Attenuation values shall be greater than or equal 
+      to zero. A detailed description of X3D's lighting equations is contained 
+      in 
+<a href="#Lightingmodel">17.2.2 Lighting model</a>.</p>
+
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>17.5 Support levels</h1>
+
+<p>The Lighting component provides three levels of support as specified 
+in <a href="#t-supportlevels">Table 17.6</a>. </p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+Table 17.6 &#8212; Lighting component support levels</p>
+
+    <table>
+      <tr> 
+        <th><b>Level</b></th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td align="center"><b>1</b></td>
+        <td>Core 1<br>
+        Shape 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DLightNode</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>DirectionalLight</td>
+        <td>Not scoped by parent Group or 
+          Transform.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>2</b></td>
+        <td>Core 1<br>
+        Shape 1</td>
+        <td></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 1 Lighting nodes</td>
+        <td>All fields as supported in Level 1. </td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>PointLight</td>
+        <td> <i>radius</i> optionally supported. Linear attenuation.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>SpotLight</td>
+        <td> <i>beamWidth</i> optionally supported. <i>radius</i> optionally 
+        supported. 
+          Linear attenuation.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>3</b></td>
+        <td>Core 1<br>
+        Shape 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 2 Lighting nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+    </table>
+</div>
+
+<p>
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23"></p>
+
+</body>
+</html>

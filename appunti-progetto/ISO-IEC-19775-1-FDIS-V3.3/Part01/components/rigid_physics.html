@@ -1,0 +1,1395 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 37 Rigid body physics component</title>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</head>
+
+<body>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<img class="x3dlogo" src="../../Images/x3d.png" alt="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a>
+</div>
+
+<div class="CenterDiv">
+
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">37 Rigid body physics</p>
+</div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+37.1 Introduction</h1>
+
+<h2><a name="Name"></a>37.1.1 Name</h2>
+
+<p>The name of this component is &quot;RigidBodyPhysics&quot;. This name shall be used 
+when referring to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+
+<h2><a name="Overview"></a>37.1.2 Overview</h2>
+
+<p>This clause describes how to model rigid bodies and their interactions 
+through the application of basic physics principles to effect motion.
+<a href="#t-Topics">Table 37.1</a> provides links to the major topics in this 
+clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 37.1 &#8212; Topics</p>
+
+<table class="topics">
+<tr>
+  <td>
+	<ul>
+	  <li><a href="#Introduction">37.1 Introduction</a>
+	    <ul>
+		  <li><a href="#Name">37.1.1 Name</a></li>
+		  <li><a href="#Overview">37.1.2 Overview</a> </li>
+	    </ul></li>
+	  <li><a href="#Concepts">37.2 Concepts</a>
+		<ul>
+		  <li><a href="#ConceptsOverview">37.2.1 Overview</a></li>
+		  <li><a href="#ConceptsBodies">37.2.2 Bodies</a>
+		    <ul>
+              <li><a href="#EventModelEvaluation">37.2.2.1 Event model evaluation</a></li>
+			  <li><a href="#TransformationHierarchy">37.2.2.2 Transformation hierarchy</a></li>
+	        </ul></li>
+		  <li><a href="#ConceptsJoints">37.2.3 Joints</a>
+		    <ul>
+			  <li><a href="#JointDescriptions">37.2.3.1 What a joint describes</a></li>
+		      <li><a href="#RangeOfMotionLimits">37.2.3.2 Range of motion limits</a></li>
+		    </ul></li>
+		  <li><a href="#CoordinateSystems">37.2.4 Coordinate systems</a>
+		    <ul>
+			  <li><a href="#InitialCoordinateSystem">37.2.4.1 Initial coordinate system</a></li>
+		      <li><a href="#BreakingJoints">37.2.4.2 Breaking joint</a></li>
+			  <li><a href="#CollisionContacts">37.2.4.3 Collision contact description</a></li>
+		    </ul></li>
+		</ul></li>
+	  <li><a href="#AbstractTypes">37.3 Abstract types</a>
+		<ul>
+		  <li><a href="#X3DNBodyCollidableNode">37.3.1 <i>X3DNBodyCollidableNode</i></a></li>
+		  <li><a href="#X3DNBodyCollisionSpaceNode">37.3.2 <i>X3DNBodyCollisionSpaceNode</i></a></li>
+		  <li><a href="#X3DRigidJointNode">37.3.3 <i>X3DRigidJointNode</i></a></li>
+		</ul></li>
+	  <li><a href="#NodeReference">37.4 Node reference</a>
+		<ul>
+		  <li><a href="#BallJoint">37.4.1 BallJoint</a></li>
+		  <li><a href="#CollidableOffset">37.4.2 CollidableOffset</a></li>
+		  <li><a href="#CollidableShape">37.4.3 CollidableShape</a></li>
+		  <li><a href="#CollisionCollection">37.4.4 CollisionCollection</a></li>
+		  <li><a href="#CollisionSensor">37.4.5 CollisionSensor</a></li>
+		  <li><a href="#CollisionSpace">37.4.6 CollisionSpace</a></li>
+		  <li><a href="#Contact">37.4.7 Contact</a></li>
+		  <li><a href="#DoubleAxisHingeJoint">37.4.8 DoubleAxisHingeJoint</a></li>
+		  <li><a href="#MotorJoint">37.4.9 MotorJoint</a></li>
+		  <li><a href="#RigidBody">37.4.10 RigidBody</a></li>
+		  <li><a href="#RigidBodyCollection">37.4.11 RigidBodyCollection</a></li>
+		  <li><a href="#SingleAxisHingeJoint">37.4.12 SingleAxisHingeJoint</a></li>
+		  <li><a href="#SliderJoint">37.4.13 SliderJoint</a></li>
+		  <li><a href="#UniversalJoint">37.4.14 UniversalJoint</a></li>
+		</ul></li>
+	  <li> <a href="#SupportLevels">37.5 Support levels</a></li>
+	</ul>
+<!--
+	<ul>
+      <li><a href="#f-3DTexture">Figure 1 &#8212; Illustration of how two 2D images can form a 3D volume of texture</a></li>
+	</ul>
+-->
+	<ul>
+      <li><a href="#t-Topics">Table 37.1 &#8212; Topics</a></li>
+      <li><a href="#t-AppliedParametersValidValues">Table 37.2 &mdash; appliedParameters valid values</a></li>
+		<li><a href="#t-SupportLevels">Table 37.3 &mdash; Rigid body physics 
+		component support levels</a></li>
+	</ul>
+    </td>
+  </tr>
+</table>
+</div>
+
+<h1><a name="Concepts"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+37.2 Concepts</h1>
+
+<h2><a name="ConceptsOverview"></a>37.2.1 Overview</h2>
+
+<p>This component provides the ability to influence the visual output of the 
+scene graph in accordance to some of the laws of physics. Only the subset of the 
+laws of physics known as rigid body physics is supported. Rigid body physics 
+models deal with objects as solid, unchangeable sets of mass with a velocity. 
+These bodies can be connected together with the use of various forms of joints, 
+that allow one body&#39;s motion to effect another.</p>
+<p>Rigid body physics evaluation requires the solving of many different factors 
+in parallel, typically through the use of ordinary differential equations. 
+Because these equations are heavily floating point based, their accuracy is 
+highly dependent on both the implementation of the solver and the computing 
+hardware. Due to this non-precise nature of the calculations, modelling rigid 
+body physics requires a lot of care and attention to detail. Small changes can 
+very quickly lead to numerical instability resulting in visual representations 
+that may make the model look like it is exploding. Most of the node definitions 
+in this component include factors that can be modified to trade off accuracy in 
+visual output for the stability of the calculations. In many cases, the two are 
+inversely proportional. That is, a more accurate simulation has a far greater 
+chance of suffering numerical instability than a less accurate result. 
+Intersections between bodies and the way that they interact per frame can have 
+significant effects on the application visuals.<br>
+<br>
+A consequence of this problem is that using physically accurate values for 
+masses and sizes in the physics model is not likely to produce the best results, 
+or even lead to a stable simulation. The physics modelling presented by this 
+component is independent of the visuals representation, allowing the user to 
+create a stable physical model that has no relationship to the visual model that 
+is driven by the physics.</p>
+
+<h2><a name="IntegrationWithX3D"></a>37.2.2 Integration with X3D</h2>
+
+<h3><a name="EventModelEvaluation"></a>37.2.2.1 Event model evaluation</h3>
+
+<p>Evaluating the physics model within the constraints of the X3D event model 
+requires the ability to evaluate time in discreet time chunks. This is known as 
+<i>discreet event simulation</i>.</p>
+
+<p>Evaluation of the physics model is performed once per frame. Since the user 
+needs to be able to modify the model on a frame-by-frame basis, this requires 
+that the physics model is evaluated after all possible user input has been 
+received for that frame. Thus, physics model evaluation is performed just after Step d in 
+<a href="../concepts.html#ExecutionModel">4.4.8.3 
+Execution model</a>. After evaluating the physics model, the results are used to 
+further modify the existing scene graph immediately before rendering is performed.
+</p>
+
+<p>Physics modelling libraries typically require fixed length time intervals 
+between iterations. A real-time 3D graphics environment typically varies the 
+frame rates based on:</p>
+<ol type="a">
+	<li>the current content in view, </li>
+	<li>scripting, and </li>
+	<li>other interactions. </li>
+</ol>
+<p>An implementation of this specification shall be responsible for keeping the 
+physics fixed time interval evaluations synchronized with the varying visual 
+frame time intervals.<br>
+<br>
+Some nodes offer output events that describe output of the physics model, 
+such as the current separation between two bodies or the rate of separation 
+between them. These values are exposed as a set of sensors that can be used to 
+track the output of the physics model and report it at the start of the next 
+frame, in accordance with the standard sensor node model.</p>
+
+<h3><a name="TransformationHierarchy"></a>37.2.2.2 Transformation hierarchy</h3>
+
+<p>The nodes defined in this component are not part of the transformation 
+hierarchy. Instead, the nodes may be linked to parts of the scene graph that are part of 
+the transformation hierarchy in order to affect their motion. They may also be 
+linked as part of the n-body object collision detection capabilities so that a 
+coordinated system of graphics and physics may be modelled.</p>
+
+<h2><a name="ConceptsBodies"></a>37.2.3 Bodies</h2>
+
+<p>A body represents a section of mass in the system that can be effected by the 
+physics model. A body is represented by the following properties:</p>
+
+<ol type="a">
+	<li>mass,</li>
+	<li>density model,</li>
+	<li>position and orientation,</li>
+	<li>linear velocity,</li>
+	<li>angular velocity, and</li>
+	<li>various forces and torques applied.</li>
+</ol>
+
+<p>A body is a standalone object within a collection. Bodies are influenced by 
+joints that connect this body to another within the collection. Bodies are not 
+required to be connected by a joint and may exist as a standalone entity. All 
+bodies exist within the world space of their collection. There is no concept of 
+a transformation hierarchy of bodies within bodies.</p>
+
+<h2><a name="ConceptsJoints"></a>37.2.4 Joints</h2>
+
+<h3><a name="JointDescriptions"></a>37.2.4.1 What a joint describes</h3>
+
+<p>A joint is used to connect two bodies together in a way that imposes a set 
+of constraints on the movement of the two bodies relative to one another. Many different joint 
+types are provided allowing the user to constrain the motions of the bodies 
+according to the desired physical properties.</p>
+
+<h3><a name="RangeOfMotionLimits"></a>37.2.4.2 Range of motion limits</h3>
+
+<p>Each of the joints has a range of motion through which they can travel. This 
+range of motion may be radial angles or linear distance. Typically these values 
+are limited to a single rotation in any one axis. </p>
+<p class="Example">EXAMPLE 1&nbsp; 2&pi; radians indicates full rotatability.</p>
+<p>Each joint contains a set of fields that can be used to limit the 
+range of motions to less than full ability. These fields are termed
+<i>stops.</i></p>
+
+<p>A stop is defined by its value and a number of parameters to control the 
+effects output from the physics engine. Firstly, a stop may permit some amount 
+of bouncing due to the action of the joint hitting it. These same values are 
+also used to perform internal self-correction of objects that have 
+interpenetrated due to the discrete time step intervals that the evaluation of 
+the physics model uses.</p>
+<p class="Example">EXAMPLE 2&nbsp; In the real 
+world, a lot of stops have a rubber cushion on the end to absorb the impacts and 
+help return the joint to the central position.</p>
+
+<h2><a name="CoordinateSystems"></a>37.2.5 Coordinate systems</h2>
+
+<h3><a name="InitialCoordinateSystem"></a>37.2.5.1 Initial coordinate system</h3>
+
+<p>When the two bodies are initially placed in the scene, their initial 
+positions define the 
+resting coordinate frames for the two bodies on that joint. Output values from 
+those joints are then relative to this initial position.</p>
+
+<p>The anchor position and axis values of joints are always specified in world 
+coordinate positions, regardless of whether the two joining bodies have been 
+offset or not.</p>
+<p>Mass is defined in kilograms. It is important to note that rigid body physics 
+models, due to inaccuracy in floating point calculations, cannot typically deal 
+with real-world values. Values provided should be defined in relative 
+proportions rather than absolute values. This will help the model stay stable 
+over long calculation periods.</p>
+
+<h3><a name="BreakingJoints"></a>37.2.5.2 Breaking joints</h3>
+
+<p>Each joint node will have two output-only fields that indicate the calculated 
+location of the relative positions within their own frame of reference. By 
+comparing the difference between these two values, it is possible to determine if the 
+joint has broken as a result of the input from the last frame. If the joint 
+broke, the difference between the two values will be non-zero (although the 
+author should also allow a small tolerance due to the inaccuracy of floating 
+point calculations).</p>
+
+<h3><a name="CollisionContacts"></a>37.2.5.3 Collision contact description</h3>
+
+<p>When a collision is found between two objects, it is described with the 
+following details:</p>
+
+<ol type="a">
+	<li>a unit vector describing the surface normal from body 1 to body 2 at the 
+point of contact,</li>
+	<li>a primary direction of motion for body 1 relative to body 2, and</li>
+	<li>a second direction that is perpendicular to both the normal and the primary 
+direction is implied for the purposes of providing various sets of coefficients.</li>
+</ol>
+
+<p>The <a href="#CollisionCollection">CollisionCollection</a> node specifies a set of default coefficients to use for 
+all contacts unless overridden by geometry-specific information. These 
+coefficients are generally described using SFVec2f fields. The 2D vector 
+describes the coefficients for the primary direction for the first value and 
+secondary direction for the second value.</p>
+
+<h1><a name="AbstractTypes"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+37.3 Abstract types</h1>
+
+<h2><a name="X3DNBodyCollidableNode"></a>37.3.1 <i>X3DNBodyCollidableNode</i></h2>
+
+<pre>
+X3DNBodyCollidableNode : X3DChildNode, X3DBoundedObject {
+  SFBool     [in,out] enabled     TRUE
+  SFNode     [in,out] metadata    NULL     [X3DMetadataObject]
+  SFRotation [in,out] rotation    0 0 1 0  [0,1]
+  SFVec3f    [in,out] translation 0 0 0    (-&#8734;,&#8734;)
+  SFVec3f    []       bboxCenter  0 0 0    (-&#8734;,&#8734;)
+  SFVec3f    []       bboxSize    -1 -1 -1 [0,&#8734;) or -1 -1 -1
+}
+</pre>
+
+<p>The <i>X3DNBodyCollidableNode</i> abstract node type represents objects that act as the interface between 
+the rigid body physics, collision geometry proxy, and renderable objects in the 
+scene graph hierarchy.</p>
+
+<p>The <i>enabled</i> field is used to specify whether a collidable object is 
+eligible for collision detection interactions.</p>
+<p>The <i>translation</i> and <i>rotation</i> fields define an offset from, 
+and rotation about, the body&#39;s center that the collidable node occupies. This can 
+be used to place the collidable geometry in a different location relative to the 
+actual rigid body that has the physics model being applied.</p>
+
+<h2><a name="X3DNBodyCollisionSpaceNode"></a>37.3.1 <i>
+X3DNBodyCollisionSpaceNode</i></h2>
+
+<pre>
+X3DNBodyCollisionSpaceNode : X3DNode, X3DBoundedObject {
+  SFBool  [in,out] enabled    TRUE
+  SFNode  [in,out] metadata   NULL     [X3DMetadataObject]
+  SFVec3f []       bboxCenter 0 0 0    (-&#8734;,&#8734;)
+  SFVec3f []       bboxSize   -1 -1 -1 [0,&#8734;) or -1 -1 -1
+}
+</pre>
+
+<p>The <i>
+X3DNBodyCollisionSpaceNode</i> abstract node type represents objects that act as a self-contained 
+spatial collection of objects that can interact through collision detection 
+routines. Different types of spaces may be defined depending on spatial 
+organization or other optimization mechanisms.</p>
+<p>The <em>enabled</em> field specifies whether the collision space is to be 
+considered during collision processing.</p>
+
+<h2><a name="X3DRigidJointNode"></a>37.3.3 <i>X3DRigidJointNode</i></h2>
+
+<pre>
+X3DRigidJointNode : X3DNode {
+  SFNode   [in,out] body1       NULL   [RigidBody]
+  SFNode   [in,out] body2       NULL   [RigidBody]
+  MFString [in,out] forceOutput &quot;NONE&quot; [&quot;ALL&quot;,&quot;NONE&quot;,...]
+  SFNode   [in,out] metadata    NULL   [X3DMetadataObject]
+}
+</pre>
+
+<p>The <i>X3DRigidJointNode</i> abstract node type is the base type for all joint types</p>
+
+<p>The <i>forceOutput</i><span class="tred"> </span>field is used to control which output fields 
+are to be generated for the next frame. In physics models, the amount of 
+data that can be generated per frame can be quite extensive, particularly in 
+complex models with a large number of joints. A typical application will 
+need only a few of them, if any at all. This field is used to control which of 
+those outputs the author requires to be generated. The values of the array are 
+to describe the names, exactly, of the output field(s) that are to be updated at 
+the start of the next frame. Two special values are defined: <span class="code">&quot;ALL&quot;</span> and 
+<span class="code">&quot;NONE&quot;</span>. 
+If <span class="code">&quot;ALL&quot;</span> is specified anywhere in the array, all fields are to be updated. If 
+<span class="code">&quot;NONE&quot;</span> is specified, no updates are performed. If the 
+list of values is empty, it shall be treated as if <span class="code">&quot;NONE&quot;</span> 
+were specified. Other values provided in addition to <span class="code">&quot;NONE&quot;</span> shall be ignored.</p>
+<p>Because computers are not guaranteed to be accurate in their mathematical 
+calculations and because of the nature of the discrete time steps in the 
+evaluation mechanisms, the behaviour of the system will not be 100% accurate.
+</p>
+<p class="Example">EXAMPLE&nbsp; Objects may intersect that should not and 
+joints may break that should not.</p>
+<p>Every joint type will have a set of joint-specific fields that define a set 
+of error correction conditions. This error correction conditions provide 
+guidance as to how to automatically correct for internally calculated errors 
+including such errors as object interpenetration. In addition, these error 
+correction conditions can be used to control how quickly the errors should be 
+corrected. Fast corrections may not always be desirable for the appropriate 
+visual output required.</p>
+<h1><a name="NodeReference"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+37.4 Node reference</h1>
+
+<h2><a name="BallJoint"></a>37.4.1 BallJoint</h2>
+
+<pre>
+BallJoint : X3DRigidJointNode {
+  SFVec3f  [in,out] anchorPoint      0 0 0
+  SFNode   [in,out] body1            NULL   [RigidBody]
+  SFNode   [in,out] body2            NULL   [RigidBody]
+  MFString [in,out] forceOutput      &quot;NONE&quot; [&quot;ALL&quot;,&quot;NONE&quot;,...]
+  SFNode   [in,out] metadata         NULL   [X3DMetadataObject]
+  SFVec3f  [out]    body1AnchorPoint
+  SFVec3f  [out]    body2AnchorPoint
+}
+</pre>
+
+<p>The BallJoint node represents an unconstrained joint between two bodies that 
+pivot about a common anchor point.</p>
+<p><i>body1AnchorPoint</i> and <i>body2AnchorPoint</i> represent the output that 
+describes where the <i>anchorPoint</i> is relative to the two bodies local 
+coordinate reference frame. This can be used to detect if the joint has caused a 
+separation if the two values are not the same for a given frame.</p>
+
+<h2><a name="CollidableOffset"></a>37.4.2 CollidableOffset</h2>
+
+<pre>
+CollidableOffset : X3DNBodyCollidableNode {
+  SFBool     [in,out] enabled     TRUE
+  SFNode     [in,out] metadata    NULL     [X3DMetadataObject]
+  SFRotation [in,out] rotation    0 0 1 0  [0,1]
+  SFVec3f    [in,out] translation 0 0 0    (-&#8734;,&#8734;)
+  SFVec3f    []       bboxCenter  0 0 0    (-&#8734;,&#8734;)
+  SFVec3f    []       bboxSize    -1 -1 -1 [0,&#8734;) or -1 -1 -1
+  SFNode     []       collidable  NULL     [X3DNBodyCollidableNode]
+}
+</pre>
+
+<p>The CollidableOffset node is used to reposition a piece of geometry relative 
+to the center of the owning body while keeping it consistent within the geometry 
+space. </p>
+
+<p>The <i>collidable</i> field holds a reference to a single nested item of 
+collidable scene graph. If there are multiple transformation paths to this 
+reference, the results are undefined.</p>
+
+<h2><a name="CollidableShape"></a>37.4.3 CollidableShape</h2>
+
+<pre>
+CollidableShape : X3DNBodyCollidableNode  {
+  SFBool     [in,out] enabled     TRUE
+  SFNode     [in,out] metadata    NULL     [X3DMetadataObject]
+  SFRotation [in,out] rotation    0 0 1 0  [0,1]
+  SFVec3f    [in,out] translation 0 0 0    (-&#8734;,&#8734;)
+  SFVec3f    []       bboxCenter  0 0 0    (-&#8734;,&#8734;)
+  SFVec3f    []       bboxSize    -1 -1 -1 [0,&#8734;) or -1 -1 -1
+  SFNode     []       shape       NULL     [Shape]
+}
+</pre>
+
+<p>The CollidableShape node represents the glue between the collision detection 
+system, the rigid body model, and the renderable scene graph. Its job is to take 
+a single piece of geometry wrapped in a <a href="shape.html#Shape">Shape</a> node and provide a way for the 
+physics model body to move the geometry. In addition, it allows the collision 
+detection system to determine the location of the geometry primitives that it 
+uses for collision management. When placed under a part of the transformation 
+hierarchy, it can be used to visually represent the movement of the object.</p>
+
+<p>The <i>shape</i> field uses the geometry proxy for specifying which geometry 
+best represents the collidable object.</p>
+<p class="Example">NOTE&nbsp; Since the shape node is still 
+writable, it is strongly recommended that the author not dynamically change the 
+Shape&rsquo;s <i>geometry</i> field as it may have large performance impacts due to 
+optimizations used by the collision system. 
+</p>
+<p>Not all geometry types are mappable to the collision node type.</p>
+<p class="Example">EXAMPLE&nbsp; PointSet
+</p>
+<p>If the containing shape node 
+is given an explicit bounding box size, the geometry shall be approximated 
+using that shape for the purposes of collision detection. If there is no 
+bounding box, the results are implementation-dependent.
+</p>
+
+<h2><a name="CollisionCollection"></a>37.4.4 CollisionCollection</h2>
+
+<pre>
+CollisionCollection : X3DChildNode {
+  MFString [in,out] appliedParameters        &quot;BOUNCE&quot;
+  SFFloat  [in,out] bounce                   0        [0,1]
+  MFNode   [in,out] collidables              NULL     [X3DNBodyCollisionSpaceNode,
+                                                       X3DNBodyCollidableNode]
+  SFBool   [in,out] enabled                  TRUE
+  SFVec2f  [in,out] frictionCoefficients     0 0      [0,&#8734;)
+  SFNode   [in,out] metadata                 NULL     [X3DMetadataObject]
+  SFFloat  [in,out] minBounceSpeed           0.1      [0,&#8734;)
+  SFVec2f  [in,out] slipFactors	             0 0      (-&#8734;,&#8734;)
+  SFFloat  [in,out] softnessConstantForceMix 0.0001   [0,1]
+  SFFloat  [in,out] softnessErrorCorrection  0.8      [0,1]
+  SFVec2f  [in,out] surfaceSpeed             0 0      (-&#8734;,&#8734;)
+}
+</pre>
+
+<p>The CollisionCollection node holds a collection of objects in the <em>
+collidables</em> field that can be 
+managed as a single entity for resolution of inter-object collisions with other 
+groups of collidable objects. A group consists of both collidable objects as 
+well as spaces that may be collided against each other. A set of parameters 
+are provided that specify default values that will be assigned to all 
+<a href="#Contact">Contact</a> nodes generated from the
+<a href="#CollisionSensor">CollisionSensor</a> node. A user may then override 
+the individual Contact node by 
+inserting a script between the output of the sensor and the input to the 
+<a href="#RigidBodyCollection">RigidBodyCollection</a> 
+node if it is desired to process the contact stream.</p>
+
+<p>The <i>enabled</i> field is used to control whether the collision detection 
+system for this collection should be run at the end of this frame. A value 
+of <span class="code">TRUE</span> enables it while a value of <span class="code">FALSE</span> disables it. A CollisionSensor node 
+watching this collection does not report any outputs for this collection for this 
+frame if it is not enabled.</p>
+
+<p>The <i>bounce</i> field indicates how bouncy the surface contact is. A value 
+of 0 indicates no bounce at all while a value of 1 indicates maximum bounce.</p>
+
+<p>The <i>minBounceSpeed</i> field indicates the minimum speed, in speed base 
+units, that an object shall have before an object will bounce. If the object is 
+below this speed, it will not bounce, effectively having an equivalent 
+value for the <i>bounce</i> field of zero.</p>
+
+<p>The <i>surfaceSpeed</i> field defines the speed in the two friction 
+directions in speed base units. This is used to indicate if the contact surface 
+is moving independently of the motion of the bodies.</p>
+<p class="Example">EXAMPLE&nbsp; a conveyor 
+belt.</p>
+
+<p>The <i>softnessConstantForceMix</i> value applies a constant force value to 
+make the colliding surfaces appear to be somewhat soft.</p>
+
+<p>The <i>softnessErrorCorrection</i> determines how much of the collision error 
+should be fixed in a set of evaluations. The value is limited to the range of 
+[0,1]. A value of 0 specifies no error correction while a value of 1 specifies 
+that all errors should be corrected in a single step.</p>
+
+<p>The <i>appliedParameters</i> indicates globally which parameters are to be 
+applied to the collision outputs when passing information into the the rigid 
+body physics system. These parameters specify a series of defaults that apply to all contacts 
+generated. Individual contacts may override which values are applicable, if 
+needed, by setting the field of the same name in the contact itself. The 
+following are valid values:</p>
+
+<ul>
+<li><b><span class="code">&quot;BOUNCE&quot;</span></b>: The bounce field value 
+is used.</li>
+<li><b><span class="code">&quot;USER_FRICTION&quot;</span></b>: The system will normally calculate the friction direction 
+vector that is perpendicular to the contact normal. This setting indicates that 
+the 
+user-supplied value in this contact should be used.</li>
+<li><span class="code">&quot;FRICTION_COEFFICIENT-2</span>&quot;: The <i>
+frictionCoefficients</i> field values are used.</li>
+<li><span class="code">&quot;ERROR_REDUCTION&quot;</span>: The <i>softnessErrorCorrection</i>
+    field value in the contact evaluation should be used.</li>
+<li><span class="code">&quot;CONSTANT_FORCE&quot;</span>: The <i>softnessConstantForceMix</i>
+    field value in the contact evaluation should be used.</li>
+<li><span class="code">&quot;SPEED-1&quot;</span>: The <i>surfaceSpeed</i> field 
+value first component is used.</li>
+<li><span class="code">&quot;SPEED-2&quot;</span>: The <i>surfaceSpeed</i> field 
+value second component is used.</li>
+<li><span class="code">&quot;SLIP-1&quot;</span>: The <i>slipFactors</i> field 
+value first component is used.</li>
+<li><span class="code">&quot;SLIP-2&quot;</span>: The <i>slipFactors</i> field 
+value second component is used.</li>
+</ul>
+
+<h2><a name="CollisionSensor"></a>37.4.5 CollisionSensor</h2>
+
+<pre>
+CollisionSensor : X3DSensorNode {
+  SFNode [in,out] collider      NULL [CollisionCollection]
+  SFBool [in,out] enabled       TRUE
+  SFNode [in,out] metadata      NULL [X3DMetadataObject]
+  MFNode [out]    intersections	     [X3DNBodyCollidableNode]
+  MFNode [out]    contacts           [Contact]
+  SFBool [out]    isActive
+}
+</pre>
+
+<p>The CollisionSensor node is used to send collision detection information into 
+the scene graph for user processing. The collision detection system does not 
+require an instance of this class to be in the scene in order for it to run or 
+affect the physics model. This class is used to report to the user contact 
+information should the user require this information for other purposes.</p>
+<p>The <em>collidables</em> field specifies the nodes and spaces that are to be 
+included in collision detection computations.</p>
+
+<p>The <i>contacts</i> field is used to report contacts that were generated as a 
+result of the scene graph changes last frame. This field generates instances of 
+the <a href="#Contact">Contact</a> node.</p>
+<p class="Example">NOTE&nbsp; While it is possible to route from this field to the <i>
+set_contacts</i> field of the <a href="#RigidBodyCollection">RigidBodyCollection</a> node, it is strongly advised 
+that this not be done. The collision system will have already taken these into 
+account internally and processed them in the visual results from the last frame. 
+Setting the values again to the RigidBodyCollection node will result in 
+undefined behaviour.</p>
+<p>The <i>contacts</i> field is only available when using the RigidBodyPhysics 
+support level 
+2 and above.</p>
+
+<p>The CollisionSensor is active (<i>isActive</i> is <span class="code">TRUE</span>) when contacts were 
+located as a result of the movement of the watched objects from last frame.</p>
+
+<p>The <i>intersections</i> field is used to report the colliding geometry that 
+was detected in this last frame.</p>
+
+<h2><a name="CollisionSpace"></a>37.4.6 CollisionSpace</h2>
+
+<pre>
+CollisionSpace : X3DNBodyCollisionSpaceNode {
+  MFNode  [in,out] collidables NULL     [X3DNBodyCollisionSpaceNode,
+                                         X3DNBodyCollidableNode]
+  SFBool  [in,out] enabled     TRUE
+  SFNode  [in,out] metadata    NULL     [X3DMetadataObject]
+  SFBool  [in,out] useGeometry FALSE
+  SFVec3f []       bboxCenter  0 0 0    (-&#8734;,&#8734;)
+  SFVec3f []       bboxSize    -1 -1 -1 [0,&#8734;) or -1 -1 -1
+}
+</pre>
+
+<p>The CollisionSpace node holds a collection of objects in the <em>collidables</em> 
+field that can be considered 
+as a single entity for resolution of inter-object collisions with other groups 
+of collidable objects. A group consists of both collidable objects as well as 
+nested collections. This grouping allows creation of efficient collision 
+detection scenarios by grouping functional sets of objects together. Spaces may be 
+collided against each other to determine if the larger group of objects are 
+anywhere near each other. If there is some intersection between two spaces, or 
+between a 
+collidable space and a collidable object, the system will traverse into the contained objects 
+looking for finer resolution on exactly which objects collided together.</p>
+
+<p>The <i>useGeometry</i> field indicates whether the collision detection code 
+should check for collisions down to the level of geometry or only make 
+approximations using the bounds of the geometry. Using the geometry will be more 
+accurate but slower. In most cases, just 
+testing against the bounds of the object is sufficient.</p>
+
+
+<h2><a name="Contact"></a>37.4.7 Contact</h2>
+
+<pre>
+Contact : X3DNode {
+  MFString [in,out] appliedParameters        &quot;BOUNCE&quot;
+  SFNode   [in,out] body1                    NULL     [RigidBody]
+  SFNode   [in,out] body2                    NULL     [RigidBody]
+  SFFloat  [in,out] bounce                   0        [0,1]
+  SFVec3f  [in,out] contactNormal            0 1 0    (-&#8734;,&#8734;)
+  SFFloat  [in,out] depth                    0        (-&#8734;,&#8734;)
+  SFVec2f  [in,out] frictionCoefficients     0 0      [0,&#8734;)
+  SFVec3f  [in,out] frictionDirection        0 1 0    (-&#8734;,&#8734;)
+  SFNode   [in,out] geometry1                NULL     [X3DNBodyCollidableNode]
+  SFNode   [in,out] geometry2                NULL     [X3DNBodyCollidableNode]
+  SFNode   [in,out] metadata                 NULL     [X3DMetadataObject]
+  SFFloat  [in,out] minbounceSpeed           0        [0,&#8734;)
+  SFVec3f  [in,out] position                 0 0 0    (-&#8734;,&#8734;)
+  SFVec2f  [in,out] slipCoefficients         0 0      (-&#8734;,&#8734;)
+  SFFloat  [in,out] softnessConstantForceMix 0.0001   [0,1]
+  SFFloat  [in,out] softnessErrorCorrection  0.8      [0,1]
+  SFVec2f  [in,out] surfaceSpeed             0 0      (-&#8734;,&#8734;)
+}
+</pre>
+
+<p>The Contact node specifies information concerning a contact between 
+collidable objects and/or spaces.</p>
+<p>The <em>body1</em> and <em>body2</em> fields specify two top-level nodes that 
+should be evaluated in the physics model as a single set of interactions with 
+respect to each other.</p>
+<p>The <em>geometry1</em> and <em>geometry2</em> fields specify information 
+about <em>body1</em> and <em>body2</em>.</p>
+<p>The <i>position</i> field indicates the exact location of the contact that was made 
+between the two objects.</p>
+
+<p>The <i>contactNormal</i> field is a unit vector describing the normal between 
+the two colliding bodies.</p>
+
+<p>The <i>depth</i> field indicates how deep the current intersection is along 
+the normal vector.</p>
+
+<p>The <i>frictionDirection</i> field is used to control the vector that 
+describes which way friction is to be applied to the contact location. If there 
+is no friction, the direction should be set to 0, 0, 0.</p>
+
+<p>The <i>bounce</i> field indicates how bouncy the surface contact is. A value 
+of 0 indicates no bounce at all while a value of 1 indicates maximum bounce.</p>
+
+<p>The <i>minBounceSpeed</i> field indicates the minimum speed, in speed base 
+units, that an object shall have before an object will bounce. If the object is 
+below this speed, it will not bounce, effectively having an equivalent 
+value for the <i>bounce</i> field of zero.</p>
+
+<p>The <i>surfaceSpeed</i> field defines the speed in the two friction 
+directions in speed base units. This is used to indicate whether the contact surface 
+is moving independently of the motion of the bodies.</p>
+<p class="Example">EXAMPLE&nbsp; A conveyor 
+belt mechanism may be stationary while its belt is moving. The object being 
+placed on the conveyor belt will not be affected by the motion of the belt until 
+it is in contact with it.</p>
+
+<p>The <i>softnessConstantForceMix</i> value applies a constant force value to 
+make the colliding surfaces appear to be somewhat soft.</p>
+
+<p>The <i>softnessErrorCorrection</i> determines how much of the collision error 
+should be fixed in a set of evaluations. The value is limited to the range of 
+[0,1] where 0 specifies no error correction while a value of 1 specifies that all 
+errors should be corrected in a single step.</p>
+
+<p>The <i>appliedParameters</i> indicates globally which parameters are to be 
+applied to the collision outputs when passing information into the the rigid 
+body physics system. These parameters specify a series of defaults that apply to all contacts 
+generated. Individual contacts may override which values are applicable, if 
+needed, by setting the field of the same name in the contact itself. The 
+valid values are specified in <a href="#t-AppliedParametersValidValues">Table 
+37.2</a>:</p>
+
+<div class="CenterDiv">
+<p class="TableCaption"><a name="t-AppliedParametersValidValues"></a>Table 37.2 &mdash; appliedParameters valid values</p>
+
+<table border="1" width="100%" id="table1">
+	<tr>
+		<th>Value</th>
+		<th>Meaning</th>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;BOUNCE&quot;</span></td>
+		<td>The bounce field value is used.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;USER_FRICTION&quot;</span></td>
+		<td>The system will normally calculate the friction direction vector 
+		that is perpendicular to the contact normal. This setting indicates that 
+		the user-supplied value in this contact should be used.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;FRICTION_COEFFICIENT&#8722;2</span>&quot;</td>
+		<td>The <i>
+frictionCoefficients</i> field values are used.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;ERROR_REDUCTION&quot;</span></td>
+		<td>The <i>softnessErrorCorrection</i>
+    field value in the contact evaluation should be used.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;CONSTANT_FORCE&quot;</span></td>
+		<td>The <i>softnessConstantForceMix</i>
+    field value in the contact evaluation should be used.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;SPEED-1&quot;</span></td>
+		<td>The <i>surfaceSpeed</i> field 
+value first component is used.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;SPEED-2&quot;</span></td>
+		<td>The <i>surfaceSpeed</i> field 
+value second component is used.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;SLIP-1&quot;</span></td>
+		<td>The <i>slipFactors</i> field 
+value first component is used.</td>
+	</tr>
+	<tr>
+		<td><span class="code">&quot;SLIP-2&quot;</span></td>
+		<td>The <i>slipFactors</i> field 
+value second component is used.</td>
+	</tr>
+</table>
+</div>
+
+<h2><a name="DoubleAxisHingeJoint"></a>37.4.8 DoubleAxisHingeJoint</h2>
+
+<pre>
+DoubleAxisHingeJoint : X3DRigidJointNode {
+  SFVec3f  [in,out] anchorPoint               0 0 0
+  SFVec3f  [in,out] axis1                     0 0 0
+  SFVec3f  [in,out] axis2                     0 0 0
+  SFNode   [in,out] body1                     NULL   [RigidBody]
+  SFNode   [in,out] body2                     NULL   [RigidBody]
+  SFFloat  [in,out] desiredAngularVelocity1   0      (-&#8734;,&#8734;)
+  SFFloat  [in,out] desiredAngularVelocity2   0      (-&#8734;,&#8734;)
+  MFString [in,out] forceOutput               &quot;NONE&quot; [&quot;ALL&quot;,&quot;NONE&quot;,...]
+  SFFloat  [in,out] maxAngle1                 <span class="times">&pi;</span>      [-<span class="times">&pi;</span>,<span class="times">&pi;</span>]
+  SFFloat  [in,out] maxTorque1                0      (-&#8734;,&#8734;)
+  SFFloat  [in,out] maxTorque2                0      (-&#8734;,&#8734;)
+  SFNode   [in,out] metadata                  NULL   [X3DMetadataObject]
+  SFFloat  [in,out] minAngle1                 -<span class="times">&pi;</span>     [-<span class="times">&pi;</span>,<span class="times">&pi;</span>]
+  SFFloat  [in,out] stopBounce1               0      [0,1]
+  SFFloat  [in,out] stopConstantForceMix1     0.001  [0,&#8734;)
+  SFFloat  [in,out] stopErrorCorrection1      0.8    [0,1]
+  SFFloat  [in,out] suspensionErrorCorrection 0.8    [0,1]
+  SFFloat  [in,out] suspensionForce           0      [0,&#8734;)
+  SFVec3f  [out]    body1AnchorPoint
+  SFVec3f  [out]    body1Axis
+  SFVec3f  [out]    body2AnchorPoint
+  SFVec3f  [out]    body2Axis
+  SFFloat  [out]    hinge1Angle
+  SFFloat  [out]    hinge1AngleRate
+  SFFloat  [out]    hinge2Angle
+  SFFloat  [out]    hinge2AngleRate
+}
+</pre>
+
+<p>The DoubleAxisHingeJoint node represents a joint that has two independent 
+axes that are located around a common anchor point. Axis 1 is specified relative 
+to the first body (specified by the <em>body1</em> field) and axis 2 is specified relative to the second body 
+(specified by the <em>body2</em> field). Axis 1 
+can have limits and a motor, axis 2 can only have a motor.</p>
+
+<p>The <i>minAngle1</i> and <i>maxAngle1</i> fields are used to control the 
+maximum angles through which the hinge is allowed to travel. A hinge may not 
+travel more than <span class="times">&pi;</span> radians <span class="normal">
+(or the equivalent angle base units)</span> in either direction from its initial position.</p>
+
+<p>The <i>stopBounce1</i> field is used to set how bouncy the minimum and maximum angle 
+stops are for axis 1. A value of zero means they are not bouncy while a value of 1 
+means maximum bounciness (full reflection of force arriving at the stop).</p>
+
+<p>The <i>stopErrorCorrection1</i> and <em>suspensionErrorCorrection</em> fields 
+describe how quickly the system should resolve intersection errors due to 
+floating point inaccuracies. This value ranges between 0 and 1. A value of 0 
+means no correction at all while a value of 1 indicates that all errors should 
+be corrected in a single step.</p>
+<p>The <i>stopConstantForceMix1</i> and <em>suspensionForce</em> fields can be 
+used to apply damping to the calculations by violating the normal constraints by 
+applying a small, constant force to those calculations. This allows joints and 
+bodies to be a fraction springy, as well as helping to eliminate numerical 
+instability. The larger the value, the more soft each of the constraints being 
+evaluated. A value of zero indicates hard constraints so that everything is 
+exactly honoured. By combining the <i>stopErrorCorrection1</i> and <i>
+stopConstantForceMix1</i> fields and/or the <em>suspensionErrorCorrection</em> 
+and <em>suspensionForce</em> fields, various effects, such as spring-driven or 
+spongy connections, can be emulated.</p>
+
+<p>The <i>maxTorque1</i> field defines the maximum amount of torque that the 
+motor can apply on axis 1 in order to achieve the desired
+<i>desiredAngularVelocity1</i> value. Similarly, <i>maxTorque2</i> controls the 
+maximum amount of torque to achieve <i>desiredAngularVelocity2</i> on axis 2.</p>
+<p>The <i>hinge</i>X<i>Angle</i> output fields report the current relative angle 
+between the two bodies in angle base units and the <i>hinge</i>X<i>AngleRate</i> field 
+describes the rate at which that angle is currently changing in angular_rate 
+base units.</p>
+<p>The body anchor point and body axis output fields report the current location 
+of the anchor point relative to the corresponding body. This can be used to 
+determine if the joint has broken.</p>
+
+
+<h2><a name="MotorJoint"></a>37.4.9 MotorJoint</h2>
+
+<pre>
+MotorJoint : X3DRigidJointNode {
+  SFFloat  [in,out] axis1Angle           0      [-<span class="times">&pi;</span>,<span class="times">&pi;</span>]
+  SFFloat  [in,out] axis1Torque          0      (-&#8734;,&#8734;)
+  SFFloat  [in,out] axis2Angle           0      [-<span class="times">&pi;</span>,<span class="times">&pi;</span>]
+  SFFloat  [in,out] axis2Torque          0      (-&#8734;,&#8734;)
+  SFFloat  [in,out] axis3Angle           0      [-<span class="times">&pi;</span>,<span class="times">&pi;</span>]
+  SFFloat  [in,out] axis3Torque          0      (-&#8734;,&#8734;)
+  SFNode   [in,out] body1                NULL   [RigidBody]
+  SFNode   [in,out] body2                NULL   [RigidBody]
+  SFInt32  [in,out] enabledAxes          1	[0,3]
+  MFString [in,out] forceOutput          &quot;NONE&quot; [&quot;ALL&quot;,&quot;NONE&quot;,...]
+  SFNode   [in,out] metadata             NULL   [X3DMetadataObject]
+  SFVec3f  [in,out] motor1Axis           0 0 0
+  SFVec3f  [in,out] motor2Axis           0 0 0
+  SFVec3f  [in,out] motor3Axis           0 0 0
+  SFFloat  [in,out] stop1Bounce          0      [0,1]
+  SFFloat  [in,out] stop1ErrorCorrection 0.8    [0,1]
+  SFFloat  [in,out] stop2Bounce          0      [0,1]
+  SFFloat  [in,out] stop2ErrorCorrection 0.8    [0,1]
+  SFFloat  [in,out] stop3Bounce          0      [0,1]
+  SFFloat  [in,out] stop3ErrorCorrection 0.8    [0,1]
+  SFFloat  [out]    motor1Angle
+  SFFloat  [out]    motor1AngleRate
+  SFFloat  [out]    motor2Angle
+  SFFloat  [out]    motor2AngleRate
+  SFFloat  [out]    motor3Angle
+  SFFloat  [out]    motor3AngleRate
+  SFBool   []       autoCalc             FALSE
+}
+</pre>
+
+<p>The MotorJoint node allows control of the relative angular velocities between the two 
+bodies (specified by the <em>body1</em> and <em>body2</em> fields) associated with a joint. This can be especially useful with a 
+<a href="#BallJoint">BallJoint</a> 
+where there is no restriction on the angular degrees of freedom.</p>
+
+<p>The <i>autoCalc</i> field is used to control whether the user shall manually 
+provide the individual angle rotations each frame or if they are to be 
+automatically calculated from the motor&rsquo;s implementation.</p>
+
+<p>The <i>motorAxis</i> fields define the axis vector of the corresponding axis. If 
+the value is 0, 0, 0, the corresponding axis is disabled and the motor does 
+not apply a force or torque along that axis. The <i>motorAxis1</i>
+field
+is anchored to the global frame. The <i>motorAxis2</i> field is anchored to
+<i>body1</i>’s frame of reference, and the <i>motorAxis3</i> field is anchored to
+<i>body2</i>&rsquo;s frame of reference. </p>
+
+<p>The three axis angle fields provide angles (in angle base units) for this frame for the 
+corresponding motor axis when in user-calculated mode.</p>
+
+<p>When the <i>autoCalc</i> field is set to <span class="code">FALSE</span>, the <i>enabledAxes</i>
+field indicates how many axes can currently be controlled and modified. If the 
+value is zero, the motor is effectively disabled. If the value is 1, only axis1 
+is enabled, a value of 2 has axis 1 and axis 2 enabled and a value of 3 has all 
+axes enabled.</p>
+<p>The motor angle output fields provide the calculated angle in angle base 
+units for this motor 
+joint from the last frame. The motor angle rate output fields describe the rate, 
+in angular_rate base units, that the motor is turning. </p>
+<p>The stop bounce fields describe how much the joint should bounce the body 
+back on the corresponding axis if the joint limit has been reached or exceeded. 
+A value of zero indicates no bounce at all, and a value of one says that it 
+should bounce with velocity equal and opposite to the collision velocity of the 
+contact.</p>
+<p>The stop error correction fields describe the amount of error correction to 
+be performed in a time step when the joint reaches the limit on the 
+corresponding axis. A value of zero means no error correction is to be performed 
+and a value of one means all error should be corrected in a single step.</p>
+
+<h2><a name="RigidBody"></a>37.4.10 RigidBody</h2>
+
+<pre>
+RigidBody : X3DNode {
+  SFFloat    [in,out] angularDampingFactor 0.001   [0,1]
+  SFVec3f    [in,out] angularVelocity      0 0 0   (-&#8734;,&#8734;)
+  SFBool     [in,out] autoDamp             FALSE
+  SFBool     [in,out] autoDisable          FALSE
+  SFVec3f    [in,out] centerOfMass         0 0 0   (-&#8734;,&#8734;)
+  SFFloat    [in,out] disableAngularSpeed  0       [0,&#8734;)
+  SFFloat    [in,out] disableLinearSpeed   0       [0,&#8734;)
+  SFFloat    [in,out] disableTime          0       [0,&#8734;)
+  SFBool     [in,out] enabled              TRUE
+  SFVec3f    [in,out] finiteRotationAxis   0 0 0   [-1,1]
+  SFBool     [in,out] fixed                FALSE
+  MFVec3f    [in,out] forces               []
+  MFNode     [in,out] geometry             []      [X3DNBodyCollidableNode]
+  SFMatrix3f [in,out] inertia	           1 0 0
+                                           0 1 0
+                                           0 0 1
+  SFFloat    [in,out] linearDampingFactor  0.001   [0,1]
+  SFVec3f    [in,out] linearVelocity       0 0 0   (-&#8734;,&#8734;)
+  SFFloat    [in,out] mass                 1       (0,&#8734;)
+  SFNode     [in,out] massDensityModel     NULL    [Sphere, Box, Cone]
+  SFNode     [in,out] metadata             NULL    [X3DMetadataObject]
+  SFRotation [in,out] orientation          0 0 1 0 [0,1]
+  SFVec3f    [in,out] position             0 0 0   (-&#8734;,&#8734;)
+  MFVec3f    [in,out] torques              []
+  SFBool     [in,out] useFiniteRotation    FALSE
+  SFBool     [in,out] useGlobalGravity     TRUE
+}
+</pre>
+
+<p>The RigidBody node describes a body and its properties that can be affected 
+by the physics model. A body is modelled as a collection of shapes that describe 
+mass distribution rather than renderable geometry. Bodies are connected together 
+using Joints and are represented by geometry.</p>
+
+<p>The <i>geometry</i> field is used to connect the body modelled by the physics 
+engine implementation to the real geometry of the scene through the use of 
+collidable nodes. This allows the geometry to be connected directly to the 
+physics model as well as collision detection. Collidable nodes have their 
+location set to the same location as the body instance in which they are located. 
+Their position and location are not relative to this object, unless otherwise 
+defined.</p>
+
+<p>The <i>massDensityModel</i> field is used to describe the geometry type and 
+dimensions used to calculate the mass density in the physics model. This 
+geometry has no renderable property, other than for defining the model of the 
+mass density. It is not rendered, nor modified by the physics model.</p>
+<p>The <em>finiteRotationAxis</em> field specifies a vector around which the 
+object rotates.</p>
+
+<p>The <i>useFiniteRotation</i> field is used to influence the way the body&#39;s 
+rotation is calculated. In very fast rotating objects, such as a wheel of a car, 
+an infinitely small time step can cause the modelling to explode. The default 
+value is to use the faster infinite mode. Setting the field value to 
+<span class="code">TRUE</span> uses 
+the finite calculation model. Using the finite model is more costly to compute 
+but will be more accurate for high rotation speed bodies.</p>
+
+<p>The <i>useGlobalGravity</i> field is used to indicate whether this particular 
+body should be influenced by the containing <a href="#RigidBodyCollection">RigidBodyCollection</a>&#39;s
+<i>gravity</i> 
+setting. A value of <span class="code">TRUE</span> indicates that the gravity is used, a value of
+<span class="code">FALSE</span> 
+indicates that it is not used. This only applies to this body instance. Contained 
+sub-bodies shall not be affected by this setting.</p>
+
+<p>The <i>inertia</i> field represents a 3x2 inertia tensor matrix. If the set 
+values are less than six items, the results are implementation dependent. If 
+the value set is greater than six values, only the first six values of the array are 
+used.</p>
+
+<p>The <i>fixed</i> field is used to indicate that this body does not move. Any 
+calculations involving collisions with this body should take into account that 
+this body does not move. This is useful for representing objects such as the 
+ground, walls etc that can be collided with, have an effect on other objects, 
+but are not capable of moving themselves.</p>
+
+<p>The <i>mass</i> field indicates the mass of the body in mass base units. All bodies 
+shall have a non-zero mass, with the default value of 1 mass base unit.</p>
+<p>The damping factor fields allow the user to instruct the implementation to 
+automatically damp the motion of the body over time. The value of the field is 
+used to take a multiple of the value calculated in the last frame and apply it 
+in opposition to the current motion for this frame. Damping is useful to provide 
+an appearance of frictional forces and also to prevent the body from exploding 
+due to numerical instability of the physics model calculations. Damping is 
+proportional to the current velocity and/or rotation of the object. The 
+application of damping is controlled through the use of the <i>autoDamp</i> 
+field. When the value is <span class="code">FALSE</span>, no damping is applied. 
+When the value is <span class="code">TRUE</span>, rotational and translational 
+damping is calculated and applied. </p>
+<p class="Example">EXAMPLE&nbsp; The body is calculated in the previous frame to 
+have a velocity of (0 1 0). A damping factor of 0.01 is active. In this next 
+simulation time step, a force of 0.01 &times; (0 1 0) &times; -1 is applied to the object.</p>
+<p>The <i>torques</i> and <i>forces</i> fields define zero or more sets of 
+torque and force values that are applied to the object every frame. These are 
+continuously applied until reset to zero by the user.</p>
+<p>The velocity fields are used to provide a constant velocity value to the 
+object every frame. If both forces and velocity are defined, the velocity is 
+used only on the first frame that the node is active, and then the forces are 
+applied. The velocity fields then report the changed values as a result of the 
+application of the physics model in each frame. Setting a new value to the 
+appropriate field will reset the body&#39;s velocity for the next frame. Caution 
+should be used in doing this as the underlying physics models may assume some 
+amount of caching between time step evaluations and instantaneous velocity 
+changes may lead to numerical instability.</p>
+<p>The <i>position</i> and <i>orientation</i> fields are used to set the initial 
+conditions of this body&#39;s location in world space. After the initial conditions 
+have been set, these fields are used to report the current information based on 
+the most recent physics model evaluation. Setting new values will cause the 
+objects to be moved to the new location and orientation for the start of the 
+next evaluation cycle. Care should be used in manually changing the <i>position</i> 
+and <i>orientation</i> as the underlying physics models may cache information 
+between time step evaluations and sudden instantaneous changes may lead to 
+numerical instability.</p>
+<p>The disable fields define conditions for when the body ceases to considered 
+as part of the rigid body calculations and should be considered as at rest. Due 
+to the numerical instability of physics models, even bodies initially declared 
+to be at rest may gain some amount of movement, even when not effected by an 
+external forces. These values define tolerances for which the physics model 
+should start to ignore this object in any calculation, thus resulting in them 
+being actually at rest and not subject to these instability conditions. Once any 
+one of these values is achieved, the body is considered as being at rest unless 
+acted upon by an external force (<i>e. g.</i>, collision or action of connected 
+joint). By default, this automatic disabling is turned off. It may be enabled by 
+setting the <i>autoDisable</i> field to <span class="code">TRUE</span>.</p>
+<p>The <em>enabled</em> field controls whether the information in this node is 
+submitted to the physics engine for processing. If the <em>enabled</em> field is 
+set <span class="code">TRUE</span>, the node is submitted to the physics engine. 
+If the <em>enabled</em> field is set <span class="code">FALSE</span>, the node 
+is not submitted to the physics engine for processing.</p>
+
+<h2><a name="RigidBodyCollection"></a>37.4.11 RigidBodyCollection</h2>
+
+<pre>
+RigidBodyCollection : X3DChildNode {
+  MFNode  [in]     set_contacts                     [Contact] 
+  SFBool  [in,out] autoDisable             FALSE
+  MFNode  [in,out] bodies                  []       [RigidBody]
+  SFFloat [in,out] constantForceMix        0.0001   [0,&#8734;)
+  SFFloat [in,out] contactSurfaceThickness 0        [0,&#8734;)
+  SFFloat [in,out] disableAngularSpeed     0        [0,&#8734;)
+  SFFloat [in,out] disableLinearSpeed      0        [0,&#8734;)
+  SFFloat [in,out] disableTime             0        [0,&#8734;)
+  SFBool  [in,out] enabled                 TRUE
+  SFFloat [in,out] errorCorrection         0.8      [0,1]
+  SFVec3f [in,out] gravity                 0 -9.8 0
+  SFInt32 [in,out] iterations              10	    [0,&#8734;)
+  MFNode  [in,out] joints                  []       [X3DRigidJointNode]
+  SFFloat [in,out] maxCorrectionSpeed      -1       [0,&#8734;) or -1
+  SFNode  [in,out] metadata                NULL     [X3DMetadataObject]
+  SFBool  [in,out] preferAccuracy          FALSE
+  SFNode  []       collider                NULL     [CollisionCollection]
+}
+</pre>
+
+<p>The RigidBodyCollection node represents a system of bodies that will interact 
+within a single physics model. The collection is not a renderable part of the 
+scene graph nor are its children as a typical model may need to represent 
+the geometry for physics separately, and in less detail, than those needed for 
+visuals.</p>
+
+<p>The <i>bodies</i> field contains a collection of the top-level nodes that 
+comprise a set of bodies that should be evaluated as a single set of 
+interactions. </p>
+
+<p>The <i>joints</i> field is used to register all the joints between the bodies 
+contained in this collection. If a joint is connected between bodies in two 
+different collections, the result is implementation-dependent. If a joint 
+instance is registered with more than one collection, the results are 
+implementation dependent. Joints not registered with any collection are not evaluated.</p>
+
+<p>The <i>enabled</i> field is used to control whether the physics model for 
+this collection should be run this frame.</p>
+
+<p>The <i>contactSurfaceThickness</i> field represents how far bodies may 
+interpenetrate after a collision. This allows simulation of softer bodies 
+that may deform somewhat during collision. The default value is zero. </p>
+<p class="Example">NOTE&nbsp; Since a value of 0 may cause jittering due to floating point inaccuracy, a 
+typically small value of 
+0.001 length base units may be useful.</p>
+
+<p>The <i>gravity</i> field indicates direction and strength (in acceleration 
+base units) of the local 
+gravity vector for this collection of bodies. The default gravity is standard earth 
+gravity of 9.8 meters/second<sup>2</sup> downwards.</p>
+
+<p>The <i>set_contacts</i> input field is used to provide per-frame sets of 
+information about contacts between bodies in this frame. These contacts are then 
+used to modify the location of the bodies within the scene graph when the 
+physics model is evaluated at the end of the frame. For efficiency, a user may 
+reuse instances of the Contact node for each frame rather than allocating a 
+new instance per frame. A browser implementation shall not make assumptions 
+about the same object instance having the same values each frame.</p>
+
+<p>The <i>preferAccuracy</i> field is used to provide a performance hint to the 
+underlying evaluation about whether the user prefers to have very accurate 
+models or fast models. Accuracy comes at a large penalty in both speed and 
+memory usage, but may not be needed most of the time. The default setting is to 
+optimize for speed rather than accuracy.</p>
+
+<p>The <i>iterations</i> field is used to control how many iterations over the 
+collections of joints and bodies are to be performed each time the model is 
+evaluated. Rigid body physics is a process of iterative refinement in order to 
+maintain reasonable performance. As the number of iterations grow, the more 
+stable the final results are at the cost of increasing evaluation time. 
+Since maintaining real-time performance is a trade off between accuracy and frame rate, 
+this setting allows the user to control that trade off to a limited extent.</p>
+
+<p>The <i>errorCorrection</i> field describes how quickly the system should 
+resolve intersection errors due to floating point inaccuracies. This value 
+ranges between 0 and 1. A value of 0 means no correction at all while a value of 1 
+indicates that all errors should be corrected in a 
+single step.</p>
+
+<p>The <i>constantForceMix</i> field can be used to apply damping to the 
+calculations by violating the normal constraints by applying a small, constant 
+force to those calculations. This allows joints and bodies to be a fraction springy, as well 
+as helping to eliminate numerical instability. The larger the value, the more soft 
+each of the constraints being evaluated. A value of zero indicates hard 
+constraints so that everything is exactly honoured. By combining the
+<i>errorCorrection</i> and <i>constantForceMix</i> fields, various effects, such as spring-driven or spongy connections, 
+can be emulated.</p>
+
+<p>The <i>collider</i> field associates a collision collection with this rigid 
+body collection allowing seamless updates and integration without the need 
+to use the X3D event model.</p>
+<p>The disable fields define conditions for when the body ceases to considered 
+as part of the rigid body calculations and should be considered as at rest. Due 
+to the numerical instability of physics models, even bodies initially declared 
+to be at rest may gain some amount of movement, even when not effected by an 
+external forces. These values define tolerances for which the physics model 
+should start to ignore this object in any calculation, thus resulting in them 
+being actually at rest and not subject to these instability conditions. Once any 
+one of these values is achieved, the body is considered as being at rest, unless 
+acted upon by an external force (<i>e. g.</i>, collision or action of connected 
+joint). By default, this automatic disabling is turned off. It may be enabled by 
+setting the <i>autoDisable</i> field to <span class="code">TRUE</span>.</p>
+
+<h2><a name="SingleAxisHingeJoint"></a>37.4.12 SingleAxisHingeJoint</h2>
+
+<pre>
+SingleAxisHingeJoint : X3DRigidJointNode {
+  SFVec3f  [in,out] anchorPoint         0 0 0
+  SFVec3f  [in,out] axis                0 0 0
+  SFNode   [in,out] body1               NULL   [RigidBody]
+  SFNode   [in,out] body2               NULL   [RigidBody]
+  MFString [in,out] forceOutput         &quot;NONE&quot; [&quot;ALL&quot;,&quot;NONE&quot;,...]
+  SFFloat  [in,out] maxAngle            <span class="times">&pi;</span>
+  SFNode   [in,out] metadata            NULL   [X3DMetadataObject]
+  SFFloat  [in,out] minAngle            -<span class="times">&pi;</span>
+  SFFloat  [in,out] stopBounce          0      [0,1]
+  SFFloat  [in,out] stopErrorCorrection 0.8    [0,1]
+  SFFloat  [out]    angle
+  SFFloat  [out]    angleRate
+  SFVec3f  [out]    body1AnchorPoint
+  SFVec3f  [out]    body2AnchorPoint
+}
+</pre>
+
+<p>This node represents a joint with a single axis about which to rotate. As the 
+name suggests, this is a joint that works like a traditional door hinge. The 
+axis of the hinge is defined to be along the unit vector described in the <i>
+axis</i> field and centered on the <i>anchorPoint</i> described in world 
+coordinates. The objects on each side of the hinge are specified by the <em>
+body1</em> and <em>body2</em> fields.</p>
+<p>The <i>minAngle</i> and <i>maxAngle</i> fields are used to control the 
+maximum angles through which the hinge is allowed to travel. A hinge may not 
+travel more than &pi; radians (or the equivalent angle base units) in either direction from its initial position.</p>
+<p>The <i>stopBounce</i> field describes how much the joint should bounce the 
+body back if the joint limit has been reached or exceeded. A value of zero 
+indicates no bounce at all, and a value of one says that it should bounce with 
+velocity equal and opposite to the collision velocity of the contact.</p>
+<p>The <i>stopErrorCorrection</i> field describes the amount of error correction 
+to be performed in a time step when the joint reaches the limit. A value of zero 
+means no error correction is to be performed and a value of one means all error 
+should be corrected in a single step.</p>
+<p>The <i>angle</i> output field reports the current relative angle between the 
+two bodies in angle base units and the <i>angleRate</i> field describes the rate at which 
+that angle is currently changing in angular_rate base units. </p>
+<p>The body anchor point output fields report the current location of the anchor 
+point relative to the corresponding body. This can be used to determine if the 
+joint has broken.</p>
+
+<h2><a name="SliderJoint"></a>37.4.13 SliderJoint</h2>
+
+<pre>
+SliderJoint : X3DRigidJointNode {
+  SFVec3f  [in,out] axis                0 1 0
+  SFNode   [in,out] body1               NULL   [RigidBody]
+  SFNode   [in,out] body2               NULL   [RigidBody]
+  MFString [in,out] forceOutput         &quot;NONE&quot; [&quot;ALL&quot;,&quot;NONE&quot;,...]
+  SFFloat  [in,out] maxSeparation       1      [0,&#8734;)
+  SFNode   [in,out] metadata            NULL   [X3DMetadataObject]
+  SFFloat  [in,out] minSeparation       0      [0,&#8734;)
+  SFFloat  [in,out] sliderForce         0      [-&#8734;,&#8734;)
+  SFFloat  [in,out] stopBounce          0      [0,1]
+  SFFloat  [in,out] stopErrorCorrection 1      [0,1]
+  SFFloat  [out]    separation
+  SFFloat  [out]    separationRate
+}
+</pre>
+
+<p>The SliderJoint node represents a joint where all movement between the bodies 
+specified by the <em>body1</em> and <em>body2</em> fields 
+is constrained to a single dimension along a user-defined axis.</p>
+
+<p>The <i>axis</i> field indicates which axis along which the two bodies will act. The 
+value should represent a normalized vector.</p>
+
+<p>The <i>sliderForce</i> field value is used to apply a force (specified in 
+force base units) along the axis of 
+the slider in equal and opposite directions to the two bodies. A positive value 
+applies a force such that the two bodies accelerate away from each other while a 
+negative value applies a force such that the two bodies accelerate toward each 
+other. </p>
+
+<p>If <i>minSeparation</i> is greater than <i>maxSeparation</i>, the stops 
+become ineffective as if the object has no stops at all.</p>
+
+<p>The <i>separation</i> output field is used to indicate the final separation 
+of the two bodies.</p>
+
+<p>The <i>separationRate</i> output field is used to indicate the change in 
+separation over time since the last update.</p>
+<p>The <i>stopBounce</i> field describes how much the joint should bounce the 
+body back if the joint limit has been reached or exceeded. A value of zero 
+indicates no bounce at all, and a value of one indicates that it should bounce 
+with velocity equal and opposite to the collision velocity of the contact.</p>
+<p>The <i>stopErrorCorrection</i> field describes the amount of error correction 
+to be performed in a time step when the joint reaches the limit. A value of zero 
+means no error correction is to be performed and a value of one means all error 
+should be corrected in a single step.</p>
+
+<h2><a name="UniversalJoint"></a>37.4.14 UniversalJoint</h2>
+
+<pre>
+UniversalJoint : X3DRigidJointNode {
+  SFVec3f  [in,out] anchorPoint          0 0 0
+  SFVec3f  [in,out] axis1                0 0 0
+  SFVec3f  [in,out] axis2                0 0 0
+  SFNode   [in,out] body1                NULL   [RigidBody]
+  SFNode   [in,out] body2                NULL   [RigidBody]
+  SFNode   [in,out] metadata             NULL   [X3DMetadataObject]
+  MFString [in,out] forceOutput          &quot;NONE&quot; [&quot;ALL&quot;,&quot;NONE&quot;,...]
+  SFFloat  [in,out] stopBounce1          0      [0,1]
+  SFFloat  [in,out] stop1ErrorCorrection 0.8    [0,1]
+  SFFloat  [in,out] stop2Bounce          0      [0,1]
+  SFFloat  [in,out] stop2ErrorCorrection 0.8    [0,1]
+  SFVec3f  [out]    body1AnchorPoint
+  SFVec3f  [out]    body1Axis
+  SFVec3f  [out]    body2AnchorPoint
+  SFVec3f  [out]    body2Axis
+}
+</pre>
+
+<p>A universal joint is like a BallJoint that constrains an extra degree of 
+rotational freedom. Given the axis specified by the <em>axis1</em> field on the 
+body specified by the <em>body1</em> field, and the axis specified by the <em>axis2</em> 
+field on body2 that is 
+perpendicular to <em>axis1</em>, the UniversalJoint node keeps the axes perpendicular to 
+each other. Thus, rotation 
+of the two bodies about the direction perpendicular to the two axes will be 
+equal.</p>
+
+<p>The<i> </i> vectors specified by the <i>axis1</i> and <i>axis2</i> fields 
+shall be perpendicular. If not, the interactions 
+are undefined.</p>
+
+<p>The stop bounce fields describe how much the joint should bounce the body 
+back on the corresponding axis if the joint limit has been reached or exceeded. 
+A value of zero indicates no bounce at all, and a value of one indicates that it 
+should bounce with velocity equal and opposite to the collision velocity of the 
+contact.</p>
+<p>The stop error correction fields describe the amount of error correction to 
+be performed in a time step when the joint reaches the limit on the 
+corresponding axis. A value of zero means no error correction is to be performed 
+and a value of one means all error should be corrected in a single step.</p>
+<p>The body anchor point and body axis output fields report the current location 
+of the anchor point relative to the corresponding body. This can be used to 
+determine if the joint has broken.</p>
+
+<h1><a name="SupportLevels"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+37.5 Support levels</h1>
+
+<p>The Rigid Body Physics component defines two levels of support as specified 
+in
+<a href="#t-SupportLevels">Table 37.3</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption"><a name="t-SupportLevels"></a>Table 37.3 &#8212; Rigid body physics component support levels</p>
+<table>
+<tr><th>Level</th><th>Prequisites</th><th>Nodes/Features</th><th>Support</th></tr>
+<tr><td align="center"><b>1</b></td>
+    <td>Core 1<br> Grouping 1<br> Shape 1<br>Geometry3D 1<br></td>
+    <td></td><td></td></tr>
+<tr><td align="center"></td><td></td>
+    <td><i>X3DNBodyCollidableNode</i></td>
+    <td>n/a</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td><i>X3DNBodyCollisionSpaceNode</i></td>
+    <td>n/a</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>CollidableOffset</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>CollidableShape</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>CollisionCollection</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>CollisionSensor</td>
+    <td>All fields fully supported except <i>contacts_changed</i>.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>CollisionSpace</td>
+    <td>All fields fully supported.</td>
+</tr>
+
+<tr><td align="center"><b>2</b></td>
+    <td>Core 1<br> Grouping 1<br> Shape 1<br>Geometry3D 1</td>
+    <td></td><td></td></tr>
+<tr><td align="center"></td><td></td>
+    <td><i>X3DRigidJointNode</i></td>
+    <td>n/a</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>BallJoint</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>CollisionSensor</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>Contact</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>DoubleAxisHingeJoint</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>MotorJoint</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr>
+	<td align="center"></td><td></td>
+    <td>RigidBody</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>RigidBodyCollection</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>SingleAxisHingeJoint</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>SliderJoint</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>UniversalJoint</td>
+    <td>All fields fully supported.</td>
+</tr>
+</table>
+</div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>
+

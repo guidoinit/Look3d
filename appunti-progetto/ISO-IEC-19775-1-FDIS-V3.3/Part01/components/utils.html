@@ -1,0 +1,480 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 30 Event utilities component</title>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</head>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">30 Event Utilities component</p>
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+30.1 Introduction</h1>
+<h2><a name="Name"></a>30.1.1 Name</h2>
+<p>The name of this component is &quot;EventUtilities&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>30.1.2 Overview</h2>
+
+<p>This clause describes the Event Utilities component of this part of ISO/IEC 
+19775. This includes Trigger and Sequencer node types that gives authors 
+  the capability to gate, convert, or sequence numerous event-types for common 
+  interactive applications without the use of a <a href="scripting.html#Script">Script</a> node. 
+<a href="#t-TOC">Table 
+  30.1</a> provides links to the major topics in this subclause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-TOC"></a>Table 30.1 &#8212; Topics</p>
+
+  <table class="Topics">
+    <tr> 
+      <td>
+      <ul>
+        <li>
+          <a href="#Introduction">30.1 Introduction</a>
+          <ul>
+            <li><a href="#Name">30.1.1 Name</a></li>
+            <li><a href="#Overview">30.1.2 Overview</a> </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#Concepts">30.2 Concepts</a><ul>
+        <li><a href="#ConceptsOverview">30.2.1 Overview of event utility nodes</a></li>
+        <li><a href="#MutatingEvents">30.2.2 Mutating events of Single Field (SF) 
+        event types</a></li>
+        <li><a href="#TriggeringEvents">30.2.3 Triggering events between Single Field 
+        (SF) event types</a></li>
+        <li><a href="#SequencingEvents">30.2.4 Sequencing Single Field (SF) events</a></li>
+      </ul>
+        </li>
+        <li> 
+          <a href="#Abstracttypes">30.3 Abstract types</a><ul>
+        <li><a href="#X3DSequencerNode">30.3.1<i> X3DSequencerNode</i></a></li>
+        <li><a href="#X3DTriggerNode">30.3.2<i> X3DTriggerNode</i></a></li>
+      </ul>
+        </li>
+        <li>
+          <a href="#NodeReference">30.4 Node reference</a><ul>
+        <li><a href="#BooleanFilter">30.4.1 BooleanFilter</a></li>
+        <li><a href="#BooleanSequencer">30.4.2 BooleanSequencer</a></li>
+        <li><a href="#BooleanToggle">30.4.3 BooleanToggle</a></li>
+        <li><a href="#BooleanTrigger">30.4.4 BooleanTrigger</a></li>
+        <li><a href="#IntegerSequencer">30.4.5 IntegerSequencer</a></li>
+        <li><a href="#IntegerTrigger">30.4.6 IntegerTrigger</a></li>
+        <li><a href="#TimeTrigger">30.4.7 TimeTrigger</a></li>
+      </ul>
+        </li>
+        <li>
+          <a href="#SupportLevels">30.5 Support levels</a> <br>
+&nbsp;</li>
+        <li><a href="#t-TOC">Table 30.1 &#8212; Topics</a></li>
+        <li><a href="#t-EventUtilitiesSupportLevels">Table 30.2 &#8212; Event utilities 
+        component support levels</a></li>
+      </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>30.2 Concepts</h1>
+
+<h2> <a name="ConceptsOverview"></a>
+30.2.1 Overview of event utility nodes</h2>
+
+<p>The Event Utilities&nbsp;component consists of 3 basic concepts:</p>
+<ol type="a">
+	<li>mutating events of Single Field (SF) events of a given type,</li>
+	<li>triggering Single Field (SF) events of a given type from events of other types,
+  and</li>
+	<li>sequencing Single  Field (SF) events along a timeline (as a discrete value generator).</li>
+</ol>
+<p>These nodes may be composed using ROUTEs to create powerful authoring scenarios without
+  writing script code. This is especially useful in profiles where interactivity 
+  would be otherwise significantly limited due to lack of a 
+<a href="scripting.html#Script">Script</a> node.</p>
+
+<p> The location of event utility nodes in the transformation hierarchy has no 
+effect on their operation. For example, if a parent of a
+<a href="#BooleanSequencer">BooleanSequencer</a> 
+  is a <a href="group.html#Switch">Switch</a> node with whichChoice set to &minus;1 (<i>i.e.</i>, ignore its children), the BooleanSequencer continues to operate as specified (<i>i.e.</i>, receives and sends events).</p>
+
+<h2><a name="MutatingEvents"></a>30.2.2 Mutating events of Single Field (SF) event types</h2>
+
+<p>Mutator nodes allow content authors to alter values of a given type. In this 
+part of ISO/IEC 19775,
+the <a href="#BooleanFilter">BooleanFilter</a>
+node accepts a single Boolean input event and generates either a 
+<span class="code">TRUE</span> or <span class="code">FALSE</span> output
+event based on the value of its input; it also generates an event equal to the negation
+of its input. These events allow for the creation of conditional behaviors
+that would otherwise require a script. </p>
+
+
+<h2><a name="TriggeringEvents"></a>30.2.3 Triggering events between Single Field (SF) event-types</h2>
+
+<p>Trigger nodes that generate an output event of a given type based on an input event of a
+different type are all derived from the <i><a href="#X3DTriggerNode">
+X3DTriggerNode</a></i> abstract node type. This part of ISO/IEC 19775 specifies 
+the following types of <i>X3DTriggerNode</i> nodes:</p>
+<ol type="a">
+	<li><a href="#BooleanTrigger">BooleanTrigger</a></li>
+	<li><a href="#IntegerTrigger">IntegerTrigger</a></li>
+	<li><a href="#TimeTrigger">TimeTrigger</a></li>
+</ol>
+<p>The BooleanTrigger node generates a Boolean output event upon receiving a time 
+input event.</p>
+<p>The IntegerTrigger node generates an integer output event upon receiving a 
+Boolean input event. The value of the integer can be specified.</p>
+<p>The TimeTrigger node
+generates a time output event upon receiving a Boolean input event.</p>
+<p class="Example">EXAMPLE&nbsp; Routing the <i>isActive</i> field of a
+<a href="pointingsensor.html#TouchSensor">TouchSensor</a> to the TimeTrigger 
+allows the  content
+creator to start a <a href="time.html#TimeSensor">TimeSensor</a> when the <i>
+isActive</i> field generates an event.</p>
+
+<h2><a name="SequencingEvents"></a>30.2.4 Sequencing Single Field (SF) events </h2>
+
+<p>Sequencer nodes allow content authors to generate a specific sequence of 
+discrete events over the course of a <a href="time.html#TimeSensor">TimeSensor</a>'s output. They 
+  are derived from the abstract node type <i> <a href="#X3DSequencerNode">X3DSequencerNode</a></i> 
+  and thus share the signature fields of <i>set_fraction</i> (SFFloat [in]) and 
+  <i>key </i>(MFFloat [in,out]). </p>
+
+<p>The <i>set_fraction</i> inputOnly field receives an SFFloat event and causes the sequencing 
+  function to evaluate, resulting in a <i>value_changed</i> output event with the 
+  same timestamp as the <i>set_fraction</i> event. The sequencer node sends only 
+one <i>value_changed</i> output event per <i>key</i>[i] interval. The usage of the <i>keyValue</i> 
+  and output fields are dependent on the type of the Sequencer. </p>
+
+<p><a href="#BooleanSequencer">BooleanSequencer</a> and <a href="#IntegerSequencer">IntegerSequencer</a>
+  output a single-value field to <i>value_changed</i>. Each value in the <i>keyValue</i> field corresponds in 
+  order to the parameter value in the <i>key</i> field. Results are undefined 
+  if the number of values in the <i>key</i> field of a sequencer is not the same 
+  as the number of values in the <i>keyValue</i> field. </p>
+
+<p>The specified X3D sequencer nodes are designed for discrete events along a 
+  timeline. Each of these nodes defines a piecewise-linear function, <i>f(t)</i>, 
+  on the interval (<i>&minus;infinity, +infinity).</i> The piecewise-linear function 
+  is defined by <i>n</i> values of <i>t</i>, called <i>key</i>, and the <i>n</i> 
+  corresponding values of <i>f(t)</i>, called <i>keyValue</i>. The keys shall 
+  be monotonically non-decreasing, otherwise the results are undefined. The keys 
+  are not restricted to any interval. </p>
+
+<p>Each of these nodes evaluates <i>f(t)</i> given any value of <i>t</i> (via 
+  the <i>fraction</i><tt> </tt>field) as follows: Let the <i>n</i> keys <i>t<sub>0</sub>, 
+  t<sub>1</sub>, t<sub>2</sub>, ..., t<sub>n-1</sub></i> partition the domain 
+  (<i>-infinity, +infinity</i>) into the <i>n+</i>1 subintervals given by (&minus;<i>infinity</i>, 
+  <i>t<sub>0</sub>), [t<sub>0</sub>, t<sub>1</sub>), [t<sub>1</sub>, t<sub>2</sub>), 
+  ... , [t<sub>n-1</sub>, +infinity)</i>. Also, let the <i>n</i> values <i>v<sub>0</sub>, 
+  v<sub>1</sub>, v<sub>2</sub>, ..., v<sub>n-1</sub></i> be the values of <i>f(t) 
+  </i>at the associated key values.<i> </i>The discrete value sequencing function, 
+  <i>f(t)</i>, is defined to be:
+ 
+<p class="Equation"><i> 
+    &nbsp;<br>
+&nbsp;&nbsp;&nbsp; 
+    f(t) </i>=<i> v<sub>n</sub>, if t<sub>n</sub> &le; t &lt; t<sub>n-1</sub><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         </i>= <i>v<sub>0</sub>, </i>if<i> t &le; t<sub>0</sub>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         </i>=<i> v<sub>n&minus;1</sub>, </i>if<i> t &ge; t<sub>n&minus;1</sub></i><br>
+</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name=Abstracttypes></a>
+30.3 Abstract types</h1>
+<h2><a name="X3DSequencerNode"></a>
+30.3.1<i> X3DSequencerNode</i></h2>
+
+<pre class="node">X3DSequencerNode : X3DChildNode { 
+  SFBool       [in]     next
+  SFBool       [in]     previous
+  SFFloat      [in]     set_fraction       (-&#8734;,&#8734;)
+  MFFloat      [in,out] key           []   (-&#8734;,&#8734;)
+  MF&lt;type>     [in,out] keyValue      []
+  SFNode       [in,out] metadata      NULL [X3DMetadataObject]
+  [S|M]F&lt;type> [out]    value_changed
+}
+</pre>
+
+<p>This abstract node type is the base node type from which all Sequencers are 
+  derived. <a href="#SequencingEvents">30.2.4 Sequencing Single Field (SF) 
+events</a> contains a detailed discussion 
+  of Sequencer nodes. </p>
+
+<p>Receipt of a <i>next</i> event with value <span class="code">TRUE</span> triggers 
+the next output value in <i>keyValue</i> array by issuing a <i>value_changed</i> 
+event with that value. Receipt of a <i>previous</i> event with 
+value <span class="code">TRUE</span> triggers previous output value in <i>
+keyValue</i> array. Sending a <span class="code">FALSE</span> event to the <i>
+next</i> or <i>previous</i> fields has no effect. These trigger events &quot;wrap around&quot; after reaching 
+the boundary of
+<i>keyValue</i> 
+array; <i>i.e.</i>, <i>next</i> goes to initial element after last, and <i>previous</i> 
+goes to last element after first.</p>
+
+<h2><a name="X3DTriggerNode"></a>
+30.3.2<i> X3DTriggerNode</i></h2>
+
+<pre class="node">X3DTriggerNode : X3DChildNode  {
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This abstract node type is the base node type from which all trigger nodes are derived.
+<a href="#TriggeringEvents">30.2.3 Triggering events between Single Field (SF) 
+event-types</a> contains a detailed discussion of Triggers. 
+</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name=NodeReference></a>
+30.4 Node Reference</h1>
+
+<h2><a name="BooleanFilter"></a>
+30.4.1 BooleanFilter</h2>
+<pre class="node">BooleanFilter : X3DChildNode {
+  SFBool [in]     set_boolean
+  SFNode [in,out] metadata    NULL [X3DMetadataObject]
+  SFBool [out]    inputFalse
+  SFBool [out]    inputNegate
+  SFBool [out]    inputTrue
+}
+</pre>
+
+<p>BooleanFilter filters Boolean events, allowing for selective routing of 
+<span class="code">TRUE</span> or <span class="code">FALSE</span>
+values and negation.</p>
+
+<p>When the <i>set_boolean</i> event is received, the BooleanFilter node generates two events:
+either <i>inputTrue</i> or <i>inputFalse</i>, based on the Boolean value received; and 
+<i>inputNegate</i>,
+which contains the negation of the value received.
+</p>
+
+<h2><a name="BooleanSequencer"></a>
+30.4.2 BooleanSequencer</h2>
+
+<pre class="node">BooleanSequencer : X3DSequencerNode {
+  SFBool  [in]     next
+  SFBool  [in]     previous
+  SFFloat [in]     set_fraction
+  MFFloat [in,out] key           []   (-&#8734;,&#8734;) 
+  MFBool  [in,out] keyValue 	 [] 
+  SFNode  [in,out] metadata      NULL [X3DMetadataObject]
+  SFBool  [out]    value_changed
+}
+</pre>
+
+<p>BooleanSequencer generates sequential <i>value_changed</i> events selected 
+from the <i>keyValue</i> field when driven from a <a href="time.html#TimeSensor">TimeSensor</a> clock. Among other actions, it can enable/disable lights and sensors, 
+or bind/unbind viewpoints and other <i><a href="core.html#X3DBindableNode">
+X3DBindableNode</a></i> nodes using <i>set_bind</i> events.</p>
+
+<p>The <i>keyValue</i> field is made up of a list of <span class="code">FALSE</span> and 
+<span class="code">TRUE</span> values. </p>
+
+<p>A BooleanSequencer shall be instanced for every 
+  node enabled or bound. </p>
+
+<h2><a name="BooleanToggle"></a>
+30.4.3 BooleanToggle</h2>
+<pre class="node">BooleanToggle : X3DChildNode {
+  SFBool [in]     set_boolean
+  SFNode [in,out] metadata    NULL  [X3DMetadataObject]
+  SFBool [in,out] toggle      FALSE 
+}
+</pre>
+
+<p>BooleanToggle stores a Boolean value for toggling on/off.<p>When a <i>
+set_boolean</i> <span class="code">TRUE</span> event is received, the BooleanToggle negates the value of 
+the <i>toggle</i> field and generates the corresponding <i>toggle</i> field 
+output event. <i>set_boolean</i> <span class="code">FALSE</span> events are ignored.<p>
+
+<p>The BooleanToggle can be reset to a specific state by directly setting the 
+value of the inputOutput <i>toggle</i> field.<h2><a name="BooleanTrigger"></a>
+30.4.4 BooleanTrigger</h2>
+
+<pre class="node">BooleanTrigger : X3DTriggerNode {
+  SFTime [in]     set_triggerTime
+  SFNode [in,out] metadata        NULL [X3DMetadataObject]
+  SFBool [out]    triggerTrue 
+}
+</pre>
+
+<p>BooleanTrigger is a trigger node that generates Boolean events upon receiving time events.</p>
+
+<p> The <i>triggerTrue</i> event is generated when the BooleanTrigger receives a 
+<i>set_triggerTime</i> event. The value of <i>triggerTrue</i> shall always be 
+<span class="code">TRUE</span>.<p>
+
+<h2><a name="IntegerSequencer"></a>
+30.4.5 IntegerSequencer</h2>
+
+<pre class="node">IntegerSequencer : X3DSequencerNode {
+  SFBool  [in]     next
+  SFBool  [in]     previous
+  SFFloat [in]     set_fraction
+  MFFloat [in,out] key           []   (-&#8734;,&#8734;) 
+  MFInt32 [in,out] keyValue      []   (-&#8734;,&#8734;)
+  SFNode  [in,out] metadata      NULL [X3DMetadataObject]
+  SFInt32 [out]    value_changed
+}
+</pre>
+
+<p>The IntegerSequencer node generates sequential discrete <i>value_changed</i> events 
+selected from the <i>keyValue</i> field in 
+response to each <i>set_fraction</i>, <i>next</i>, or <i>previous</i> event.</p>
+
+<h2><a name="IntegerTrigger"></a>
+30.4.6 IntegerTrigger</h2>
+
+<pre class="node">IntegerTrigger : X3DTriggerNode {
+  SFBool  [in]     set_boolean
+  SFInt32 [in,out] integerKey   -1   (-&#8734;,&#8734;)
+  SFNode  [in,out] metadata     NULL [X3DMetadataObject]
+  SFInt32 [out]    triggerValue  
+}
+</pre>
+
+<p>IntegerTrigger handles single field Boolean events to set an integer 
+value for the output event.
+  This is useful for connecting environmental events to the 
+<a href="group.html#Switch">Switch</a> node's <i>whichChoice</i> field. 
+</p>
+
+<p>Upon receiving a <i>set_boolean</i> event, the IntegerTrigger node 
+will generate a <i>triggerValue</i> event with the current value of <i>integerKey</i>.
+The value of <em>set_boolean</em> shall be ignored.
+</p>
+
+
+<h2><a name="TimeTrigger">
+</a>30.4.7 TimeTrigger</h2>
+
+<pre class="node">TimeTrigger : X3DTriggerNode {
+  SFBool [in]     set_boolean
+  SFNode [in,out] metadata    NULL [X3DMetadataObject]
+  SFTime [out]    triggerTime
+}
+</pre>
+
+<p>TimeTrigger is a trigger node that generates time events upon receiving Boolean events.</p>
+
+<p> The <i>triggerTime</i> event is generated when the TimeTrigger receives a 
+<i>set_boolean</i> event. The value of <i>triggerTime</i> shall be the time at which
+<i>set_boolean</i> is received. The value of <i>set_boolean</i> shall be ignored.<p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>
+30.5 Support levels</h1>
+
+<p>The Event Utilities component provides one level of support as specified in 
+  <a href="#t-EventUtilitiesSupportLevels">Table 30.2</a>.
+  Level 1 provides the full support for all nodes defined above. </p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-EventUtilitiesSupportLevels"></a>Table 30.2 &#8212; Event utilities component support levels</p>
+
+   <table>
+          <tbody> 
+          <tr> 
+            <th class="sl1"><b>Level</b></th>
+            <th class="sl2">Prerequisites</th>
+            <th class="sl3"><b>Nodes/Features</b></th>
+            <th class="sl4">Support</th>
+          </tr>
+          <tr> 
+            <td class="sl1">
+            <p align="center"><b>1</b></td>
+            <td class="sl2">Core 1<br>
+            Grouping 1</td>
+            <td class="sl3">&nbsp;</td>
+            <td class="sl4">&nbsp;</td>
+          </tr>
+          <tr> 
+            <td class="sl1">&nbsp;</td>
+            <td class="sl2"></td>
+            <td class="sl3"><i>X3DSequencerNode </i>(abstract)</td>
+            <td class="sl4">All fields fully supported.</td>
+          </tr>
+          <tr> 
+            <td class="sl1">&nbsp;</td>
+            <td class="sl2"></td>
+            <td class="sl3"><i>X3DTriggerNode </i>(abstract)</td>
+            <td class="sl4">All fields fully supported.</td>
+          </tr>
+          <tr> 
+            <td class="sl1">&nbsp;</td>
+            <td class="sl2"></td>
+            <td class="sl3">BooleanFilter</td>
+            <td class="sl4">All fields fully supported.</td>
+          </tr>
+          <tr> 
+            <td class="sl1">&nbsp;</td>
+            <td class="sl2"></td>
+            <td class="sl3">BooleanSequencer</td>
+            <td class="sl4">All fields fully supported.</td>
+          </tr>
+          <tr> 
+            <td class="sl1"><b></b></td>
+            <td class="sl2"></td>
+            <td class="sl3">BooleanToggle</td>
+            <td class="sl4">All fields fully supported.</td>
+          </tr>
+          <tr> 
+            <td class="sl1"><b></b></td>
+            <td class="sl2"></td>
+            <td class="sl3">BooleanTrigger</td>
+            <td class="sl4">All fields fully supported.</td>
+          </tr>
+          <tr> 
+            <td class="sl1">&nbsp;</td>
+            <td class="sl2"></td>
+            <td class="sl3">IntegerSequencer</td>
+            <td class="sl4">All fields fully supported.</td>
+          </tr>
+          <tr> 
+            <td class="sl1">&nbsp;</td>
+            <td class="sl2"></td>
+            <td class="sl3">IntegerTrigger</td>
+            <td class="sl4">All fields fully supported.</td>
+          </tr>
+          <tr> 
+            <td class="sl1">&nbsp;</td>
+            <td class="sl2"></td>
+            <td class="sl3">TimeTrigger</td>
+            <td class="sl4">All fields fully supported.</td>
+          </tr>
+          </tbody> 
+    </table>
+ </div>
+
+<p> 
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23"></p>
+
+</BODY>
+</HTML>

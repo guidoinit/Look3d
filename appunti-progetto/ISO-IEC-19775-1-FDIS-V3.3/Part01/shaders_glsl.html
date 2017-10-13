@@ -1,0 +1,408 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, Annex I OpenGL shading language (GLSL) binding</TITLE>
+<link href="X3D.css" type="text/css" rel=stylesheet>
+</head>
+
+<body>
+
+<div class="CenterDiv">
+<a href="X3D.html">
+<img class="x3dlogo" src="../Images/x3d.png" alt="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="AnnexHeadingBottom">
+    Annex I</p>
+
+<p class="AnnexType">
+        (normative)
+<p class="AnnexHeadingBottom">
+OpenGL shading language (GLSL) binding</p></div>
+
+<img class="x3dbar" src="../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+<h2><a name="General"></a>
+<img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+I.1 General </h2>
+
+<p>This annex defines the mapping of concepts of the programmable shaders 
+component to the OpenGL Shading Language (GLSL) (see <a href="bibliography.html#[GLSL]">
+[GLSL]</a>). It applies to a ComposedShader node that sets the <i>language</i> 
+field to &quot;GLSL&quot;.
+</p>
+
+<h1><a name="Topics"></a>
+<img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+I.2 Topics</h1>
+
+
+<p><a href="#t-Topics">Table I.1</a> provides links to the major topics in this 
+annex.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table I.1 &#8212; Topics</p>
+
+<table class="topics">
+<tr> 
+  <td> 
+	<ul>
+	  <li><a href="#General">I.1 General</a></li>
+	  <li><a href="#Topics">I.2 Topics</a></li> 
+	  <li><a href="#Interaction">I.3 Interaction with Other Nodes and Components</a>
+	    <ul>
+		  <li><a href="#Vertexshader">I.3.1 Vertex Shader</a></li> 
+		  <li><a href="#Fragmentshader">I.3.2 Fragment Shader</a></li> 
+		  <li><a href="#Loadsensor">I.3.3 LoadSensor</a></li> 
+		  <li><a href="#Vertexattributes">I.3.4 VertexAttributes</a></li> 
+		</ul>
+	  </li> 
+	  <li><a href="#Datatypemapping">I.4 Data Type Mapping</a>
+	    <ul>
+		  <li><a href="#Nodefields">I.4.1 Node fields</a></li> 
+		  <li><a href="#Otherfields">I.4.2 X3D Field types to OpenGL Data Types</a></li> 
+		</ul>
+	  </li> 
+	  <li><a href="#Eventmodel">I.5 Event Model</a>
+	    <ul>
+		  <li><a href="#Changingurlfield">I.5.1 Changing URL fields</a></li>
+		  <li><a href="#Changingobjectsfield">I.5.2 Changing the <i>object</i> 
+			field</a></li>
+		  <li><a href="#Changingattribfield">I.5.3 Changing the <i>attrib</i> 
+			field</a></li>
+		  <li><a href="#relinkingprograms">I.5.4 Relinking Programs</a></li>
+		</ul>
+      <li><a href="#t-Topics">Table I.1 &#8212; Topics</a></li>
+	  <li><a href="#t-X3DTextureTypeToGLSL">Table I.2 &#8212; Mapping of X3D texture 
+		node types to GLSL sampler types</a></li>
+      <li><a href="#t-X3DFieldTypeToGLSL">Table I.3 &#8212; Mapping of X3D Field type 
+		to GLSL data type</a></li>
+	</ul>
+  </tr>
+</table>
+</div>
+
+<h1><a name="Interaction"></a>
+<img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+I.3 Interaction with other nodes and components</h1>
+
+<h2><a name="Vertexshader"></a>I.3.1 Vertex shader</h2>
+
+<p>The vertex shader replaces the fixed functionality of the vertex processor. 
+The GLSL specification (see <a href="bibliography.html#[GLSL]">[GLSL]</a>) 
+states that the following functionality is disabled if a vertex shader is 
+supplied:</p>
+
+<ol type="a">
+	<li>The model view matrix is not applied to vertex coordinates.</li>
+	<li>The projection matrix is not applied to vertex coordinates.</li>
+	<li>The texture matrices are not applied to texture coordinates.</li>
+	<li>The normals are not transformed to eye coordinates.</li>
+	<li>The normals are not rescaled or normalized.</li>
+	<li>Texture coordinates are not generated automatically.</li>
+	<li>Per-vertex lighting is not performed.</li>
+	<li>Color material lighting is not performed.</li>
+	<li>Point size distance attenuation is not performed.</li>
+</ol>
+
+<h2><a name="Fragmentshader"></a>I.3.2 Fragment shader</h2>
+
+<p>The fragment shader replaces the fixed functionality of the fragment 
+processor. The GLSL specification&nbsp; (see <a href="bibliography.html#[GLSL]">
+[GLSL]</a>) states that the following functionality is disabled if a fragment 
+shader is supplied:</p>
+
+<ol type="a">
+	<li>Textures are not applied.</li>
+	<li>Fog is not applied.</li>
+</ol>
+
+<h2><a name="Loadsensor"></a>I.3.3 LoadSensor</h2>
+
+<p>The LoadSensor node (See <a href="components/networking.html#LoadSensor">9.4.3 
+LoadSensor</a>) has two output fields 
+<i>isActive</i> and <i>isLoaded</i>. The <i>isLoaded</i> field behaviour is 
+unchanged.</p>
+
+<p>The <i>isActive</i> field is defined to issue a <span class="code">TRUE</span> 
+event when all the following conditions have been satisfied:</p>
+
+<ol type="a">
+	<li>the content identified by the <i>url</i> field has been successfully 
+	loaded;</li>
+	<li>a valid OpenGL program object handle has been created for the shader 
+	object ( <tt>GLhandleARB</tt> in OpenGL 1.5 and <tt>uint</tt> in OpenGL 
+	2.0);</li>
+	<li>the shader source has been set without error; and</li>
+	<li>the shader has been successfully compiled, without error.</li>
+</ol>
+
+<p>The LoadSensor node does not have any interaction with the process of linking 
+multiple shader objects into a complete shader program.</p>
+
+<h2><a name="Vertexattributes"></a>I.3.4 Vertex attributes</h2>
+
+<p>Each vertex attribute node directly maps the <i>name</i> field to the uniform 
+variable of the same name. If the name is not available as a uniform variable in 
+the provided shader source, the values of the node shall be ignored.
+</p>
+
+<p>The browser implementation shall automatically assign appropriate internal 
+index values for each attribute.</p>
+
+<h1><a name="Datatypemapping"></a>
+<img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+I.4 Data type mapping</h1>
+
+<h2><a name="Nodefields"></a>I.4.1 Node fields</h2>
+
+<p>Fields that are of type SFNode/MFNode are ignored unless the value is of type
+<i>X3DTextureNode</i>. Field instances of type <i>X3DTextureNode</i> are mapped 
+according to the appropriate sampler data type. The texture types are mapped as 
+defined in <a href="#t-X3DTextureTypeToGLSL">Table I.2</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-X3DTextureTypeToGLSL"></a>
+Table I.2 &#8212; Mapping of X3D texture node types to GLSL sampler types</p>
+
+<table>
+<tr>
+<th>X3D&nbsp;texture type</th>
+<th>GLSL variable type</th>
+</tr>
+<tr>
+  <td><i>X3DTexture2DNode</i></td>
+  <td>sampler2D.</td>
+</tr>
+<tr>
+  <td><i>X3DTexture3DNode</i></td>
+  <td>sampler3D.</td>
+</tr>
+<tr>
+  <td><i>X3DEnvironmentTextureNode</i></td>
+  <td>samplerCube.</td>
+</tr>
+</table>
+</div>
+
+<p>X3D does not define mappings to the GLSL types sampler1D, sampler1DShadow and 
+sampler2DShadow.</p>
+
+<h2><a name="Otherfields"></a>I.4.2 X3D Field types to GLSL data types</h2>
+
+<p><a href="#t-X3DFieldTypeToGLSL">Table I.3</a> indicates how the X3D field 
+types shall be mapped to data types used in GLSL.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-X3DFieldTypeToGLSL"></a>
+Table I.3 &#8212; Mapping of X3D field type to GLSL data type</p>
+
+<table>
+<tr>
+<th>X3D&nbsp;field type</th>
+<th>GLSL variable type</th>
+</tr>
+<tr>
+  <td>SFBool</td>
+  <td>bool</td>
+</tr>
+<tr>
+  <td>MFBool</td>
+  <td>bool[]</td>
+</tr>
+<tr>
+  <td>MFInt32</td>
+  <td>int[]</td>
+</tr>
+<tr>
+  <td>SFInt32</td>
+  <td>int</td>
+</tr>
+<tr>
+  <td>SFFloat</td>
+  <td>float</td>
+</tr>
+<tr>
+  <td>MFFloat</td>
+  <td>float[]</td>
+</tr>
+<tr>
+  <td>SFDouble</td>
+  <td>float</td>
+</tr>
+<tr>
+  <td>MFDouble</td>
+  <td>float[]</td>
+</tr>
+<tr>
+  <td>SFTime</td>
+  <td>float</td>
+</tr>
+<tr>
+  <td>MFTime</td>
+  <td>float[]</td>
+</tr>
+<tr>
+  <td>SFNode</td>
+  <td>See <a href="#Nodefields">4.1 Node fields</a></td>
+</tr>
+<tr>
+  <td>MFNode</td>
+  <td>See <a href="#Nodefields">4.1 Node fields</a></td>
+</tr>
+<tr>
+  <td>SFVec2f</td>
+  <td>vec2</td>
+</tr>
+<tr>
+  <td>MFVec2f</td>
+  <td>vec2[]</td>
+</tr>
+<tr>
+  <td>SFVec3f</td>
+  <td>vec3</td>
+</tr>
+<tr>
+  <td>MFVec3f</td>
+  <td>vec3[]</td>
+</tr>
+<tr>
+  <td>SFVec4f</td>
+  <td>vec4</td>
+</tr>
+<tr>
+  <td>MFVec4f</td>
+  <td>vec4[]</td>
+</tr>
+<tr>
+  <td>SFVec3d</td>
+  <td>float3</td>
+</tr>
+<tr>
+  <td>MFVec3d</td>
+  <td>float3[]</td>
+</tr>
+<tr>
+  <td>SFVec4d</td>
+  <td>float4</td>
+</tr>
+<tr>
+  <td>MFVec4d</td>
+  <td>float4[]</td>
+</tr>
+<tr>
+  <td>SFRotation</td>
+  <td>vec4</td>
+</tr>
+<tr>
+  <td>MFRotation</td>
+  <td>vec4[]</td>
+</tr>
+<tr>
+  <td>MFColor</td>
+  <td>vec4[]</td>
+</tr>
+<tr>
+  <td>SFColor</td>
+  <td>vec4</td>
+</tr>
+<tr>
+  <td>SFImage</td>
+  <td>int[]</td>
+</tr>
+<tr>
+  <td>MFImage</td>
+  <td>int[]</td>
+</tr>
+<tr>
+  <td>SFString</td>
+  <td>Not supported</td>
+</tr>
+<tr>
+  <td>MFString</td>
+  <td>Not supported</td>
+</tr>
+<tr>
+  <td>SFMatrix3f</td>
+  <td>mat3</td>
+</tr>
+<tr>
+  <td>MFMatrix3f</td>
+  <td>mat3[]</td>
+</tr>
+<tr>
+  <td>SFMatrix4f</td>
+  <td>mat4</td>
+</tr>
+<tr>
+  <td>MFMatrix4f</td>
+  <td>mat4[]</td>
+</tr>
+</table>
+</div>
+
+<p>OpenGL defines maximum supported lengths of each array data type, which may 
+conflict with the minimum support requirements for X3D. OpenGL will 
+automatically convert double-precision data types to single precision types.</p>
+
+<h1><a name="Eventmodel"></a>
+<img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+I.5 Event model</h1>
+
+<h2><a name="Changingurlfield"></a>I.5.1 Changing URL fields</h2>
+
+<p>When the <i>url</i> receives an event changing the value, the browser shall 
+immediately attempt to download the new source. Upon successful download, the 
+browser shall attempt to compile the new source and issue the appropriate 
+LoadSensor events. It shall not automatically relink the shader program, nor 
+disable the currently running shader. This follows the semantics of the OpenGL 
+API requirements for separate register-compile-link steps.</p>
+
+<p>Values defined at load time of the file do not require an explicit request to 
+relink. It shall be assumed to automatically link once all the objects have 
+successfully downloaded. If some of the shader source files are not downloaded 
+or compiled (<i>e.g.</i>, due to errors), no linking will occur for the shader 
+program.</p>
+
+<h2><a name="Changingobjectsfield"></a>I.5.2 Changing the <i>object</i> field</h2>
+
+<p>If at any time after the initial load, the user changes the values of the
+<i>object</i> field, the user shall need to request an explicit relink of the 
+containing shader program. The containing ComposedShader shall not automatically 
+relink, nor should it automatically disable the current shader.</p>
+
+<h2><a name="Changingattribfield"></a>I.5.3 Changing the <i>attrib</i> field</h2>
+
+<p>Per-vertex attributes may be defined as one of the fields of 
+<i>X3DComposedGeometryNode</i>. These may be changed at runtime by adding or 
+removing node instances. Adding new node instances to the field shall require 
+that the user request an explicit relink in order to make them visible to the 
+shader.</p>
+
+<h2><a name="relinkingprograms"></a>I.5.4 Relinking Programs</h2>
+
+<p>The user may, at any time, request that OpenGL re-link the composing shader 
+objects by sending a <span class="code">TRUE</span> value to the <i>activate</i> 
+inputOnly field of the ComposedShader node. Users may need to force a relink of 
+the ComposedShader under various circumstances, such as changing the <i>url</i> 
+field of one or more ShaderPart nodes, or adding or removing ShaderPart nodes. 
+Relinking the shader shall replace the existing shader with the new executable.</p>
+
+<img class="x3dbar" src="../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

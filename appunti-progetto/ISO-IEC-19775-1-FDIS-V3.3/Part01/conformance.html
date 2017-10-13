@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 6 Conformance</TITLE>
+<link rel="stylesheet" href="X3D.css" type="text/css">
+
+</head>
+<body>
+
+<div class="CenterDiv">
+<a href="X3D.html">
+<img class="x3dlogo" SRC="../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">6 Conformance</p>
+</div>
+
+<img class="x3dbar" SRC="../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="General"></a>
+6.1 General</h1>
+
+<H2><a NAME="Topics"></a>6.1.1 Topics</H2>
+
+<P>This clause addresses conformance of X3D files, X3D generators and
+X3D browsers.</P>
+
+<p>The topics covered in this clause are shown in <a href="#t-Topics">Table 
+  6.1</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 6.1 &#8212; Topics</p>
+
+<table class="topics">
+  <tr>
+    <td>
+<ul>
+<li><a href="#General">6.1 General</A> 
+<ul>
+<li><a href="#Topics">6.1.1 Topics</A></li>
+<li><a href="#Objectives">6.1.2 Objectives</A></li>
+<li><a href="#Scope">6.1.3 Scope</A></li>
+</ul></li>
+<li><a href="#Conformance">6.2 Conformance</A>
+<ul>
+<li><a href="#ConformanceX3Dfiles">6.2.1 Conformance of X3D files</A></li>
+<li><a href="#ConformanceX3Dgens">6.2.2 Conformance of X3D generators</A></li>
+<li><a href="#ConformanceX3Dbrowsers">6.2.3 Conformance of X3D browsers</A></li>
+</ul></li>
+<li><a href="#Minimumsupport">6.3 Minimum support requirements</A>
+<ul>
+<li><a href="#Minsupportforgen">6.3.1 Minimum support requirements for generators</A></li>
+<li><a href="#Minsupportforbrowser">6.3.2 Minimum support requirements for browsers</A></li>
+</ul></li>
+</ul>
+</td>
+  </tr>
+</table>
+</div>
+
+<H2><a name="Objectives"></a>
+6.1.2 Objectives</H2>
+
+<P>The primary objectives of the specifications in this clause are:</P>
+
+<OL START="1" TYPE="a">
+  <LI>to promote interoperability by eliminating arbitrary subsets of, or
+  extensions to, ISO/IEC 19775;</li>
+  <LI>to promote uniformity in the development of conformance tests;</li>
+  <LI>to promote consistent results across X3D browsers;</li>
+  <LI>to facilitate automated test generation.</li>
+</OL>
+
+<H2><a name="Scope"></a>
+6.1.3 Scope</H2>
+
+<P>Conformance is defined for X3D files and for X3D browsers. For X3D
+generators, conformance guidelines are presented for enhancing the likelihood
+of successful interoperability.</P>
+
+<P>A concept of <I>base profile conformance</I> is defined to ensure interoperability
+of X3D generators and X3D browsers. Base profile conformance is based
+on a set of limits and minimal requirements. Base profile conformance is
+intended to provide a functional level of reasonable utility for X3D generators
+while limiting the complexity and resource requirements of X3D browsers.
+Base profile conformance may not be adequate for all uses of X3D.</P>
+
+<P>This clause addresses the X3D data stream and implementation requirements.
+Implementation requirements include the latitude allowed for X3D generators
+and X3D&nbsp;browsers. This clause does not directly address the environmental,
+performance, or resource requirements of the generator or browser.</P>
+
+<P>This clause does not define the application requirements or dictate application
+functional content within a X3D file.</P>
+
+<P>The scope of this clause is limited to rules for the open interchange
+of X3D content.</P>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Conformance"></a>
+6.2 Conformance</h1>
+
+<H2><a name="ConformanceX3Dfiles"></a>
+6.2.1 Conformance of X3D files</H2>
+
+<P>An X3D file is <I>syntactically correct</I> according 
+to this part of ISO/IEC 19775 if the following conditions are met:</P>
+
+<OL START="1" TYPE="a">
+	<li type="a">The X3D file contains as its first element an X3D header 
+	statement (see <a href="components/core.html#HeaderStatement">7.2.5.2 Header</a> 
+	statement) specifying the version to which this file conforms. Versions and 
+	associated content are specified in <a href="versionContent.html">Annex L 
+	Version content</a>.</li>
+	<li type="a">All entities contained therein match the functional 
+	specification of entities of this part of ISO/IEC 19775 that correspond to 
+	the version specified in the header statement. The X3D file shall obey the 
+	relationships defined in the formal grammar and all other syntactic 
+	requirements.</li>
+	<li type="a">The sequence of entities in the X3D file obeys the 
+	relationships specified in this part of ISO/IEC 19775 for the version 
+	specified in the header statement producing the structure specified in the 
+	part of ISO/IEC 19775 for the version specified in the header statement.</li>
+	<li type="a">All field values in the X3D file obey the relationships 
+	specified in this part of ISO/IEC 19775 for the version specified in the 
+	header statement producing the structure specified in this part of ISO/IEC 
+	19775 for the version specified in the header statement.</li>
+	<li type="a">No nodes appear in the X3D file other than those specified for 
+	the applicable profile as specified in this part of ISO/IEC 19775 unless 
+	specified in a COMPONENT statement, are required for the encoding technique, 
+	or are those defined by the PROTO or EXTERNPROTO entities should such be 
+	available in the profile.</li>
+	<li type="a">No nodes or fields appear in the X3D file other than those 
+	defined as part of the version specified in the header statement.</li>
+  <LI>The X3D file is encoded according to the rules of
+	<a href="references.html#[I19776]">ISO/IEC 19776</a>.</li>
+  <LI>It does not contain behaviour described as undefined  in this part of ISO/IEC 
+  19775.</li>
+</OL>
+
+<H2><a name="ConformanceX3Dgens"></a>
+6.2.2 Conformance of X3D generators</H2>
+
+<P>A X3D generator is conforming to ISO/IEC 19775 if all X3D
+files that are generated are syntactically correct and meet the requirements 
+state in <a href="#ConformanceX3Dfiles">6.2.1 Conformance of X3D files</a>.</P>
+
+<P>A X3D generator conforms to a profile if it can be configured
+such that all X3D files generated conform to that profile.</P>
+
+<H2><a name="ConformanceX3Dbrowsers"></a>
+6.2.3 Conformance of X3D browsers</H2>
+
+<P>An X3D browser is conforming if:</P>
+
+<!--/NOEDIT-->
+<OL START="1" TYPE="a">
+	<li type="a">It is able to read any X3D file that conforms to the profiles 
+	and components supported by that browser for the version(s) support by that 
+	browser.</li>
+	<li type="a">It implements the functionality specified for all abstract 
+	interfaces, insofar as they are made available in concrete nodes derived 
+	from those interfaces, within the latitude defined for the specified 
+	profile, components, and version and as allowed in this clause.</li>
+	<li type="a">It presents the graphical and audio characteristics of the X3D 
+	nodes in any X3D file that conforms to the applicable profile, components, 
+	and version, within the latitude defined for the specified profile, 
+	components, and version and as allowed in this clause.</li>
+	<li type="a">It correctly handles user interaction and generation of events 
+	as specified for the applicable profile, components, and version, within the 
+	latitude defined for the specified profile, components, and version and as 
+	allowed in this clause.</li>
+  <LI>It satisfies the minimum support requirements for browsers for the 
+  applicable profile as enumerated in the table of minimum support requirements 
+  for that profile.</li>
+</OL>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Minimumsupport"></a>
+6.3 Minimum support requirements</H1>
+
+<H2>
+<a name="Minsupportforgen"></a>
+6.3.1 Minimum support requirements for generators</H2>
+
+<P>There is no minimum complexity which is required of (or appropriate for) X3D 
+generators. Any compliant set of nodes of arbitrary complexity may be generated, 
+as appropriate to represent application content, and which produce only the 
+nodes allowed by the applicable profile, components, and version.</P>
+
+<H2><a name="Minsupportforbrowser"></a>
+6.3.2 Minimum support requirements for browsers</H2>
+
+<P>Each profile defines the minimum complexity which shall be supported
+by an X3D browser in support of that profile. Browser implementations may choose to support greater
+limits but may not reduce the limits described for the applicable profile. When the 
+X3D file contains nodes which exceed the limits implemented
+by the browser, the results are undefined. The words &quot;optionally supported&quot; in the minimum 
+browser support column refers only to the display of the item; in particular, <i>
+set_</i> events to ignored inputOutput fields shall still generate corresponding
+<i>_changed</i> events. Where latitude is specified in a table 
+of minimum support requirements for a particular node, full support is
+required for other aspects of that node.</P>
+
+<img class="x3dbar" SRC="../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

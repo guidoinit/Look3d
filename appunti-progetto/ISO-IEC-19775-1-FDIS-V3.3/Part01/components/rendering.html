@@ -1,0 +1,1205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 11 Rendering component</title>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+
+</head>
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">11 Rendering component</p>
+
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="Introduction"></a>11.1 Introduction</h1>
+
+<h2><a name="Name"></a>11.1.1 Name</h2>
+
+<p>The name of this component is &quot;Rendering&quot;. This name shall be used when 
+referring to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+
+<h2><a name="Overview"></a>11.1.2 Overview</h2>
+
+<p>This clause describes the Rendering component of this part of ISO/IEC 19775. 
+  This includes fundamental rendering primitives such as <a href="#TriangleSet">TriangleSet</a> and 
+<a href="#PointSet">PointSet</a> nodes, 
+  and geometric properties nodes that define how coordinate indices, colors, normals 
+  and texture coordinates are specified.
+<a href="#t-Topics">Table 11.1</a> provides links to the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 11.1 &#8212; Topics</p>
+
+<table class="topics">
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">11.1 Introduction</a>
+            <ul>
+              <li><a href="#Name">11.1.1 Name</a></li>
+              <li><a href="#Overview">11.1.2 Overview</a></li>
+            </ul></li> 
+          <li><a href="#Concepts">11.2 Concepts </a> 
+            <ul>
+              <li><a href="#Renderingprimitives">11.2.1 Rendering primitives</a></li> 
+              <li><a href="#Geometricproperties">11.2.2 Geometric properties</a> 
+                <ul>
+                  <li><a href="#GeometricPropertiesOverview">11.2.2.1 Overview</a></li>
+					<li><a href="#ColorConcept">11.2.2.2 Color</a></li> 
+                  <li><a href="#Coordinates">11.2.2.3 Coordinates</a></li> 
+                  <li><a href="#Normals">11.2.2.4 Normals</a></li> 
+                </ul></li>
+              <li><a href="#CommonGeometryFields">11.2.3 Common geometry fields</a></li>
+			  <li><a href="#ClipPlanes">11.2.4 Clip planes</a>
+			    <ul>
+                  <li><a href="#ClipPlanesOverview">11.2.4.1 Overview</a></li>
+				  <li><a href="#ClipPlaneSemantics">11.2.4.2 Clip plane semantics</a></li>
+				  <li><a href="#TransformationHierarchy">11.2.4.3 Transformation hierarchy</a></li>
+				  <li><a href="#ScopingOfClipPlanes">11.2.4.4 Scoping of clip planes</a></li>
+				  <li><a href="#ClipPlaneLimitations">11.2.4.5 Clip plane limitations</a></li>
+                </ul></li> 
+            </ul></li>
+          <li> <a href="#Abstracttypes">11.3 Abstract types</a>  
+            <ul>
+              <li><a href="#X3DColorNode">11.3.1 <i>X3DColorNode</i></a></li>
+              <li><a href="#X3DComposedGeometryNode">11.3.2 <i>X3DComposedGeometryNode</i></a></li>
+              <li><a href="#X3DCoordinateNode">11.3.3 <i>X3DCoordinateNode</i></a></li>
+              <li><a href="#X3DGeometricPropertyNode">11.3.4 <i>X3DGeometricPropertyNode</i> </a></li>
+              <li><a href="#X3DGeometryNode">11.3.5 <i>X3DGeometryNode</i></a></li>
+              <li><a href="#X3DNormalNode">11.3.6 <i>X3DNormalNode</i></a></li>
+            </ul></li>
+          <li> <a href="#Nodereference">11.4 Node reference</a>
+            <ul>
+              <li><a href="#ClipPlane">11.4.1 ClipPlane</a></li>
+			  <li><a href="#Color">11.4.2 Color</a></li> 
+              <li><a href="#ColorRGBA">11.4.3 ColorRGBA</a></li> 
+              <li><a href="#Coordinate">11.4.4 Coordinate</a></li> 
+              <li><a href="#IndexedLineSet">11.4.5 IndexedLineSet</a></li> 
+              <li><a href="#IndexedTriangleFanSet">11.4.6 IndexedTriangleFanSet</a></li> 
+              <li><a href="#IndexedTriangleSet">11.4.7 IndexedTriangleSet</a></li> 
+              <li><a href="#IndexedTriangleStripSet">11.4.8 IndexedTriangleStripSet</a></li> 
+              <li><a href="#LineSet">11.4.9 LineSet</a></li> 
+              <li><a href="#Normal">11.4.10 Normal</a></li> 
+              <li><a href="#PointSet">11.4.11 PointSet</a></li> 
+              <li><a href="#TriangleFanSet">11.4.12 TriangleFanSet</a></li> 
+              <li><a href="#TriangleSet">11.4.13 TriangleSet</a></li>
+              <li><a href="#TriangleStripSet">11.4.14 TriangleStripSet</a></li>
+            </ul></li>
+          <li><a href="#SupportLevels">11.5 Support levels</a></li>  
+        </ul>
+        <ul>
+          <li><a href="#f-EffectsOfLocalClipPlanesOnGeometry">Figure 11.1 &#8212; Effects of clip planes on geometry</a></li>
+          <li><a href="#f-TriangleFanSet">Figure 11.2 &#8212; TriangleFanSet node</a></li>
+          <li><a href="#f-TriangleSet">Figure 11.3 &#8212; TriangleSet node</a></li>
+          <li><a href="#f-TriangleStripSet">Figure 11.4 &#8212; TriangleStripSet node</a></li>
+        </ul>
+        <ul>
+          <li><a href="#t-Topics">Table 11.1 &#8212; Topics</a></li>
+          <li><a href="#t-supportlevels">Table 11.2 &#8212; Rendering component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="Concepts"></a>
+11.2 Concepts</h1>
+
+<h2><a name="Renderingprimitives"></a>
+11.2.1 Rendering primitives</h2>
+
+<p>The following nodes represent the fundamental visual objects 
+  common to polygonal rendering systems:</p>
+
+<ol type="a">
+  <li><a href="#IndexedLineSet">IndexedLineSet</a>,</li>
+  <li><a href="#IndexedTriangleFanSet">IndexedTriangleFanSet</a>,</li>
+  <li><a href="#IndexedTriangleSet">IndexedTriangleSet</a>,</li>
+  <li><a href="#IndexedTriangleStripSet">IndexedTriangleStripSet</a>,</li>
+  <li><a href="#PointSet">PointSet</a>,</li>
+  <li><a href="#TriangleFanSet">TriangleFanSet</a>,</li>
+  <li><a href="#TriangleSet">TriangleSet</a>, and</li>
+  <li><a href="#TriangleStripSet">TriangleStripSet</a>.</li>
+</ol>
+
+<p>Most complex geometries, such as those 
+  found in the <a href="geometry3D.html">13 Geometry3D component</a> and
+<a href="geometry2D.html">14 Geometry2D component</a>, can be 
+  implemented as a combination of these nodes. The Rendering component 
+  provides these nodes as basic services for building arbitrary geometry types.</p>
+
+<p>All of the rendering primitive nodes are descendants of the <i>
+<a href="#X3DGeometryNode">X3DGeometryNode</a> 
+  </i>type.</p>
+
+<h2><a name="Geometricproperties"></a>
+11.2.2 Geometric properties</h2>
+
+<h3><a name="GeometricPropertiesOverview"></a>11.2.2.1 Overview</h3>
+
+<p>Several geometry nodes contain 
+<a href="#Coordinate">Coordinate</a>, 
+<a href="#Color">Color</a> or <a href="#ColorRGBA">ColorRGBA</a>, 
+<a href="#Normal">Normal</a>, and 
+<a href="texturing.html#TextureCoordinate">TextureCoordinate</a> 
+  as geometric property node types. The geometric property node types are defined 
+  as individual node types so that instancing and sharing is possible between 
+  different geometry nodes. The <a href="texturing.html#TextureCoordinate">TextureCoordinate</a> node type is 
+  defined in 
+<a href="texturing.html">18 Texturing component</a>.</p>
+
+<h3><a name="ColorConcept"></a>11.2.2.2 Color</h3>
+
+<p>Color in X3D is specified using the RGB color model in which the three components 
+  of color specifications are red, green, and blue ranging in value from 0 to 
+  1. This color model results in a color specification of (0,0,0) representing 
+  black and (1,1,1) representing white. Color may also be specified using the
+  RGBA color model in which a fourth alpha component specifies a value
+  ranging from 0 (fully transparent) to 1 (fully opaque). See
+<a href="../bibliography.html#[FOLEY]">[FOLEY]</a> 
+  for more information on the RGB color model. </p>
+
+<h3><a name="Coordinates"></a>
+11.2.2.3 Coordinates</h3>
+
+<p>Coordinates in X3D are specified as an (x, y, z) triplet in a right-handed, 
+  rectangular coordinate system.</p>
+
+<h3><a name="Normals"></a>
+11.2.2.4 Normals</h3>
+
+<p>Normals define perpendicular directions from a piece of geometry and are used 
+  to perform lighting calculations. They may either be specified as part of the 
+  content or computed directly from the geometry by the browser. When specified 
+  as part of the content, each normal vector shall have unit length. </p>
+
+<h2><a name="CommonGeometryFields"></a>
+11.2.3 Common geometry fields</h2>
+
+<p>Certain geometry nodes have several fields that provide information about the 
+  rendering of the geometry.<b> </b> These fields specify the vertex ordering, 
+  if the shape is solid, if the shape contains convex faces, and at what angle 
+  a crease appears between faces, and are named <i>ccw</i>, <i>solid</i>, <i>convex</i> 
+  and <i>creaseAngle</i>, respectively. </p>
+
+<p>The <i>ccw</i> field defines the ordering of the vertex coordinates of the 
+  geometry with respect to user-given or automatically generated normal vectors 
+  used in the lighting model equations. If <i>ccw</i> is <code>TRUE</code>, 
+  the normals shall follow the right hand rule; the orientation of each normal 
+  with respect to the vertices (taken in order) shall be such that the vertices 
+  appear to be oriented in a counterclockwise order when the vertices are viewed 
+  (in the local coordinate system of the <a href="shape.html#Shape">Shape</a>) from the opposite direction as 
+  the normal. If <i>ccw</i> is <code>FALSE</code>, the normals 
+  shall be oriented in the opposite direction. If normals are not generated but 
+  are supplied using a <a href="#Normal">Normal</a> node, and the orientation of the normals does not 
+  match the setting of the <i>ccw</i> field, results are undefined. 
+
+<p>The <i>solid</i> field determines whether one or both sides of each polygon 
+  shall be displayed. If <i>solid</i> is <font face="Courier New">FALSE</font>, 
+  each polygon shall be visible regardless of the viewing direction (<i>i.e.</i>, no backface culling shall be done, and two sided lighting shall be performed to 
+  illuminate both sides of lit surfaces). If <i>solid</i> is <code>TRUE</code>, 
+  the visibility of each polygon shall be determined as follows: Let <b><i>V</i></b> 
+  be the position of the viewer in the local coordinate system of the geometry. 
+  Let <b><i>N</i></b> be the geometric normal 
+vector of the polygon, and let <b><i>P</i></b> 
+  be any point (besides the local origin) in the plane defined by the polygon's 
+  vertices. Then if (<b><i>V</i></b> dot <b><i>N</i></b>) - (<b><i>N</i></b> dot 
+  <b><i>P</i></b>) is greater than zero, the polygon shall be visible; if it is 
+  less than or equal to zero, the polygon shall be invisible (back face culled). 
+
+<p>The <i>convex</i> field indicates whether all polygons in the shape are convex 
+  (<code>TRUE</code>). A polygon is convex if it is planar, 
+  does not intersect itself, and all of the interior angles at its vertices are 
+  less than 180 degrees. Non planar and self intersecting polygons may produce 
+  undefined results even if the <i>convex</i> field is <code>FALSE</code>. 
+
+<p>The <i>creaseAngle</i> field affects how default normals are generated. If 
+the angle between the geometric normals of two adjacent faces is less than the 
+crease angle, normals shall be calculated so that the faces are shaded smoothly 
+across the edge; otherwise, normals shall be calculated so that a lighting 
+discontinuity across the edge is produced. Crease angles shall be greater than 
+or equal to 0.0 angle base units.</p>
+<p class="Example">EXAMPLE&nbsp; A crease angle of 0.5 angle base units means 
+that an edge between two adjacent polygonal faces will be smooth shaded if the 
+geometric normals of the two faces form an angle that is less than 0.5 angle 
+base units. Otherwise, the faces will appear faceted.</p>
+
+<h2><a name="ClipPlanes"></a>11.2.4 Clip planes</h2>
+<h3><a name="ClipPlanesOverview"></a>11.2.4.1 Overview</h3>
+
+<p>The 3D graphics rendering pipeline uses an implicit step of trimming objects 
+that are partially in the view frustum called clipping. In addition to these 
+implied bounds, it is also possible to provide an additional clipping of the 
+geometry through the provision of additional clip plane definitions.</p>
+<h3><a name="ClipPlaneSemantics"></a>11.2.4.2 Clip plane semantics</h3>
+
+<p>A clip plane is defined as a plane that generates two half-spaces. The 
+effected geometry in the half-space that is defined as being outside the plane 
+is removed from the rendered image as a result of a clipping operation.</p>
+<h3><a name="TransformationHierarchy"></a>11.2.4.3 Transformation hierarchy</h3>
+<p>Clip planes may be defined at any level of the transformation hierarchy. The 
+clip plane definitions are accumulated from the root of the scene graph down to the 
+individual leaf nodes that are rendered. Clipping occurs against the 
+intersection of the half-spaces resulting from the current list of transformed 
+clip plane definitions. Since the clip planes are collected 
+during the traversal of the scene graph, specifying both local and globally 
+scoped planes is possible.</p>
+<p><a href="#f-EffectsOfLocalClipPlanesOnGeometry">Figure 11.1</a> illustrates 
+four objects effected by a 
+horizontal clip plane and a vertical clip plane.</p>
+<div class="CenterDiv"><a name="f-EffectsOfLocalClipPlanesOnGeometry"></a>
+	<a href="../../Images/clipplane.png">
+	<img src="../../Images/clipplane.png" alt="Clip Plane example" width="513" height="196" border="0"></a> 
+
+	<p class="FigureCaption">Figure 11.1 &#8212; Effects of clip planes on 
+	geometry</div>
+<h3><a name="ScopingOfClipPlanes"></a>11.2.4.4 Scoping of clip planes</h3>
+<p>A <a href="#ClipPlane">ClipPlane</a> node affects only objects that are in the same transformation 
+hierarchy as the node. Each plane is transformed according to the parent 
+transformation hierarchy but is not further transformed by the children it 
+affects. </p>
+<p>Clip planes shall affect nodes derived from <i>
+<a href="enveffects.html#X3DBackgroundNode">X3DBackgroundNode</a></i>.</p>
+<h3><a name="ClipPlaneLimitations"></a>11.2.4.5 Clip plane limitations</h3>
+<p>Many renderers only support a limited number of clip plane definitions 
+(typically, six). If, while traversing from the root of the scene to a 
+particular leaf, more than the number of supported clip planes are specified, 
+the clip plane definitions closest to the leaf are discarded first (<i>i. e.</i>, 
+the clip planes that are closer to the root of the scene graph are considered 
+most important).</p>
+
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="Abstracttypes"></a>
+11.3 Abstract types</h1>
+<h2><a name="X3DColorNode"></a>
+11.3.1 <i>X3DColorNode</i></h2>
+
+<pre class="node">X3DColorNode : X3DGeometricPropertyNode { 
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This is the base node type for color specifications in X3D.</p>
+
+<h2><a name="X3DComposedGeometryNode"></a>
+11.3.2 <i>X3DComposedGeometryNode</i></h2>
+
+<pre class="node">X3DComposedGeometryNode : X3DGeometryNode { 
+  MFNode [in,out] attrib          []   [X3DVertexAttributeNode]
+  SFNode [in,out] color           NULL [X3DColorNode]
+  SFNode [in,out] coord           NULL [X3DCoordinateNode]
+  SFNode [in,out] fogCoord        NULL [FogCoordinate]
+  SFNode [in,out] metadata        NULL [X3DMetadataObject]
+  SFNode [in,out] normal          NULL [X3DNormalNode]
+  SFNode [in,out] texCoord        NULL [X3DTextureCoordinateNode]
+  SFBool []       ccw             TRUE
+  SFBool []       colorPerVertex  TRUE
+  SFBool []       normalPerVertex TRUE
+  SFBool []       solid           TRUE
+}
+</pre>
+
+<p>This is the base node type for all composed 3D geometry in X3D. </p>
+
+<p>A composed geometry node type defines an abstract type that composes geometry 
+  from a set of nodes that define individual components. Composed geometry may 
+  have color, coordinates, normal and texture coordinates supplied. The rendered 
+  output of the combination of these is dependent on the concrete node definition. 
+  However, in general, the following rules shall be applied for all nodes:</p>
+
+<ul>
+  <li>If the color field is not <span class="code">NULL</span>, it shall contain an 
+	<i><a href="#X3DColorNode">X3DColorNode</a></i> node whose colours 
+    are applied to the vertices or faces of the <i>X3DComposedGeometryNode</i> 
+    as follows:</li>
+  <li>If <i>colorPerVertex</i> is <span class="code">FALSE</span>, colours are applied to each face. If 
+    <i>colorPerVertex</i> is true, colours are applied to each vertex.</li>
+  <li>If the <i>color</i> field is <span class="code">NULL</span>, the geometry shall be rendered normally 
+    using the <a href="shape.html#Material">Material</a> and texture defined in the 
+	<a href="shape.html#Appearance">Appearance</a> node (see
+  <a href="shape.html#Appearancenode">12.2.2 Appearance node</a> 
+    for details).</li>
+  <li>If <i>normalPerVertex</i> is <span class="code">FALSE</span>, colours are applied to each face. If 
+    <i>normalPerVertex</i> is true, normals are applied to each vertex.</li>
+  <li>If the <i>normal</i> field is not <span class="code">NULL</span>, it shall contain a 
+	<a href="#Normal">Normal</a> node whose normals are applied to the vertices or faces of the <i>X3DComposedGeometryNode</i> 
+    in a manner exactly equivalent to that described above for applying colours 
+    to vertices/faces (where <i>normalPerVertex</i> corresponds to <i>colorPerVertex</i> and 
+    <i>normalIndex</i> corresponds to <i>colorIndex</i>).</li>
+  <li>If the <i>normal</i> field is <span class="code">NULL</span>, the browser shall automatically generate normals in accordance with the node's definition. If the node does not define 
+    a behaviour, the default is to generate an averaged normal for all faces that 
+    share that vertex.</li>
+  <li>If the <i>texCoord</i> field is not <span class="code">NULL</span>, it shall contain a 
+	<a href="texturing.html#TextureCoordinate">TextureCoordinate</a> 
+    node.</li>
+</ul>
+
+<p>If the <i>attrib</i> field is not empty it shall contain a list of 
+per-vertex attribute information for programmable shaders as specified in
+<a href="../components/shaders.html#Pervertexattributes">32.2.2.4 Per-vertex attributes</a>.</p>
+<p>If the <i>fogCoord</i> field is not empty, it shall contain a list of 
+per-vertex depth values for calculating fog depth as specified in
+<a href="../components/enveffects.html#FogColourCalculation">24.2.2.5 Fog colour calculation</a>.</p>
+
+<h2><a name="X3DCoordinateNode"></a>
+11.3.3 <i>X3DCoordinateNode</i></h2>
+
+<pre class="node">X3DCoordinateNode : X3DGeometricPropertyNode {
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This is the base node type for all coordinate node types in X3D. All coordinates 
+  are specified in nodes derived from this abstract node type.</p>
+
+<h2><a name="X3DGeometricPropertyNode"></a>
+11.3.4 <i>X3DGeometricPropertyNode</i></h2>
+
+<pre class="node">X3DGeometricPropertyNode : X3DNode { 
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This is the base node type for all geometric property node types defined in 
+  X3D</p>
+
+<h2><a name="X3DGeometryNode"></a>
+11.3.5 <i>X3DGeometryNode</i></h2>
+
+<pre class="node">X3DGeometryNode : X3DNode { 
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This is the base node type for all geometry in X3D.<br>
+&nbsp;</p>
+
+<h2><a name="X3DNormalNode"></a>
+11.3.6 <i>X3DNormalNode</i></h2>
+
+<pre class="node">X3DNormalNode : X3DGeometricPropertyNode { 
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This is the base node type for all normal node types in X3D. All normals are 
+  specified in nodes derived from this abstract node type.</p>
+
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="Nodereference"></a>
+11.4 Node reference</h1>
+
+<h2><a name="ClipPlane"></a>11.4.1 ClipPlane</h2>
+
+<pre class="node">ClipPlane : X3DChildNode { 
+  SFBool  [in,out] enabled  TRUE
+  SFNode  [in,out] metadata NULL    [X3DMetadataObject]
+  SFVec4f [in,out] plane    0 1 0 0 [0,1]
+}
+</pre>
+
+<p>The ClipPlane node specifies a single plane equation that will be used to 
+clip the geometry. The <i>plane</i> field specifies a four-component plane 
+equation that describes the inside and outside half space. The first three 
+components are a normalized vector describing the direction of the plane&#39;s 
+normal direction.</p>
+
+<h2><a name="Color"></a>11.4.2 Color</h2>
+
+<pre class="node">Color : X3DColorNode { 
+  MFColor [in,out] color    [NULL] [0,1]
+  SFNode  [in,out] metadata NULL   [X3DMetadataObject]
+}
+</pre>
+
+<p>This node defines a set of RGB colours to be used in the fields of another 
+  node.</p>
+
+<p>Color nodes are only used to specify multiple colours for a single geometric 
+  shape, such as colours for the faces or vertices of an 
+<a href="geometry3D.html#IndexedFaceSet">IndexedFaceSet</a>. A 
+<a href="shape.html#Material">Material</a> 
+  node is used to specify the overall material parameters of lit geometry. If 
+  both a Material node and a Color node are specified for a geometric shape, the colours shall replace the diffuse component of the material.</p>
+
+<p>RGB or RGBA textures take precedence over colours; specifying both an RGB or 
+  RGBA texture and a Color node for geometric shape will result in the Color node 
+  being ignored. Details on lighting equations can be found in 
+<a href="lighting.html#Lightingmodel">17.2.2 Lighting model</a>.</p>
+
+<h2><a name="ColorRGBA"></a>
+11.4.3 ColorRGBA</h2>
+
+<pre class="node">ColorRGBA : X3DColorNode { 
+  MFColorRGBA [in,out] color    [NULL] [0,1]
+  SFNode      [in,out] metadata NULL   [X3DMetadataObject]
+}
+</pre>
+
+<p>This node defines a set of RGBA colours to be used in the fields of another 
+  node.</p>
+
+<p>RGBA color nodes are only used to specify multiple colours with alpha for a single
+  geometric shape, such as colours for the faces or vertices of an 
+<a href="geometry3D.html#IndexedFaceSet">IndexedFaceSet</a>. A 
+<a href="shape.html#Material">Material</a> 
+  node is used to specify the overall material parameters of lit geometry. If 
+  both a Material node and a ColorRGBA node are specified for a geometric shape, the 
+  colours shall replace the diffuse and transparency components of the material.</p>
+
+<p>RGB or RGBA textures take precedence over colours; specifying both an RGB or 
+  RGBA texture and a ColorRGBA node for geometric shape will result in the ColorRGBA node 
+  being ignored. Details on lighting equations can be found in 
+<a href="lighting.html#Lightingmodel">17.2.2 Lighting model</a>.</p>
+
+<h2><a name="Coordinate"></a>
+11.4.4 Coordinate</h2>
+
+<pre class="node">Coordinate : X3DCoordinateNode { 
+  SFNode  [in,out] metadata NULL   [X3DMetadataObject]
+  MFVec3f [in,out] point    []     (-&#8734;,&#8734;)
+}
+</pre>
+
+<p>This node defines a set of 3D coordinates to be used in the <i>coord</i> field 
+  of vertex-based geometry nodes including:</p>
+
+<ol type="a">
+  <li> 
+<a href="geometry3D.html#IndexedFaceSet">IndexedFaceSet</a>,</li>
+  <li> 
+<a href="#IndexedLineSet">IndexedLineSet</a>,</li>
+  <li><a href="#IndexedTriangleFanSet">IndexedTriangleFanSet</a>,</li>
+  <li><a href="#IndexedTriangleSet">IndexedTriangleSet</a>,</li>
+  <li><a href="#IndexedTriangleStripSet">IndexedTriangleStripSet</a>,</li>
+  <li> 
+<a href="#PointSet">PointSet</a>,</li>
+  <li> 
+<a href="#TriangleFanSet">TriangleFanSet</a>,</li>
+  <li> 
+<a href="#TriangleSet">TriangleSet</a>, and</li>
+  <li> 
+<a href="#TriangleStripSet">TriangleStripSet</a>.</li>
+</ol>
+
+<h2><a name="IndexedLineSet"></a>
+11.4.5 IndexedLineSet</h2>
+
+<pre class="node">IndexedLineSet : X3DGeometryNode {
+  MFInt32 [in]     set_colorIndex
+  MFInt32 [in]     set_coordIndex
+  MFNode  [in,out] attrib         []   [X3DVertexAttributeNode]
+  SFNode  [in,out] color          NULL [X3DColorNode]
+  SFNode  [in,out] coord          NULL [X3DCoordinateNode]
+  SFNode  [in,out] fogCoord       NULL [FogCoordinate]
+  SFNode  [in,out] metadata       NULL [X3DMetadataObject]
+  MFInt32 []       colorIndex     []   [0,&#8734;) or -1
+  SFBool  []       colorPerVertex TRUE
+  MFInt32 []       coordIndex     []   [0,&#8734;) or -1
+}
+</pre>
+
+<p>The IndexedLineSet node represents a 3D geometry formed by constructing polylines 
+  from 3D vertices specified in the <i>coord</i> field. IndexedLineSet uses the 
+  indices in its <i>coordIndex</i> field to specify the polylines by connecting 
+  vertices from the <i>coord</i> field. An index of &quot;-1&quot; indicates that 
+  the current polyline has ended and the next one begins. The last polyline may 
+  be (but does not have to be) followed by a &quot;-1&quot;. IndexedLineSet is 
+  specified in the local coordinate system and is affected by the transformations 
+  of its ancestors.</p>
+
+<p>The <i>coord</i> field specifies the 3D vertices of the line set and contains 
+  a <a href="#Coordinate">Coordinate</a> node.</p>
+
+<p>Lines are not lit, are not texture-mapped, and do not participate in 
+collision detection. The width and style of lines are determined by the line 
+properties specified in an associated <a href="shape.html#Appearance">Appearance</a> node. If no line properties are 
+specified, the default values for fields of the
+<a href="shape.html#LineProperties">LineProperties</a> node shall be 
+used (see <a href="shape.html#LineProperties">12.4.3 LineProperties</a>).</p>
+
+<p>If the <i>color</i> field is not <code>NULL</code>, it shall 
+  contain a node derived from <i><a href="#X3DColorNode">X3DColorNode</a></i>. The colours are applied to the line(s) as follows:</p>
+
+<ol start="1" type="a">
+  <li>If <i>colorPerVertex</i> is <code>FALSE</code>: 
+    <ol start="1" type="1">
+      <li>If the <i>colorIndex</i> field is not empty, one colour is used for 
+        each polyline of the IndexedLineSet. There shall be at least as many indices 
+        in the <i>colorIndex</i> field as there are polylines in the IndexedLineSet. 
+        If the greatest index in the <i>colorIndex</i> field is N, there shall 
+        be N+1 colours in the Color node. The <i>colorIndex</i> field shall not 
+        contain any negative entries.</li> 
+      <li>If the <i>colorIndex</i> field is empty, the colours from the Color 
+        node are applied to each polyline of the IndexedLineSet in order. There 
+        shall be at least as many colours in the X3DColorNode node as there are polylines.</li> 
+    </ol></li>
+  <li>If <i>colorPerVertex</i> is <code>TRUE</code>: 
+    <ol start="1" type="1">
+      <li>If the <i>colorIndex</i> field is not empty, colours are applied to 
+        each vertex of the IndexedLineSet in exactly the same manner that the 
+        <i>coordIndex</i> field is used to supply coordinates for each vertex 
+        from the Coordinate node. The <i>colorIndex</i> field shall contain at 
+        least as many indices as the <i>coordIndex</i> field and shall contain 
+        end-of-polyline markers (&minus;1) in exactly the same places as the <i>coordIndex</i> 
+        field. If the greatest index in the <i>colorIndex</i> field is N, there 
+        shall be N+1 colours in the Color node.</li> 
+      <li>If the <i>colorIndex</i> field is empty, the <i>coordIndex</i> field 
+        is used to choose colours from the Color node. If the greatest index in 
+        the <i>coordIndex</i> field is N, there shall be N+1 colours in the Color 
+        node.</li> 
+    </ol></li>
+</ol>
+
+<p>If the <i>color</i> field is <font face="Courier New">NULL </font>and there 
+  is a <a href="shape.html#Material">Material</a> defined for the Appearance affecting this IndexedLineSet, the 
+  <i>emissiveColor</i> of the Material shall be used to draw the lines. Details 
+  on lighting equations as they affect IndexedLineSet nodes are described in 
+<a href="lighting.html">17 Lighting component</a>.</p>
+
+<h2><a name="IndexedTriangleFanSet"></a>11.4.6 IndexedTriangleFanSet</h2>
+
+<pre class="node">IndexedTriangleFanSet : X3DComposedGeometryNode {
+  MFInt32 [in]     set_index       []   [0,&#8734;) or -1
+  MFNode  [in,out] attrib          []   [X3DVertexAttributeNode]
+  SFNode  [in,out] color           NULL [X3DColorNode]
+  SFNode  [in,out] coord           NULL [X3DCoordinateNode]
+  SFNode  [in,out] fogCoord        NULL [FogCoordinate]
+  SFNode  [in,out] metadata        NULL [X3DMetadataObject]
+  SFNode  [in,out] normal          NULL [X3DNormalNode]
+  SFNode  [in,out] texCoord        NULL [X3DTextureCoordinateNode]
+  SFBool  []       ccw             TRUE
+  SFBool  []       colorPerVertex  TRUE
+  SFBool  []       normalPerVertex TRUE
+  SFBool  []       solid           TRUE
+  MFInt32 []       index           []   [0,&#8734;) or -1
+}</pre>
+<p>An IndexedTriangleFanSet represents a 3D shape composed of triangles that 
+form a fan shape around the first vertex declared in each fan as depicted in
+<a href="#f-TriangleFanSet">Figure 11.1</a>. IndexedTriangleFanSet uses the indices in its <i>index</i> field to specify the 
+triangle fans by connecting vertices from the <i>coord</i> field. An index of &quot;-1&quot; 
+indicates that the current fan has ended and the next one begins. The last fan 
+may be (but does not have to be) followed by a &quot;-1&quot;.Each 
+fan shall have at least three non-coincident vertices.</p>
+<p>The IndexedTriangleFanSet node is specified in the local coordinate system 
+and is affected by the transformations of its ancestors. Descriptions of the <i>
+color</i>, <i>coord</i>, <i>normal</i>, and <i>texCoord </i>fields are provided 
+in the <a href="#Color">Color</a>, <a href="#ColorRGBA">ColorRGBA</a>, 
+<a href="#Coordinate">Coordinate</a>, <a href="#Normal">Normal</a>, and
+<a href="texturing.html#TextureCoordinate">TextureCoordinate</a> nodes, respectively. If 
+values are provided for the <i>color</i>, <i>normal</i> and <i>texCoord</i> 
+fields, the values are applied in the same manner as the values from the <i>
+coord</i> field and there shall be at least as many values as are present in the
+<i>coord</i> field. The value of the <i>colorPerVertex</i> field is ignored and 
+always treated as <span class="code">TRUE</span>. If the <i>normal </i>field is not provided, normals 
+shall be generated as follows:</p>
+<ul>
+  <li>If <i>normalPerVertex </i>is <span class="code">TRUE</span>, the normal 
+  for each vertex shall be the average of the normals for all triangles sharing 
+  that vertex.</li>
+  <li>If <i>normalPerVertex </i>is <span class="code">FALSE</span>, the normal 
+  shall be generated for the current triangle based on the <i>ccw</i> field.</li>
+</ul>
+
+<p>The <i>solid</i> field determines whether the  IndexedTriangleFanSet is visible when viewed 
+from the inside. <a href="rendering.html#CommonGeometryFields">11.2.3 Common 
+geometry fields</a> provides a complete description of the <i>solid</i> field.</p>
+
+<h2><a name="IndexedTriangleSet"></a>11.4.7 IndexedTriangleSet</h2>
+
+<pre class="node">IndexedTriangleSet : X3DComposedGeometryNode {
+  MFInt32 [in]     set_index       []   [0,&#8734;)
+  MFNode  [in,out] attrib          []   [X3DVertexAttributeNode]
+  SFNode  [in,out] color           NULL [X3DColorNode]
+  SFNode  [in,out] coord           NULL [X3DCoordinateNode]
+  SFNode  [in,out] fogCoord        NULL [FogCoordinate]
+  SFNode  [in,out] metadata        NULL [X3DMetadataObject]
+  SFNode  [in,out] normal          NULL [X3DNormalNode]
+  SFNode  [in,out] texCoord        NULL [X3DTextureCoordinateNode]
+  SFBool  []       ccw             TRUE
+  SFBool  []       colorPerVertex  TRUE
+  SFBool  []       normalPerVertex TRUE
+  SFBool  []       solid           TRUE
+  MFInt32 []       index           []   [0,&#8734;)
+}</pre>
+<p>The IndexedTriangleSet node represents a 3D shape composed of a collection of 
+individual triangles as depicted in <a href="#f-TriangleSet">Figure 11.2</a>. IndexedTriangleSet uses the indices in its <i>index</i> 
+field to specify the vertices of each triangle from the <i>coord</i> field. Each 
+triangle is formed from a set of three vertices of the <a href="#Coordinate">Coordinate</a> node 
+identified by three consecutive indices from the index field. If the <i>index</i> 
+field does not contain a multiple of three coordinate values, the remaining 
+vertices shall be ignored.</p>
+<p>The IndexedTriangleSet node is specified in the local coordinate system and 
+is affected by the transformations of its ancestors. Descriptions of the <i>
+color</i>, <i>coord</i>, <i>normal</i>, and <i>texCoord </i>fields are provided 
+in the <a href="#Color">Color</a>, <a href="#ColorRGBA">ColorRGBA</a>, Coordinate, 
+<a href="#Normal">Normal</a>, and <a href="texturing.html#TextureCoordinate">TextureCoordinate</a> nodes, respectively. If 
+values are provided for the <i>color</i>, <i>normal</i> and <i>texCoord</i> 
+fields, the values are applied in the same manner as the values from the <i>
+coord</i> field and there shall be at least as many values as are present in the
+<i>coord</i> field. The value of the <i>colorPerVertex</i> field is ignored and 
+always treated as <span class="code">TRUE</span>. If the <i>normal</i> field is 
+not supplied, normals shall be generated as follows:</p>
+<ul>
+  <li>If <i>normalPerVertex</i> is <span class="code">TRUE</span>, the normal at 
+  each vertex shall be the average of the normals for all triangles that share 
+  that vertex. </li>
+  <li>If <i>normalPerVertex</i> is <span class="code">FALSE</span>, the normal 
+  at each vertex shall be perpendicular to the face for that triangle.</li>
+</ul>
+
+<p>The <i>solid</i> field determines whether the IndexedTriangleSet is visible 
+when viewed from the backside. <a href="rendering.html#CommonGeometryFields">11.2.3 Common 
+geometry fields</a> provides a complete description of the <i>solid</i> field.</p>
+
+<h2><a name="IndexedTriangleStripSet"></a>11.4.8 IndexedTriangleStripSet</h2>
+
+<pre class="node">IndexedTriangleStripSet : X3DComposedGeometryNode {
+  MFInt32 [in]     set_index       []   [0,&#8734;) or −1
+  MFNode  [in,out] attrib          []   [X3DVertexAttributeNode]
+  SFNode  [in,out] color           NULL [X3DColorNode]
+  SFNode  [in,out] coord           NULL [X3DCoordinateNode]
+  SFNode  [in,out] fogCoord        NULL [FogCoordinate]
+  SFNode  [in,out] metadata        NULL [X3DMetadataObject]
+  SFNode  [in,out] normal          NULL [X3DNormalNode]
+  SFNode  [in,out] texCoord        NULL [X3DTextureCoordinateNode]
+  SFBool  []       ccw             TRUE
+  SFBool  []       colorPerVertex  TRUE
+  SFBool  []       normalPerVertex TRUE
+  SFBool  []       solid           TRUE
+  MFInt32 []       index           []   [0,&#8734;) or −1
+}</pre>
+<p>An IndexedTriangleStripSet represents a 3D shape composed of strips of 
+triangles as depicted in <a href="#f-TriangleStripSet">Figure 11.3</a>. IndexedTriangleStripSet uses the indices in its <i>index</i> field to 
+specify the triangle strips by connecting vertices from the <i>coord</i> field. 
+An index of &quot;&minus;1&quot; indicates that the current strip has ended and the next one 
+begins. The last strip may be (but does not have to be) followed by a &quot;−1&quot;. Each 
+strip shall have at least three non-coincident vertices.</p>
+<p>The IndexedTriangleStripSet node is specified in the local coordinate system 
+and is affected by the transformations of its ancestors. Descriptions of the <i>
+color</i>, <i>coord</i>, <i>normal</i>, and <i>texCoord </i>fields are provided 
+in the <a href="#Color">Color</a>, <a href="#ColorRGBA">ColorRGBA</a>, 
+<a href="#Coordinate">Coordinate</a>, <a href="#Normal">Normal</a>, and
+<a href="texturing.html#TextureCoordinate">TextureCoordinate</a> nodes, respectively. If 
+values are provided for the <i>color</i>, <i>normal</i> and <i>texCoord</i> 
+fields, the values are applied in the same manner as the values from the <i>
+coord</i> field and there shall be at least as many values as are present in the
+<i>coord</i> field. The value of the <i>colorPerVertex</i> field is ignored and 
+always treated as <span class="code">TRUE</span>. If the <i>normal</i> field is 
+not supplied, normals shall be generated as follows: </p>
+<ul>
+  <li>If <i>normalPerVertex</i> is <span class="code">TRUE</span>, the normal 
+  shall be the average of all triangles sharing that vertex. </li>
+  <li>If <i>normalPerVertex</i> is <span class="code">FALSE</span>, the normal 
+  shall be generated for the triangle based on the <i>ccw</i> field.</li>
+</ul>
+
+<p>The <i>solid</i> field determines whether the  IndexedTriangleStripSet is visible when viewed 
+from the inside. <a href="rendering.html#CommonGeometryFields">11.2.3 Common 
+geometry fields</a> provides a complete description of the <i>solid</i> field.</p>
+
+<h2><a name="LineSet"></a>11.4.9 LineSet</h2>
+
+<pre class="node">LineSet : X3DGeometryNode {
+  MFNode  [in,out] attrib         []   [X3DVertexAttributeNode]
+  SFNode  [in,out] color          NULL [X3DColorNode]
+  SFNode  [in,out] coord          NULL [X3DCoordinateNode]
+  SFNode  [in,out] fogCoord       NULL [FogCoordinate]
+  SFNode  [in,out] metadata       NULL [X3DMetadataObject]
+  MFInt32 [in,out] vertexCount    []   [2,&#8734;)
+}</pre>
+<p>The LineSet node represents a 3D geometry formed by constructing polylines 
+from 3D vertices specified in the <i>coord</i> field.</p>
+<p>The <i>color</i> field specifies the colour of the line set at each vertex 
+and contains a node derived from <i><a href="#X3DColorNode">X3DColorNode</a></i>. A description of the <i>color</i> field is provided 
+in the color node. If the <i>color</i> field is <font face="Courier New">NULL
+</font>and there is a <a href="shape.html#Material">Material</a> defined for the 
+<a href="shape.html#Appearance">Appearance</a> affecting this LineSet, 
+the <i>emissiveColor</i> of the Material shall be used to draw the lines. 
+Details on lighting equations as they affect LineSet nodes are described in
+<a href="lighting.html">17 Lighting component</a></p>
+<p>The <i>coord</i> field specifies the 3D vertices of the line set and contains 
+a <a href="#Coordinate">Coordinate</a> node.</p>
+<p>The <i>vertexCount</i> field describes how many vertices are to be used in each 
+polyline from the coordinate field. Coordinates are assigned to each line by 
+taking <i>vertexCount</i>[n] vertices from the coordinate field. Each value of the
+<i>vertexCount</i> array shall be greater than or equal to two. It shall be an 
+error to have a value less than two.</p>
+<p>Lines are not lit, are not texture-mapped, and do not participate in 
+collision detection. The width and style of lines are determined by the line 
+properties specified in an associated Appearance node. If no line properties are 
+specified, the default values for the fields of the 
+<a href="shape.html#LineProperties">LineProperties</a> node shall be 
+used (see <a href="shape.html#LineProperties">12.4.3 LineProperties</a>).</p>
+<h2><a name="Normal"></a>
+11.4.10 Normal</h2>
+
+<pre class="node">Normal : X3DNormalNode { 
+  SFNode  [in,out] metadata NULL [X3DMetadataObject]
+  MFVec3f [in,out] vector   []   [-1,1]
+}
+</pre>
+
+<p>This node defines a set of 3D surface normal vectors to be used in the <i>vector</i> 
+  field of some geometry nodes (<span class="example">EXAMPLE</span> &nbsp;<a href="geometry3D.html#IndexedFaceSet">IndexedFaceSet</a> and 
+<a href="geometry3D.html#ElevationGrid">ElevationGrid</a>). 
+  This node contains one multiple-valued field that contains the normal vectors. 
+  Normals shall be of unit length.</p>
+
+<h2><a name="PointSet"></a>
+11.4.11 PointSet</h2>
+
+<pre class="node">PointSet : X3DGeometryNode { 
+  MFNode [in,out] attrib   []   [X3DVertexAttributeNode]
+  SFNode [in,out] color    NULL [X3DColorNode]
+  SFNode [in,out] coord    NULL [X3DCoordinateNode]
+  SFNode [in,out] fogCoord NULL [FogCoordinate]
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>The PointSet node specifies a set of 3D points, in the local coordinate system, 
+  with associated colours at each point. The <i>coord</i> field specifies a 
+<a href="#Coordinate">Coordinate</a> 
+  node (or instance of a Coordinate node). The results are undefined if the <i>coord</i> 
+  field specifies any other type of node. PointSet uses the coordinates in order. 
+  If the <i>coord</i> field is <code>NULL</code>, the point 
+  set is considered empty.</p>
+
+<p>PointSet nodes are not lit, not texture-mapped, nor do they participate in 
+  collision detection. The size of each point is implementation-dependent.</p>
+
+<p>If the <i>color</i> field is not <code>NULL</code>, it shall 
+  specify a node derived from <i><a href="#X3DColorNode">X3DColorNode</a></i> that contains at least the number of points contained in 
+  the <i>coord</i> node. The results are undefined if the <i>color</i> field specifies 
+  any other type of node. Colours shall be applied to each point in order. The 
+  results are undefined if the number of values in the <i>X3DColorNode</i> node is less than 
+  the number of values specified in the Coordinate node.</p>
+
+<p>If the <i>color</i> field is <span class="code">NULL</span> and there is a 
+<a href="shape.html#Material">Material</a> node 
+defined for the <a href="shape.html#Appearance">Appearance</a> node affecting 
+  this PointSet node, the <i>emissiveColor</i> of the Material node shall be used 
+  to draw the points. More details on lighting equations can be found 
+<a href="lighting.html">17 Lighting component.</a></p>
+
+<h2><a name="TriangleFanSet"></a>
+11.4.12 TriangleFanSet</h2>
+
+<pre class="node">TriangleFanSet : X3DComposedGeometryNode {
+  MFNode  [in,out] attrib          []   [X3DVertexAttributeNode]
+  SFNode  [in,out] color           NULL [X3DColorNode]
+  SFNode  [in,out] coord           NULL [X3DCoordinateNode]
+  MFInt32 [in,out] fanCount        []   [3,&#8734;)
+  SFNode  [in,out] fogCoord        NULL [FogCoordinate]
+  SFNode  [in,out] metadata        NULL [X3DMetadataObject]
+  SFNode  [in,out] normal          NULL [X3DNormalNode]
+  SFNode  [in,out] texCoord        NULL [X3DTextureCoordinateNode]
+  SFBool  []       ccw             TRUE
+  SFBool  []       colorPerVertex  TRUE
+  SFBool  []       normalPerVertex TRUE
+  SFBool  []       solid           TRUE
+}
+</pre>
+
+<p>A TriangleFanSet represents a 3D shape composed of triangles that form a fan 
+  shape around the first vertex declared in each fan.</p>
+
+<p>The <i>fanCount</i> field describes how many vertices are to be used in each 
+  fan from the coordinate field. Coordinates are assigned to each strip by taking 
+  <i>fanCount</i>[n] vertices from the coordinate field. Each value of the <i>fanCount</i> 
+  array shall be greater than or equal to three. It shall be an error to have 
+  a value less than three.</p>
+
+<p><a href="#f-TriangleFanSet">Figure 11.2</a> displays a TriangleFanSet 
+containing a single fan showing the ordering of the vertices for that fan.</p>
+
+<div class="CenterDiv">
+
+<a name="f-TriangleFanSet"></a>
+
+<img src="../../Images/TriangleFanSet.jpg" alt="TriangleFanSet node"> 
+
+<p class="FigureCaption">
+Figure 11.2 &#8212; TriangleFanSet node</p> 
+
+</div>
+
+<p>The TriangleFanSet node is specified in the local coordinate system and is 
+  affected by the transformations of its ancestors. Descriptions of the <i>
+color, coord</i>, 
+  <i>normal</i>, and <i>texCoord </i>fields are provided in the <a href="#Color">Color</a>/<a href="#ColorRGBA">ColorRGBA</a>, 
+<a href="#Coordinate">Coordinate</a>, <a href="#Normal">Normal</a>, 
+  and <a href="texturing.html#TextureCoordinate">TextureCoordinate</a> nodes, respectively. If values are provided for the <i>
+color</i>, <i>normal</i>, and <i>texCoord</i> fields, there shall be at least as 
+many values as are present in the <i>coord</i> field. The value of the <i>
+colorPerVertex</i> field is ignored and always treated as <span class="code">
+TRUE</span>. If the normal field is not 
+provided, for each fan, the normal shall be generated as follows: if normalPerVertex is <span class="code">TRUE</span>, the normal shall be the 
+average of all triangles within that fan sharing that vertex. For the vertex of the fan, the normal shall be the average of the contributions 
+  of all of the individual face normals. If <i>normalPerVertex </i>is 
+<span class="code">FALSE</span>, 
+  the normal shall be generated for the current triangle based on the <i>ccw</i> 
+  field.</p>
+
+<p>The <i>solid</i> field determines whether the  TriangleFanSet is visible when viewed 
+from the inside. <a href="rendering.html#CommonGeometryFields">11.2.3 Common 
+geometry fields</a> provides a complete description of the <i>solid</i> field.</p>
+
+<p></p>
+
+<h2><a name="TriangleSet"></a>
+11.4.13 TriangleSet</h2>
+
+<pre class="node">TriangleSet : X3DComposedGeometryNode {
+  MFNode  [in,out] attrib          []   [X3DVertexAttributeNode]
+  SFNode  [in,out] color           NULL [X3DColorNode]
+  SFNode  [in,out] coord           NULL [X3DCoordinateNode]
+  SFNode  [in,out] fogCoord        NULL [FogCoordinate]
+  SFNode  [in,out] metadata        NULL [X3DMetadataObject]
+  SFNode  [in,out] normal          NULL [X3DNormalNode]
+  SFNode  [in,out] texCoord        NULL [X3DTextureCoordinateNode]
+  SFBool  []       ccw             TRUE
+  SFBool  []       colorPerVertex  TRUE
+  SFBool  []       normalPerVertex TRUE
+  SFBool  []       solid           TRUE
+}
+</pre>
+
+<p>The TriangleSet node represents a 3D shape that represents a collection of 
+  individual triangles.</p>
+
+<p>The <i>coord</i> field contains a <a href="#Coordinate">Coordinate</a> node that defines the 3D vertices 
+  that define the triangle. Each triangle is formed from a consecutive set of three 
+  vertices of the Coordinate node. If the Coordinate node does not contain a 
+multiple of three coordinate values, the remaining vertices shall be ignored.</p>
+
+<p><a href="#f-TriangleSet">Figure 11.3</a> depicts a TriangleSet node with 
+several triangles. The ordering of the vertices is also shown.<br>
+
+</p>
+
+<div class="CenterDiv">
+
+<a name="f-TriangleSet"></a>
+
+<img src="../../Images/TriangleSet.png" alt="TriangleSet node" width="438" height="360"> 
+
+<p class="FigureCaption">
+
+Figure 11.3 &#8212; TriangleSet node</p> 
+
+</div>
+
+<p>The TriangleSet node is specified in the local coordinate system and is 
+affected by the transformations of its ancestors. Descriptions of the <i>color, coord</i>, 
+  <i>normal</i>, and <i>texCoord </i>fields are provided in the <a href="#Color">Color</a>/<a href="#ColorRGBA">ColorRGBA</a>, 
+<a href="#Coordinate">Coordinate</a>, <a href="#Normal">Normal</a>, 
+  and <a href="texturing.html#TextureCoordinate">TextureCoordinate</a> nodes, respectively. If values are provided for the <i>
+color</i>, <i>normal</i>, and <i>texCoord</i> fields, there shall be at least as 
+many values as are present in the <i>coord</i> field. The value of the <i>
+colorPerVertex</i> field is ignored and always treated as <span class="code">
+TRUE</span>. If the <i>normal</i> field is not supplied, the normal 
+  shall be generated as perpendicular to the face for either 
+version of <i>normalPerVertex</i>.</p>
+
+<p>The <i>solid</i> field determines whether the TriangleSet is visible when 
+viewed from the backside. <a href="rendering.html#CommonGeometryFields">11.2.3 Common 
+geometry fields</a> provides a complete description of the <i>solid</i> field.</p>
+
+<h2><a name="TriangleStripSet"></a>
+11.4.14 TriangleStripSet</h2>
+
+<pre class="node">TriangleStripSet : X3DComposedGeometryNode {
+  MFNode  [in,out] attrib          []   [X3DVertexAttributeNode]
+  SFNode  [in,out] color           NULL [X3DColorNode]
+  SFNode  [in,out] coord           NULL [X3DCoordinateNode]
+  SFNode  [in,out] fogCoord        NULL [FogCoordinate]
+  SFNode  [in,out] metadata        NULL [X3DMetadataObject]
+  SFNode  [in,out] normal          NULL [X3DNormalNode]
+  MFInt32 [in,out] stripCount      []   [3,&#8734;)
+  SFNode  [in,out] texCoord        NULL [X3DTextureCoordinateNode]
+  SFBool  []       ccw             TRUE
+  SFBool  []       colorPerVertex  TRUE
+  SFBool  []       normalPerVertex TRUE
+  SFBool  []       solid           TRUE
+}
+</pre>
+
+<p>A TriangleStripSet represents a 3D shape composed of strips of triangles.</p>
+
+<p>The <i>stripCount </i>field describes how many vertices are to be used in each 
+  strip from the coordinate field. Coordinates are assigned to each strip by taking 
+  <i>stripCount</i>[i] vertices from the coordinate field, where i is a 
+sequential index of <i>stripCount</i>. Each value of the <i>stripCount</i> 
+  array shall be greater than or equal to three. It shall be an error to have 
+  a value less than three. <a href="#f-TriangleStripSet">Figure 11.4</a> depicts 
+a TriangleStripSet with a single triangle strip.<br>
+</p>
+
+<div class="CenterDiv">
+
+<a name="f-TriangleStripSet"></a>
+
+<img src="../../Images/TriangleStripSet.png" alt="TriangleStripSet node" width="375" height="191"> 
+
+<p class="FigureCaption">
+Figure 11.4 &#8212; TriangleStripSet node</p> 
+
+</div>
+
+<p>The TriangleStripSet node is specified in the local coordinate system and is 
+affected by the transformations of its ancestors. Descriptions of the <i>color, coord</i>, 
+  <i>normal</i>, and <i>texCoord </i>fields are provided in the <a href="#Color">Color</a>/<a href="#ColorRGBA">ColorRGBA</a>, 
+<a href="#Coordinate">Coordinate</a>, <a href="#Normal">Normal</a>, 
+  and <a href="texturing.html#TextureCoordinate">TextureCoordinate</a> nodes, respectively. If values are provided for the <i>
+color</i>, <i>normal</i>, and <i>texCoord</i> fields, there shall be at least as 
+many values as are present in the <i>coord</i> field. The value of the <i>
+colorPerVertex</i> field is ignored and always treated as <span class="code">
+TRUE</span>. If the normal field is not 
+provided, for each strip, the normal shall be generated as follows: if normalPerVertex is <span class="code">TRUE</span>, the normal shall be the 
+average of all triangles within that strip sharing that vertex. If <i>normalPerVertex</i> is 
+<span class="code">FALSE</span>, the normal shall be generated 
+  for the triangle based on the <i>ccw</i> field. </p>
+
+<p>The <i>solid</i> field determines whether the  TriangleStripSet is visible when viewed 
+from the inside. <a href="rendering.html#CommonGeometryFields">11.2.3 Common 
+geometry fields</a> provides a complete description of the <i>solid</i> field.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="SupportLevels"></a>11.5 Support levels</h1>
+
+<p>The Rendering component provides three levels of support as specified 
+  in <a href="#t-supportlevels">Table 11.2</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption"><a name="t-supportlevels"></a>
+Table 11.2 &#8212; Rendering component support levels</p>
+
+    <table>
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td>
+        <p align="center"><b>1</b></td>
+        <td>Core 1<br>
+        Grouping 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td><i>X3DComposedGeometryNode</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td><i>X3DGeometricPropertyNode</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td><i>X3DGeometryNode</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td><i>X3DColorNode</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td><i>X3DCoordinateNode </i>(abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Color</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>ColorRGBA</td>
+        <td>Alpha value optionally supported.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Coordinate</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>IndexedLineSet</td>
+        <td> <i>set_colorIndex</i> 
+        optionally supported. <i>set_coordIndex</i> optionally supported.</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>LineSet</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>PointSet</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"><b>2</b></td>
+        <td>Core 1<br>
+        Grouping 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 1 Rendering nodes</td>
+        <td>All fields as supported in Level 1.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DNormalNode</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>Normal</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>3</b></td>
+        <td>Core 1<br>
+        Grouping 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 2 Rendering nodes</td>
+        <td>All fields fully supported except for ColorRGBA supported as in 
+        Level 2.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>IndexedTriangleFanSet</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>IndexedTriangleSet</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>IndexedTriangleStripSet</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>TriangleFanSet</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>TriangleSet</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>TriangleStripSet</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>4</b></td>
+        <td>Core 1<br>
+        Grouping 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>All Level 3 Rendering nodes</td>
+        <td>All fields as supported in Level 3.</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ColorRGBA</td>
+        <td>Alpha value fully supported.</td>
+      </tr>
+      <tr> 
+        <td>
+		<p align="center"><b>5</b></td>
+        <td>Core 1<br>
+        Grouping 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>All Level 4 Rendering nodes</td>
+        <td>All fields as supported in Level 4.</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ClipPlane</td>
+        <td>All fields fully supported.</td>
+      </tr>
+    </table>
+</div>
+
+<img class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

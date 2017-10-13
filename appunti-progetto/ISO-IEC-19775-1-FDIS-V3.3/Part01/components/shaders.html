@@ -1,0 +1,764 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 31 Programmable shaders component</TITLE>
+<link href="../X3D.css" type="text/css" rel=stylesheet>
+</head>
+
+<body bgcolor=white text=black>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<img class="x3dlogo" src="../../Images/x3d.png" alt="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">31 Programmable shaders component</p>
+</div>
+
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+31.1 Introduction</h1>
+
+<h2><a name="Name"></a>31.1.1 Name</h2>
+
+<p>The name of this component is &quot;Shaders&quot;. This name shall be used when 
+referring to this component in the COMPONENT statement (see <a href="core.html#COMPONENTStatement">
+7.2.5.4 Component statement</a>).</p>
+
+<h2><a name="Overview"></a>31.1.2 Overview</h2>
+
+This clause describes the Programmable Shaders component of this part of ISO/IEC 
+19775. This includes how programmable shaders are specified and how they affect 
+the visual appearance of geometry. <a href="#t-Topics">Table 31.1</a> provides 
+links to the major topics in this clause.
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 31.1 &#8212; Topics</p>
+
+<table class="topics">
+<tr> 
+  <td> 
+	<ul>
+	  <li><a href="#Introduction">31.1 Introduction</a>
+	  <ul>
+		<li><a href="#Name">31.1.1 Name</a></li>
+		<li><a href="#Overview">31.1.2 Overview</a> </li>
+	  </ul>
+	  <li><a href="#Concepts">31.2 Concepts</a> 
+		<ul>
+		  <li><a href="#Conceptsoverview">31.2.1 Overview</a></li> 
+		  <li><a href="#Shadinglanguages">31.2.2 Shading languages</a> 
+		    <ul>
+			  <li><a href="#Shaderlanguageoptions">31.2.2.1 Shader language 
+				options</a></li> 
+			  <li><a href="#Noderepresentation">31.2.2.2 Node representation</a></li> 
+			  <li><a href="#Selecting">31.2.2.3 Selecting an appropriate shader</a></li> 
+			  <li><a href="#Pervertexattributes">31.2.2.4 Per-vertex attributes</a></li> 
+			  <li><a href="#Perobjectattributes">31.2.2.5 Per-object attributes</a></li> 
+			  <li><a href="#Handlingerrors">31.2.2.6 Handling errors</a></li> 
+			</ul></li>
+		  <li><a href="#Interaction">31.2.3 Interaction with other nodes and 
+			components</a> 
+		    <ul>
+			  <li><a href="#Interactionoverview">31.2.3.1 Overview</a></li> 
+			  <li><a href="#Lighting">31.2.3.2 Lighting</a></li> 
+			  <li><a href="#Geometry">31.2.3.3 Geometry</a></li> 
+			  <li><a href="#LoadSensor">31.2.3.4 LoadSensor</a></li> 
+			</ul></li>
+          <li><a href="#Conformance">31.2.4 Conformance</a> 
+		    <ul>
+			  <li><a href="#Componentsupport">31.2.4.1 Component support</a></li> 
+			  <li><a href="#Nodesupport">31.2.4.2 Node support</a></li> 
+			  <li><a href="#Languagesupport">31.2.4.3 Language support</a></li> 
+			  <li><a href="#Scenegraphinteraction">31.2.4.4 Scene graph 
+				interaction</a></li> 
+			</ul></li>
+		</ul></li>
+	  <li><a href="#Abstracttypes">31.3 Abstract types</a>  
+		<ul>
+		  <li><a href="#X3DProgrammableShaderObject">31.3.1 <i>
+			X3DProgrammableShaderObject</i></a></li>
+		  <li><a href="#X3DShaderNode">31.3.2 <i>X3DShaderNode</i></a></li>
+		  <li><a href="#X3DVertexAttributeNode">31.3.3 <i>X3DVertexAttributeNode</i></a></li>
+		</ul></li>
+	  <li><a href="#Nodereference">31.4 Node reference</a>  
+		<ul>
+		  <li><a href="#ComposedShader">31.4.1 ComposedShader</a></li> 
+		  <li><a href="#FloatVertexAttribute">31.4.2 FloatVertexAttribute</a></li> 
+		  <li><a href="#Matrix3VertexAttribute">31.4.3 Matrix3VertexAttribute</a></li> 
+		  <li><a href="#Matrix4VertexAttribute">31.4.4 Matrix4VertexAttribute</a></li> 
+		  <li><a href="#PackagedShader">31.4.5 PackagedShader</a></li> 
+		  <li><a href="#ProgramShader">31.4.6 ProgramShader</a></li> 
+		  <li><a href="#ShaderPart">31.4.7 ShaderPart</a></li> 
+		  <li><a href="#ShaderProgram">31.4.8 ShaderProgram</a></li> 
+		</ul></li>
+	  <li> <a href="#SupportLevels">31.5 Support levels</a></li>  
+	</ul>
+	<ul>
+      <li><a href="#t-Topics">Table 31.1 &#8212; Topics</a></li>
+      <li><a href="#t-LanguageAnnexes">Table 31.2 &#8212; Shader language node 
+		specifications</a></li>
+      <li><a href="#t-supportlevels">Table 31.3 &#8212; Shader component support 
+		levels</a></li>
+	</ul>
+    </td>
+  </tr>
+</table>
+</div>
+
+<h1><a name="Concepts"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+31.2 Concepts</h1>
+
+<h2><a name="Conceptsoverview"></a>31.2.1 Overview</h2>
+
+<p>Programmable shading provides a method for authors to directly specify how 
+an object is rendered by providing a method of programmatically modifying 
+sections of the rendering pipeline. This allows replacement of the traditional 
+fixed function pipeline of the graphics API to support a variety of visual 
+effects that typically cannot be implemented using other node components in this standard.</p>
+
+<p>Shaders are typically defined by two separate program pieces. One piece is used to 
+modify the vertex values. This piece may also generate values that can be 
+interpolated between vertex values. Such program pieces are termed <i>vertex 
+shaders</i>. The other piece is used to modify individual pixels as they are 
+drawn to screen. These program pieces are termed <i>fragment shaders</i> or <i>
+pixel shaders</i>. Although not currently defined, future extensions may include 
+other types of shaders that fit into other places in the graphics pipeline.</p>
+
+<h2><a name="Shadinglanguages"></a>31.2.2 Shader languages</h2>
+
+<h3><a name="Shaderlanguageoptions"></a>31.2.2.1 Shader language options</h3>
+
+<p>Shader programs can be written in several shading languages. Each language is 
+specific to the underlying rendering API. Typically a language for one API (<i>e.g.</i>, 
+Microsoft DirectX) is not usable in another rendering API (<i>e.g.</i>, OpenGL) 
+and therefore there is no mandatory requirement for an X3D browser to implement any specific language. A 
+browser implementing this component shall be required to support at least one 
+shading language. The following annexes defines the interface to three popular shader languages:</p>
+<ul>
+	<li><a href="../shaders_glsl.html">Annex I OpenGL shading language (GLSL) 
+	binding</a></li>
+	<li><a href="../shaders_hlsl.html">Annex J Microsoft High Level shading language 
+	(HLSL) binding</a></li>
+	<li><a href="../shaders_cg.html">Annex K nVidia Cg shading language binding</a></li>
+</ul>
+
+<p>Shader programs are either defined in a file that can be externally loaded or defined 
+internally within the X3D world. Typically, a separate file is used to specify 
+each type of shader (fragment or vertex) although this is not required. </p>
+<p>Some formats are being developed that allow all shaders to be collected 
+together into a single file and used directly by the rendering API. For these 
+file types, a separate <a href="#PackagedShader">PackagedShader</a> node is used. This 
+node is independent of the underlying rendering API, though the specific file 
+format used within a PackagedShader node may be specific to a particular rendering API.</p>
+
+<h3><a name="Noderepresentation"></a>31.2.2.2 Node representation</h3>
+
+<p>Each shading language option has a node that implements its functionality. 
+Since each language is quite different, it is not possible to define a single 
+set 
+of nodes that can represent the entire capabilities offered. Each language has 
+its own set of nodes that pertain only to that shading language.</p>
+
+<p>For each set of nodes for a given shading language, there are language-specific behaviours. Mappings for each of the languages are defined in their own 
+annex to this specification as described in <a href="#Shaderlanguageoptions">
+31.2.2.1 Shader language options</a>. <a href="#t-LanguageAnnexes">Table 2</a> 
+lists the nodes and which annex shall be used to define language-specific 
+behaviours:</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-LanguageAnnexes"></a>
+Table 31.2 &#8212; Shader language node specifications</p>
+
+<table>
+<tr> 
+  <th>Shading Language</th>
+  <th>Nodes</th>
+  <th>Annex</th>
+</tr>
+<tr>
+  <td>OpenGL GLSLang</td>
+  <td>GLSLShader<br>
+      GLSLShaderObject</td>
+  <td><a href="../shaders_glsl.html">Annex I</a></td>
+</tr>
+<tr>
+  <td>Direct3D HLSL</td>
+  <td>HLSLShader</td>
+  <td>
+	<a href="../shaders_hlsl.html">Annex J</a> </td>
+</tr>
+<tr>
+  <td>nVidia Cg</td>
+  <td>CgShader</td>
+  <td>
+	<a href="../shaders_cg.html">Annex K</a></td>
+</tr>
+</table>
+</div>
+
+<h3><a name="Selecting"></a>31.2.2.3 Selecting an appropriate shader</h3>
+
+<p>Browsers are not expected to be able to handle all the different forms of 
+shading languages. In fact, most are incompatible with any rendering API apart 
+from the one for which they are defined.</p>
+
+<p>To allow the author to specify a collection of shader options for the browser to 
+select and for the browser to choose the shader version it can run, a fallback 
+mechanism is defined for the <i>shader</i> field of the 
+<a href="shape.html#Appearance">Appearance</a> node.<p>
+
+<p>The <i>shader</i> field is an MFNode field that defines the collection of 
+pertinent shader nodes of various languages in the order of preference. The first node declared 
+is the highest preference. If the browser does not support the language defined 
+for the current preference level, the browser shall set the node’s <i>isSelected</i>
+field output to <span class="code">FALSE</span>, and move to the next 
+preference. A browser implementation shall support all nodes if the Programmable 
+Shader component is supported, but is 
+not required to execute the contained script in every shader node. Ignored nodes shall remain a 
+functional part of the scene graph, continuing to interact with the event model 
+as required by the field access types.</p>
+
+<p>When a shader is found that can be executed by the browser, it shall set the <i>
+isSelected</i> field output to <span class="code">TRUE</span>.</p>
+
+<p>A browser may select an appropriate shader on grounds other than just the 
+shading language used. </p>
+<p class="Example">EXAMPLE&nbsp; The local hardware not supporting some of the 
+features requested or the shader running in software rather than hardware are 
+considered valid reasons for not selecting a shader to run.</p>
+
+<h3><a name="Pervertexattributes"></a>31.2.2.4 Per-vertex attributes</h3>
+
+<p>Advanced vertex shaders often need to provide extra information on a per 
+vertex basis (<i>e.g.</i>, temperature information in an analysis system or 
+weighting values for a skin and bones system). Per-vertex attributes may be 
+supplied for any geometry that extends <i>
+<a href="rendering.html#X3DComposedGeometryNode">X3DComposedGeometryNode</a></i> 
+as described in <a href="rendering.html#X3DComposedGeometryNode">11.3.2 
+X3DComposedGeometryNode</a>. Both matrix and vector values may be supplied on a 
+per-vertex basis through nodes that are extended from <i>
+<a href="#X3DVertexAttributeNode">X3DVertexAttributeNode</a></i>.</p>
+
+<p>Each shading language uses a different method of mapping per-vertex 
+attributes to the user-provided shading language code. The definition of how to 
+interpret the <i>name</i> field value to the individual shading language file is 
+defined in the language-specific annex (see 
+<a href="#t-LanguageAnnexes">Table 31.2</a>).</p>
+
+<p>Per vertex attributes are mapped 1:1 to each vertex value. When used in a 
+node derived from <i>X3DComposedGeometryNode</i>, the number of values defined 
+in the node containing the attribute values shall be identical to the number of 
+coordinate values specified for the geometry node. If the number of values does 
+not match, the visual result is implementation specific.</p>
+
+<h3><a name="Perobjectattributes"></a>31.2.2.5 Per-object attributes</h3>
+
+<p>Shaders often need to provide specific per-object values (<i>e.g.</i>, the 
+colour of the light). The most common name for one of these values is 
+<i>uniform variable.</i> Uniform variables are defined using custom field 
+definitions that allow objects to be set as required. The placement of these 
+fields depends on the shading language itself, as the amount of customizability 
+is dependent on the shading language.
+</p>
+
+<p>Field names shall be mapped to the shading API as the uniform variable name 
+of the identical name in the shader file.</p>
+<p class="Example">NOTE&nbsp; Some shading languages cannot handle the full 
+UTF-8 character set required by this International Standard.</p>
+
+<p>For fields of type SFNode or MFNode, the mapping to the shading language is 
+dependent on the individual shading language. The applicable language binding 
+annex specifies the required behaviour (see
+<a href="#t-LanguageAnnexes">Table 31.2</a>).
+</p>
+
+<h3><a name="Handlingerrors"></a>31.2.2.6 Handling errors</h3>
+
+<p>If a shader program does not have valid syntax or the environment does not 
+contain enough information for the shader to render, implementations shall track 
+errors during all stages of the shader process and display them to the browser&#39;s 
+console.</p>
+
+<p>A shader that fails during run-time or during the compilation or validation 
+stages shall not run. A browser shall use the rendering API&#39;s default behaviour 
+for this situation. If a user requires some fallback behaviour, such as the 
+browser not supporting the shader capabilities requested, other nodes such as 
+<a href="networking.html#LoadSensor">LoadSensor</a>, 
+<a href="scripting.html#Script">Script</a>, and/or <a href="group.html#Switch">Switch</a> can be used to specify the required visual 
+output.</p>
+
+<h2><a name="Interaction"></a>31.2.3 Interaction with other nodes and components</h2>
+
+<h3><a name="Interactionoverview"></a>31.2.3.1 Overview</h3>
+
+<p>Programmable shaders typically replace large amounts of functionality that 
+would be traditionally implemented by the browser. The effect of each shader language varies depending on the amount of processing that the user will be required to 
+perform. Some languages may completely disable anything that would be 
+automatically generated (<i>e.g.</i>, texture coordinates or normals) while 
+others may not. A reasonable assumption is that everything is disabled for any 
+geometry that has a shader associated with it. Each language shading definition 
+annex specifies exactly the semantics that can be expected of the underlying 
+rendering API, and by implication, the browser.</p>
+
+<h3><a name="Lighting"></a>31.2.3.2 Lighting</h3>
+
+<p>If the user provides a fragment shader, the shader shall be responsible for 
+all lighting associated with the affected geometry. The lighting definitions in
+<a href="lighting.html">17 Lighting component</a> shall be ignored. Where 
+possible, all of the lighting information such as the currently set lights, 
+material colours and textures shall be made available to the shader. Some 
+rendering APIs may not be able to make available all of this information. In 
+this case, it is acceptable to provide alternative mapping hints as part of the 
+node definition. The individual shading language annexes contain more 
+information (see
+<a href="#t-LanguageAnnexes">Table 31.2</a>).</p>
+
+<h3><a name="Geometry"></a>31.2.3.3 Geometry</h3>
+
+<p>Since a vertex shader may move the vertex from its original location in the 
+local coordinate system, it can produce many large-scale side effects. A major 
+problem is that the browser implementation may have no idea where the final 
+geometry has been placed. Any action that relies on knowing the exact position 
+of vertices may fail to act properly. In particular, terrain following, 
+collision detection and sensors can be adversely effected.
+</p>
+
+<p>Because a vertex may be shifted in world space, it is recommended that if a 
+user requires this ability, a means of giving a rough approximation of the 
+geometry to the browser should be provided, either through setting an explicit 
+bounding box on the containing <a href="shape.html#Shape">Shape</a> node or by providing the source 
+geometry as close to the final output shape as possible.</p>
+<p class="Example">EXAMPLE&nbsp; A fuzzy rabbit shape would start with the 
+source vertices in the shape of the base rabbit geometry.</p>
+
+<h3><a name="LoadSensor"></a>31.2.3.4 LoadSensor</h3>
+
+<p>A shader is considered loaded when the source for the shader program has been 
+downloaded successfully. A shader is considered valid when the downloaded file 
+has been compiled and registered with the rendering API, which then considers it a 
+valid object.</p>
+
+<h2><a name="Conformance"></a>31.2.4 Conformance</h2>
+
+<h3><a name="Componentsupport"></a>31.2.4.1 Component support</h3>
+
+<p>An implementation shall indicate support for this component if and only if 
+the user&#39;s particular hardware is capable of supporting this component, either 
+through direct hardware support or software emulation. If the user&#39;s machine is 
+not capable of supporting this component, the browser shall indicate a failure 
+by stopping at the appropriate PROFILE or COMPONENT statement of the file, in 
+accordance with <a href="core.html#PROFILEStatement">7.2.5.3 PROFILE statement</a> 
+or <a href="core.html#COMPONENTStatement">7.2.5.4 COMPONENT statement</a>.</p>
+
+<h3><a name="Nodesupport"></a>31.2.4.2 Node support </h3>
+
+<p>A conformant browser for this component shall support all the nodes at a 
+given level. However, a conformant browser is not required to support the 
+corresponding shading language for that node. If a browser is not supporting the 
+language, the nodes that provide access to that language shall be read and 
+ignored. These ignored nodes shall still exist as part of the X3D scene graph, 
+and shall still honour the X3D event model.</p>
+<p class="Example">EXAMPLE&nbsp; Any inputOutput fields shall still be required 
+to implement output events if a value is written to the input.</p>
+
+<h3><a name="Languagesupport"></a>31.2.4.3 Language support</h3>
+
+<p>A browser conformant to this component shall support at least one shading 
+language as listed in <a href="#t-LanguageAnnexes">Table 31.2</a>.</p>
+
+<h3><a name="Scenegraphinteraction"></a>31.2.4.4 Scene graph interaction</h3>
+
+<p>A shader containing a vertex shader shall be required to be conformant only 
+to either the explicit bounding boxes or the original source geometry 
+definition. It is not required to obtain the output vertex information for use 
+within the scene graph.</p>
+
+<h1><a name="Abstracttypes"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+31.3 Abstract types</h1>
+
+<h2><a name="X3DProgrammableShaderObject"></a>31.3.1 <i>
+X3DProgrammableShaderObject</i></h2>
+
+<pre>
+X3DProgrammableShaderObject {
+}
+</pre>
+
+<p>This abstract node type is the base type for all node types that specify 
+arbitrary fields for interfacing with per-object attribute values.</p>
+
+<p>A concrete <i><a href="#X3DProgrammableShaderObject">X3DProgrammableShaderObject</a></i> node instance is used to program behaviour for a shader in a scene. The shader is able to receive and process 
+events that are sent to it. Each event that can be received shall be declared in 
+the shader node using the same field syntax as is used in a prototype 
+definition:
+</p>
+<pre class="listing">
+inputOnly <i>type name</i>
+</pre>
+
+<p>The type can be any of the standard X3D fields (as defined in 
+<a href="../fieldsDef.html">5 Field type reference</a>). The name shall be an 
+identifier that is unique for this shader node and is used to map the value to 
+the shader program&#39;s uniform variable of the same name. If a shader program does 
+not have a matching uniform variable, the field value is ignored.</p>
+
+<p>OutputOnly fields are not required to generate output events from a shader. 
+Current hardware shader technology does not support this capability, though 
+future versions may.</p>
+
+<p>It is recommended that user-defined field or event names defined in shader 
+nodes follow the naming conventions described in
+<a href="../references.html#[I19775_2]">Part 2 of ISO/IEC 19775</a>.</p>
+
+<h2><a name="X3DShaderNode"></a>31.3.2 <i>X3DShaderNode</i></h2>
+
+<pre>
+X3DShaderNode : X3DAppearanceChildNode {
+  SFBool   [in]     activate
+  SFNode   [in,out] metadata   NULL [X3DMetadataObject]
+  SFBool   [out]    isSelected
+  SFBool   [out]    isValid
+  SFString []       language   &quot;&quot;   [&quot;Cg&quot;|&quot;GLSL&quot;|&quot;HLSL&quot;|...]
+}
+</pre>
+
+<p>This abstract node type is the base type for all node types that specify a 
+programmable shader.</p>
+
+<p>The <i>isSelected</i> output field is used to indicate that this shader 
+instance is the one selected for use by the browser. A <span class="code">TRUE</span> 
+value indicates that this instance is in use. A <span class="code">FALSE</span> 
+value indicates that this instance is not in use. The rules for when a browser 
+decides to select a particular node instance are described in <a href="#Selecting">
+31.2.2.3 Selecting an appropriate shader</a>.</p>
+
+<p>The <i>isValid</i> field is used to indicate whether the current shader 
+objects can be run as a shader program. </p>
+<p class="Example">EXAMPLE&nbsp; There are no syntax errors 
+and the hardware can support all the required features.</p>
+<p>The definition of this 
+field may also add additional semantics on a per-language basis.</p>
+
+<p>The <i>language</i> field is used to indicate to the browser which shading 
+language is used for the source file(s). This field may be used as a hint for 
+the browser if the shading language is not immediately determinable from the 
+source (<i>e.g.</i>, a generic MIME type of <span class="code">text/plain</span> is returned). A browser 
+may use this field for determining which node instance will be selected and to 
+ignore languages that it is not capable of supporting. Three basic language types are 
+defined for this specification and others may be optionally supported by a 
+browser.</p>
+
+<h2><a name="X3DVertexAttributeNode"></a>31.3.3 <i>X3DVertexAttributeNode</i></h2>
+
+<pre>
+X3DVertexAttributeNode : X3DGeometricPropertyNode {
+  SFNode   [in,out] metadata NULL [X3DMetadataObject]
+  SFString []       name     &quot;&quot; 
+}
+</pre>
+
+<p>This abstract node type is the base type for all node types that specify 
+per-vertex attribute information to the shader. </p>
+
+<p>The <i>name</i> field describes a name that is mapped to the shading 
+language-specific name for describing per-vertex data. The appropriate shader 
+language annex (see <a href="#t-LanguageAnnexes">Table 31.2</a>) annex contains 
+language-specific binding information.</p>
+
+<h1><a name="Nodereference"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+31.4 Node reference</h1>
+
+<h2><a name="ComposedShader"></a>31.4.1 ComposedShader</h2>
+
+<pre>
+ComposedShader : X3DShaderNode, X3DProgrammableShaderObject {
+  SFBool    [in]     activate
+  SFNode    [in,out] metadata   NULL [X3DMetadataObject]
+  MFNode    [in,out] parts      []   [ShaderPart]
+  SFBool    [out]    isSelected
+  SFBool    [out]    isValid
+  SFString []        language   &quot;&quot;   [&quot;Cg&quot;|&quot;GLSL&quot;|&quot;HLSL&quot;|...]
+
+  # And any number of:
+  fieldType []       fieldName
+  fieldType [in]     fieldName
+  fieldType [out]    fieldName
+  fieldType [in,out] fieldName
+}
+</pre>
+
+<p>The ComposedShader node defines a shader where the individual source files 
+are not individually programmable. All access to the shading capabilities is 
+defined through a single interface that applies to all parts.</p>
+<p class="Example">EXAMPLE&nbsp; OpenGL Shading Language (GLSL)</p>
+
+<p>The <i>isValid</i> field adds an additional semantic indicating whether the 
+current shader parts can be linked together to form a complete valid shader 
+program.</p>
+
+<p>The <i>activate</i> field forces the shader to activate the contained 
+objects. The conditions under which a activate may be required are described in
+<a href="../shaders_glsl.html#Eventmodel">I.5 Event model</a>.</p> 
+
+<h2><a name="FloatVertexAttribute"></a>31.4.2 FloatVertexAttribute</h2>
+
+<pre>
+FloatVertexAttribute : X3DVertexAttributeNode {
+  SFNode   [in,out] metadata      NULL [X3DMetadataObject]
+  MFFloat  [in,out] value  		  []   (-&#8734;,&#8734;)
+  SFString []       name          &quot;&quot;
+  SFInt32  []       numComponents 4    [1..4]
+}
+</pre>
+
+<p>The FloatVertexAttribute node defines a set of per-vertex single-precision 
+floating point attributes.</p>
+
+<p>The <i>numComponents</i> field specifies how many consecutive floating point 
+values should be grouped together per vertex. The length of the <i>value</i>
+field shall be a multiple of <i>numComponents</i>.</p>
+
+<p>The <i>value</i> field specifies an arbitrary collection of floating point 
+values that will be passed to the shader as per-vertex information. The specific 
+type mapping to the individual shading language data types is in the appropriate 
+language-specific annex (see <a href="#t-LanguageAnnexes">Table 31.2</a>).</p>
+
+<h2><a name="Matrix3VertexAttribute"></a>31.4.3 Matrix3VertexAttribute</h2>
+
+<pre>
+Matrix3VertexAttribute : X3DVertexAttributeNode {
+  SFNode     [in,out] metadata NULL [X3DMetadataObject]
+  MFMatrix3f [in,out] value    []   (-&#8734;,&#8734;)
+  SFString   []       name     &quot;&quot;
+}
+</pre>
+
+<p>The Matrix3VertexAttribute node defines a set of per-vertex 3×3 matrix 
+attributes.</p>
+
+<p>The <i>value</i> field specifies an arbitrary collection of matrix values 
+that will be passed to the shader as per-vertex information. The specific type 
+mapping to the individual shading language data types shall be found in the 
+appropriate language-specific annex (see <a href="#t-LanguageAnnexes">Table 31.2</a>).</p>
+
+<h2><a name="Matrix4VertexAttribute"></a>31.4.4 Matrix4VertexAttribute</h2>
+
+<pre>
+Matrix4VertexAttribute : X3DVertexAttributeNode {
+  SFNode     [in,out] metadata NULL [X3DMetadataObject]
+  MFMatrix4f [in,out] value    []   (-&#8734;,&#8734;)
+  SFString   []       name     &quot;&quot;
+}
+</pre>
+
+<p>The Matrix4VertexAttribute node defines a set of per-vertex 4×4 matrix attributes.</p>
+
+<p>The <i>value</i> field specifies an arbitrary collection of matrix values 
+that will be passed to the shader as per-vertex information. The specific type 
+mapping to the individual shading language data types shall be found in the 
+appropriate language-specific annex (see <a href="#t-LanguageAnnexes">Table 31.2</a>).</p>
+
+<h2><a name="PackagedShader"></a>31.4.5 PackagedShader</h2>
+
+<pre>
+PackagedShader : X3DShaderNode, X3DUrlObject, X3DProgrammableShaderObject {
+  SFBool    [in]     activate
+  SFNode    [in,out] metadata   NULL [X3DMetadataObject]
+  MFString  [in,out] url        []   [URI]
+  SFBool    [out]    isSelected
+  SFBool    [out]    isValid
+  SFString []        language   &quot;&quot;   [&quot;Cg&quot;|&quot;GLSL&quot;|&quot;HLSL&quot;|...]
+
+  # And any number of:
+  fieldType [in]     fieldName
+  fieldType [in,out] fieldName initialValue
+  fieldType [out]    fieldName
+  fieldType []       fieldName initialValue
+}
+</pre>
+
+<p>A PackagedShader node describes a single file that may contain a number of 
+shaders and combined effects.</p>
+<p class="Example">EXAMPLE&nbsp; The Microsoft .fx file format represents this 
+type of shader (see 
+<a href="../bibliography.html#[FX]">[FX]</a>).</p>
+
+<p>The shader source is read from the URL specified by the <i>url</i> field. 
+When the <i>url</i> field contains no values ([]), this object instance is 
+ignored. The <i>url</i> field is defined in <a href="networking.html#URLs">9.2.1 
+URLs</a>. No file formats are required to be supported for this node.</p>
+
+<p>The <i>language</i> field may be used to optionally determine the language 
+type if no MIME-type information is available.</p> 
+
+<h2><a name="ProgramShader"></a>31.4.6 ProgramShader</h2>
+
+<pre>
+ProgramShader : X3DShaderNode {
+  SFBool   [in]     activate
+  SFNode   [in,out] metadata   NULL [X3DMetadataObject]
+  MFNode   [in,out] programs   []   [ShaderProgram]
+  SFBool   [out]    isSelected
+  SFBool   [out]    isValid
+  SFString []       language   &quot;&quot;   [&quot;Cg&quot;|&quot;GLSL&quot;|&quot;HLSL&quot;|...]
+}
+</pre>
+
+<p>The ProgramShader node defines a shader that can consist of one or more 
+individually programmable, self contained pieces. Each piece, represented by a 
+ShaderProgram node, shall be a self-contained source that does not rely on any 
+other source file and can manage one part of the programmable pipeline (<i>e.g.</i>, 
+vertex or fragment processing). 
+
+<p>The <i>programs</i> field consists of zero or more <a href="#ShaderProgram">ShaderProgram</a> node 
+instances. In general, only two ShaderProgram instances are needed:&nbsp; 
+one each for vertex and fragment processing. Each shader language annex shall 
+refine the required behaviour for processing this field.</p>
+
+<p>The <i>isValid</i> field may add an additional semantic to indicate whether 
+all parts are available.</p>
+<p class="Example">EXAMPLE&nbsp; Microsoft&#39;s HLSL requires that both vertex and 
+fragment programs be provided. It specifies that it is an error to provide one and not the 
+other.</p>
+
+<h2><a name="ShaderPart"></a>31.4.7 ShaderPart</h2>
+
+<pre>
+ShaderPart : X3DNode, X3DUrlObject {
+  SFNode   [in,out] metadata NULL       [X3DMetadataObject]
+  MFString [in,out] url      []         [URI]
+  SFString []       type     &quot;VERTEX&quot;   [&quot;VERTEX&quot;|&quot;FRAGMENT&quot;]
+}
+</pre>
+
+<p>The ShaderPart node defines the source for a single object to be used by a 
+<a href="#ComposedShader">ComposedShader</a> node. The source is not required to be a complete shader for all 
+of the vertex/fragment processing.</p>
+
+<p>The <i>type</i> field indicates whether this object shall be compiled as a 
+vertex shader, fragment shader, or other future-defined shader type.</p> 
+
+<p>The shader source is read from the URL specified by the <i>url</i> field. 
+When the <i>url</i> field contains no values ([]), this object instance is 
+ignored. The <i>url</i> field is defined in <a href="networking.html#URLs">9.2.1 
+URLs</a>. Shader source files shall be plain text encoded as specified for MIME 
+type
+<span class="code">text/plain</span> and interpreted according to the <i>type</i> 
+field.</p>
+
+<h2><a name="ShaderProgram"></a>31.4.8 ShaderProgram</h2>
+
+<pre>
+ShaderProgram : X3DNode, X3DUrlObject, X3DProgrammableShaderObject {
+  SFNode    [in,out] metadata  NULL         [X3DMetadataObject]
+  MFString  [in,out] url       []           [URI]
+  SFString  []       type      &quot;VERTEX&quot;     [&quot;VERTEX&quot;|&quot;FRAGMENT&quot;]
+
+  # And any number of:
+  fieldType [in]     fieldName
+  fieldType [in,out] fieldName initialValue
+  fieldType [out]    fieldName
+  fieldType []       fieldName initialValue
+}
+</pre>
+
+<p>The ShaderProgram node provides the source and interface to a self contained 
+program that occupies one part of the rendering process: either a vertex or 
+fragment shader.</p>
+
+<p>The shader source is read from the URL specified by the <i>url</i> field. 
+When the <i>url</i> field contains no values ([]), this object instance is 
+ignored. The <i>url</i> field is defined in <a href="networking.html#URLs">9.2.1 
+URLs</a>. Shader source files shall be plain text encoded as specified for MIME 
+type
+<span class="code">text/plain</span> and interpreted according to the containing 
+node&#39;s language definition.</p>
+
+<h1><a name="SupportLevels"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+31.5 Support levels</h1>
+
+<p>The Programmable Shaders component defines a single level of support as 
+specified in
+<a href="#t-supportlevels">Table 31.3</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption"><a name="t-supportlevels"></a>
+Table 31.3 &#8212; Programmable shaders component support levels</p>
+<table>
+<tr><th>Level</th><th>Prerequisites</th><th>Nodes/Features</th><th>Support</th></tr>
+<tr><td align="center"><b>1</b></td>
+    <td>Core 1<br> Grouping 1<br> Shape 1<br>Rendering 1</td>
+    <td></td><td></td></tr>
+<tr><td align="center"></td><td></td>
+    <td><i>X3DProgrammableShaderObject</i></td>
+    <td>n/a</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td><i>X3DShaderNode</i></td>
+    <td>n/a</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td><i>X3DVertexAttributeNode</i></td>
+    <td>n/a</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>FloatVertexAttribute</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>ComposedShader</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>ShaderPart</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>ProgramShader</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>ShaderProgram</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>Matrix3VertexAttribute</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>Matrix4VertexAttribute</td>
+    <td>All fields fully supported.</td>
+</tr>
+<tr><td align="center"></td><td></td>
+    <td>PackagedShader</td>
+    <td>All fields fully supported.</td>
+</tr>
+</table>
+</div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

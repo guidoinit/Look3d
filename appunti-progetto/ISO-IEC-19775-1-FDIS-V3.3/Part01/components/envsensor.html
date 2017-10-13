@@ -1,0 +1,469 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 22 Environmental sensor component</TITLE>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</HEAD>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+<p class="HeadingClause">22 Environmental sensor component</p>
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+22.1 Introduction</h1>
+<h2><a name="Name"></a>22.1.1 Name</h2>
+<p>The name of this component is &quot;EnvironmentalSensor&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>22.1.2 Overview</h2>
+
+<p>This clause describes the Environmental Sensor component of this part of ISO/IEC 
+19775. <a href="#t-Topics">Table 22.1</a> provides links to the major 
+  topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a><b>
+Table 22.1 &#8212; Topics</b></p>
+
+  <table>
+    <tr> 
+     <td> 
+        <ul>
+          <li><a href="#Introduction">22.1 Introduction</a>
+            <ul>
+              <li><a href="#Name">22.1.1 Name</a></li>
+              <li><a href="#Overview">22.1.2 Overview</a></li>
+            </ul></li>
+          <li><a href="#Concepts">22.2 Concepts</a></li>
+          <li><a href="#Abstracttypes">22.3 Abstract types</a> 
+            <ul>
+              <li><a href="#X3DEnvironmentalSensorNode">22.3.1 <i>X3DEnvironmentalSensorNode</i></a></li> 
+            </ul></li>
+          <li><a href="#Nodereference">22.4 Node reference</a> 
+            <ul>
+              <li><a href="#ProximitySensor">22.4.1 ProximitySensor</a></li>
+				<li><a href="#TransformSensor">22.4.2 TransformSensor</a></li> 
+              <li><a href="#VisibilitySensor">22.4.3 VisibilitySensor</a></li> 
+            </ul></li>
+          <li><a href="#SupportLevels">22.5 Support levels</a></li>  
+        </ul>
+        <ul>
+          <li><a href="#t-Topics">Table 22.1 &#8212; Topics</a></li>
+          <li><a href="#t-supportlevels">Table 22.2 &#8212; Environmental sensor component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>22.2 Concepts</h1>
+
+<p>Environment sensors are nodes which emit events based on some event which occurs 
+  within the environment, usually an interaction between two elements within 
+  the world. Most environment sensors events occur because of an interaction between 
+  the viewer and the world. However, an environment sensor event may also occur 
+  because of an interaction between a non-manipulable piece of hardware (<i>e.g.</i>, 
+  a clock) and the world, between two objects in the world, or an event over the network.</p>
+
+<p>Environmental sensors include:</p>
+
+<ul>
+  <li><a href="navigation.html#Collision">Collision</a></li> 
+  <li><a href="#ProximitySensor">ProximitySensor</a></li>
+	<li><a href="#TransformSensor">TransformSensor</a></li> 
+  <li><a href="#VisibilitySensor">VisibilitySensor</a></li> 
+</ul>
+
+<p> The <a href="navigation.html#Collision">Collision</a> grouping node 
+  detects when the user collides with objects in the virtual world. Proximity, 
+  collision, and visibility sensors are each processed independently of 
+  whether others exist or overlap. See 
+<a href="navigation.html">23 Navigation component</a> 
+for more information.</p>
+
+<p>The <a href="#ProximitySensor">ProximitySensor</a> detects when the user 
+navigates into a specified region in the world. </p>
+<p>The <a href="#TransformSensor">TransformSensor</a> detects when for the 
+target object specified enters, exits, or is transformed within a specified 
+rectangular parallelepiped.</p>
+<p>The 
+<a href="#VisibilitySensor">VisibilitySensor</a> 
+  detects when a specific part of the world becomes visible to the user.</p>
+
+<p>When environmental sensors are inserted into the transformation hierarchy and 
+before the presentation is updated (<i>i.e.</i>,&nbsp;read from file or created by a 
+script), they shall generate events indicating any conditions which the sensor 
+is intended to detect. 
+The conditions for individual sensor types to generate 
+  these initial events are defined in the individual node specifications 
+in <a href="#Nodereference">22.4 Node reference</a>.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Abstracttypes"></a>
+22.3 Abstract types</h1>
+<h2><a name="X3DEnvironmentalSensorNode"></a>
+22.3.1 <i>X3DEnvironmentalSensorNode</i></h2>
+
+<pre class="node"> 
+X3DEnvironmentalSensorNode : X3DSensorNode {
+  SFVec3f/d [in,out] center    0 0 0 (-&#8734;,&#8734;)
+  SFBool    [in,out] enabled   TRUE
+  SFNode    [in,out] metadata  NULL  [X3DMetadataObject]
+  SFVec3f   [in,out] size      0 0 0 (-&#8734;,&#8734;)
+  SFTime    [out]    enterTime
+  SFTime    [out]    exitTime
+  SFBool    [out]    isActive
+}
+</pre>
+
+<p>X3DEnvironmentalSensorNode is the base type for the environmental 
+    sensor nodes <a href="#ProximitySensor">ProximitySensor</a> and 
+<a href="#VisibilitySensor">VisibilitySensor</a>.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Nodereference"></a>
+22.4 Node reference</h1>
+
+<h2><a name="ProximitySensor"></a>
+22.4.1 ProximitySensor</h2>
+
+<pre class="node">ProximitySensor : X3DEnvironmentalSensorNode {
+  SFVec3f    [in,out] center                   0 0 0 (-&#8734;,&#8734;)
+  SFBool     [in,out] enabled                  TRUE
+  SFNode     [in,out] metadata                 NULL  [X3DMetadataObject]
+  SFVec3f    [in,out] size                     0 0 0 [0,&#8734;)
+  SFTime     [out]    enterTime
+  SFTime     [out]    exitTime
+  SFVec3f    [out]    centerOfRotation_changed
+  SFBool     [out]    isActive
+  SFRotation [out]    orientation_changed
+  SFVec3f    [out]    position_changed
+}
+</pre>
+
+<p>The ProximitySensor node generates events when the viewer enters, 
+    exits, and moves within a region in space (defined by a box). A proximity 
+    sensor is enabled or disabled by sending it an <i>enabled</i> event with a 
+    value of <code>TRUE</code> or <code>FALSE</code>. 
+    A disabled sensor does not send events.</p>
+
+  <p>A ProximitySensor node generates <i>isActive</i> <code>TRUE</code>/<code>FALSE</code> 
+    events as the viewer enters and exits the rectangular box defined by its <i>center</i> 
+    and <i>size</i> fields. Browsers shall interpolate viewer positions and timestamp 
+    the <i>isActive</i> events with the exact time the viewer first intersected 
+    the proximity region. The <i>center</i> field defines the centre point of 
+    the proximity region in object space. The <i>size</i> field specifies a vector 
+    which defines the width (x), height (y), and depth (z) of the box bounding 
+    the region. The components of the <i>size</i> field shall be greater than 
+    or equal to zero. ProximitySensor nodes are affected by the hierarchical transformations 
+    of their parents.</p>
+
+  <p>The <i>enterTime</i> event is generated whenever the <i>isActive</i> 
+    <font face="Courier New">TRUE</font> event is generated (user enters the box), 
+    and <i>exitTime</i> events are generated whenever an <i>isActive</i> <code>FALSE</code> 
+    event is generated (user exits the box).</p>
+
+  <p>The <i>centerOfRotation_changed</i> field 
+    sends events whenever the user is contained within the proximity region and 
+    the center of rotation of the viewer for <span class="code">EXAMINE</span> mode changes with respect to the ProximitySensor node's coordinate system. This may result when the bound 
+	<a href="navigation.html#Viewpoint">Viewpoint</a> nodes's center of rotation changes, when a new viewpoint is bound, when the user
+	changes the center of rotation through the browser's user interface, or from
+	changes to the ProximitySensor node's coordinate system. <i>centerOfRotation_changed</i>
+	events are only generated when the currently bound 
+	<a href="navigation.html#NavigationInfo">NavigationInfo</a> node includes
+	<span class="code">LOOKAT</span> navigation. For more information, see
+	<a href="navigation.html#X3DViewpointNode">23.3.1 <i>X3DViewpointNode</i></a>
+	and <a href="navigation.html#NavigationInfo">23.4.4. NavigationInfo</a>.</p>
+
+  <p>The <i>position_changed</i> and <i>orientation_changed</i> fields 
+    send events whenever the user is contained within the proximity region and 
+    the position and orientation of the viewer changes with respect to the ProximitySensor 
+    node's coordinate system including enter and exit times. The viewer movement 
+    may be a result of a variety of circumstances resulting from browser navigation, 
+    ProximitySensor node's coordinate system changes, or bound Viewpoint node's 
+    position or orientation changes.</p>
+
+  <p>Each ProximitySensor node behaves independently of all other 
+    ProximitySensor nodes. Every enabled ProximitySensor node that is affected 
+    by the viewer's movement receives and sends events, possibly resulting in 
+    multiple ProximitySensor nodes receiving and sending events simultaneously. 
+    Unlike <a href="pointingsensor.html#TouchSensor">TouchSensor</a> nodes, there is no notion of a ProximitySensor node lower 
+    in the scene graph &quot;grabbing&quot; events.</p>
+
+  <p>Instanced (DEF/USE) ProximitySensor nodes use the union of all 
+    the boxes to check for enter and exit. A multiply instanced ProximitySensor 
+    node will detect enter and exit for all instances of the box and send enter/exit 
+    events appropriately. For non-overlapping bounding boxes, <i>
+  position_changed</i> and <i>orientation_changed</i> events are calculated 
+  relative to the coordinate system associated with the bounding box in which 
+  the proximity was detected. However, the results are undefined if the any of the 
+    boxes of a multiply instanced ProximitySensor node overlap.</p>
+
+  <p>A ProximitySensor node that surrounds the entire world has an 
+    <i>enterTime</i> equal to the time that the world was entered and can be used 
+    to start up animations or behaviours as soon as a world is loaded. A ProximitySensor 
+    node with a box containing zero volume (<i>i.e.</i>, any <i>size</i> field element 
+    of 0.0) cannot generate events. This is equivalent to setting the <i>enabled</i> 
+    field to <code>FALSE</code>.</p>
+
+  <p>A ProximitySensor read from an X3D file shall generate <i>isActive 
+    </i> <code>TRUE</code>, <i>position_changed</i>, <i>orientation_changed</i> 
+    and <i>enterTime</i> events if the sensor is enabled and the viewer is inside 
+    the proximity region<span class="normal"> or as soon as the ProximitySensor 
+	is enabled</span>. A ProximitySensor inserted into the transformation hierarchy 
+    shall generate <i>isActive </i><code>TRUE</code>, <i>position_changed</i>, 
+    <i>orientation_changed</i> and <i>enterTime</i> events if the sensor is enabled 
+    and the viewer is inside the proximity region. A ProximitySensor removed from 
+    the transformation hierarchy shall generate <i>isActive </i><code>FALSE</code>, 
+    <i>position_changed</i>, <i>orientation_changed</i> and <i>exitTime</i> events 
+    if the sensor is enabled and the viewer is inside the proximity region.</p>
+
+<h2><a name="TransformSensor"></a>22.4.2 TransformSensor</h2>
+<pre class="node">TransformSensor : X3DEnvironmentalSensorNode {
+  SFVec3f    [in,out] center              0 0 0 (-&#8734;,&#8734;)
+  SFBool     [in,out] enabled             TRUE
+  SFNode     [in,out] metadata            NULL  [X3DMetadataObject]
+  SFVec3f    [in,out] size                0 0 0 [0,&#8734;)
+  SFNode     [in,out] targetObject        NULL  [X3DGroupingNode|X3DShapeNode]
+  SFTime     [out]    enterTime
+  SFTime     [out]    exitTime
+  SFBool     [out]    isActive
+  SFRotation [out]    orientation_changed
+  SFVec3f    [out]    position_changed
+}
+</pre>
+<p>The TransformSensor node generates events when its target object enters, 
+exits, and moves within a region in space (defined by a box). The target object 
+can be any valid <i><a href="shape.html#X3DShapeNode">X3DShapeNode</a></i> or <i>
+<a href="group.html#X3DGroupingNode">X3DGroupingNode</a></i> node. A TransformSensor is enabled or 
+disabled by sending it an <i>enabled</i> event with a value of <code>TRUE</code> 
+or <code>FALSE</code>. A disabled sensor does not send events.</p>
+<p>A TransformSensor node generates <i>isActive</i> <code>TRUE</code>/<code>FALSE</code> 
+events as the target object enters and exits the rectangular box defined by its
+<i>center</i> and <i>size</i> fields. Browsers shall timestamp the <i>isActive</i> 
+events with the exact time the target object first intersected the proximity 
+region. The <i>center</i> field defines the centre point of the proximity region 
+in object space. The <i>size</i> field specifies a vector that defines the width 
+(x), height (y), and depth (z) of the box bounding the region. The components of 
+the <i>size</i> field shall be greater than or equal to zero. TransformSensor 
+nodes are affected by the hierarchical transformations of their parents.</p>
+<p>The <i>enterTime</i> event is generated whenever the <i>isActive</i>
+<font face="Courier New">TRUE</font> event is generated (target object enters 
+the box), and <i>exitTime</i> events are generated whenever an <i>isActive</i>
+<code>FALSE</code> event is generated (target object exits the box).</p>
+<p>The <i>position_changed</i> and <i>orientation_changed</i> fields send events 
+whenever the target object is contained within the proximity region and the 
+position and orientation of the target object changes with respect to the 
+TransformSensor node&#39;s coordinate system including enter and exit times. The 
+object movement may be a result of a variety of circumstances resulting from the 
+TransformSensor node&#39;s coordinate system changes, changes to the target object&#39;s 
+position or orientation, or changes to the coordinate system of any of the 
+ancestors or the target object.</p>
+<p>Each TransformSensor node behaves independently of all other TransformSensor 
+nodes. Every enabled TransformSensor node that is affected by the target 
+object&#39;s movement receives and sends events, possibly resulting in multiple 
+TransformSensor nodes receiving and sending events simultaneously. Unlike 
+TouchSensor nodes, there is no notion of a TransformSensor node lower in the 
+scene graph &quot;grabbing&quot; events.</p>
+<p>Instanced (DEF/USE) TransformSensor nodes use the union of all the boxes to 
+check for enter and exit. A multiply instanced TransformSensor node will detect 
+enter and exit for all instances of the box and send enter/exit events 
+appropriately. For non-overlapping bounding boxes, <i>position_changed</i> and
+<i>orientation_changed</i> events are calculated relative to the coordinate 
+system associated with the bounding box in which the proximity was detected. 
+However, the results are undefined if the any of the boxes of a multiply 
+instanced TransformSensor node overlap.</p>
+<p>A TransformSensor node with a box containing zero volume (<i>i.e.</i>, any <i>
+size</i> field element of 0.0) cannot generate events. This is equivalent to 
+setting the <i>enabled</i> field to <code>FALSE</code>.</p>
+<p>A TransformSensor read from an X3D file shall generate <i>isActive </i><code>
+TRUE</code>, <i>position_changed</i>, <i>orientation_changed</i> and <i>
+enterTime</i> events if the sensor is enabled and the target object is inside 
+the proximity region. A TransformSensor inserted into the transformation 
+hierarchy shall generate <i>isActive </i><code>TRUE</code>, <i>position_changed</i>,
+<i>orientation_changed</i> and <i>enterTime</i> events if the sensor is enabled 
+and the target object is inside the proximity region. A TransformSensor removed 
+from the transformation hierarchy shall generate <i>isActive </i><code>FALSE</code>,
+<i>position_changed</i>, <i>orientation_changed</i> and <i>exitTime</i> events 
+if the sensor is enabled and the target object is inside the proximity region.</p>
+
+<h2><a name="VisibilitySensor"></a>
+22.4.3 VisibilitySensor</h2>
+
+<pre class="node">VisibilitySensor : X3DEnvironmentalSensorNode {
+  SFVec3f [in,out] center    0 0 0 (-&#8734;,&#8734;)
+  SFBool  [in,out] enabled   TRUE
+  SFNode  [in,out] metadata  NULL  [X3DMetadataObject]
+  SFVec3f [in,out] size      0 0 0 [0,&#8734;)
+  SFTime  [out]    enterTime
+  SFTime  [out]    exitTime
+  SFBool  [out]    isActive
+}
+</pre>
+
+<p>The VisibilitySensor node detects visibility changes of a rectangular 
+    box as the user navigates the world. VisibilitySensor is typically used to 
+    detect when the user can see a specific object or region in the scene in order 
+    to activate or deactivate some behaviour or animation. The purpose is often 
+    to attract the attention of the user or to improve performance. Intermediate 
+occluding geometry between the current viewpoint and the sensed volume has no 
+effect on the behavior of the VisibilitySensor.</p>
+
+  <p>The <i>enabled</i> field enables and disables the VisibilitySensor 
+    node. If <i>enabled</i> is set to <code>FALSE</code>, the 
+    VisibilitySensor node does not send events. If <i>enabled</i> is <code>TRUE</code>, 
+    the VisibilitySensor node detects changes to the visibility status of the 
+    box specified and sends events through the <i>isActive</i> field. A <code>TRUE</code> 
+    event is output to <i>isActive</i> when any portion of the box impacts the 
+    rendered view. A <code>FALSE</code> event is sent when 
+    the box has no effect on the view. Browsers shall guarantee that, if <i>isActive</i> 
+    is <code>FALSE</code>, the box has absolutely no effect 
+    on the rendered view. Browsers may err liberally when <i>isActive</i> is <code>TRUE</code>. 
+    For example, the box may affect the rendering.</p>
+
+  <p>The fields <i>center</i> and <i>size</i> specify the object 
+    space location of the box centre and the extents of the box (<i>i.e.</i>,&nbsp;width, 
+    height, and depth). The VisibilitySensor node's box is affected by hierarchical 
+    transformations of its parents. The components of the <i>size</i> field shall 
+    be greater than or equal to zero.</p>
+
+  <p>The <i>enterTime</i> event is generated whenever the <i>isActive</i> 
+    <code>TRUE</code> event is generated, and <i>exitTime</i> 
+    events are generated whenever <i>isActive</i> <code>FALSE</code> 
+    events are generated. A VisibilitySensor read from an X3D file shall generate 
+    <i>isActive </i><code>TRUE</code> and <i>enterTime</i> 
+    events if the sensor is enabled and the visibility box is visible. A VisibilitySensor 
+    inserted into the transformation hierarchy shall generate <i>isActive </i> 
+    <code>TRUE</code> and <i>enterTime</i> events if the sensor 
+    is enabled and the visibility box is visible. A VisibilitySensor removed from 
+    the transformation hierarchy shall generate <i>isActive </i><code>FALSE</code> 
+    and <i>exitTime</i> events if the sensor is enabled and the visibility box 
+    is visible.</p>
+
+  <p>Each VisibilitySensor node behaves independently of all other 
+    VisibilitySensor nodes. Every enabled VisibilitySensor node that is affected 
+    by the user's movement receives and sends events, possibly resulting in multiple 
+    VisibilitySensor nodes receiving and sending events simultaneously. Unlike 
+    TouchSensor nodes, there is no notion of a VisibilitySensor node lower in 
+    the scene graph &quot;grabbing&quot; events. Multiply instanced VisibilitySensor 
+    nodes (<i>i.e.</i>,&nbsp;DEF/USE) use the union of all the boxes defined by their 
+    instances. An instanced VisibilitySensor node shall detect visibility changes 
+    for all instances of the box and send events appropriately.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>22.5 Support levels</h1>
+
+<p>The Environmental Sensor component provides two levels of support as specified 
+  in <a href="#t-supportlevels">Table 22.2</a>. Level 1 is intended to 
+  enable automatic animations by supporting a simplified ProximitySensor node. 
+  Level 2 provides full environment sensing support.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+Table 22.2<b>
+&#8212; Environmental sensor</b> component support levels</p>
+  
+   <table>
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td align="center"><b>1</b></td>
+        <td>Core 1<br>
+        Time 1<br>
+        Grouping 1<br>
+        Navigation 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DEnvironmentSensorNode </i>(abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>ProximitySensor</td>
+        <td><i>position_changed </i>optionally supported<i>.<br> 
+          orientation_changed</i> optionally supported. </td>
+      </tr>
+      <tr> 
+        <td align="center"><b>2</b></td>
+        <td>Core 1<br>
+        Time 1<br>
+        Grouping 1<br>
+        Navigation 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 1 Environmental Sensor nodes</td>
+        <td>All fields as supported in Level 1.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>ProximitySensor</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>VisibilitySensor</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>3</b></td>
+        <td>Core 1<br>
+        Time 1<br>
+        Grouping 1<br>
+        Navigation 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>All Level 2 Environmental Sensor nodes</td>
+        <td>All fields as supported in Level 2.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>TransformSensor</td>
+        <td>All fields fully supported.</td>
+      </tr>
+    </table>
+  </div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

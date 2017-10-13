@@ -1,0 +1,344 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, Annex A Core profile</TITLE>
+<link rel="stylesheet" href="X3D.css" type="text/css">
+</head>
+<body>
+
+<div class="CenterDiv">
+<a href="X3D.html">
+<img class="x3dlogo" SRC="../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br> 
+    Part 1: Architecture and base components</p> 
+
+<p class="AnnexHeadingBottom">
+    Annex A</p>
+
+<p class="AnnexType">
+        (normative)
+<p class="AnnexHeadingBottom">
+Core profile
+</p>
+</div>
+
+<img class="x3dbar" SRC="../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="General"></a>A.1 General</h1>   
+
+<p>This annex defines the X3D components which comprise the Core profile. 
+  This includes not only the nodes which shall be supported but also which fields 
+  in the supported nodes may be ignored.&nbsp;</p>
+
+<p>This profile is targeted towards:</p>   
+ 
+<ol type="a">
+  <li>Absolute minimal file definitions required by X3D,</li>
+  <li>Building minimally defined scenes by explicitly specifying the component and levels required, 
+  and</li>
+  <li>Allowing a broader range of implementations by eliminating some complexity 
+    of a complete X3D implementation.</ol>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Topics"></a>A.2 Topics</h1>   
+
+<p><a href="#t-Topics">Table A.1</a> provides links to the major topics in 
+  this annex.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a><b>
+Table A.1 &#8212; Topics</b></p>
+
+  <table>
+    <tr> 
+      <td>
+        <ul>
+          <li><a href="#General">A.1 General</a></li> 
+          <li><a href="#Topics">A.2 Topics</a></li> 
+          <li><a href="#ComponentSupport">A.3 Component support</a></li> 
+          <li><a href="#ConformanceCriteria">A.4 Conformance criteria</a></li> 
+          <li><a href="#NodeSet">A.5 Node set</a></li> 
+          <li><a href="#OtherLimitations">A.6 Other limitations</a></li>
+        </ul>
+        <ul>
+<li><a href="#t-Topics">Table A.1 &#8212; Topics</a></li>
+<li><a href="#t-ComponentsAndLevels">Table A.2 &#8212; Components and levels</a></li>
+<li><a href="#t-NodesForConformingToCoreProfile">Table A.3 &#8212; Nodes for conforming to the Core profile</a></li>
+<li><a href="#t-OtherLimitations">Table A.4 &#8212; Other limitations</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="ComponentSupport"></a>A.3 Component support</H1>   
+
+<P><a href="#t-ComponentsAndLevels">Table A.2</a> lists the components and their 
+  levels which shall be supported in the Core profile. Tables A.2 and A.3 
+  describe limitations on required support for nodes and fields contained within 
+  these components.</P>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-ComponentsAndLevels"></a>Table A.2 &#8212; Components and levels</p>   
+
+<table>
+      <TR> 
+        <th>Component</th>
+        <th>Level</th>
+        <th>Reference</th>
+      </TR>
+      <TR> 
+        <TD>Core</TD>
+        <TD>1</TD>
+        <TD><a href="components/core.html#SupportLevels">7.5 Support levels</a></TD>
+      </TR>
+    </TABLE>
+</div>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="ConformanceCriteria"></a>A.4 Conformance criteria</h1>   
+
+<P>Conformance to this profile shall include conformance criteria defined by the 
+  specifications for those components and levels listed in
+<a href="#t-ComponentsAndLevels">Table A.2</a>.</P>
+
+<P>In <a href="#t-NodesForConformingToCoreProfile">Table A.3</a> and
+<a href="#t-OtherLimitations">Table A.4</a>, the first column defines the item for which conformance 
+  is being defined. In some cases, general limits are defined but are later overridden 
+  in specific cases by more restrictive limits. The second column defines the 
+  requirements for a X3D file conforming to the Core profile; if a X3D 
+  file contains any items that exceed these limits, it may not be possible for 
+  a X3D browser conforming to the Core profile to successfully parse that 
+  X3D file. The third column defines the minimum complexity for a X3D scene that 
+  a X3D browser conforming to the Core profile shall be able to present 
+  to the user. Fields flagged as &quot;not supported&quot; may be supported by 
+  browsers which conform to the Core profile. The word &quot;ignore&quot; 
+  in the minimum browser support column refers only to the display of the item; 
+  in particular, <I>set_</I> events to ignored inputOutput fields shall still generate corresponding 
+  <I>_changed</I> events.</P>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="NodeSet"></a>A.5 Node set</H1>   
+
+<P><a href="#t-NodesForConformingToCoreProfile">Table A.3</a> lists the nodes which shall be 
+  supported in the Core profile and specifies any fields in these nodes 
+  for which this profile requires less than full support.</P>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-NodesForConformingToCoreProfile"></a>Table A.3 &#8212; Nodes for conforming to the Core profile</p>   
+
+  <table>
+  <TR> 
+    <TH>Item</TH>
+    <TH>X3D File Limit</TH>
+    <TH>Minimum Browser Support</TH>
+  </TR>
+  	<tr>
+    <td>MetadataBoolean</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  	</tr>
+  <tr>
+    <td>MetadataDouble</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MetadataFloat</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MetadataInteger</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MetadataSet</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MetadataString</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+</TABLE>
+</div>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="OtherLimitations"></a>A.6 Other limitations</H1>   
+
+<p><a href="#t-OtherLimitations">Table A.4</a> 
+  specifies other aspects of X3D functionality which are supported by this profile. 
+  Note that general items refer only to those specific nodes listed in
+<a href="#t-NodesForConformingToCoreProfile">Table A.3</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-OtherLimitations"></a>Table A.4 &#8212; Other limitations</p>   
+
+    <table>
+<TR>
+<TH>Item</TH>
+<TH>X3D File Limit</TH>
+<TH>Minimum Browser Support</TH>
+</TR>
+<TR>
+<TD>All groups</TD>
+<TD>500 children.</TD>
+<TD>500 children. <I>bboxCenter</I> and <I>bboxSize</I> optionally supported.</TD></TR>
+<TR>
+<TD>All interpolators</TD>
+<TD>1000 key-value pairs.</TD>
+<TD>1000 key-value pairs.</TD></TR>
+<TR>
+<TD>All lights</TD>
+<TD>8 simultaneous lights.</TD>
+<TD>8 simultaneous lights.</TD></TR>
+<TR>
+<TD>Names for DEF/field</TD>
+<TD>50 utf8 octets.</TD>
+<TD>50 utf8 octets.</TD></TR>
+<TR>
+<TD>All <I>url</I> fields</TD>
+<TD>10 URLs.</TD>
+<TD>10 URLs. URN's optionally supported.<BR>
+Support `http', `file', and `ftp' protocols.<BR>
+Support relative URLs where relevant.</TD></TR>
+<TR>
+<TD>SFBool</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD></TR>
+<TR>
+<TD>SFColor</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD></TR>
+<tr>
+<TD>SFColorRGBA</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD>
+</tr>
+<TR>
+<TD>SFDouble</TD>
+<TD>Mp restrictions.</TD>
+<TD>Full support. Range &plusmn;1e&plusmn;12. Precision 1e-7.</TD></TR>
+<TR>
+<TD>SFFloat</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD></TR>
+<TR>
+<TD>SFImage</TD>
+<TD>256 width. 256 height.</TD>
+<TD>256 width. 256 height.</TD></TR>
+<TR>
+<TD>SFInt32</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD></TR>
+<TR>
+<TD>SFNode</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD></TR>
+<TR>
+<TD>SFRotation</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD></TR>
+<TR>
+<TD>SFString</TD>
+<TD>30,000 utf8 octets.</TD>
+<TD>30,000 utf8 octets.</TD></TR>
+<TR>
+<TD>SFTime</TD>
+<TD>No restrictions.</TD>
+<TD>Full support.</TD></TR>
+<TR>
+<TD>SFVec2d</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<TR>
+<TD>SFVec2f</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<TR>
+<TD>SFVec3d</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<TR>
+<TD>SFVec3f</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<TR>
+<TD>MFColor</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<tr>
+<TD>MFColorRGBA</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD>
+</tr>
+<TR>
+<TD>MFDouble</TD>
+<TD>1000 values.</TD>
+<TD>1000 values.</TD></TR>
+<TR>
+<TD>MFFloat</TD>
+<TD>1,000 values.</TD>
+<TD>1,000 values.</TD></TR>
+<TR>
+<TD>MFInt32</TD>
+<TD>20,000 values.</TD>
+<TD>20,000 values.</TD></TR>
+<TR>
+<TD>MFNode</TD>
+<TD>500 values.</TD>
+<TD>500 values.</TD></TR>
+<TR>
+<TD>MFRotation</TD>
+<TD>1,000 values.</TD>
+<TD>1,000 values.</TD></TR>
+<TR>
+<TD>MFString</TD>
+<TD>30,000 utf8 octets per string, 10 strings.</TD>
+<TD>30,000 utf8 octets per string, 10 strings.</TD></TR>
+<TR>
+<TD>MFTime</TD>
+<TD>1,000 values.</TD>
+<TD>1,000 values.</TD></TR>
+<TR>
+<TD>MFVec2d</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<TR>
+<TD>MFVec2f</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<TR>
+<TD>MFVec3d</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+<TR>
+<TD>MFVec3f</TD>
+<TD>15,000 values.</TD>
+<TD>15,000 values.</TD></TR>
+</TABLE>
+</div>
+
+<img class="x3dbar" src="../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</BODY>
+</HTML>

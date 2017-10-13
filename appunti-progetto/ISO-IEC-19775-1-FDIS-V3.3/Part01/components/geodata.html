@@ -1,0 +1,1485 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 25 Geospatial Component</TITLE>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</HEAD>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">25 Geospatial component</p>
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+25.1 Introduction</h1>
+<h2><a name="Name"></a>25.1.1 Name</h2>
+<p>The name of this component is &quot;Geospatial&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>25.1.2 Overview</h2>
+
+<p>This clause describes the Geospatial component of this part of&nbsp; ISO/IEC 
+19775. 
+  This includes how to associate real world locations to elements in the X3D world 
+  as well as specifying nodes particularly tuned for geospatial applications. 
+  <a href="#t-Topics">Table 25.1</a> provides links to the major topics in 
+  this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 25.1 &#8212; Topics</p>
+
+  <table class="topics">
+    <tr> 
+      <td> 
+        <ul>
+         <li><a href="#Introduction">25.1 Introduction</a>
+           <ul>
+             <li><a href="#Name">25.1.1 Name</a></li>
+             <li><a href="#Overview">25.1.2 Overview</a> </li>
+           </ul></li>
+         <li><a href="#Concepts">25.2 Concepts</a> 
+           <ul>
+             <li><a href="#ConceptsOverview">25.2.1 Overview</a> 
+             <li><a href="#Spatialreferenceframes">25.2.2 Spatial reference frames</a></li>
+             <li><a href="#Specifyingaspatialreference">25.2.3 Specifying a spatial reference frame</a></li> 
+             <li><a href="#Specifyinggeospatialcoords">25.2.4 Specifying geospatial coordinates</a></li> 
+             <li><a href="#high-precisioncoords">25.2.5 Dealing with high-precision coordinates</a></li> 
+             <li><a href="#navigationissues">25.2.6 Geospatial navigation issues</a></li>
+           </ul></li>
+         <li><a href="#Nodereference">25.3 Node reference</a> 
+           <ul>
+             <li><a href="#GeoCoordinate">25.3.1 GeoCoordinate</a></li> 
+             <li><a href="#GeoElevationGrid">25.3.2 GeoElevationGrid</a></li> 
+             <li><a href="#GeoLocation">25.3.3 GeoLocation</a></li> 
+             <li><a href="#GeoLOD">25.3.4 GeoLOD</a></li> 
+             <li><a href="#GeoMetadata">25.3.5 GeoMetadata</a></li> 
+             <li><a href="#GeoOrigin">25.3.6 GeoOrigin</a>&nbsp; (deprecated)</li> 
+             <li><a href="#GeoPositionInterpolator">25.3.7 GeoPositionInterpolator</a></li>
+			 <li><a href="#GeoProximitySensor">25.3.8 GeoProximitySensor</a></li> 
+             <li><a href="#GeoTouchSensor">25.3.9 GeoTouchSensor</a></li>
+				<li><a href="#GeoTransform">25.3.10 GeoTransform</a></li>
+             <li><a href="#GeoViewpoint">25.3.11 GeoViewpoint</a></li> 
+           </ul></li>
+         <li><a href="#SupportLevels">25.4 Support levels</a></li>  
+        </ul> 
+        <ul> 
+         <li><a href="#f-LoadingGeoLODlevels">Figure 25.1 &#8212; Loading of GeoLOD levels</a></li> 
+        </ul> 
+        <ul> 
+          <li><a href="#t-Topics">Table 25.1 &#8212; Topics</a></li> 
+          <li><a href="#t-Supportedspatialframes">Table 25.2 &#8212; Supported spatial reference frames</a></li> 
+          <li><a href="#t-earthellipsoids">Table 25.3 &#8212; Supported earth ellipsoids</a></li> 
+          <li><a href="#t-earthgeoids">Table 25.4 &#8212; Supported earth geoids</a></li> 
+          <li><a href="#t-keywordsandvalues">Table 25.5 &#8212; GeoMetadata keywords and values</a></li> 
+          <li><a href="#t-supportlevels">Table 25.6 &#8212; Geospatial component support levels</a></li> 
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>
+25.2 Concepts</h1>
+
+<h2><a name="ConceptsOverview"></a>25.2.1 Overview</h2>
+
+<p>This section contains discussions of various important concepts that are 
+integral to the Geospatial component, providing support for geographic and 
+geospatial applications. This support includes the ability to embed geospatial 
+coordinates in certain X3D nodes, to support high-precision geospatial modeling, 
+and to handle large multi-resolution terrain databases. These concepts are 
+described below. The Geospatial component includes conventions that are defined 
+by the Spatial Reference Model (see <a href="../references.html#[I18026]">
+ISO/IEC 18026</a>).</p>
+
+<p>In total, the following nodes comprise the Geospatial component. These nodes are
+defined as follows.</p>
+
+<ul>
+  <li><a href="#GeoCoordinate">GeoCoordinate</a></li> 
+  <li><a href="#GeoElevationGrid">GeoElevationGrid</a></li> 
+  <li><a href="#GeoLocation">GeoLocation</a> </li>
+  <li><a href="#GeoLOD">GeoLOD</a> </li>
+  <li><a href="#GeoMetadata">GeoMetadata</a> </li>
+  <li><a href="#GeoOrigin">GeoOrigin</a> </li>
+  <li><a href="#GeoPositionInterpolator">GeoPositionInterpolator</a></li>
+	<li><a href="#GeoProximitySensor">GeoProximitySensor</a></li>
+  <li><a href="#GeoTouchSensor">GeoTouchSensor</a></li>
+	<li><a href="#GeoTransform">GeoTransform</a></li>
+  <li><a href="#GeoViewpoint">GeoViewpoint</a></li>
+</ul>
+
+<h2>
+<a name="Spatialreferenceframes"></a>
+25.2.2 Spatial reference frames</h2>
+
+<p>X3D defines an implicit Cartesian, right-handed three-dimensional
+coordinate system for modeling purposes, as defined in
+<a href="../concepts.html#Standardunitscoordinates">4.3.6 Standard units and 
+coordinate system</a>. 
+However, most geo-referenced data are provided in
+a geodetic or projective spatial reference frame. A geodetic (or
+geographic) spatial reference frame is related to the ellipsoid used
+to model the earth, for example the latitude/longitude system. A
+projective spatial reference frame employs a projection of the
+ellipsoid onto some simple surface such as a cone or a cylinder, for
+example, the Lambert Conformal Conic (LCC) or the Universal Transverse
+Mercator (UTM) projections.  In order to be useful to the geospatial
+community, X3D provides support for a number of nodes that can use
+spatial reference frames for modeling purposes.  The spatial
+reference frames supported by X3D are defined in <a
+href="#t-Supportedspatialframes"> Table 25.2</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Supportedspatialframes"></a>
+Table 25.2 &#8212; Supported spatial reference frames</p>
+
+    <table>
+      <tbody> 
+      <tr> 
+        <th>Code</th>
+        <th>Name</th>
+      </tr>
+      <tr> 
+        <td><span style="font-size: 92%; font-weight: 700">GD</span></td>
+        <td>Geodetic spatial reference frame</td>
+      </tr>
+      <tr> 
+        <td><b>GC</b></td>
+        <td>Geocentric spatial reference frame</td>
+      </tr>
+      <tr> 
+        <td><b>UTM</b></td>
+        <td>Universal Transverse Mercator</td>
+      </tr>
+      </tbody> 
+    </table>
+</div>
+
+<p>The code GDC shall be synonymous to GD and the code GCC shall
+be synonymous to GC. However, these two synonyms may be subject
+to future deprecation.
+In addition to these spatial reference frames, X3D defines 23 standard
+ellipsoids in order to model the shape of the earth. These are all
+defined in <a href="#t-earthellipsoids">Table 25.3</a>.</p>
+
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-earthellipsoids"></a>
+Table 25.3 &#8212; Supported earth ellipsoids</p>
+
+    <table>
+      <tbody> 
+      <tr> 
+        <th>Code</th>
+        <th>Ellipsoid Name</th>
+        <th><b>Semi-Major Axis<br>
+          (metres)</b></th>
+        <th><b>Inv. Flattening<br>
+          (F<sup>-1</sup>)</b></th>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">AA</span></th>
+        <td>Airy 1830</td>
+        <td>6377563.396</td>
+        <td>299.3249646</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">AM</span></th>
+        <td>Modified Airy</td>
+        <td>6377340.189</td>
+        <td>299.3249646</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">AN</span></th>
+        <td>Australian National</td>
+        <td>6378160</td>
+        <td>298.25</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">BN</span></th>
+        <td>Bessel 1841 (Namibia)</td>
+        <td>6377483.865</td>
+        <td>299.1528128</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">BR</span></th>
+        <td>Bessel 1841 (Ethiopia Indonesia...)</td>
+        <td>6377397.155</td>
+        <td>299.1528128</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">CC</span></th>
+        <td>Clarke 1866</td>
+        <td>6378206.4</td>
+        <td>294.9786982</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">CD</span></th>
+        <td>Clarke 1880</td>
+        <td>6378249.145</td>
+        <td>293.465</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">EA</span></th>
+        <td>Everest (India 1830)</td>
+        <td>6377276.345</td>
+        <td>300.8017</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">EB</span></th>
+        <td>Everest (Sabah &amp; Sarawak)</td>
+        <td>6377298.556</td>
+        <td>300.8017</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">EC</span></th>
+        <td>Everest (India 1956)</td>
+        <td>6377301.243</td>
+        <td>300.8017</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">ED</span></th>
+        <td>Everest (W. Malaysia 1969)</td>
+        <td>6377295.664</td>
+        <td>300.8017</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">EE</span></th>
+        <td>Everest (W. Malaysia &amp; Singapore 1948)</td>
+        <td>6377304.063</td>
+        <td>300.8017</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">EF</span></th>
+        <td>Everest (Pakistan)</td>
+        <td>6377309.613</td>
+        <td>300.8017</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">FA</span></th>
+        <td>Modified Fischer 1960</td>
+        <td>6378155</td>
+        <td>298.3</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">HE</span></th>
+        <td>Helmert 1906</td>
+        <td>6378200</td>
+        <td>298.3</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">HO</span></th>
+        <td>Hough 1960</td>
+        <td>6378270</td>
+        <td>297</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">ID</span></th>
+        <td>Indonesian 1974</td>
+        <td>6378160</td>
+        <td>298.247</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">IN</span></th>
+        <td>International 1924</td>
+        <td>6378388</td>
+        <td>297</td>
+      </tr>
+      <tr>
+        <th><span style="font-size: 92%">KA</span></th>
+        <td>Krassovsky 1940</td>
+        <td>6378245</td>
+        <td>298.3</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">RF</span></th>
+        <td>Geodetic Reference System 1980 (GRS 80)</td>
+        <td>6378137</td>
+        <td>298.257222101</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">SA</span></th>
+        <td>South American 1969</td>
+        <td>6378160</td>
+        <td>298.25</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">WD</span></th>
+        <td>WGS 72</td>
+        <td>6378135</td>
+        <td>298.26</td>
+      </tr>
+      <tr> 
+        <th><span style="font-size: 92%">WE</span></th>
+        <td>WGS 84</td>
+        <td>6378137</td>
+        <td>298.257223563</td>
+      </tr>
+      </tbody> 
+    </table>
+  </div>
+
+<p>Finally, X3D supports the specification
+of a geoid representing mean sea level. The list of geoids supported is
+presented in 
+<a href="#t-earthgeoids">
+Table 25.4</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-earthgeoids"></a>
+Table 25.4 &#8212; Supported earth geoids</p> 
+
+<table>
+      <tbody> 
+      <tr> 
+        <th>Code</th>
+        <th>Name</th>
+      </tr>
+      <tr> 
+        <td><b>WGS84</b></td>
+        <td>WGS84 geoid</td>
+      </tr>
+      </tbody> 
+    </table>
+</div>
+
+<p>Internally, an X3D browser will transform all geographic coordinates
+into earth-fixed geocentric coordinates (<i>i.e.</i>, an (x,y,z) displacement
+from the center of the earth in units of length base units). This is a 3D
+Cartesian coordinate system that best integrates with X3D's implicit
+coordinate system. In addition, an offset may be applied to these
+geocentric coordinates if a (now deprecated) <a href="#GeoOrigin">GeoOrigin</a> node is supplied
+(see <a href="#high-precisioncoords">25.2.5 Dealing
+with high-precision coordinates</a>). The resulting coordinates are
+cast to single-precision and are the final values used for
+rendering. This process means that we provide support for increased
+precision around an area of interest, and also enable data specified
+in multiple spatial reference frames to be fused into a single
+context.</p>
+
+<h2><a name="Specifyingaspatialreference"></a>
+25.2.3 Specifying a spatial reference frame</h2>
+
+<p>All the X3D nodes that allow inclusion of geographic coordinates
+  support a field called <i>geoSystem</i>. This field is used to
+  specify the particular spatial reference frame that will be used for
+  the geospatial coordinates in that node.  This is an MFString field
+  that can include a number of arguments to fully designate the
+  spatial reference frame. Each argument appears in a separate string
+  within the MFString array. Argument matching is case
+  sensitive. Optional arguments may appear in any order. The following
+  values are supported. </p>
+
+<ul>
+  <li>&quot;<b>GD</b>&quot; - Geodetic spatial reference frame
+      (latitude/longitude). An optional argument may be used to
+      specify the ellipsoid using one of the ellipsoid codes that are
+      defined in <a href="#t-earthellipsoids"> Table 25.3</a>.  If no ellipsoid is specified, then &quot;WE&quot;
+      is assumed (<i>i.e.</i>, the WGS84 ellipsoid). An optional &quot;WGS84&quot;
+      string can be specified if you wish all elevations to relative
+      to the WGS84 geoid (<i>i.e.</i>, mean sea level) (see
+      <a href="#t-earthgeoids">Table 25.4</a>); otherwise,
+      all elevations will be relative to the ellipsoid. An example
+      spatial reference frame definition of this format is [
+      &quot;GD&quot;, &quot;WD&quot; ], for a geodetic spatial reference
+      frame based upon the WGS72 ellipsoid with all elevations being
+      relative to that ellipsoid.</li>
+</ul>
+<ul>
+  <li>&quot;<b>UTM</b>&quot; - Universal Transverse Mercator. One further
+      required argument must be supplied for UTM in order to specify
+      the zone number (1..60). This is given in the form
+      &quot;Z&lt;n&gt;&quot;, where &lt;n&gt; is the zone number. An
+      optional argument of &quot;S&quot; may be supplied in order to
+      specify that the coordinates are in the southern hemisphere
+      (otherwise, northern hemisphere will be assumed). A further
+      optional argument may be used to specify the ellipsoid using one
+      of the ellipsoid codes that are defined in <a
+      href="#t-earthellipsoids">Table 25.3</a>. If no
+      ellipsoid is specified, then &quot;WE&quot; is assumed (<i>i.e.</i>, the
+      WGS84 ellipsoid). An optional &quot;WGS84&quot; string can be
+      specified if you wish all elevations to relative to the WGS84 geoid (<i>i.e.</i>, mean sea level (see <a
+      href="#t-earthgeoids">Table 25.4</a>)); otherwise, all
+      elevations will be relative to the ellipsoid. An example spatial
+      reference frame definition of this format is [ &quot;UTM&quot;,
+      &quot;Z10&quot;, &quot;S&quot;, &quot;GD&quot; ], for a southern
+      hemisphere UTM spatial reference frame in zone 10 with all
+      elevations being with respect to mean sea level.</li>
+</ul>
+<ul>
+  <li>&quot;<b>GC</b>&quot; - Earth-fixed Geocentric with respect to the
+      WGS84 ellipsoid.  No additional arguments are supported. An
+      example spatial reference frame definition of this format is [
+      &quot;GC&quot; ].</li>
+</ul>
+
+<p>If no geoSystem field is specified, the default value is [
+&quot;GD&quot;, &quot;WE&quot; ].</p>
+
+<h2><a name="Specifyinggeospatialcoords"></a>
+25.2.4 Specifying geospatial coordinates</h2>
+
+<p>Once the spatial reference frame has been defined, a single
+  geographic coordinate is specified as an SFVec3D. Lists of
+  geographic coordinates are encoded as an MFVec3D. The meaning of
+  each component value depends upon the particular spatial reference
+  frame that was defined via the <i>geoSystem</i> field in the same
+  node. Given the following <i>geoSystem</i> definitions, the meaning of each
+  component is defined as follows. </p>
+
+<ul>
+  <li><strong>GD</strong>: (&lt;latitude&gt;, &lt;longitude&gt;,
+     &lt;elevation&gt;) or (&lt;longitude&gt;, &lt;latitude&gt;,
+     &lt;elevation&gt;). The order of latitude and longitude is
+     controlled by the <i>geoSystem</i> field. If "latitude_first" is
+     specified, the order is latitude then longitude. If
+     "longitude_first" is specified, the order is longitude then
+     latitude. If neither is specified, "latitude_first" is the
+     default. Elevation is always specified third.  Latitude and
+     longitude are given in units of angle base units. The following assumes an 
+	angle base unit of degrees. If a UNIT statement for angle base units has 
+	been provided, the following values for latitude and/or longitude should be 
+	suitable converted to that angle base units. Latitude is in the range
+     &minus;90..+90, and longitude can be in the range &minus;180..+180 or 0..360
+     (0 deg longitude is the same point in both cases). Longitudinal
+     values are relative to the Greenwich Prime Meridian. Elevation is
+     given in units of length base units above the ellipsoid (the default) or
+     above the WGS84 geoid (if you supplied the &quot;WGS84&quot;
+     parameter in the <i>geoSystem</i> field).<br>
+	<br>
+	<span class="example">EXAMPLE&nbsp; (37.4506,
+     &minus;122.1834, 0) is the latitude/longitude coordinate for Menlo
+     Park, California, USA.</span> </li>
+</ul>
+<ul>
+  <li><strong>UTM</strong>: (&lt;northing&gt;, &lt;easting&gt;,
+      &lt;elevation&gt;) or (&lt;easting&gt;, &lt;northing&gt;, 
+      &lt;elevation&gt;). The order of northing and easting is 
+      controlled by the <i>geoSystem</i> field. If "northing_first"
+      is specified, the order is northing then easting. If 
+      "easting_first" is specified, the order is easting then
+      northing. If neither is specified, "northing_first" is the
+      default. Elevation is always specified third.
+      Northings, eastings, and elevation are all
+      given in units of length base units. The zone of the coordinate, and
+      whether it is in the southern hemisphere, are defined in the
+      geoSystem string. Elevation is given with reference to the
+      ellipsoid (the default) or the WGS84 geoid (if&nbsp; the
+      &quot;WGS84&quot; parameter is specified in the <i>geoSystem</i> field).<br>
+	<br>
+	<span class="example">EXAMPLE&nbsp;
+      (4145173, 572227, 0) is the zone 10 northern hemisphere UTM coordinate for 
+  Menlo Park, California, USA.</span></li>
+</ul>
+<ul>
+    <li><b>GC</b>: (&lt;x&gt;, &lt;y&gt;, &lt;z&gt;). These values
+        are all given in units of metres. The coordinate represents an
+        offset from the center of the planet, based upon the WGS84
+        ellipsoid. The z-axis passes through the poles while the
+        x-axis cuts through the latitude/longitude coordinate (0,0)
+        degrees.<br>
+	<br>
+	<span class="example">EXAMPLE&nbsp; (&minus;2700301, &minus;4290762, 3857213) is the
+        geocentric coordinate for Menlo Park, California, USA.</span></li>
+  </ul>
+
+<h2><a name="high-precisioncoords"></a>
+25.2.5 Dealing with high-precision coordinates</h2>
+
+<p>Most computer graphics systems, including X3D, use single-precision
+floating point values to model and render all geometry. This is a
+natural design constraint since computer graphics typically deals with
+small screens (up to around 1600 x 1280 pixels), and locally bounded
+regions. As a result, there is no need to use double-precision values
+because any increases in accuracy that it brings would be lost in
+sub-pixel noise.</p>
+
+<p>However, single-precision is insufficient to model data over the
+  range of the earth at accurate ground resolutions. With only 23 bits
+  of mantissa, a coordinate can be accurate to only one part in 8
+  million (2<sup>23</sup>-1); or about 6 or 7 decimal digits of precision.
+  Since the equatorial radius of the earth (considered as an example
+  planetary body) is 6,378,137 m (under the WGS84 ellipsoid), it is
+  not possible to achieve resolutions better than around 0.8 metres
+  using single-precision floating point numbers (6,378,137 / 8,388,607
+  = 0.8).  Below this threshold, various floating point rounding
+  artifacts such as vertices coalescing and camera jitter will
+  occur.</p>
+
+<p>This geo-referencing problem is one avoided by establishing a geo-referenced 
+local coordinate system (LCS). An absolute geo-referenced location is defined as 
+the origin of the LCS. This becomes the reference point that correlates to the 
+X3D world&#39;s (0,0,0) origin. Any subsequent geospatial locations are translated 
+into X3D&#39;s Cartesian coordinate system relative to this LCS origin. Moreover, by 
+allowing the user to define these local frames easily, the creator of the 
+geo-referenced data uses the accuracy of a single-precision floating point 
+representation by creating X3D worlds of only limited local extent. This is the 
+purpose of the GeoOrigin node as specified via the <em>geoOrigin</em> field of 
+the geographic X3D nodes. The GeoOrigin node and all <em>geoOrigin</em> fields 
+are deprecated since browsers can automatically provide local origins as 
+necessary).</p>
+
+<p>To illustrate this concept, imagine an example where the <a href="#GeoOrigin">GeoOrigin</a>
+  is specified as (310385.0 e, 4361550.0 n, 0 m, zone 13) in UTM
+  coordinates. This may be transformed to a double-precision
+  geocentric coordinate of (&minus;1459877.12, &minus;4715646.92, 4025213.19).
+  Then a supplied absolute UTM coordinate of (310400.0 e, 4361600.0 n,
+  0 m, zone 13) may be transformed internally to a geocentric
+  coordinate of (&minus;1459854.51, &minus;4715620.48, 4025252.11). Finally, this
+  absolute geocentric coordinate can be transformed to a
+  single-precision local Cartesian coordinate system by subtracting
+  the GeoOrigin location to give (22.61, 26.44, 38.92), which is
+  within single-precision range.</p>
+
+<h2><a name="navigationissues"></a>
+25.2.6 Geospatial navigation issues</h2>
+
+<p>There are a number of navigation issues that are specific to the
+  task of browsing large geographic areas. One important issue is
+  addressed here, that of elevation scaled velocity.</p>
+
+<p>The velocity at which users can navigate around a world should
+  depend upon their height above the terrain. </p>
+<p class="Example">EXAMPLE&nbsp; When flying
+  over the coast at a height of 100 metres above the terrain, a
+  velocity of 100 metres per second could be considered relatively
+  fast. However, when approaching the earth from outer space, a
+  velocity of 100 metres per second would be intolerably slow.
+  Creators of geographic visualization systems have therefore learned
+  to scale the velocity of the user's navigation in an attempt to
+  maintain a constant pixel flow across the screen. A simple linear
+  relationship between velocity and the user's elevation above an
+  ellipsoid such as WGS84 often provides an acceptable and easily
+  computable solution to this problem. This behavior is addressed by
+  the <a href="#GeoViewpoint">GeoViewpoint</a> node.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Nodereference"></a>
+25.3 Node reference</h1>
+
+<h2><a name="GeoCoordinate"></a>
+25.3.1 GeoCoordinate</h2>
+
+<pre class="node">GeoCoordinate : X3DCoordinateNode {
+  SFNode   [in,out] metadata  NULL        [X3DMetadataObject]
+  MFVec3d  [in,out] point     []          (-&#8734;,&#8734;)
+  SFNode   []       geoOrigin NULL        [GeoOrigin] (deprecated)
+  MFString []       geoSystem ["GD","WE"] [see <a href="#Specifyingaspatialreference">25.2.3</a>]  
+}
+</pre>
+
+   <p>The GeoCoordinate node specifies a list of
+      coordinates in a spatial reference frame. It is used in the
+      <i>coord</i> field of vertex-based geometry nodes including
+      <a href="geometry3D.html#IndexedFaceSet">IndexedFaceSet</a>, 
+	<a href="rendering.html#IndexedLineSet">IndexedLineSet</a>, and 
+	<a href="rendering.html#PointSet">PointSet</a>.</p>
+
+    <p>The <i>geoOrigin</i> field is used to specify a
+      local coordinate frame for extended precision as described in <a
+      href="#high-precisioncoords">25.2.5
+      Dealing with high-precision coordinates</a>.</p>
+
+    <p>The <i>geoSystem</i> field is used to define the
+      spatial reference frame and is described in <a
+      href="#Specifyingaspatialreference">25.2.3
+      Specifying a spatial reference frame</a>.</p>
+
+    <p>The <i>point</i> array is used to contain the
+      actual geospatial coordinates and should be provided in a format
+      consistent with that specified for the particular <i>
+      geoSystem</i> (see above). The geospatial coordinates are
+      transparently transformed into a geocentric, curved-earth
+      representation.  For example, this would allow a geographer to
+      create a X3D world where all coordinates are specified in terms
+      of latitude, longitude, and elevation.</p>
+
+<h2><a name="GeoElevationGrid"></a>
+25.3.2 GeoElevationGrid</h2>
+
+<pre class="node">GeoElevationGrid : X3DGeometryNode {
+  MFDouble [in]     set_height
+  SFNode   [in,out] color           NULL        [X3DColorNode]
+  SFNode   [in,out] metadata        NULL        [X3DMetadataObject]
+  SFNode   [in,out] normal          NULL        [X3DNormalNode]
+  SFNode   [in,out] texCoord        NULL        [X3DTextureCoordinateNode]
+  SFFloat  [in,out] yScale          1.0         [0,&#8734;)
+  SFBool   []       ccw             TRUE
+  SFBool   []       colorPerVertex  TRUE
+  SFDouble []       creaseAngle     0           [0,&#8734;)
+  SFVec3d  []       geoGridOrigin   0 0 0       (-&#8734;,&#8734;)
+  SFNode   []       geoOrigin       NULL        [GeoOrigin] (deprecated)
+  MFString []       geoSystem       ["GD","WE"] [see <a href="#Specifyingaspatialreference">25.2.3</a>]
+  MFDouble []       height          [0 0]       (-&#8734;,&#8734;)
+  SFBool   []       normalPerVertex TRUE
+  SFBool   []       solid           TRUE
+  SFInt32  []       xDimension      0           (0,&#8734;)
+  SFDouble []       xSpacing        1.0         [0,&#8734;)
+  SFInt32  []       zDimension      0           (0,&#8734;)
+  SFDouble []       zSpacing        1.0         [0,&#8734;)
+}
+</pre>
+
+    <p>The GeoElevationGrid node specifies a uniform grid
+      of elevation values within some spatial reference frame. These
+      are then transparently transformed into a geocentric,
+      curved-earth representation. For example, this would allow a
+      geographer to create a height field where all coordinates are
+      specified in terms of latitude, longitude, and elevation.</p>
+
+    <p>The fields <i>color</i>, <i>colorPerVertex</i>,
+    <i>texCoord</i>, <i>normal</i>, and <i>normalPerVertex</i> all
+      have the same meaning as for <a href="geometry3D.html#ElevationGrid">ElevationGrid</a> 
+	(see <a href="geometry3D.html#ElevationGrid">13.3.4 ElevationGrid</a>). 
+	Similarly, if necessary, tessellation is applied as specified in <a href="geometry3D.html#ElevationGrid">13.3.4 ElevationGrid</a>.</p>
+
+    <p>The <i>ccw</i>, <i>solid</i>, and
+      <i>creaseAngle</i> fields are described in
+    <a href="rendering.html#Commongeometryfields">11.2.3 Common geometry fields</a>.</p>
+
+    <p>The <i>geoOrigin</i> field is used to specify a
+      local coordinate frame for extended precision as described in <a
+      href="#high-precisioncoords">25.2.5
+      Dealing with high-precision coordinates</a>.</p>
+
+    <p>The <i>geoSystem</i> field is used to define the
+      spatial reference frame and is described in <a
+      href="#Specifyingaspatialreference">25.2.3
+      Specifying a spatial reference frame</a>.</p>
+
+    <p>The <i>geoGridOrigin</i> field specifies the
+      geographic coordinate for the south-west corner (bottom-left) of
+      the dataset. This value should be specified as described in <a
+      href="#Specifyinggeospatialcoords">25.2.4
+      Specifying geospatial coordinates</a>. </p>
+
+    <p>The <i>height</i> array contains <i>xDimension</i> &times; <i>zDimension</i> floating point values that represent
+      elevation above the ellipsoid or the geoid, as
+      appropriate. These values are given in row-major order from west
+      to east, south to north. When the <i>geoSystem</i> is <span class="code">&quot;GD&quot;</span>,
+      <i>xSpacing</i> refers to the number of units of longitude in angle base 
+	units
+      between adjacent height values and
+      <i>zSpacing</i> refers to the number of units of latitude in angle base 
+	units
+      between vertical height values. When the geoSystem is <span class="code">&quot;UTM&quot;</span>,
+      <i>xSpacing</i> refers to the number of eastings (length base units)
+      between adjacent height values and <i>zSpacing</i> refers to the
+      number of northings (length base units) between vertical height values.</p>
+<p class="Example">EXAMPLE&nbsp; If xDimension = <i>n</i> and the grid spans
+      <i>d</i> units horizontally, the xSpacing value should be set
+      to:</p>
+
+    <blockquote>
+
+    <p class="Example"><i>d</i> / (<i>n</i>&minus;1).</p>
+
+    </blockquote>
+
+    <p>The <i>yScale</i> value can be used to produce a
+      vertical exaggeration of the data when it is displayed. By
+      default, this value is 1.0 (no exaggeration). If this value is
+      set greater than 1.0, all heights will appear larger than
+      actual.</p>
+
+
+<h2><a name="GeoLocation"></a>
+25.3.3 GeoLocation</h2>
+ 
+<pre class="node">GeoLocation : X3DGroupingNode {
+  MFNode   [in]     addChildren                [X3DChildNode]
+  MFNode   [in]     removeChildren             [X3DChildNode]
+  MFNode   [in,out] children       []          [X3DChildNode]
+  SFVec3d  [in,out] geoCoords      0 0 0       (-&#8734;,&#8734;)
+  SFNode   [in,out] metadata       NULL        [X3DMetadataObject]
+  SFNode   []       geoOrigin      NULL        [GeoOrigin] (deprecated)
+  MFString []       geoSystem      ["GD","WE"] [see <a href="#Specifyingaspatialreference">25.2.3</a>]
+  SFVec3f  []       bboxCenter     0 0 0       (-&#8734;,&#8734;)
+  SFVec3f  []       bboxSize       -1 -1 -1    [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+    <p>The GeoLocation node provides the ability to
+      geo-reference any standard X3D model. That is, to take an
+      ordinary X3D model, contained within the <i>children</i> field
+      of the node, and to specify its geospatial location. This node
+      is a grouping node that can be thought of as a Transform
+      node. However, the GeoLocation node specifies an absolute
+      location, not a relative one, so content developers should not
+      nest GeoLocation nodes within each other.</p>
+
+    <p>The <i>geoOrigin</i> field is used to specify a
+      local coordinate frame for extended precision as described in <a
+      href="#high-precisioncoords">25.2.5
+      Dealing with high-precision coordinates</a>.</p>
+
+    <p>The <i>geoSystem</i> field is used to define the
+      spatial reference frame and is described in <a
+      href="#Specifyingaspatialreference">25.2.3
+      Specifying a spatial reference frame</a>.</p>
+
+    <p>The geometry of the nodes in <i>children</i> is to
+      be specified in units of metres in X3D coordinates relative to
+      the location specified by the <i>geoCoords</i> field. The
+      <i>geoCoords</i> field should be provided in the format
+      described in <a
+      href="#Specifyingaspatialreference">25.2.3
+      Specifying a spatial reference frame</a>.</p>
+
+    <p>The <i>geoCoords</i> field can be used to
+      dynamically update the geospatial location of the model; for
+      example, an event could be sent from a <a
+      href="#GeoPositionInterpolator">GeoPositionInterpolator</a> node.</p>
+
+    <p>In addition to placing a X3D model at the correct
+      geospatial location, the GeoLocation node will also adjust the
+      orientation of the model appropriately. The standard X3D
+      coordinate system specifies that the +Y axis = up, +Z = out of
+      the screen, and +X = towards the right. The GeoLocation node
+      will set the orientation so that the +Y axis is the up direction
+      for that local area (the normal to the tangent plane on the
+      ellipsoid), &minus;Z points towards the north pole, and +X is east.</p>
+
+<h2><a name="GeoLOD"></a>
+25.3.4 GeoLOD</h2>
+
+<pre class="node">GeoLOD : X3DChildNode, X3DBoundedObject {
+  SFNode   [in,out] metadata       NULL        [X3DMetadataObject]
+  MFNode   [out]    children                   [X3DChildNode]
+  SFInt32  [out]    level_changed
+  SFVec3d  []       center         0 0 0       (-&#8734;,&#8734;)
+  MFString []       child1Url      []          [URI]
+  MFString []       child2Url      []          [URI]
+  MFString []       child3Url      []          [URI]
+  MFString []       child4Url      []          [URI]
+  SFNode   []       geoOrigin      NULL        [GeoOrigin] (deprecated)
+  MFString []       geoSystem      ["GD","WE"] [see <a href="#Specifyingaspatialreference">25.2.3</a>]
+  SFFloat  []       range          10          [0,&#8734;)
+  MFString []       rootUrl        []          [URI]
+  MFNode   []       rootNode       []          [X3DChildNode]
+  SFVec3f  []       bboxCenter     0 0 0       (-&#8734;,&#8734;)
+  SFVec3f  []       bboxSize       -1 -1 -1    [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+    <p>The GeoLOD node provides a terrain-specialized
+      form of the <a href="navigation.html#LOD">LOD</a> node. It is a grouping node that specifies two
+      different levels of detail for an object using a tree structure,
+      where 0 to 4 children can be specified, and also efficiently
+      manages the loading and unloading of these levels of detail.</p>
+
+    <p>The level of detail is switched depending upon
+      whether the user is closer or farther than <i>range</i> length base units
+      from the geospatial coordinate <i>center</i>.&nbsp; The
+      <i>center</i> field should be specified as described in <a
+      href="#Specifyinggeospatialcoords">25.2.4
+      Specifying geospatial coordinates</a>.</p>
+
+    <p>The <i>geoOrigin</i> field is used to specify a
+      local coordinate frame for extended precision as described in <a
+      href="#high-precisioncoords">25.2.5
+      Dealing with high-precision coordinates</a>.</p>
+
+    <p>The <i>geoSystem</i> field is used to define the
+      spatial reference frame and is described in <a
+      href="#Specifyingaspatialreference">25.2.3
+      Specifying a spatial reference frame</a>.</p>
+
+    <p>When the user is outside the specified range, only
+      the geometry for <i>rootUrl</i> or <i>rootNode</i> are
+      displayed. When the viewer enters the specified range, this
+      geometry is replaced with the contents of the four children
+      files defined by <i>child1Url</i> through <i>child4Url</i>.  The
+      four children files are loaded into memory only when the user is
+      within the specified range. Similarly, these are unloaded from
+      memory when the user leaves this range. 
+      <a href="#f-LoadingGeoLODlevels">Figure 25.1</a> illustrates this process. 
+	The child URLs shall be arranged in the same order as in the figure; <i>i.e.</i>,
+	<i>child1Url</i> represents the bottom-left quadtree child. It is valid to specify less than four child URLs; in which case, the GeoLOD should switch to the
+      children nodes when all of the specified URLs have been loaded.
+      This latter feature can support tree structures other than 
+      quadtrees, such as binary trees.</p>
+
+<div class="CenterDiv">
+
+<a name="f-LoadingGeoLODlevels"></a>
+<img src="../../Images/geolod.gif" alt="GeoLOD Figure" width="381" height="192"> 
+
+<p class="FigureCaption">
+Figure 25.1 &#8212; Loading of GeoLOD levels</p>
+
+</div>
+
+    <p>The <i>rootUrl</i> and <i>rootNode</i> fields
+      provide two different ways to specify the geometry of the root
+      tile. You may use one or the other. The <i>rootNode</i> field
+      lets you include the geometry for the root tile directly within
+      the X3D file; whereas the <i>rootUrl</i> field lets you specify
+      a URL for a file that contains the geometry. The result of
+      specifying a value for both of these fields is undefined.</p>
+
+    <p>The <i>children</i> field is used to expose a portion of the scene graph for 
+the currently loaded set of nodes. The value returned as an event is an MFNode 
+containing the currently selected tile. This will either be the node specified 
+by the <i>rootNode</i> field or the nodes specified by the <i>child1Url</i>, <i>
+child2Url</i>, <i>child3Url</i>, and <i>child4Url</i> fields. The GeoLOD node 
+shall generate a new <i>children</i> output event each time the scene graph is 
+changed (<span class="example">EXAMPLE whenever nodes are loaded or unloaded</span>). 
+	When the new children event is generated, the GeoLOD node shall also 
+	generate a <em>level_changed</em> event with value 0 or 1, where 0 indicates 
+	the <em>rootNode</em> field and 1 indicates the nodes specified by the <em>
+	child1Url</em>, <em>child2Url</em>, <em>child3Url</em>, and <em>child4Url</em> 
+	fields. </p>
+
+    <p>The GeoLOD node may optionally be implemented with
+      support for a cache of the most recent nodes that have been
+      loaded. This cache should be global across all GeoLOD instances
+      in a scene. This will improve performance when navigating large
+      terrain models by avoiding excessive loading and unloading when
+      a user makes small changes in viewpoint.</p>
+
+<h2><a name="GeoMetadata"></a>
+25.3.5 GeoMetadata</h2>
+
+<pre class="node">GeoMetadata : X3DInfoNode {
+  MFNode   [in,out] data     []
+  SFNode   [in,out] metadata NULL [X3DMetadataObject]
+  MFString [in,out] summary  []
+  MFString [in,out] url      []   [URI]
+}
+</pre>
+
+    <p>The GeoMetadata node supports the specification of metadata describing 
+    any number of geospatial nodes. This is similar
+      to a <a href="core.html#WorldInfo">WorldInfo</a> node, but specifically for describing geospatial
+      information.</p>
+
+    <p> There are a number of standards and
+      representations for geospatial metadata. Rather than adopt any
+      particular standard, the purpose of the GeoMetadata node is to
+      provide links to any of these complete metadata descriptions,
+      with the option to also supply a short, human-readable summary. More 
+	specific metadata can be specified using the <i>metadata</i> field available 
+	in each node.</p>
+
+    <p>The <i>url</i> field is used to specify a
+      hypertext link to an external, complete metadata
+      description. Multiple URL strings can be specified in order to
+      provide alternative locations for the same metadata
+      information. The summary field may be used to specify the format
+      of the metadata in the case where this cannot be deduced easily.</p>
+
+    <p>The <i>summary</i> string array contains a set of
+      keyword/value pairs, with each keyword and its subsequent value
+      contained in a separate string; <i>i.e.</i>, there should always be an
+      even (or zero) number of strings.  This provides a simple,
+      extensible mechanism to include metadata elements that are
+      human-readable and easy to parse. <a
+      href="#t-keywordsandvalues">Table 25.5</a> specifies a
+      number of keywords and the format that should be used to
+      describe their values. If an unknown keyword is found, it (and
+      its associated value) are ignored.</p>
+
+    <p class="TableCaption" align="center">
+<a name="t-keywordsandvalues"></a>
+Table 25.5 &#8212; GeoMetadata keywords and values</p>
+
+<div class="CenterDiv">
+
+<p>
+
+      <table>
+        <tbody> 
+        <tr> 
+          <th>Keyword</th>
+          <th>Value</th>
+        </tr>
+        <tr> 
+          <td>title</td>
+          <td>A name to succinctly identify the dataset to user. For example, 
+            &quot;San Francisco, CA&quot;.</td>
+        </tr>
+        <tr> 
+          <td>description</td>
+          <td>A brief textual description or summary of the content of the dataset. 
+            For example, &quot;LANDSAT 7 satellite imagery taken over northern 
+            Scotland&quot;.</td>
+        </tr>
+        <tr> 
+          <td>coordinateSystem</td>
+          <td>The spatial reference frame used to represent the data (<i>e.g.</i>, GD, UTM, or LCC). The list of valid codes that can be used in this 
+            field are defined in <a href="../references.html#[I18026]">ISO/IEC 
+			18026</a>. 
+            In the case of UTM, the zone number should also be specified in the 
+            format &quot;UTM Z<i>x</i>&quot;, where the zone number is in the 
+            range [1,60]. For example, &quot;UTM Z11&quot;.</td>
+        </tr>
+        <tr> 
+          <td>horizontalDatum</td>
+          <td>The name of the geodetic datum. The list of valid codes that can 
+            be used in this field are defined in
+          <a href="../references.html#[I18026]">ISO/IEC 18026</a>. 
+            For example, &quot;W84&quot;.</td>
+        </tr>
+        <tr> 
+          <td>verticalDatum</td>
+          <td>The name of the vertical datum (geoid). The list of valid codes 
+            that can be used in this field are defined in
+			<a href="../references.html#[I18026]">ISO/IEC 18026</a>. 
+            For example, &quot;W84&quot;.</td>
+        </tr>
+        <tr> 
+          <td>ellipsoid</td>
+          <td>The name of the geodetic ellipsoid. The list of valid codes that 
+            can be used in this field are defined in
+          <a href="../references.html#[I18026]">ISO/IEC 18026</a>. 
+            For example, &quot;WE&quot;.</td>
+        </tr>
+        <tr> 
+          <td>extent</td>
+          <td>The bounding coordinates for the dataset given in spatial reference frame
+            specified by the <i>coordinateSystem</i> keyword. These are provided 
+            in the order eastmost, southmost, westmost, northmost. An example 
+            for GD is: &quot;-180.0 -90.0 180.0 90.0&quot;.</td>
+        </tr>
+        <tr> 
+          <td>resolution</td>
+          <td>The resolution, or ground sample distance, given in units of 
+			length base units. 
+            For example, &quot;30&quot;.</td>
+        </tr>
+        <tr> 
+          <td>originator</td>
+          <td>A string defining the originator of the data, for example the author, 
+            agency, organization, publisher, etc. For example, &quot;John Doe, 
+            Any Corporation, Some Town, Some Country&quot;</td>
+        </tr>
+        <tr> 
+          <td>copyright</td>
+          <td>Any appropriate copyright declaration that pertains to the data. 
+            For example, &quot;(c) Copyright 2000, Any Corporation. All rights 
+            reserved. Freely distributable.&quot;</td>
+        </tr>
+        <tr> 
+          <td>date</td>
+          <td>A single date/time, or a date/time range, defining the valid time 
+            period to which the data pertains. Dates are specified in the format 
+            &quot;YYYY MM DD [HH:MM]&quot;. Years in the current time period should 
+            be specified using four digits (<span class="code">EXAMPLE</span>&nbsp; &quot;1999&quot; or &quot;2001&quot;). 
+            Years can have other than four digits and can be negative. A date range 
+            is specified by supplying two values separated by a &quot;-&quot; 
+            (hyphen) character. An optional time can be supplied should this level of accuracy 
+            be required. Times are to be specified in 24-hour format with respect 
+            to GMT. For example, &quot;1999 01 01 00:00 - 1999 12 31 23:59&quot;.</td>
+        </tr>
+        <tr> 
+          <td>metadataFormat</td>
+          <td>A string that specifies the format of the external metadata description 
+            specified by the <i>url</i> field of the GeoMetadata node. For example, 
+            &quot;FGDC&quot;, &quot;ISO TC211&quot;, &quot;CEN TC287&quot;, or 
+            &quot;OGC&quot;.</td>
+        </tr>
+        <tr> 
+          <td>dataUrl</td>
+          <td>A hypertext link to the source data used to create the X3D node(s) 
+            to which this metadata pertains. Multiple <i>dataUrl</i> keyword/value 
+            pairs can be specified in order to provide alternative locations for 
+            the same source data. 
+            For example, &quot;http://www.foo.bar/data/sf1&quot;.</td>
+        </tr>
+        <tr> 
+          <td>dataFormat</td>
+          <td>A free-text string that describes the format of the source data 
+            used to create the X3D node(s) to which this metadata pertains. This 
+            refers to the source data specified by the <i>dataUrl</i> keyword 
+            (if present). For example, &quot;USGS 5.5-min DEM&quot;.</td>
+        </tr>
+        </tbody> 
+      </table>
+</div>
+
+<p><span class="normal">The data field is used to list all of the other nodes in 
+a scene by DEF name that reference the data described in the GeoMetadata node.</span> For example, if the GeoMetadata node is describing a height field grid, the appropriate 
+<a href="#GeoElevationGrid">GeoElevationGrid</a> 
+      node could be included inside the data field. The nodes in the data field 
+      are not rendered, so DEF/USE can be used in order to first describe them 
+      and then to use them in the scene graph This approach allows associating 
+      multiple data nodes with a single GeoMetadata node, specifying multiple 
+      GeoMetadata nodes within a single scene, and also provides a mechanism to 
+      easily locate all of the data that pertain to any particular metadata entry. 
+      If the data field is not specified, it is assumed that the GeoMetadata node 
+      pertains to the entire scene. 
+
+<h2><a name="GeoOrigin"></a>
+25.3.6 GeoOrigin (deprecated)</h2>
+
+<pre class="node">GeoOrigin : X3DNode {
+  SFVec3d  [in,out] geoCoords 0 0 0       (-&#8734;,&#8734;)
+  SFNode   [in,out] metadata  NULL        [X3DMetadataObject]
+  MFString []       geoSystem ["GD","WE"] [see <a href="#Specifyingaspatialreference">25.2.3</a>]
+  SFBool   []       rotateYUp FALSE
+}
+</pre>
+
+    <p>GeoOrigin node usage is deprecated and its use is discouraged. The 
+	presence of a GeoOrigin node is tolerated but can be ignored in X3D scenes 
+	having version 3.0, 3.1 or 3.2. GeoOrigin node is not allowed in X3D scenes 
+	having version 3.3 or higher.</p>
+<p>The GeoOrigin node defines an absolute geospatial
+      location and an implicit local coordinate frame against which
+      geometry is referenced.  This node is used to translate from
+      geographical coordinates into a local Cartesian coordinate
+      system which can be managed by the X3D browser.</p>
+
+    <p>The <i>geoCoords</i> field is used to specify a
+      local coordinate frame for extended precision as described in <a
+      href="#high-precisioncoords">25.2.5
+      Dealing with high-precision coordinates</a>.</p>
+
+    <p>The <i>geoSystem</i> field is used to define the
+      spatial reference frame and is described in <a
+      href="#Specifyingaspatialreference">25.2.3
+      Specifying a spatial reference frame</a>.</p>
+
+    <p>The <i>rotateYUp</i> field is used to specify
+      whether coordinates of nodes that use this GeoOrigin are to be
+      rotated such that their up direction is aligned with the X3D Y
+      axis. The default behavior is to not perform this
+      operation. This means that the local up direction will depend
+      upon the location of the GeoOrigin with respect to the planet
+      surface. The principal reason for performing the rotation is to
+      ensure that standard navigation modes such as &quot;<span class="code">FLY</span>&quot; and 
+	&quot;<span class="code">WALK</span>&quot;,
+      which assume that +Y = up, will function correctly.  Specifying <i>rotateYUp</i> to be <span class="code">TRUE</span> may incur an extra computational overhead
+      in order to perform the rotation for each point.</p>
+
+<h2><a name="GeoPositionInterpolator"></a>
+25.3.7 GeoPositionInterpolator</h2>
+ 
+<pre class="node">GeoPositionInterpolator : X3DInterpolatorNode {
+  SFFloat  [in]     set_fraction                 (-&#8734;,&#8734;)
+  MFFloat  [in,out] key              []          (-&#8734;,&#8734;)
+  MFVec3d  [in,out] keyValue         []
+  SFNode   [in,out] metadata         NULL        [X3DMetadataObject]
+  SFVec3d  [out]    geovalue_changed
+  SFVec3f  [out]    value_changed
+  SFNode   []       geoOrigin        NULL        [GeoOrigin] (deprecated)
+  MFString []       geoSystem        ["GD","WE"] [see <a href="#Specifyingaspatialreference">25.2.3</a>]
+}
+</pre>
+
+    <p>The GeoPositionInterpolator node provides an
+      interpolator capability where key values are specified in
+      geographic coordinates and the interpolation is performed within
+      the specified spatial reference frame.</p>
+
+    <p>The <i>geoOrigin</i> field is used to specify a
+      local coordinate frame for extended precision as described in <a
+      href="#high-precisioncoords">25.2.5
+      Dealing with high-precision coordinates</a>.</p>
+
+    <p>The <i>geoSystem</i> field is used to define the
+      spatial reference frame and is described in <a
+      href="#Specifyingaspatialreference">25.2.3
+      Specifying a spatial reference frame</a>.</p>
+
+    <p> The fields <i>key</i>, <i>set_fraction</i>, and
+      <i>value_changed</i> have the same meaning as in the
+      PositionInterpolator node.</p>
+
+    <p>The <i>keyValue</i> array is used to contain the
+      actual coordinates and should be provided in a format consistent
+      with that specified for the particular <i>geoSystem</i>.</p>
+
+    <p>The <i>geovalue_changed</i> field outputs the the
+      interpolated coordinate in the spatial reference frame specified
+      by <i>geoSystem</i>.  This can be passed to other GeoX3D nodes
+      that support a field of this form (<i>e.g.</i>, <a href="#GeoViewpoint">GeoViewpoint</a> and
+      <a href="#GeoLocation">GeoLocation</a>).</p>
+
+<h2><a name="GeoProximitySensor"></a>25.3.8 GeoProximitySensor</h2>
+
+<pre class="node">GeoProximitySensor : X3DEnvironmentalSensorNode {
+  SFBool     [in,out] enabled                  TRUE
+  SFVec3d    [in,out] geoCenter                0 0 0       (-&#8734;,&#8734;) (deprecated as of vs. 3.3)
+  SFVec3d    [in,out] center                   0 0 0       (-&#8734;,&#8734;) (starting with vs. 3.3)
+  SFNode     [in,out] metadata                 NULL        [X3DMetadataObject]
+  SFVec3f    [in,out] size                     0 0 0       [0,&#8734;)
+  SFVec3f    [out]    centerOfRotation_changed
+  SFTime     [out]    enterTime
+  SFTime     [out]    exitTime
+  SFVec3d    [out]    geoCoord_changed
+  SFBool     [out]    isActive
+  SFRotation [out]    orientation_changed
+  SFVec3f    [out]    position_changed
+  SFNode     []       geoOrigin                NULL        [GeoOrigin] (deprecated)
+  MFString   []       geoSystem                [&quot;GD&quot;,&quot;WE&quot;] [see <a href="#Specifyingaspatialreference">25.2.3</a>]
+}</pre>
+<p align="left">The GeoProximitySensor node generates events when the viewer 
+enters, exits, and moves within a region in space (defined by a box).<br>
+<br>
+A GeoProximitySensor node generates <i>isActive</i> events as the viewer enters 
+and exits the rectangular box defined by its <i>geoCenter</i> and <i>size</i> 
+fields. This box is oriented tangent to the ellipsoid in a local coordinate 
+system. Starting with version 3.3, the <em>geoCenter</em> field is renamed <em>
+center</em>.<br>
+<br>
+The fields <i>geoSystem</i> and <i>geoOrigin</i> are described in
+<a href="#Specifyingaspatialreference">25.2.3 Specifying a spatial reference 
+frame</a> and <a href="#high-precisioncoords">25.2.5 Dealing with high-precision 
+coordinates</a>, respectively.<br>
+<br>
+The <i>geoCoord_changed</i> generates an event that returns the geospatial 
+coordinates of the viewer&#39;s position in the spatial reference frame specified by
+<i>geoSystem</i> for the viewer&#39;s position whenever a <i>position_changed</i> 
+event is generated. The <i>geoCoord_changed</i> value corresponds to the world 
+position returned by <i>position_changed</i>.</p>
+<p align="left">The remaining fields are defined in
+<a href="envsensor.html#ProximitySensor">22.4.1 ProximitySensor</a>.</p>
+
+<h2><a name="GeoTouchSensor"></a>
+25.3.9 GeoTouchSensor</h2>
+
+<pre class="node">GeoTouchSensor : X3DTouchSensorNode {
+  SFString [in,out] description         &quot;&quot;
+  SFBool   [in,out] enabled             TRUE
+  SFNode   [in,out] metadata            NULL        [X3DMetadataObject]
+  SFVec3f  [out]    hitNormal_changed
+  SFVec3f  [out]    hitPoint_changed
+  SFVec2f  [out]    hitTexCoord_changed
+  SFVec3d  [out]    hitGeoCoord_changed
+  SFBool   [out]    isActive
+  SFBool   [out]    isOver
+  SFTime   [out]    touchTime
+  SFNode   []       geoOrigin           NULL        [GeoOrigin] (deprecated)
+  MFString []       geoSystem           ["GD","WE"] [see <a href="#Specifyingaspatialreference">25.2.3</a>]
+}
+</pre>
+
+    <p>A GeoTouchSensor node tracks the location and
+      state of a pointing device and detects when the user points at
+      geometry contained by the parent group of the
+      GeoTouchSensor. This node provides the same functionality as a
+      <a href="pointingsensor.html#TouchSensor">TouchSensor</a> but also provides the
+      ability to return the geographic coordinate under the pointing
+      device.</p>
+<p>The <i>description</i> field in the GeoTouchSensor node specifies a textual 
+description of the GeoTouchSensor node. This may be used by browser-specific 
+user interfaces that wish to present users with more detailed information about 
+the GeoTouchSensor.</p>
+
+    <p>A GeoTouchSensor can be enabled or disabled by
+      sending an event of value <span class="code">TRUE</span> or 
+    <span class="code">FALSE</span> to the <i>enabled</i>
+      field. A disabled GeoTouchSensor does not track user input or
+      send events.</p>
+
+    <p>The <i>geoOrigin</i> field is used to specify a
+      local coordinate frame for extended precision as described in <a
+      href="#high-precisioncoords">25.2.5
+      Dealing with high-precision coordinates</a>.</p>
+
+    <p>The <i>geoSystem</i> field is used to define the
+      spatial reference frame and is described in <a
+      href="#Specifyingaspatialreference">25.2.3
+      Specifying a spatial reference frame</a>.</p>
+
+    <p>The fields <i>hitNormal_changed</i>, <i>hitPoint_changed</i>, 
+      <i>hitTexCoord_changed</i>, <i>isActive</i>, <i>isOver</i>, and
+      <i>touchTime</i> all have the same meaning as in the TouchSensor
+      node.</p>
+
+    <p>The <i>hitGeoCoord_changed</i> field is generated
+      while the pointing device is pointing towards the
+      GeoTouchSensor's geometry (<i>i.e.</i>,  when <i>isOver</i> is <span class="code">TRUE</span>). It
+      is a field containing the geospatial coordinate for the point of
+      intersection between the pointing device's location and the
+      underlying geometry. The value of the geoSystem string defines
+      the spatial reference frame of the geospatial coordinate. For
+      example, given the default geoSystem value of &quot;GD&quot;,
+      the <i>hitGeoCoord_changed</i> field will be in the format
+      (&lt;latitude&gt; &lt;longitude&gt; &lt;elevation&gt;) (see <a
+      href="#Specifyinggeospatialcoords">25.2.4
+      Specifying geospatial coordinates</a>).</p>
+
+<h2><a name="GeoTransform"></a>25.3.10 GeoTransform</h2>
+
+<pre class="node">GeoTransform : X3DGroupingNode {
+  MFNode     [in]     addChildren                  [X3DChildNode]
+  MFNode     [in]     removeChildren               [X3DChildNode]
+  MFNode     [in,out] children         []          [X3DChildNode]
+  SFVec3d    [in,out] geoCenter        0 0 0       (-∞,∞)
+  SFNode     [in,out] metadata         NULL        [X3DMetadataObject]
+  SFRotation [in,out] rotation         0 0 1 0     [-1,1] or (-∞,∞)
+  SFVec3f    [in,out] scale            1 1 1       (0,∞)
+  SFRotation [in,out] scaleOrientation 0 0 1 0     [-1,1] or (-∞,∞)
+  SFVec3f    [in,out] translation      0 0 0       (-∞,∞)
+  SFVec3f    []       bboxCenter       0 0 0       (-∞,∞)
+  SFVec3f    []       bboxSize         -1 -1 -1    [0,∞) or −1 −1 −1
+  SFNode     []       geoOrigin        NULL        [GeoOrigin] (deprecated)
+  MFString   []       geoSystem        [&quot;GD&quot;,&quot;WE&quot;] [see <a href="#Specifyingaspatialreference">25.2.3</a>]
+}</pre>
+<p align="left">The GeoTransform node is a grouping node that defines a 
+coordinate system for its children to support the translation and orientation of 
+geometry built using GeoCoordinate nodes within the local world coordinate 
+system. The X-Z plane of a GeoTransform coordinate system is tangent to the 
+ellipsoid of the spatial reference frame at the location specified by the <i>
+geoCenter</i> field.</p>
+<p align="left">The <i>geoCenter</i> field specifies, in the spatial reference 
+frame specified by the <i>geoSystem</i> field, the location at which the local 
+coordinate system is centered.<br>
+<br>
+The fields <i>geoSystem</i> and <i>geoOrigin</i> are described in
+<a href="#Specifyingaspatialreference">
+25.2.3 Specifying a spatial reference frame</a> and
+<a href="#high-precisioncoords">
+25.2.5 Dealing with high-precision coordinates</a>, respectively.<br>
+<br>
+The remaining fields are defined in
+<a href="group.html#Transform">
+10.4.4 Transform</a>.</p>
+<h2><a name="GeoViewpoint"></a>25.3.11 GeoViewpoint</h2>
+
+<pre class="node">GeoViewpoint : X3DViewpointNode {
+  SFBool     [in]     set_bind
+  SFVec3d    [in,out] centerOfRotation  0 0 0             (-&#8734;,&#8734;)
+  SFString   [in,out] description       ""
+  SFFloat    [in,out] fieldOfView       &pi;/4               (0,&pi;)
+  SFBool     [in,out] jump              TRUE
+  SFNode     [in,out] metadata          NULL              [X3DMetadataObject]
+  SFRotation [in,out] orientation       0 0 1 0           (-&#8734;,&#8734;) or -1 1
+  SFVec3d    [in,out] position          0 0 100000        (-&#8734;,&#8734;)
+  SFBool     [in,out] retainUserOffsets FALSE
+  SFTime     [out]    bindTime
+  SFBool     [out]    isBound
+  SFNode     []       geoOrigin         NULL              [GeoOrigin] (deprecated)
+  MFString   []       geoSystem         ["GD","WE"]       [see <a href="#Specifyingaspatialreference">25.2.3</a>]
+  SFFloat    []       speedFactor       1.0               [0,&#8734;)
+}
+</pre>
+
+    <p>The GeoViewpoint node allows the specification of
+      a viewpoint in terms of a geospatial coordinate. This node can
+      be used wherever a <a href="navigation.html#Viewpoint">Viewpoint</a> node can be used and can be
+      combined with Viewpoint nodes in the same scene.
+      The <i>fieldOfView</i>, <i>jump</i>, <i>description</i>, <i>set_bind</i>, 
+      <i>bindTime</i>, and <i>isBound</i> fields and events have the
+      same behavior as the standard Viewpoint node. When a
+      GeoViewpoint node is bound, it overrides the currently bound
+      Viewpoint and NavigationInfo nodes in the scene.</p>
+
+    <p>The <i>geoOrigin</i> field is used to specify a
+      local coordinate frame for extended precision as described in <a
+      href="#high-precisioncoords">25.2.5
+      Dealing with high-precision coordinates</a>.</p>
+
+    <p>The <i>geoSystem</i> field is used to define the
+      spatial reference frame and is described in <a
+      href="#Specifyingaspatialreference">25.2.3
+      Specifying a spatial reference frame</a>.</p>
+
+    <p>The <i>position</i> is used to define the actual
+      coordinate at which the viewpoint is to be located. It should be
+      provided in a format consistent with that specified by <i>
+      geoSystem</i>. There is also a <i>set_position</i> field which
+      can be routed from the <i>geovalue_changed</i> field of a <a
+      href="#GeoPositionInterpolator">GeoPositionInterpolator</a> node
+      in order to animate the position of the GeoViewpoint.</p>
+
+    <p>The <i>orientation</i> string defines a relative
+      orientation from the local orientation frame that is defined by
+      the position field.  By default, the orientation of the
+      viewpoint will always be aligned such that the +Y axis is the up
+      vector for the local area (the normal to the tangent plane on
+      the ellipsoid), -Z points towards the north pole, and +X is
+      east. Therefore, if a GeoViewpoint is created that always looked
+      straight down, no matter where on the planetary body is being
+      observed, an <i>orientation</i> value of [ 1 0 0 -1.57 ] is
+      used. The <i>set_orientation</i> field can be routed from the
+      <i>value_changed</i> field of an 
+	<a href="interp.html#OrientationInterpolator">OrientationInterpolator</a> in
+      order to animate the orientation of the GeoViewpoint.</p>
+
+    <p>The GeoViewpoint node may be implemented as if
+      there is an embedded NavigationInfo node that is bound and
+      unbound with the GeoViewpoint node. As such, a X3D browser
+      should internally set the <i>speed</i>, <i>avatarSize</i>, and
+      <i>visibilityLimit</i> fields to an appropriate value for the
+      viewpoint's elevation. The X3D browser should also continually
+      update the speed field as the user moves in order to support
+      elevation scaled velocity (see <a href="#navigationissues">25.2.6 Geospatial navigation issues</a>).
+      It is recommended that the speed of user interaction be defined as:<br> 
+
+    <blockquote>
+
+    <i>( elevation&nbsp; / 10.0 ) </i>speed base units</blockquote>
+
+    <p>where <i>elevation</i> is the user's elevation
+      above the WGS84 ellipsoid in units of speed base units. It is also
+      recommended that the same scaling factor be applied to the
+      <i>avatarSize</i> vector.</p>
+
+    <p>The <i>speedFactor</i> field of the GeoViewpoint
+      node is used as a multiplier to the elevation-based velocity
+      that the node sets internally; <i>i.e.</i>, this is a relative value
+      and not an absolute speed as is the case for the NavigationInfo
+      node.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="SupportLevels"></a>25.4 Support levels</h1>
+
+<p>The Geospatial component provides one level of support as specified in
+<a href="#t-supportlevels">Table 25.6</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+Table 25.6 &#8212; Geospatial component support levels</p>
+
+    <table>
+      <tr> 
+        <th><b>Level</b></th>
+        <th>Prerequisites</th>
+        <th><b>Nodes/Features</b></th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td>
+        <p align="center"><b>1</b></td>
+        <td>Core 1<br>
+            Time 1<br>
+        Networking 1<br>
+            Grouping 3<br>
+            Rendering 1<br>
+        Shape 1<br>
+            Geometry3D 1<br>
+            Interpolator 1<br>
+            Point device sensor 1<br>
+            Navigation 1
+        </td>
+        <td>&nbsp;
+        </td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td class="sl1">&nbsp;</td>
+        <td></td>
+        <td>GeoCoordinate</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td class="sl1">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>GeoElevationGrid</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td class="sl1">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>GeoLocation</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td class="sl1">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>GeoLOD</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td class="sl1">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>GeoMetadata</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td class="sl1">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>GeoOrigin (deprecated)</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td class="sl1">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>GeoPositionInterpolator</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td class="sl1">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>GeoTouchSensor</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td class="sl1">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>GeoViewpoint</td>
+        <td>All fields fully supported.</td>
+      </tr>
+         <tr> 
+         <td><b>&nbsp;2</b></td>
+         <td>Core 1<br>
+			Time 1<br>
+			Networking 1<br>
+			Grouping 3<br>
+			Rendering 1<br>
+			Shape 1<br>
+			Geometry3D 1<br>
+			Interpolator 1<br>
+			Environmental device sensor 1<br>
+			Navigation 1 </td>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+       </tr>
+       <tr> 
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+         <td>All Level 1 Geospatial nodes</td>
+         <td>All fields fully supported.</td>
+       </tr>
+       <tr> 
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+         <td>GeoProximitySensor</td>
+         <td>All fields fully supported.</td>
+       </tr>
+       <tr> 
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+         <td>GeoTransform</td>
+         <td>All fields fully supported.</td>
+       </tr>
+       </table>
+ </div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</BODY>
+</HTML>

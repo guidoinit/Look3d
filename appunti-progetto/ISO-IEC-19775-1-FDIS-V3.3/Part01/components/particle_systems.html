@@ -1,0 +1,741 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 40 Particle systems component</TITLE>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</HEAD>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<img class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+<p class="HeadingClause">40 Particle systems component</p>
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" > 
+40.1 Introduction</h1>
+<h2><a name="Name"></a>40.1.1 Name</h2>
+<p>The name of this component is &quot;ParticleSystems&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>40.1.2 Overview</h2>
+
+<p>This component specifies how to model particles and their interactions 
+through the application of basic physics principles to affect motion.
+<a href="#t-Topics">Table 40.1</a> provides links to the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a><b>
+Table 40.1 &#8212; Topics</b></p>
+
+  <table>
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">40.1 Introduction</a>
+            <ul>
+              <li><a href="#Name">40.1.1 Name</a></li>
+              <li><a href="#Overview">40.1.2 Overview</a></li>
+            </ul></li>
+	      <li><a href="#Concepts">40.2 Concepts</a> 
+            <ul>
+              <li><a href="#ConceptsOverview">40.2.1 Overview</a><li><a href="#PhysicsModels">40.2.2 Physics models</a></li> 
+              <li><a href="#ColourRamps">40.2.3 Colour ramps</a></li>
+              <li><a href="#RandomnessAndVariation">40.2.4 Randomness and variation</a></li>
+              <li><a href="#EventModelInteraction">40.2.5 Event model interaction</a></li>
+              <li><a href="#InteractionWithOtherComponents">40.2.6 Interaction with other components</a></li>
+			</ul></li>
+          <li><a href="#AbstractTypes">40.3 Abstract types</a>  
+            <ul>
+              <li><a href="#X3DParticleEmitterNode">40.3.1 <i>X3DParticleEmitterNode</i></a></li> 
+              <li><a href="#X3DParticlePhysicsModelNode">40.3.2 <i>X3DParticlePhysicsModelNode</i></a></li>
+            </ul></li>
+          <li><a href="#NodeReference">40.4 Node reference</a>  
+            <ul>
+              <li><a href="#BoundedPhysicsModel">40.4.1 BoundedPhysicsModel</a><li><a href="#ConeEmitter">40.4.2 ConeEmitter</a><li><a href="#ExplosionEmitter">40.4.3 ExplosionEmitter</a><li>
+				<a href="#ForcePhysicsModel">40.4.4 ForcePhysicsModel</a></li>
+              <li><a href="#ParticleSystem">40.4.5 ParticleSystem</a></li>
+              <li><a href="#PointEmitter">40.4.6 PointEmitter</a></li>
+			  <li><a href="#PolylineEmitter">40.4.7 PolylineEmitter</a></li>
+				<li><a href="#SurfaceEmitter">40.4.8 SurfaceEmitter</a></li>
+			  <li><a href="#VolumeEmitter">40.4.9 VolumeEmitter</a></li>
+			  <li><a href="#WindPhysicsModel">40.4.10 WindPhysicsModel</a></li>
+            </ul></li>
+          <li><a href="#SupportLevels">40.5 Support levels</a>  
+        </ul>
+        <ul>
+          <li><a href="#t-Topics">Table 40.1 &#8212; Topics</a></li>
+          <li><a href="#t-supportlevels">Table 40.2 &#8212; Particle systems component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>40.2 Concepts</h1>
+
+<h2><a name="ConceptsOverview"></a>40.2.1 Overview</h2>
+
+<p>A particle system specifies a process for rendering such effects as fire, 
+smoke, and snow. Although various physics models are 
+available, it is not meant to be used as a simulation engine for testing 
+particle behaviour models. Thus, particle systems are designed for visual effects, not 
+rigid analysis systems.</p>
+<p>A particle system is a shape node type as both appearance and texturing need 
+to be controlled in order to create realistic particle system effects. A 
+particle system in and of itself is not geometry because it dynamically creates 
+and destroys geometry on the fly. A particle system also has other factors 
+feeding into the visual output different from a typical geometry node.</p>
+<p class="Example">EXAMPLE&nbsp; Time-varying colour values</p>
+<p>The geometry node of a shape node is not used at the first support level. If 
+a node supports both levels of the specification, the geometry node takes 
+preference over the <i>geometryType</i> field.</p>
+<p>Particles are generated using the current geometry, allowing particle 
+geometry to be changed over time. Old particles that are still current when the 
+specified geometry changes continue to use the original geometry.</p>
+
+<h2><a name="PhysicsModels"></a>40.2.2 Physics models</h2>
+
+<p>To allow aggregating a collection of nodes with a particular physics model,&nbsp; 
+an <i>
+X3DParticlePhysicsModelNode</i> abstract node type is provided that is used to 
+derive nodes in which all children nodes of that group are 
+bound by the specified physics model. This can be used to support simple effects 
+such as gravity. The physics models are designed to be composable.</p>
+<p class="Example">EXAMPLE&nbsp; The <a href="#BoundedPhysicsModel">BoundedPhysicsModel</a> node can be used with 
+an extrusion as the geometry and then a <a href="#WindPhysicsModel">WindPhysicsModel</a> node can be used with 
+the geometry to produce smoke tunneling effects.</p>
+
+<h2><a name="ColourRamps"></a>40.2.3 Colour ramps</h2>
+
+<p>A colour ramp is used to specify the colour cycle over time. A colour ramp is 
+a variation on the normal use of a colour interpolator. The key represents 
+relative time values from the start of the lifetime of the particle. There 
+should be the same number of colours in the node as there are key values. If 
+not, the smaller number of the two values will be used. For particles that last 
+longer than the last time value, the colour associated with the last time value 
+will be continued for the rest of the lifetime of the particle.</p>
+
+<h2><a name="RandomnessAndVariation"></a>40.2.4 Randomness and variation</h2>
+
+<p>Many nodes describe emission as using a random pattern. The random generation 
+model shall use a linear distribution of equal probability across the defined 
+output spectrum.</p>
+<p>Nodes that describe a variation field allow for deviation from the described 
+main field value. The variation is the maximum bound of that value, described as 
+a proportion of the original value. A variation value of zero does not allow any 
+randomness.</p>
+<p class="Example">EXAMPLE&nbsp; If field has a value of 10, a variation of 0.25 
+will allow values to be randomly generated in the range of 7.5 to 12.5. The same 
+field with a value of 1 will only allow a range of randomly generated values 
+between 0.75 and 1.25.</p>
+
+<h2><a name="EventModelInteraction"></a>40.2.5 Event model interaction</h2>
+
+<p>Evaluation of emission and interactions of particles are performed as 
+specified in <a href="../concepts.html#ExecutionModel">4.4.8.3 Execution model</a>. All changes made during 
+current event cascade are first applied. Then, the particles are generated, 
+particle system physics are 
+applied, and rendering of the particles takes place.</p>
+<p>Particle systems interact with navigation, pointing device sensors, collision 
+detection and picking according to the underlying geometry type. Point particles, point 
+sprite particles and line particles cannot be picked; other types of particles can be picked.</p>
+
+<h2><a name="InteractionWithOtherComponents"></a>40.2.6 Interaction with other 
+components</h2>
+
+<p>There are many different ways to implement particle systems. This 
+specification does not require any particular technology or means of 
+implementation. However, a popular implementation is to use programmable shaders 
+to perform the per-frame evaluation of the particles. While it is not advised, 
+it is possible and legal to supply programmable shaders as part of the particle 
+system&#39;s <i>appearance</i> field. If the user supplies a programmable shader, 
+the implementation shall use a CPU-generated model for this case.</p>
+<p>The physics model nodes in this component are independent of the physics 
+evaluation defined in <a href="rigid_physics.html">37 Rigid body physics 
+component</a>. This part of ISO/IEC 19775 does not explicitly prohibit 
+interaction between the two models, but does not cater for direct implementation 
+of one by the other (<i>e. g.</i>, use of hardware accelerated physics cards to 
+implement particle systems).</p>
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="AbstractTypes"></a>40.3 Abstract types</h1>
+
+<h2><a name="X3DParticleEmitterNode"></a>40.3.1 <i>X3DParticleEmitterNode</i></h2>
+
+<pre class="node">X3DParticleEmitterNode : X3DNode {
+  SFNode  [in,out] metadata    NULL [X3DMetadataObject]
+  SFFloat [in,out] speed       0    [0,&infin;)
+  SFFloat [in,out] variation   0.25 [0,&infin;)
+  SFFloat []       mass        0    [0,&infin;)
+  SFFloat []       surfaceArea 0    [0,&infin;)
+}
+</pre>
+
+<p>The <i>X3DParticleEmitterNode</i> abstract type represents any node that is 
+an emitter of particles. The shape and distribution of particles is dependent on 
+the type of the concrete node.</p>
+<p>The <i>speed</i> field specifies an initial linear speed that will be imparted 
+to all particles. It does not signify the direction of the particles. The 
+directional component of the velocity is specified by the concrete node 
+representation.</p>
+<p>The <i>variation</i> field specifies a multiplier for the randomness that is 
+used to control the range of possible output values. The bigger the value, the 
+more random the output and the bigger the range of possible initial values 
+possible. A variation of zero does not allow any randomness.</p>
+<p>The <i>mass</i> field specifies the basic mass of each particle in mass base 
+units. 
+Mass is needed if gravity or other force-related calculations are to be 
+performed per-particle.</p>
+<p>The <i>surfaceArea</i> field specifies the surface area of the particle in 
+area base units. Surface area is used for calculations such as wind effects per 
+particle. The <i>surfaceArea</i> field value represents an average frontal area 
+that would be presented to the wind, assuming a spherical model for each 
+particle (<i>i.e.</i>, the surface area is the same regardless of direction).</p>
+
+<h2><a name="X3DParticlePhysicsModelNode"></a>40.3.2 <i>
+X3DParticlePhysicsModelNode</i></h2>
+
+<pre class="node">X3DParticlePhysicsModelNode : X3DNode { 
+  SFBool [in,out] enabled  TRUE
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>The <i>X3DParticlePhysicsModelNode</i> is the abstract representation of any 
+node that will apply a form of constraints on the particles after they have been 
+generated.</p>
+<p>The <i>enabled</i> field specifies whether this physics model is currently 
+being applied to the particles.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="NodeReference"></a>40.4 Node reference</h1>
+ 
+<h2><a name="BoundedPhysicsModel"></a>40.4.1 BoundedPhysicsModel</h2>
+
+<pre class="node">BoundedPhysicsModel : X3DParticlePhysicsModelNode { 
+  SFBool [in,out] enabled  TRUE
+  SFNode [in,out] geometry NULL [X3DGeometryNode]
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}</pre>
+<p>The BoundedPhysicsModel node specifies a physics model that applies a 
+user-defined set of geometrical bounds to the particles.</p>
+<p>The <i>geometry</i> field specifies a piece of geometry that models the bounds 
+that constrain the location of the particles. When a particle touches the 
+surface of the bounds, it is reflected. The particles may be restricted to an 
+inside location or an outside location. All geometry defined by the bounds are 
+considered to be non-solid, regardless of the setting of the <i>solid</i> field. 
+It does not matter whether the particle impacts the front or back side of the 
+geometry. Particles are reflected at the same angle to the normal of the surface 
+to which they impact, continuing in the same direction. The calculation of the 
+correct normal is determined by the rules of the geometry that forms the bounds.</p>
+<p class="Example">EXAMPLE&nbsp; A particle can be made to bounce off an 
+elevation grid representing terrain.</p>
+
+<h2><a name="ConeEmitter"></a>40.4.2 ConeEmitter</h2>
+
+<pre class="node">ConeEmitter : X3DParticleEmitterNode { 
+  SFFloat [in,out] angle       <span class="times">&pi;</span>/4   [0,<span class="times">&pi;</span>]
+  SFVec3f [in,out] direction   0 1 0 
+  SFNode  [in,out] metadata    NULL  [X3DMetadataObject]
+  SFVec3f [in,out] position    0 0 0
+  SFFloat [in,out] speed       0     [0,&infin;)
+  SFFloat [in,out] variation   0.25  [0,&infin;)
+  SFFloat []       mass        0     [0,&infin;)
+  SFFloat []       surfaceArea 0     [0,&infin;)
+}</pre>
+<p>The ConeEmitter node is an emitter that generates all the available 
+particles from a specific point in space. Particles are 
+emitted from the single point specified by the <i>position</i> field emanating 
+in a direction randomly distributed within the cone specified by the <i>angle</i> 
+and <i>direction</i> fields at the speed specified by the <i>speed</i> field.</p>
+
+<h2><a name="ExplosionEmitter"></a>40.4.3 ExplosionEmitter</h2>
+
+<pre class="node">ExplosionEmitter : X3DParticleEmitterNode { 
+  SFNode  [in,out] metadata    NULL  [X3DMetadataObject]
+  SFVec3f [in,out] position    0 0 0
+  SFFloat [in,out] speed       0     [0,&infin;)
+  SFFloat [in,out] variation   0.25  [0,&infin;)
+  SFFloat []       mass        0     [0,&infin;)
+  SFFloat []       surfaceArea 0     [0,&infin;)
+}</pre>
+<p>The ExplosionEmitter node is an emitter that generates all the available 
+particles from a specific point in space at the initial time. Particles are 
+emitted from the single point specified by the <i>position</i> field in all 
+directions at the speed specified by the <i>speed</i> field.</p>
+
+<h2><a name="ForcePhysicsModel"></a>40.4.4 ForcePhysicsModel</h2>
+
+<pre class="node">ForcePhysicsModel : X3DParticlePhysicsModelNode { 
+  SFBool  [in,out] enabled  TRUE
+  SFVec3f [in,out] force    0 -9.8 0 (&infin;,&infin;)
+  SFNode  [in,out] metadata NULL     [X3DMetadataObject]
+}</pre>
+<p>The ForcePhysicsModel node specifies a physics model that applies a 
+constant force value to the particles. Force may act in any given direction 
+vector at any strength.</p>
+<p>The <em>force</em> field is used to indicate the strength and direction of the 
+force (<em>e.g.</em>, gravity) that should be applied. Force is specified in 
+force base units. If the particles are defined to have zero 
+mass by the emitter, the ForcePhysicsModel node has no effect.<h2><a name="ParticleSystem"></a>40.4.5 ParticleSystem</h2>
+
+<pre class="node">ParticleSystem : X3DShapeNode { 
+  SFNode   [in,out] appearance        NULL      [X3DAppearanceNode]
+  SFBool   [in,out] createParticles   TRUE
+  SFNode   [in,out] geometry          NULL      [X3DGeometryNode]
+  SFBool   [in,out] enabled           TRUE
+  SFFloat  [in,out] lifetimeVariation 0.25      [0,1]
+  SFInt32  [in,out] maxParticles      200       [0,&infin;)
+  SFNode   [in,out] metadata          NULL      [X3DMetadataObject]
+  SFFloat  [in,out] particleLifetime  5         [0,&infin;)
+  SFVec2f  [in,out] particleSize      0.02 0.02 [0,&infin;)
+  SFBool   [out]    isActive
+  SFVec3f  []       bboxCenter        0 0 0
+  SFVec3f  []       bboxSize          -1 -1 -1  (0,&infin;) or -1 -1 -1
+  SFNode   []       colorRamp         NULL      [X3DColorNode]
+  MFFloat  []       colorKey          []        [0,&infin;)
+  SFNode   []       emitter           NULL      [X3DParticleEmitterNode]
+  SFString []       geometryType      &quot;QUAD&quot;    [&quot;LINE&quot;|&quot;POINT&quot;|&quot;QUAD&quot;|&quot;SPRITE&quot;|&quot;TRIANGLE&quot;|&quot;GEOMETRY&quot;|...]
+  MFNode   []       physics           []        [X3DParticlePhysicsModelNode]
+  SFNode   []       texCoordRamp      NULL      [TextureCoordinate]
+  MFFloat  []       texCoordKey       []        [0,&infin;)
+}
+</pre>
+
+<p>The ParticleSystem node specifies a complete particle system.</p>
+<p>The <i>geometryType</i> field specifies the type of geometry that should be 
+used to represent individual particles. Typically, a particle is calculated as a 
+point in space at which the geometry is placed and then rendered using the 
+appearance attributes.</p>
+<p>The types of geometry are defined to render in the following way:</p>
+<ul>
+	<li><span class="code">&quot;LINE&quot;</span>:&nbsp; A line is drawn along the 
+	particle&#39;s current velocity vector, for this frame, centered about the 
+	particle&#39;s position. The length of the line is specified by the particle&#39;s 
+	height from the <i>particleSize</i> field value.</li>
+	<li><span class="code">&quot;POINT&quot;</span>:&nbsp; A point geometry is rendered at 
+	the particle&#39;s position.</li>
+	<li><span class="code">&quot;QUAD&quot;</span>:&nbsp; A 2D quad is rendered aligned in 
+	the local coordinate space of the particle system with the face normal 
+	pointing along the positive Z axis. Individual quads are not aligned to the 
+	user&#39;s eye position but are affected in depth by the physics model. The 
+	particle&#39;s position is at the center of the quad.</li>
+	<li><span class="code">&quot;SPRITE&quot;</span>:&nbsp; A point sprite that uses a 2D 
+	point position to locate a screen-aligned quad at the center of the 
+	particle&#39;s location is rendered.</li>
+	<li>&quot;<span class="code">TRIANGLE&quot;</span>:&nbsp; A 2D quad is rendered using 
+	a pair of triangles aligned in the local coordinate space of the particle 
+	system with the face normal pointing along the positive Z axis. Individual 
+	triangles are not aligned to the user&#39;s eye position, but are effected in 
+	depth by the physics model. The particle&#39;s position is at the center of the 
+	triangle.</li>
+	<li>&quot;<span class="code">GEOMETRY</span>&quot;:&nbsp; The geometry specified by 
+	the <i>geometry</i> field is rendered for each particle using the local 
+	coordinate system. Changing the value of the <i>geometry</i> field or the 
+	definition of the geometry node shall be applied during current computation 
+	of the next frame to be rendered.</li>
+</ul>
+<p>The <i>geometry</i> field specifies the geometry to be used for each particle 
+when the <i>geometryType</i> field has 
+value &quot;<span class="code">GEOMETRY</span>&quot;.</p>
+<p>The <i>appearance</i> field holds information that is used for the geometry. 
+All effects, such as material colours and/or multi-textures, are applied to each 
+particle. If a texture coordinate ramp and key is supplied with this geometry, 
+it shall be used in preference to any automatic texture coordinate generation. 
+If automatic texture coordinate generation is used, results shall be based on 
+the entire volume that the particles consume, not locally applied to each 
+particle.</p>
+<p>Procedural shaders may also be supplied. The particle system shall manage
+the position of all particles each frame. This position becomes the initial 
+geometry
+input to the shader.</p>
+<p>The <i>emitter</i> field specifies the type of emitter geometry and 
+properties that the particles are given for their initial positions. After being 
+created, the individual particles are then manipulated according to the physics 
+model(s) specified in the <i>physics</i> field.</p>
+<p>The <i>colorRamp</i> and <i>colorKey</i> fields specify how to change the 
+base colour of the particle over the lifetime of an individual particle. The <i>
+colorKey</i> field represents the time of the particle in seconds, while the <i>
+colorRamp</i> field holds a series of colour values to be used at the given key 
+points in time. Between keys, colour values are interpreted in a linear HSV 
+space, using the same rules defined for the 
+<a href="interp.html#ColorInterpolator">ColorInterpolator</a> node. The colour 
+values are defined as per-vertex colour values. Consequently, if an appearance 
+node with material is provided, the material properties will override the colour 
+ramp.</p>
+<p>The <i>isActive</i> outputOnly field indicates whether the particle system is 
+currently running, based on the setup of the node.</p>
+<p class="Example">EXAMPLE&nbsp; Using an explosion emitter that generates all 
+of its particles at the first time and has them all die at a fixed time later, 
+the particle system will only run for a short amount of time. After that, 
+nothing is visible on-screen or the particle geometry does not need updating any 
+more.</p>
+<p>The <i>isActive</i> field sends a value of <span class="code">FALSE</span> 
+when activity has stopped occurring. A particle system without an emitter set 
+can never be active. If the emitter is defined by an EXTERNPROTO that has not 
+yet resolved, <i>isActive</i> shall initially be <span class="code">FALSE</span>, 
+until the point the EXTERNPROTO has loaded and is verified as being a correct 
+node type. If these validity checks pass, <i>isActive</i> is set to
+<span class="code">TRUE</span> and this defines the local time zero to start the 
+particle effects.</p>
+<p>The <i>enabled</i> field controls whether this ParticleSystem is currently 
+active and rendering particles this frame. Setting this value to
+<span class="code">FALSE</span> will immediately remove all visible particles 
+from the scene from the next frame onwards. Setting the field to
+<span class="code">TRUE</span> will start the system again from a local time 
+zero. It does not start off from where it was previously. In doing so, it will 
+issue another value of <span class="code">TRUE</span> for <i>isActive</i>. If a 
+value of <span class="code">FALSE</span> is set for <i>enabled</i>, <i>isActive</i> 
+will also be set to <span class="code">FALSE</span>. </p>
+<p>The <i>createParticles</i> field is used to control whether any further new 
+particles should be created. This allows the user to stop production of new 
+particles, but keep those already existing in the scene to continue to animate. 
+This differs from the <i>enabled</i> field that would immediately remove all 
+particles. The <i>createParticles</i> field keeps the existing particles in 
+existence until the end of their lifetimes. If there are no particles left in 
+the scene, the system is still considered both active and enabled.</p>
+<p>The <em>maxParticles</em> field specifies the maximum number of particles to 
+be generated at one time (subject to player limitations). Support for at least 
+10,000 particles is required. </p>
+<p>The <em>particleLifetime</em> field specifies the nominal duration in seconds 
+of any particle.</p>
+<p>The <em>lifetimeVariation</em> field specifies the proportion of the total 
+lifetime that is the amount of allowed linear random variation from the value 
+specified by the <em>particleLifetime</em> field. </p>
+<p>The <i>particleSize</i> field describes the dimensions in length base units of the width 
+and height of each particle. Changing this value dynamically will only change 
+new particles created after the change. Particles created before this timestamp 
+will remain at the old size. This field only effects particles using
+<span class="code">&quot;LINE&quot;</span>, <span class="code">&quot;QUAD&quot;</span>,
+<span class="code">&quot;SPRITE&quot;</span>, and <span class="code">&quot;TRIANGLE&quot;</span> 
+geometry types.</p>
+<p>The <i>texCoordRamp</i> and <i>texCoordKey</i> fields control the texture 
+coordinates of the provided texture(s) in the Appearance node, over time. 
+Particle systems frequently like to change the texture on a particle as it ages, 
+yet there is no good way of accomplishing this through standard interpolators 
+because interpolators have no concept of particle time. This pair of fields hold 
+time-dependent values for the texture coordinates to be applied to the particle. 
+When a particle reaches the next time stamp it moves to the next set of texture 
+coordinates. There is no interpolation of the texture coordinates, just 
+sequenced according to the times defined by <i>texCoordKey</i>.</p>
+<p>The node placed in <i>texCoordRamp</i> shall have enough values to work with 
+the numbers required by <i>geometryType</i>. The following numbers and rules for 
+mapping texture coordinates to the quad shall be used:</p>
+<ul>
+	<li><span class="code"><b>&quot;LINE&quot;</b></span>:&nbsp;The coordinates are paired such that the coordinate with 
+	lowest value index is associated with the end of the line that is closest to 
+	the emitter location and the coordinate with the next higher index is 
+	associated with the end of the line furthest from the emitter location. Each 
+	timestamp increases the index into the ramp by two.</li>
+	<li><span class="code"><b>&quot;POINT&quot;</b></span>:&nbsp;Texture coordinates are ignored.</li>
+	<li><span class="code"><b>&quot;QUAD&quot;</b></span>:&nbsp; Assuming a quad facing 
+	the current viewer position, coordinates are defined in a counter-clockwise 
+	order starting at the lower-left corner.</li>
+	<li><span class="code"><b>&quot;SPRITE&quot;</b></span>: Texture coordinates 
+	are ignored for this type. Each particle uses the
+	entire supplied texture.</li>
+	<li><b><span class="code">&quot;TRIANGLE&quot;</span></b>: Assuming two 
+	triangles facing the user, only four coordinates are supplied, representing 
+	the four corners of the quad. The order is the same as for
+	<span class="code">&quot;QUAD&quot;</span>.</li>
+	<li><span class="code"><b>&quot;GEOMETRY&quot;</b></span>: Texture 
+	coordinates ramps are ignored for this type. Texture coordinates from the 
+	geometry representation are used or automatic texture coordinate generation 
+	from the appearance node is used.</li>
+</ul>
+
+<h2><a name="PointEmitter"></a>40.4.6 PointEmitter</h2>
+
+<pre class="node">PointEmitter : X3DParticleEmitterNode { 
+  SFVec3f [in,out] direction   0 1 0
+  SFNode  [in,out] metadata    NULL  [X3DMetadataObject]
+  SFVec3f [in,out] position    0 0 0
+  SFFloat [in,out] speed       0     [0,&infin;)
+  SFFloat [in,out] variation   0.25  [0,&infin;)
+  SFFloat []       mass        0     [0,&infin;)
+  SFFloat []       surfaceArea 0     [0,&infin;)
+}
+</pre>
+
+<p>The PointEmitter node is an emitter that generates particles from a specific 
+point in space. Particles are emitted from a single point in the specified 
+direction and speed.</p>
+<p>The <i>direction</i> field specifies a direction along which the particles 
+are to be emitted. If the vector is zero length (a value of (0,0,0), particles 
+are emitted in random directions from this point in space.</p>
+
+<h2><a name="PolylineEmitter"></a>40.4.7 PolylineEmitter</h2>
+
+<pre class="node">PolylineEmitter : X3DParticleEmitterNode { 
+  MFInt32 [in]     set_coordIndex
+  SFNode  [in,out] coord          NULL  [X3DCoordinateNode]
+  SFVec3f [in,out] direction      0 1 0 [-1,1]
+  SFNode  [in,out] metadata       NULL  [X3DMetadataObject]
+  SFFloat [in,out] speed          0     [0,&infin;)
+  SFFloat [in,out] variation      0.25  [0,&infin;)
+  MFInt32 []       coordIndex     -1    [0,&infin;) or -1
+  SFFloat []       mass           0     [0,&infin;)
+  SFFloat []       surfaceArea    0     [0,&infin;)
+}
+</pre>
+
+<p>The PolylineEmitter node emits particles along a single polyline. The 
+coordinates for the line along which particles should be randomly generated are 
+taken from a combination of the <i>coord</i> and <i>coordIndex</i> fields. The 
+starting point for generating particles is randomly distributed along this line 
+and given the initial speed and direction. If no coordinates are available, the 
+PolylineEmitter node shall act like a point source located at the local origin.</p>
+
+<h2><a name="SurfaceEmitter"></a>40.4.8 SurfaceEmitter</h2>
+
+<pre class="node">SurfaceEmitter : X3DParticleEmitterNode { 
+  MFInt32 [in]     set_coordIndex
+  SFNode  [in,out] metadata       NULL  [X3DMetadataObject]
+  SFFloat [in,out] speed          0     [0,&infin;)
+  SFFloat [in,out] variation      0.25  [0,&infin;)
+  MFInt32 []       coordIndex     -1    [0,&infin;) or -1
+  SFFloat []       mass           0     [0,&infin;)
+  SFNode  []       surface        NULL  [X3DGeometryNode]
+  SFFloat []       surfaceArea    0     [0,&infin;)
+}
+</pre>
+
+<p>The SurfaceEmitter node is an emitter that generates particles from the 
+surface of an object. New particles are generated by first randomly choosing a 
+face on the tessellated geometry and then a random position on that face. 
+Particles are generated with an initial direction of the normal to that point 
+(including any normal averaging due to <i>normalPerVertex</i> and <i>creaseAngle</i> 
+field settings). If the surface is indicated as not being solid (<i>solid</i> 
+field set to <span class="code">FALSE</span>), randomly choose from which side 
+of the surface to emit, negating the normal direction when generating from the 
+back side. Only valid geometry shall be used.</p>
+<p>The <i>surface</i> field specifies the geometry to be used as the emitting 
+surface.</p>
+<p class="Example">EXAMPLE&nbsp; A cylinder with both end caps turned off would 
+only generate particles along the side of the cylinder. It would be an error to 
+generate a particle with an initial direction that is not perpendicular to the 
+axis.</p>
+
+<h2><a name="VolumeEmitter"></a>40.4.9 VolumeEmitter</h2>
+
+<pre class="node">VolumeEmitter : X3DParticleEmitterNode { 
+  MFInt32 [in]     set_coordIndex
+  SFNode  [in,out] coord          NULL  [X3DCoordinateNode]
+  SFVec3f [in,out] direction      0 1 0 [-1,1]
+  SFNode  [in,out] metadata       NULL  [X3DMetadataObject]
+  SFFloat [in,out] speed          0     [0,&infin;)
+  SFFloat [in,out] variation      0.25  [0,&infin;)
+  MFInt32 []       coordIndex     -1    [0,&infin;) or -1
+  SFBool  []       internal       TRUE
+  SFFloat []       mass           0     [0,&infin;)
+  SFFloat []       surfaceArea    0     [0,&infin;)
+}
+</pre>
+
+<p>A VolumeEmitter node emits particles from a random position confined within 
+the given closed geometry volume. Otherwise, a VolumeEmitter node acts like a 
+<a href="#PolylineEmitter">PolylineEmitter</a> node.</p>
+
+<h2><a name="WindPhysicsModel"></a>40.4.10 WindPhysicsModel</h2>
+
+<pre class="node">WindPhysicsModel : X3DParticlePhysicsModelNode { 
+  SFVec3f [in,out] direction  0 0 0 (&infin;,&infin;)
+  SFBool  [in,out] enabled    TRUE
+  SFFloat [in,out] gustiness  0.1   [0,&infin;)
+  SFNode  [in,out] metadata   NULL  [X3DMetadataObject]
+  SFFloat [in,out] speed      0.1   [0,&infin;)
+  SFFloat [in,out] turbulence 0     [0,1]
+}
+</pre>
+
+<p>The WindPhysicsModel node specifies a physics model that applies a wind 
+effect to the particles. The wind has a random variation factor that allows for 
+the gustiness of the wind to be modelled.</p>
+<p>The <i>direction</i> field specifies the direction in which the wind is 
+travelling in the form of a&nbsp; normalized, unit vector. </p>
+<p>The <i>speed</i> field specifies the current wind speed in length base units. 
+From the wind speed, the force applied per unit-area on the particle is 
+calculated using the following formula:</p>
+<blockquote>
+	<p>pressure = 10<sup>(2 &times; log(speed))</sup> &times; 0.64615</p>
+</blockquote>
+
+<p>The <i>gustiness</i> specifies how much the wind speed varies from the 
+average value defined by the <i>speed</i> field. The wind speed variation is 
+calculated once per frame and applied equally to all particles.</p>
+<p>The <i>turbulence</i> field specifies how much the wind acts directly in line 
+with the direction, and how much variation is applied in directions other than 
+the wind direction. This is determined per-particle to model how the particle is 
+effected by turbulence.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>40.5 Support levels</h1>
+
+<p>The Particle Systems component provides two levels of support as specified 
+  in <a href="#t-supportlevels">Table 40.2</a>. </p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+Table 40.2<b>
+&#8212; Particle systems</b> component support levels</p>
+  
+<table>
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td align="center"><b>1</b></td>
+        <td>Core 1<br>
+		Grouping 1<br>
+		Shape 1<br>
+		Rendering 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DParticleEmitterNode</i></td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DParticlePhysicsModelNode</i></td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ConeEmitter</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>ExplosionEmitter</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>GravityPhysicsModel</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>ParticleSystem</td>
+        <td>All fields fully supported, except <span class="code">&quot;SPRITE&quot;</span> 
+		and &quot;<span class="code">GEOMETRY</span>&quot; 
+		geometry types and the <i>geometry</i> field.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>PointEmitter</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>PolylineEmitter</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>WindPhysicsModel</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"><b>2</b></td>
+        <td>Core 1<br>
+		Grouping 1<br>
+		Shape 1<br>
+		Rendering 1<br>
+		Texturing 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>All Level 1 nodes</td>
+        <td>All fields supported as specified for Level 1 except as specified 
+		below.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>BoundedPhysicsModel</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ParticleSystem</td>
+        <td>All fields fully supported, except&nbsp; &quot;<span class="code">GEOMETRY</span>&quot;. 
+		geometry type and the <i>geometry</i> field.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>SurfaceEmitter</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>VolumeEmitter</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"><b>3</b></td>
+        <td>Core 1<br>
+		Grouping 1<br>
+		Shape 1<br>
+		Rendering 1<br>
+		Texturing 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+		<tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>All Level 2 nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ParticleSystem</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      </table>
+</div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

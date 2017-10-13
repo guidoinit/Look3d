@@ -1,0 +1,1243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 23 Navigation component</TITLE>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</HEAD>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+<p class="HeadingClause">23 Navigation component</p>
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+23.1 Introduction</h1>
+<h2><a name="Name"></a>23.1.1 Name</h2>
+<p>The name of this component is &quot;Navigation&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>23.1.2 Overview</h2>
+
+<p>This clause describes the Navigation component of this part of ISO/IEC 19775. 
+  <a href="#t-Topics">Table 23.1</a> provides links to the major topics in 
+  this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a><b>
+Table 23.1 &#8212; Topics</b></p>
+
+  <table>
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">23.1 Introduction</a>
+          <ul>
+            <li><a href="#Name">23.1.1 Name</a></li>
+            <li><a href="#Overview">23.1.2 Overview</a> </li>
+          </ul>
+          <a href="#Concepts">23.2 Concepts</a> 
+            <ul>
+              <li><a href="#OverviewOfNavigation">23.2.1 An overview of navigation</a> 
+              <li><a href="#Navigationparadigms">23.2.2 Navigation paradigms</a> 
+              <li><a href="#Viewingmodel">23.2.3 Viewing model</a> 
+              <li><a href="#Collisiondetection">23.2.4 Collision detection and terrain following</a><li>
+				<a href="#ViewpointList">23.2.5 Viewpoint list</a></ul>
+          <li><a href="#AbstractTypes">23.3 Abstract types</a><ul>
+          <li><a href="#X3DViewpointNode">23.3.1 <i>X3DViewpointNode</i></a></li>
+        </ul>
+        	</li>
+          <li><a href="#Nodereference">23.4 Node reference</a> 
+            <ul>
+				<li><a href="#Billboard">23.4.1 Billboard</a>
+				<li><a href="#Collision">23.4.2 Collision</a>
+				<li><a href="#LOD">23.4.3 LOD</a>
+				<li><a href="#NavigationInfo">23.4.4 NavigationInfo</a>
+				<li><a href="#OrthoViewpoint">23.4.5 OrthoViewpoint</a><li>
+				<a href="#Viewpoint">23.4.6 Viewpoint</a><li>
+				<a href="#ViewpointGroup">23.4.7 ViewpointGroup</a></ul>
+          <li><a href="#SupportLevels">23.5 Support levels</a> 
+        </ul>
+        <ul>
+<li><a href="#t-Topics">Table 23.1 &#8212; Topics</a></li>
+<li><a href="#t-supportlevels">Table 23.2 &#8212; Navigation component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>23.2 Concepts</h1>
+
+<h2><a name="OverviewOfNavigation"></a>23.2.1 An overview of navigation</h2>
+
+<p>Navigation is the capability of users to interact with the X3D browser using 
+  one or more input devices to affect the view it presents. Navigation support 
+  is not required for all profiles.</p>
+
+<p>Every X3D scene can be thought of as containing a <i>viewpoint</i> from which 
+  the objects in the scene are presented to the viewer. Navigation permits the 
+  user to change the position and orientation of the viewpoint with respect to 
+  the remainder of the scene thereby enabling the user to move through the scene 
+  and examine objects in the scene.</p>
+
+<p>The <a href="#NavigationInfo">NavigationInfo</a> node (see <a href="#NavigationInfo">23.4.4 NavigationInfo</a>) 
+  specifies the characteristics of the desired navigation behaviour, but the 
+exact user interface is browser-dependent. Nodes derived from <i>
+<a href="#X3DViewpointNode">X3DViewpointNode</a></i> (see
+<a href="#X3DViewpointNode">23.3.1 <i>X3DViewpointNode</i></a>) 
+  specify key locations and orientations in the world to which the user may 
+  be moved via SAI services or browser-specific user interfaces.</p>
+
+<h2><a name="Navigationparadigms"></a>
+23.2.2 Navigation paradigms</h2>
+
+<p>The browser may allow the user to modify the location and orientation of the 
+ viewer in the virtual world using a navigation paradigm. Many different navigation 
+  paradigms are possible, depending on the nature of the virtual world and the 
+  task the user wishes to perform. For instance, a walking paradigm would be appropriate 
+  in an architectural walkthrough application, while a flying paradigm might be 
+  better in an application exploring interstellar space. Examination is another 
+  common use for X3D, where the scene contains one or more objects which the user 
+  wishes to view from many angles and distances.</p>
+
+<p>The <a href="#NavigationInfo">NavigationInfo</a> node has a <i>type</i> field that specifies the navigation 
+  paradigm for this world. The actual user interface provided to accomplish this 
+  navigation is browser-dependent. See <a href="#NavigationInfo">23.4.4 
+NavigationInfo</a>, 
+  for details.</p>
+
+<h2><a name="Viewingmodel"></a>
+23.2.3 Viewing model</h2>
+
+<p>The browser controls the location and orientation of the viewer in the world, 
+  based on input from the user (using the browser-provided navigation paradigm) 
+  and the motion of the currently bound <i><a href="#X3DViewpointNode">
+X3DViewpointNode</a></i> node (and its coordinate system). 
+  The X3D author can place any number of viewpoints in the world at important 
+  places from which the user might wish to view the world. Each viewpoint is described 
+  by an <i>X3DViewpointNode</i> node. Viewpoint nodes exist in their parent&#39;s 
+coordinate system, and both the viewpoint and the coordinate system may be 
+changed to affect the view of the world presented by the browser. Only one 
+viewpoint is bound at a time. A detailed description of how <i>X3DViewpointNode</i> 
+  nodes operate is described in<font color="#FF0000">
+<a href="core.html#Bindablechildrennodes">7.2.2 Bindable children nodes</a></font> and
+<a href="#X3DViewpointNode">23.3.1 <i>X3DViewpointNode</i></a>.</p>
+
+<p>Navigation is performed relative to the viewpoint's location and does not affect 
+  the location and orientation values of an <i>X3DViewpointNode</i> node. The location of the 
+  viewer may be determined with a <a href="envsensor.html#ProximitySensor">ProximitySensor</a> node (see
+<a href="envsensor.html#ProximitySensor">22.4.1 ProximitySensor</a>).</p>
+<p>This part of ISO/IEC 19775 specifies two node types derived from <i>
+X3DViewpointNode</i>. The <a href="#Viewpoint">Viewpoint</a> node specifies a 
+perspective viewpoint while the <a href="#OrthoViewpoint">OrthoViewpoint</a> 
+node specifies an orthographic viewpoint.</p>
+
+<h2><a name="Collisiondetection"></a>
+23.2.4 Collision detection and terrain following</h2>
+
+<p>In profiles in which collision detection is required, the 
+<a href="#NavigationInfo">NavigationInfo</a> types 
+  of <span class="code">WALK</span>, <span class="code">FLY</span>, and 
+<span class="code">NONE</span> shall strictly support collision detection between the 
+  user's avatar and other objects in the scene by prohibiting navigation and/or 
+  adjusting the position of the viewpoint. However, the NavigationInfo types 
+<span class="code">ANY</span> 
+  and <span class="code">EXAMINE</span> may temporarily disable collision detection during navigation, but 
+  shall not disable collision detection during the normal execution of the world. 
+  See <a href="#NavigationInfo">23.4.4 NavigationInfo</a>, for details on the various 
+  navigation types.</p>
+
+<p>Collision nodes can be used to generate events when viewer and objects 
+collide, and can be used to designate that certain objects should be treated as 
+not being subject to collision detection and should not be recognized as terrain 
+for navigation modes that require terrain following to be supported. Browser 
+support for inter-object collision is not specified.</p>
+
+<p>NavigationInfo nodes can be used to specify certain parameters often used by 
+  browser navigation paradigms. The size and shape of the viewer's avatar determines 
+  how close the avatar may be to an object before a collision is considered to 
+  take place. These parameters can also be used to implement <i>terrain following</i> 
+  by keeping the avatar a certain distance above the ground. They can additionally 
+  be used to determine how short an object must be for the viewer to automatically 
+  step up onto it instead of colliding with it.</p>
+
+<h2><a name="ViewpointList"></a>23.2.5 Viewpoint list</h2>
+<p>The viewpoint list is an optional browser-provided feature that lists 
+currently available viewpoints for user information and selection.<br>
+<br>
+Viewpoints are listed in the order corresponding to the extended scene graph. 
+Thus viewpoints contained in <a href="networking.html#Inline">Inline</a> nodes and nodes that are instances of 
+prototypes are loaded in 
+the order defined by the scene, even if load time delays are different from 
+scene-specified order. This has no effect on specification-defined eligibility 
+for first bound viewpoint. Viewpoints that are removed from the scene are no 
+longer eligible for the viewpoint list.<br>
+<br>
+Selecting a viewpoint from a viewpoint list will first unbind the current 
+viewpoint before binding the selected viewpoint. When <i>retainUserOffsets</i> 
+is <span class="code">FALSE</span>, the viewer is returned to the originally 
+defined viewpoint position/orientation after local navigation. Such a return to 
+the defined viewpoint can occur either by reselection of current viewpoint from 
+the viewpoint list, or else by using the PgUp key (as defined in 
+<a href="../behaviours.html#SelectFromMulitpleViewpoints">Annex 
+G.2 Select from multiple viewpoints</a>). </p>
+
+<h1>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="AbstractTypes"></a>23.3 Abstract types</h1>
+
+<h2><a name="X3DViewpointNode"></a>23.3.1 <i>X3DViewpointNode</i></h2>
+
+<pre class="node">X3DViewpointNode : X3DBindableNode {
+  SFBool     [in]     set_bind
+  SFVec3f/d  [in,out] centerOfRotation  0 0 0     (-&#8734;,&#8734;)
+  SFString   [in,out] description       &quot;&quot;
+  SFBool     [in,out] jump              TRUE
+  SFNode     [in,out] metadata          NULL      [X3DMetadataObject]
+  SFRotation [in,out] orientation       0 0 1 0   (-&#8734;,&#8734;)
+  SFVec3f/d  [in,out] position          0 0 10    (-&#8734;,&#8734;)
+  SFBool     [in,out] retainUserOffsets FALSE
+  SFTime     [out]    bindTime
+  SFBool     [out]    isBound
+}</pre>
+<p>A node of node type <i>X3DViewpointNode</i> defines a specific location in the local coordinate 
+system from which the user may view the scene. <i>X3DViewpointNode</i> nodes are bindable children nodes (see
+<a href="core.html#Bindablechildrennodes">7.2.2 Bindable children nodes</a>) and thus there exists an
+<i>X3DViewpointNode</i> stack 
+in the browser in which the top-most <i>X3DViewpointNode</i> node on the stack is the 
+currently active <i>X3DViewpointNode</i> node. If a <code>TRUE</code> value is sent to 
+the <i>set_bind</i> field of an <i>X3DViewpointNode</i> node, it is moved to the top of 
+the <i>X3DViewpointNode</i> node stack and activated. When an <i>X3DViewpointNode</i> node is at the 
+top of the stack, the user&#39;s view is conceptually re-parented as a child of the 
+<i>X3DViewpointNode</i> node. All subsequent changes to the <i>X3DViewpointNode</i> node&#39;s 
+coordinate system change the user&#39;s view (<i>e.g.</i>,&nbsp;changes to any ancestor 
+transformation nodes or to the <i>X3DViewpointNode</i> node&#39;s <i>position</i> or <i>
+orientation</i> fields). Sending a <i>set_bind </i><code>FALSE</code> event 
+removes the <i>X3DViewpointNode</i> node from the stack and produces <i>isBound </i>
+<code>FALSE</code> and <i>bindTime</i> events. If the popped <i>X3DViewpointNode</i> 
+node is at the top of the <i>X3DViewpointNode</i> stack, the user&#39;s view is re-parented 
+to the next entry in the stack. More details on binding stacks can be found in
+<a href="core.html#Bindablechildrennodes">7.2.2 Bindable children nodes</a>. When an 
+<i>X3DViewpointNode</i> node is moved to the 
+top of the stack, the existing top of stack <i>X3DViewpointNode</i> node sends an <i>
+isBound</i> <code>FALSE</code> event and is pushed down the stack.</p>
+<p>An author can automatically move the user&#39;s view through the world by binding 
+the user to either an <i>X3DViewpointNode</i> node and then animating either the 
+<i>X3DViewpointNode</i> node or the transformations above it. Browsers shall allow the 
+user view to be navigated relative to the coordinate system defined by the 
+<i>X3DViewpointNode</i> node (and the transformations above it) even if the 
+<i>X3DViewpointNode</i> node or its ancestors&#39; transformations are being animated.</p>
+<p>The <i>bindTime</i> field sends the time at which the <i>X3DViewpointNode</i> node 
+is bound or unbound. This can happen:</p>
+<ol start="1" type="a">
+	<li>during loading;</li>
+	<li>when a<i> set_bind </i>event is sent to the <i>X3DViewpointNode</i> node;</li>
+	<li>when the browser binds to the <i>X3DViewpointNode</i> node through its user 
+	interface described below.</li>
+</ol>
+<p>The <i>position</i> and <i>orientation</i> fields of the <i>X3DViewpointNode</i> 
+node specify relative locations in the local coordinate system. <i>Position</i> 
+is relative to the coordinate system&#39;s origin (0,0,0), while <i>orientation</i> 
+specifies a rotation relative to the default orientation. In the default 
+position and orientation, the viewer is on the Z-axis looking down the −Z-axis 
+toward the origin with +X to the right and +Y straight up. <i>X3DViewpointNode</i> 
+nodes are affected by the transformation hierarchy.</p>
+<p>Navigation types (see <a href="#NavigationInfo">23.4.4 NavigationInfo</a>) 
+that require a definition of a down vector (<i>e.g.</i>,&nbsp;terrain following) shall use 
+the negative Y-axis of the coordinate system of the currently bound 
+<i>X3DViewpointNode</i> node. Likewise, navigation types that require a definition of 
+an up vector shall use the positive Y-axis of the coordinate system of the 
+currently bound <i>X3DViewpointNode</i> node. The <i>orientation</i> field of the 
+<i>X3DViewpointNode</i> node does not affect the definition of the down or up vectors. 
+This allows the author to separate the viewing direction from the gravity 
+direction.</p>
+<p>The <i>jump</i> field specifies whether the user&#39;s view &quot;jumps&quot; to the 
+position and orientation of a bound <i>X3DViewpointNode</i> node or remains unchanged. 
+This jump is instantaneous and discontinuous in that no collisions are performed 
+and no <a href="envsensor.html#ProximitySensor">ProximitySensor</a> nodes are checked in between the starting and ending jump 
+points. If the user&#39;s position before the jump is inside a ProximitySensor the
+<i>exitTime</i> of that sensor shall send the same timestamp as the bind field. 
+Similarly, if the user&#39;s position after the jump is inside a ProximitySensor the
+<i>enterTime</i> of that sensor shall send the same timestamp as the bind field. 
+Regardless of the value of <i>jump</i> at bind time, the relative viewing 
+transformation between the user&#39;s view and the current <i>X3DViewpointNode</i> node 
+shall be stored with the current <i>X3DViewpointNode</i> node for later use when <i>
+un-jumping</i> (<i>i.e.</i>,&nbsp;popping the <i>X3DViewpointNode</i> binding stack from 
+an <i>X3DViewpointNode</i> node with <i>jump</i> <code>TRUE</code>). The following 
+summarizes the bind stack rules (see
+<a href="core.html#Bindablechildrennodes">7.2.2 Bindable children nodes</a>) with additional rules regarding 
+<i>X3DViewpointNode</i> nodes (displayed in boldface type):</p>
+<ol start="4" type="a">
+	<li>During read, the first encountered <i>X3DViewpointNode</i> node is bound by 
+	pushing it to the top of the <i>X3DViewpointNode</i> node stack. If an 
+	<i>X3DViewpointNode</i> node name is specified in the URL that is being read, this 
+	named <i>X3DViewpointNode</i> node is considered to be the first encountered 
+	<i>X3DViewpointNode</i> node. Nodes contained within Inline nodes (see
+	<a href="networking.html#Inline">9.4.2 Inline</a>), within the strings passed to the 
+	Browser.createX3DFromString() method, or within files passed to the 
+	Browser.createX3DFromURL() method (see
+	<a href="../references.html#[I19775_2]">2.[I19775-2]</a>) are not candidates for the first encountered 
+	<i>X3DViewpointNode</i> node. The first node within a prototype instance is a valid 
+	candidate for the first encountered <i>X3DViewpointNode</i> node. The first 
+	encountered <i>X3DViewpointNode</i> node sends an isBound <span class="code">TRUE</span> 
+	event.</li>
+	<li>When a set_bind <span class="code">TRUE</span> event is received by an 
+	<i>X3DViewpointNode</i> node, 
+              <ol start="1" type="1">
+				<li>If it is <u>not</u> on the top of the stack: <b>The relative 
+				transformation from the current top of stack <i>X3DViewpointNode</i> 
+				node to the user&#39;s view is stored with the current top of stack 
+				<i>X3DViewpointNode</i> node. </b>The current top of stack node sends 
+				an <i>isBound</i> <code>FALSE</code> event. The new node is <u>
+				moved</u> to the top of the stack and becomes the currently 
+				bound X3DViewpointNode node. The new <i>X3DViewpointNode</i> node (top 
+				of stack) sends an <i>isBound </i><code>TRUE</code><i> </i>
+				event. <b>If <i>jump</i> is <code>TRUE</code> for the new 
+				<i>X3DViewpointNode</i> node, the user&#39;s view is instantaneously 
+				&quot;jumped&quot; to match the values in the <i>position</i> and <i>
+				orientation</i> fields of the new <i>X3DViewpointNode</i> node.</b> 
+                </li>
+				<li>If the node is already at the top of the stack, this event 
+				has no affect.</li>
+	</ol>
+	</li>
+	<li>When a <i>set_bind</i> <code>FALSE</code> event is received by an 
+	<i>X3DViewpointNode</i> node in the stack, it is removed from the stack. If it was 
+	on the top of the stack, 
+              <ol start="1" type="1">
+				<li>it sends an <i>isBound</i> <code>FALSE</code> event, 
+                </li>
+				<li>the next node in the stack becomes the currently bound 
+				<i>X3DViewpointNode</i> node<i> </i>(<i>i.e.</i>,&nbsp;pop)<i> </i>and issues an<i> 
+				isBound </i><code>TRUE</code><i> </i>event,</li>
+				<li><b>if its <i>jump</i> field value is <code>TRUE</code>, the 
+				user&#39;s view is instantaneously &quot;jumped&quot; to the <i>position</i> 
+				and <i>orientation</i> of the next <i>X3DViewpointNode</i> node in the 
+				stack <u>with</u> the stored relative transformation of this 
+				next <i>X3DViewpointNode</i> node applied.</b></li>
+	</ol>
+	</li>
+	<li>If a <i>set_bind</i> <code>FALSE</code> event is received by a node not 
+	in the stack, the event is ignored and <i>isBound</i> events are not sent.</li>
+	<li>When a node replaces another node at the top of the stack, the <i>
+	isBound</i> <code>TRUE</code> and <code>FALSE</code> events from the two 
+	nodes are sent simultaneously (<i>i.e.</i>,&nbsp;with identical timestamps).</li>
+	<li>If a bound node is deleted, it behaves as if it received a <i>set_bind
+	</i><code>FALSE</code> event (see c. above).</li>
+</ol>
+<p>The <i>jump</i> field may change after an <i>X3DViewpointNode</i> node is bound. The 
+rules described above still apply. If <i>jump</i> was <code>TRUE</code> when the 
+<i>X3DViewpointNode</i> node is bound, but changed to <code>FALSE</code> before the <i>
+set_bind </i><code>FALSE</code> is sent, the <i>X3DViewpointNode</i> node does not <i>
+un-jump</i> during unbind. If <i>jump</i> was <code>FALSE</code> when the 
+<i>X3DViewpointNode</i> node is bound, but changed to <code>TRUE</code> before the <i>
+set_bind </i><code>FALSE</code> is sent, the <i>X3DViewpointNode</i> node does perform 
+the <i>un-jump</i> during unbind.</p>
+<p>Note that there are two other mechanisms that result in the binding of a new 
+<i>X3DViewpointNode</i>:</p>
+<ol start="10" type="a">
+	<li>An <a href="networking.html#Anchor">Anchor</a> node&#39;s <i>url</i> field specifies a &quot;#X3DViewpointNodeName&quot;.</li>
+	<li>A script invokes the <tt>loadURL()</tt> method and the URL argument 
+	specifies a &quot;#X3DViewpointNodeName&quot;.</li>
+</ol>
+<p>Both of these mechanisms override the <i>jump</i> field value of the 
+specified <i>X3DViewpointNode</i> node (#X3DViewpointNodeName) and assume that <i>jump</i> 
+is <code>TRUE</code> when binding to the new <i>X3DViewpointNode</i>. The behaviour of 
+the viewer transition to the newly bound <i>X3DViewpointNode</i> depends on the 
+currently bound <a href="#NavigationInfo">NavigationInfo</a> node&#39;s <i>type</i> field value (see
+<a href="#NavigationInfo">23.4.4 NavigationInfo</a>).</p>
+<p>The <i>fieldOfView</i> field specifies a preferred minimum viewing angle from 
+this <i>X3DViewpointNode</i> in angle base units. A small field of view roughly corresponds to a 
+telephoto lens; a large field of view roughly corresponds to a wide-angle lens. 
+The field of view shall be greater than zero and smaller than
+<font face="Times New Roman">π</font>. The value of <i>fieldOfView</i> 
+represents the minimum viewing angle in any direction axis perpendicular to the 
+view. For example, a browser with a rectangular viewing projection shall have 
+the following relationship:</p>
+<p class="Equation">   &nbsp;&nbsp; display width&nbsp;&nbsp;&nbsp; tan(FOV<sub>horizontal</sub>/2)<br>
+&nbsp;&nbsp; -------------- = -------------------<br>
+&nbsp;&nbsp; display height&nbsp;&nbsp; tan(FOV<sub>vertical</sub>/2)<br>
+</p>
+<p>where the smaller of display width or display height determines which angle 
+equals the <i>fieldOfView</i> (the larger angle is computed using the 
+relationship described above). The larger angle shall not exceed π and may force 
+the smaller angle to be less than <i>fieldOfView</i> in order to sustain the 
+aspect ratio.</p>
+<p>The <i>description</i> field specifies a textual description of the 
+<i>X3DViewpointNode</i> node. This may be used by browser-specific user interfaces. If 
+an <i>X3DViewpointNode</i>&#39;s <i>description</i> field is empty it is recommended that 
+the browser not present this <i>X3DViewpointNode</i> in its browser-specific user 
+interface.</p>
+<p>The <i>centerOfRotation</i> field specifies a center about which to rotate 
+the user&#39;s eyepoint when in <span class="code">EXAMINE</span> mode. If the browser does not provide the 
+ability to spin around the object in <span class="code">EXAMINE</span> mode, or
+<span class="code">LOOKAT</span> is not in the list 
+of allowed navigation modes, this field shall be ignored. For additional 
+information, see <a href="#NavigationInfo">23.4.4 NavigationInfo</a> and
+<a href="envsensor.html#ProximitySensor">22.4.1 ProximitySensor</a>. </p>
+<p>The URL syntax &quot;<tt>.../scene.wrl#X3DViewpointNodeName</tt>&quot; specifies the 
+user&#39;s initial view when loading &quot;scene.wrl&quot; to be the first X3DViewpointNode 
+node in the X3D file that appears as <tt>
+DEF&nbsp;X3DViewpointNodeName&nbsp;X3DViewpointNode&nbsp;{...}</tt>. This overrides the first 
+<i>X3DViewpointNode</i> node in the X3D file as the initial user view, and a <i>
+set_bind</i> <code>TRUE</code> message is sent to the X3DViewpointNode node 
+named &quot;X3DViewpointNodeName&quot;. If the <i>X3DViewpointNode</i> node named 
+&quot;X3DViewpointNodeName&quot; is not found, the browser shall use the first 
+<i>X3DViewpointNode</i> node in the X3D file (<i>i.e.</i>,&nbsp;the normal default behaviour). The 
+URL syntax &quot;<tt>#X3DViewpointNodeName</tt>&quot; (<i>i.e.</i>,&nbsp;no file name) specifies 
+an <i>X3DViewpointNode</i> within the existing X3D file. If this URL is loaded 
+(<i>e.g.</i>,&nbsp;Anchor node&#39;s <i>url</i> field or <tt>loadURL()</tt> method is invoked by 
+a Script node), the <i>X3DViewpointNode</i> node named &quot;X3DViewpointNodeName&quot; is bound 
+(a <i>set_bind</i> <code>TRUE</code> event is sent to this X3DViewpointNode 
+node).</p>
+<p>The <i>retainUserOffsets</i> field indicates whether a viewpoint needs to 
+retain (<span class="code">TRUE</span>) or reset to zero (<span class="code">FALSE</span>) 
+any prior user navigation offsets from defined viewpoint position, orientation. 
+When an node of type <i>X3DViewpointNode</i> is bound, user navigation offsets 
+are reinitialized if the associated <i>retainUserOffsets</i> is <span class="code">TRUE</span>.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Nodereference"></a>
+23.4 Node reference</h1>
+
+<h2><a name="Billboard"></a>
+23.4.1 Billboard</h2>
+
+<pre class="node">Billboard : X3DGroupingNode {
+  MFNode  [in]     addChildren             [X3DChildNode]
+  MFNode  [in]     removeChildren          [X3DChildNode]
+  SFVec3f [in,out] axisOfRotation 0 1 0    (-&#8734;,&#8734;)
+  MFNode  [in,out] children       []       [X3DChildNode]
+  SFNode  [in,out] metadata       NULL     [X3DMetadataObject]
+  SFVec3f []       bboxCenter     0 0 0    (-&#8734;,&#8734;)
+  SFVec3f []       bboxSize       -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+<p>The Billboard node is a grouping node that transforms the coordinate system 
+of its children so that the local Z-axis of the children turns to point at the 
+viewer within the limitations of its rotational axis.</p>
+
+        <p>The <i>axisOfRotation</i> field specifies which axis to 
+          use to perform the rotation. This axis is defined in the local coordinate 
+          system.</p>
+
+        <p>When the <i>axisOfRotation</i> field is not (0,&nbsp;0,&nbsp;0), 
+          the following steps describe how to rotate the billboard to face the 
+          viewer:</p>
+
+          <ol start="1" type="a">
+            <li>Compute the vector from the Billboard 
+              node's origin to the viewer's position. This vector is called the 
+              <i>billboard-to-viewer</i> vector.</li> 
+            <li>Compute the plane defined by the 
+              <i>axisOfRotation</i> and the billboard-to-viewer vector.</li> 
+            <li>Rotate the local Z-axis of the 
+             billboard into the plane from b., pivoting around the <i>axisOfRotation</i>.</li> 
+          </ol>
+
+        <p>When the <i>axisOfRotation</i> field is set to (0,&nbsp;0,&nbsp;0), 
+          the special case of <i>viewer-alignment</i> is indicated. In this case, 
+          the object rotates to keep the billboard's local Y-axis parallel with 
+          the Y-axis of the viewer. This special case is distinguished by setting 
+          the <i>axisOfRotation</i> to (0, 0, 0). The following steps describe 
+          how to align the billboard's Y-axis to the Y-axis of the viewer:</p>
+
+        <ol start="4" type="a">
+            <li>Compute the billboard-to-viewer<i> 
+              </i>vector.</li> 
+            <li>Rotate the Z-axis of the billboard 
+              to be collinear with the billboard-to-viewer vector and pointing 
+              towards the viewer's position.</li> 
+            <li>Rotate the Y-axis of the billboard 
+              to be parallel and oriented in the same direction as the Y-axis 
+              of the viewer.</li> 
+          </ol>
+
+        <p>If the <i>axisOfRotation</i> and the billboard-to-viewer 
+          line are coincident, the plane cannot be established and the resulting 
+          rotation of the billboard is undefined. For example, if the <i>axisOfRotation</i> 
+          is set to (0,1,0) (Y-axis) and the viewer flies over the billboard and 
+          peers directly down the Y-axis, the results are undefined<b>.</b></p>
+
+        <p>Multiple instances of Billboard nodes (DEF/USE) operate 
+          as expected: each instance rotates in its unique coordinate system to 
+          face the viewer.</p>
+
+        <p> <a href="group.html#Groupingandchildrennodes">10.2.1 
+         Grouping and children node<i> </i>types</a> provides a description 
+          of the <i>children</i>, <i>addChildren</i>, and <i>removeChildren</i> 
+        fields.</p>
+
+        <p>The <i>bboxCenter</i> and <i>bboxSize</i> fields specify 
+          a bounding box that encloses the Billboard node's children. This is 
+          a hint that may be used for optimization purposes. The results are undefined 
+          if the specified bounding box is smaller than the actual bounding box 
+          of the children at any time. A default <i>bboxSize</i> value, (-1,&nbsp;-1,&nbsp;-1), 
+          implies that the bounding box is not specified and if needed shall be 
+          calculated by the browser. A description of the <i>bboxCenter</i> and 
+          <i>bboxSize</i> fields is contained in
+        <a href="group.html#Boundingboxes">10.2.2 Bounding boxes</a>.</p>
+
+<h2><a name="Collision"></a>
+23.4.2 Collision</h2>
+
+<pre class="node">Collision : X3DGroupingNode, X3DSensorNode {
+  MFNode  [in]     addChildren             [X3DChildNode]
+  MFNode  [in]     removeChildren          [X3DChildNode]
+  MFNode  [in,out] children       []       [X3DChildNode]
+  SFBool  [in,out] enabled        TRUE
+  SFNode  [in,out] metadata       NULL     [X3DMetadataObject]
+  SFTime  [out]    collideTime
+  SFBool  [out]    isActive
+  SFVec3f []       bboxCenter     0 0 0    (-&#8734;,&#8734;)
+  SFVec3f []       bboxSize       -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+  SFNode  []       proxy          NULL     [X3DChildNode]
+}
+</pre>
+
+<p>The Collision node is a grouping node that specifies the 
+          collision detection properties for its children (and their descendants), 
+          specifies surrogate objects that replace its children during collision 
+          detection, and sends events signalling that a collision has occurred 
+          between the avatar and the Collision node's geometry or surrogate. By 
+          default, all geometric nodes in the scene are collidable with the viewer 
+          except <a href="rendering.html#IndexedLineSet">IndexedLineSet</a> and 
+<a href="rendering.html#PointSet">PointSet</a>. Browsers shall detect geometric 
+          collisions between the avatar (see <a href="#NavigationInfo">23.3.4 
+NavigationInfo</a>) 
+          and the scene's geometry and prevent the avatar from &quot;entering&quot; the 
+          geometry. See <a href="#Collisiondetection">23.2.4&nbsp;Collision&nbsp;detection&nbsp;and&nbsp;terrain&nbsp;following</a> 
+          for general information on collision detection.</p>
+
+        <p>If there are no Collision nodes specified in a X3D file, browsers 
+		shall detect collisions between the avatar and all objects during 
+		navigation.</p>
+
+<p><a href="group.html#Groupingandchildrennodes">10.2.1 Grouping and children 
+node types</a> 
+          contains a description of the <i>children</i>, <i>addChildren</i>, 
+          and <i>removeChildren</i> fields.</p>
+
+<p>The Collision node&#39;s <i>enabled</i> field enables and disables collision 
+detection as well as terrain following when the navigation type requires it. If <i>
+enabled</i> is set to <span class="code">FALSE</span>, the children and all 
+descendants of the Collision node shall not be checked for collision or terrain, 
+even though they are drawn. This includes any descendent Collision nodes that 
+have <i>enabled</i> set to <span class="code">TRUE</span> (<i>i.e.</i>, setting
+<i>enabled</i> to <span class="code">FALSE</span> turns collision off for every 
+child node below it).</p>
+<p>The value of the <i>isActive</i> field indicates the current state of the 
+Collision node. An <i>isActive</i> <span class="code">TRUE</span> event is 
+generated when a collision occurs. An <i>isActive</i> <span class="code">FALSE</span> 
+event is generated when a collision no longer occurs.</p>
+
+<p>Collision nodes with the <i>enabled</i> field set to <code>TRUE</code> 
+          detect the nearest collision with their descendent geometry (or proxies). 
+          When the nearest collision is detected, the collided Collision node 
+          sends the time of the collision through its <i>collideTime</i> field. 
+          If a Collision node contains a child, descendant, or proxy (see below) 
+          that is a Collision node, and both Collision nodes detect that a collision 
+          has occurred, both send a <i>collideTime</i> event at the same time. 
+          A <i>collideTime</i> event shall be generated if the avatar is colliding 
+          with collidable geometry when the Collision node is read from a X3D 
+          file or inserted into the transformation hierarchy.</p>
+
+        <p>The <i>bboxCenter</i> and <i>bboxSize</i> fields specify 
+          a bounding box that encloses the Collision node's children. This is 
+          a hint that may be used for optimization purposes. The results are undefined 
+          if the specified bounding box is smaller than the actual bounding box 
+          of the children at any time. A default <i>bboxSize</i> value, (-1,&nbsp;-1,&nbsp;-1), 
+          implies that the bounding box is not specified and if needed shall be 
+          calculated by the browser. More details on the <i>bboxCenter</i> and 
+          <i>bboxSize</i> fields can be found in <a href="group.html#Boundingboxes"> 
+        10.2.2 Bounding boxes.</a>.</p>
+
+<p>The collision proxy, defined in the <i>proxy</i> field, 
+          is any legal children node as described in<font color="#FF0000"> </font>
+<a href="group.html#Groupingandchildrennodes">10.2.1 Grouping and children node 
+types</a> 
+          that is used as a substitute for the Collision node's children during 
+          collision detection. The proxy is used strictly for collision detection; 
+          it is not drawn.</p>
+
+        <p>If the value of the <i>enabled</i> field is <font face="Courier New">TRUE</font> 
+          and the <i>proxy</i> field is non-<font face="Courier New">NULL</font>, 
+          the <i>proxy</i> field defines the scene on which collision detection 
+          is performed. If the <i>proxy</i> value is <code>NULL</code>, 
+          collision detection is performed against the <i>children</i> of the 
+          Collision node.</p>
+
+<p>If <i>proxy</i> is specified, any descendent children 
+          of the Collision node are ignored during collision detection. If <i>children</i> 
+          is empty, <i>enabled</i> is <code>TRUE</code>, and 
+          <i>proxy</i> is specified, collision detection is performed against 
+          the proxy but nothing is displayed. In this manner, invisible collision 
+          objects may be supported.</p>
+
+<p>The <i>collideTime</i> field generates an event specifying 
+          the time when the avatar (see&nbsp;<a href="#NavigationInfo">23.3.4 
+NavigationInfo</a>) 
+          makes contact with the collidable children or proxy of the Collision 
+          node. An ideal implementation computes the exact time of collision. 
+          Implementations may approximate the ideal by sampling the positions 
+          of collidable objects and the user. The <a href="#NavigationInfo">NavigationInfo</a> 
+          node contains additional information for parameters that control the 
+          avatar size.</p>
+
+<h2><a name="LOD"></a>
+23.4.3 LOD</h2>
+
+<pre class="node">LOD : X3DGroupingNode {
+  MFNode  [in]     addChildren               [X3DChildNode]
+  MFNode  [in]     removeChildren            [X3DChildNode]
+  MFNode  [in,out] children         []       [X3DChildNode]
+  SFNode  [in,out] metadata         NULL     [X3DMetadataObject]
+  SFInt32 [out]    level_changed
+  SFVec3f []       bboxCenter       0 0 0    (-&#8734;,&#8734;)
+  SFVec3f []       bboxSize         -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+  SFVec3f []       center           0 0 0    (-&#8734;,&#8734;)
+  SFBool  []       forceTransitions FALSE
+  MFFloat []       range            []       [0,&#8734;) or -1 
+}
+</pre>
+
+<p>The LOD node specifies various levels of detail or complexity 
+          for a given object, and provides hints allowing browsers to automatically 
+          choose the appropriate version of the object based on the distance from 
+          the user. The <i>children</i> field contains a list of nodes that represent 
+          the same object or objects at varying levels of detail, ordered from 
+          highest level of detail to the lowest level of detail. </p>
+<p>The <i>range</i> 
+          field specifies the ideal distances at which to switch between the levels. 
+The <i>forceTransitions</i> field specifies whether browsers are allowed to disregard level distances in order to provide 
+better performance. A <i>forceTransitions</i> value of <span class="code">TRUE</span> 
+specifies that every transition should be performed regardless of any internal 
+optimizations that might be available. A <i>forceTransitions</i> value of
+<span class="code">FALSE</span> specifies that browsers are allowed to disregard 
+level distances in order to provide better performance. </p>
+<p><a href="group.html#Groupingandchildrennodes">10.2.1 Grouping and children node 
+types</a> contains details on the types of nodes that are legal values 
+          for <i>children</i>.</p>
+
+<p>The <i>center</i> field is a translation offset in the 
+          local coordinate system that specifies the centre of the LOD node for 
+          distance calculations.</p>
+
+        <p>The number of nodes in the <i>children</i> field shall exceed 
+          the number of values in the <i>range</i> field by one (<i>i.e.</i>,&nbsp;N+1
+        <i>children</i> nodes for N <i>range</i> values). The <i>range</i> field 
+          contains monotonic increasing values that shall be greater than zero. 
+          In order to calculate which level to display, first the distance is 
+          calculated from the viewer's location, transformed into the local coordinate 
+          system of the LOD node (including any scaling transformations), to the 
+          <i>center</i> point of the LOD node. Then, the LOD node evaluates the 
+          step function <i>L(d)</i> to choose a level for a given value of <i>d</i> 
+          (where <i>d</i> is the distance from the viewer position to the centre 
+          of the LOD node).</p>
+
+        <p>Let <i>n</i> ranges, <i>R</i><sub><i>0</i></sub>, <i>R</i><sub><i>1</i></sub>, 
+          <i>R</i><sub><i>2</i></sub>, ..., <i>R</i><sub><i>n</i>-1</sub>, partition 
+          the domain (0,&nbsp;+<i>infinity</i>) into <i>n</i>+1 subintervals given 
+          by (0,&nbsp;<i>R</i><sub><i>0</i></sub>), [<i>R</i><sub><i>0</i></sub>,&nbsp;<i>R</i><sub><i>1</i></sub>)... 
+          , [<i>R</i><sub><i>n</i>-1</sub>,&nbsp;+<i>infinity</i>). Also, let 
+          <i>n</i> levels <i>L</i><sub><i>0</i></sub>,<i> L</i><sub><i>1</i></sub>, 
+          <i>L</i><sub><i>2</i></sub>, ..., <i>L</i><sub><i>n</i>-1</sub> be the 
+        values of the step function <i>L(d)</i>. The level, <i>L(d),</i> 
+          for a given distance <i>d</i> is defined as follows:</p>
+
+<p class="Equation">    &nbsp;&nbsp;&nbsp; L(d) = L<sub>0</sub>,&nbsp;&nbsp; if d &lt; R<sub>0</sub>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = L<sub>i+1</sub>, if R<sub>i</sub> &le; d &lt; R<sub>i+1</sub>, for &minus;1&nbsp;&lt;&nbsp;i &lt;&nbsp;n&minus;1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = L<sub>n&minus;1</sub>, if d &ge; R<sub>n&minus;1</sub>.<br>
+</p>
+
+        <p>The <i>L(d)<sup>th</sup> </i>node of the <i>children</i> field is 
+        that which is displayed. The L(d)<sup>th</sup> node of the children field (denoted by L<sub>i</sub> 
+in the equation above) is that which is displayed. When L(d) is activated for display, the LOD node generates a <i>level_changed</i> event with value 
+<span class="code">i</span> where the value of i identifies which value of L was 
+		activated for display.</p>
+
+        <p>Specifying too few levels will result in the last level 
+          being used repeatedly for the lowest levels of detail. If more levels 
+          than ranges are specified, the extra levels are ignored. An empty range 
+          field is an exception to this rule. This case is a hint to the browser 
+          that it may choose a level automatically to maintain a constant display 
+          rate. Each value in the <i>range</i> field shall be greater than the 
+          previous value.</p>
+
+        <p>LOD nodes are evaluated top-down in the scene graph. Only 
+          the descendants of the currently selected <i>children</i> node are rendered. All nodes 
+          under an LOD node continue to receive and send events regardless of 
+          which LOD node's <i>level</i> is active.</p>
+<p class="Example">EXAMPLE&nbsp; If an active <a href="time.html#TimeSensor">TimeSensor</a> 
+          node is contained within an inactive level of an LOD node, the TimeSensor 
+          node sends events regardless of the LOD node's state.</p>
+
+        <p>The <i>bboxCenter</i> and <i>bboxSize</i> fields specify 
+          a bounding box that encloses the LOD node's children. This is a hint 
+          that may be used for optimization purposes. The results are undefined 
+          if the specified bounding box is smaller than the actual bounding box 
+          of the child with the largest bounding box at any time. A default <i>bboxSize</i> 
+          value, (&minus;1, &minus;1, &minus;1), implies that the bounding box is not specified 
+          and, if needed, is calculated by the browser. A description of the <i>bboxCenter</i> 
+          and <i>bboxSize</i> fields is contained in <a href="group.html#Boundingboxes">
+        10.2.2 Bounding boxes</a>.</p>
+
+
+<h2><a name="NavigationInfo"></a>
+23.4.4 NavigationInfo</h2>
+
+<pre class="node">NavigationInfo : X3DBindableNode {
+  SFBool   [in]     set_bind
+  MFFloat  [in,out] avatarSize      [0.25 1.6 0.75]   [0,&#8734;)
+  SFBool   [in,out] headlight       TRUE
+  SFNode   [in,out] metadata        NULL              [X3DMetadataObject]
+  SFFloat  [in,out] speed           1.0               [0,&#8734;)
+  SFTime   [in,out] transitionTime  1.0               [0, &infin;)
+  MFString [in,out] transitionType  [&quot;LINEAR&quot;]        [&quot;TELEPORT&quot;,&quot;LINEAR&quot;,
+                                                       &quot;ANIMATE&quot;,...]
+  MFString [in,out] type            [&quot;EXAMINE" "ANY"] [&quot;<code>ANY</code>&quot;,&quot;<code>WALK</code>&quot;,&quot;<code>EXAMINE</code>&quot;,&quot;<code>FLY</code>&quot;,
+                                                       &quot;<code>LOOKAT</code>&quot;,&quot;<code>NONE</code>&quot;,&quot;EXPLORE&quot;,...]
+  SFFloat  [in,out] visibilityLimit 0.0               [0,&#8734;)
+  SFTime   [out]    bindTime
+  SFBool   [out]    isBound
+  SFBool   [out]    transitionComplete
+}
+</pre>
+
+        <p>The NavigationInfo node contains information describing 
+          the physical characteristics of the viewer's avatar and viewing model. 
+          NavigationInfo node is a bindable node 
+(see <a href="core.html#Bindablechildrennodes">7.2.2 Bindable children nodes</a>). Whenever 
+          the current <i>X3DViewpointNode</i> node changes, the current NavigationInfo node 
+          shall be re-parented to it by the browser. Whenever the current NavigationInfo 
+          node changes, the new NavigationInfo node shall be re-parented to the 
+          current Viewpoint node by the browser.</p>
+
+        <p>If a <code>TRUE</code> value is sent 
+          to the <i>set_bind</i> field of a NavigationInfo node, the node is pushed 
+          onto the top of the NavigationInfo node stack. When a NavigationInfo 
+          node is bound, the browser uses the fields of the NavigationInfo node 
+          to set the navigation controls of its user interface and the NavigationInfo 
+          node is conceptually re-parented under the currently bound <i>X3DViewpointNode</i> 
+          node. All subsequent scaling changes to the current <i>X3DViewpointNode</i> node's coordinate system automatically change 
+          aspects (see below) of the NavigationInfo node values used in the browser 
+          (<i>e.g.</i>,&nbsp;scale changes to any ancestors' transformations). A <code>FALSE</code> 
+          value sent to <i>set_bind</i> pops the NavigationInfo node from the 
+          stack, results in an <i>isBound </i><code>FALSE</code> 
+          event, and pops to the next entry in the stack which shall be re-parented 
+          to the current <i>X3DViewpointNode</i> node.
+        <a href="core.html#Bindablechildrennodes">7.2.2 Bindable children nodes</a> has more 
+          details on binding stacks.</p>
+
+        <p>The <i>type</i> field specifies an ordered list of navigation 
+          paradigms that specify a combination of navigation types and the initial 
+          navigation type. The navigation type of the currently bound NavigationInfo 
+          node determines the user interface capabilities of the browser. For 
+          example, if the currently bound NavigationInfo node's <i>type</i> is 
+          &quot;<code>WALK</code>&quot;, the browser shall 
+          present a &quot;<code>WALK</code>&quot; navigation user interface 
+          paradigm (see below for description of <code>WALK</code>). 
+          Browsers shall recognize  at least the following navigation 
+          types: &quot;<code>ANY</code>&quot;, &quot;<code>WALK</code>&quot;, 
+          &quot;<code>EXAMINE</code>&quot;, &quot;<code>FLY</code>&quot;, 
+		  &quot;<code>LOOKAT</code>&quot;,
+ and &quot;<code>NONE</code>&quot; with support as specified in
+        <a href="#t-supportlevels">Table 23.2</a>.</p>
+
+        <p>If &quot;<code>ANY</code>&quot; does 
+          not appear in the <i>type</i> field list of the currently bound NavigationInfo, 
+          the browser's navigation user interface shall be restricted to the recognized 
+          navigation types specified in the list. In this case, browsers shall 
+          not present a user interface that allows the navigation type to be changed 
+          to a type not specified in the list. However, if any one of the values 
+          in the <i>type</i> field are &quot;<code>ANY</code>&quot;, 
+          the browser may provide any type of navigation interface, and allow 
+          the user to change the navigation type dynamically. Furthermore, the 
+          first recognized type in the list shall be the initial navigation type 
+          presented by the browser's user interface.</p>
+
+<p>&quot;<code>ANY</code>&quot; navigation specifies 
+          that the browser may choose the navigation paradigm that best suits 
+          the content and provide a user interface to allow the user to change 
+          the navigation paradigm dynamically. The results are undefined if the 
+          currently bound NavigationInfo's <i>type</i> value is &quot;<code>ANY</code>&quot; 
+          and Viewpoint transitions (see
+<a href="#Viewpoint">23.3.5 Viewpoint</a>) are 
+          triggered by the Anchor node 
+(see <a href="networking.html#Anchor">9.4.1 Anchor</a>) or the <tt>loadURL()</tt> scripting 
+method (see <a href="../references.html#[I19775_2]">Part 2 of ISO/IEC 19775</a>).</p>
+
+        <p>&quot;<code>WALK</code>&quot; navigation is used 
+          for exploring a virtual world on foot or in a vehicle that rests on 
+          or hovers above the ground. It is strongly recommended that <code>WALK</code> 
+          navigation define the up vector in the +Y direction and provide some 
+          form of terrain following and gravity in order to produce a walking 
+          or driving experience. If the bound NavigationInfo's <i>type</i> is 
+          &quot;<code>WALK</code>&quot;, the browser shall 
+          strictly support collision detection (see <a href="#Collision">23.3.2 
+        Collision</a>).</p>
+
+        <p>&quot;<code>FLY</code>&quot; navigation is similar 
+          to <code>WALK</code> except that terrain following 
+          and gravity may be disabled or ignored. There shall still be some notion 
+          of &quot;up&quot; however. If the bound NavigationInfo's <i>type</i> 
+          is &quot;<code>FLY</code>&quot;, the browser shall 
+          strictly support collision detection (see <a href="#Collision">23.3.2 
+        Collision</a>).</p>
+
+        <p>&quot;<code>LOOKAT</code>&quot; navigation is used to explore a scene by 
+        navigating to a particular object. Selecting an object with &quot;<code>LOOKAT</code>&quot;:</p>
+<ol type="a">
+  <li>Moves the viewpoint directly to some convenient viewing distance from the 
+  bounding box center of the selected object, with the viewpoint orientation set 
+  to aim the view at the approximate centre of the object;</li>
+  <li>Sets the center of rotation in the currently bound Viewpoint node to the 
+  approximate centre of the selected object.</li>
+</ol>
+<p>
+&quot;<code>EXAMINE</code>&quot; navigation is used for viewing individual objects. 
+&quot;<code>EXAMINE</code>&quot; shall provide the ability to orbit or spin the user&#39;s eyepoint 
+about the center of rotation in response to user actions. The center of rotation 
+for moving the viewpoint around the object and determining the viewpoint 
+orientation is specified in the currently bound <i>X3DViewpointNode</i> node (see
+<a href="#X3DViewpointNode">23.3.1 <i>X3DViewpoinNode</i></a>). 
+The browser shall strictly support collision detection (see <a href="#Collision">
+23.4.2 Collision</a>) and shall 
+trigger exit and enter events throughout <code>EXAMINE</code> operations.<br>
+<br>
+&quot;<code>LOOKAT</code>&quot; navigation in combination with 
+&quot;<code>EXAMINE</code>&quot;<code> </code>is used 
+to explore a scene by navigating to a particular object, then being able to 
+conveniently navigate in order to examine the object from different 
+orientations. If content specifies both &quot;<code>LOOKAT</code>&quot;<code> </code>and 
+&quot;<code>EXAMINE</code>&quot;<code> </code>types, any &quot;<code>LOOKAT</code>&quot; operations shall change the center of rotation 
+for subsequent 
+&quot;<code>EXAMINE</code>&quot;<code> </code>operations.</p>
+
+        <p>&quot;<code>NONE</code>&quot; navigation disables 
+          and removes all browser-specific navigation user interface forcing the 
+          user to navigate using only mechanisms provided in the scene, such as 
+          Anchor nodes or scripts that include <tt>loadURL()</tt>. &quot;<code>NONE</code>&quot;<span class="code">
+		</span>has an effect only when it is the first 
+supported navigation type. If &quot;<code>NONE</code>&quot;<span class="code"> </span>is not the first 
+		supported navigation type, it has no effect.</p>
+<p><span class="code">&quot;EXPLORE&quot;</span> navigation is used to provide consistent 
+keystroke navigation for both geospatial and Cartesian modes. When
+<span class="code">&quot;EXPLORE&quot;</span> mode is active:</p>
+<ol type="a">
+				<li>Dragging left and right while holding the left button down 
+				causes viewpoint rotation about a vertical axis that passes 
+				through the point of rotation. This vertical axis is always 
+				perpendicular to the viewpoint vector. Motion in the left 
+				direction rotates the viewpoint clockwise (as viewed from the 
+				top) about the vertical axis. Rotation is tied to the motion of 
+				the pointing device; there is no damping or delay.</li>
+				<li>Dragging the up and down while holding the left button down 
+				causes rotation about a horizontal axis that passes through the 
+				point of rotation. Motion in the up direction rotates the 
+				viewpoint clockwise (as viewed from the right) about the 
+				horizontal axis. Rotation is tied to the motion of the pointing 
+				device; there is no damping or delay.</li>
+				<li>Holding the Ctrl key (or other key that may be 
+				user-selectable) down modifies the left button down drag 
+				movement such that up and down (Y-axis) movement causes the 
+				viewpoint to zoom toward and from the point of rotation. Left 
+				and right motion while Ctrl is held down has no effect. Shift 
+				and Ctrl (or other keys that may be user-selectable) held at the 
+				same time also enables zoom but disables TouchSensors.</li>
+				<li>Holding the Alt key (or other key that may be 
+				user-selectable) modifies the movement such that motion of the 
+				pointing device while the left button is held down is translated 
+				into a pan of the viewpoint in a plane passing through the 
+				viewpoint perpendicular to the vector pointing to the point of 
+				rotation. Shift and Alt (or other keys that may be 
+				user-selectable) held at the same time also enables pan but 
+				disables TouchSensors.</li>
+				<li>The point of rotation can be set by holding the Shift key 
+				(or other key that may be user-selectable) while pointing at an 
+				object and clicking the left button. To provide feedback that 
+				the point has been selected, the viewpoint shall zoom about 
+				twenty percent of the distance toward that point. </li>
+				<li>If the pointer is positioned over a TouchSensor, the pointer 
+				icon shall change its appearance to indicate that a left click 
+				will activate the TouchSensor. </li>
+				<li>Holding the Shift key (or other key that may be 
+				user-selectable) overrides any TouchSensor that the pointer may 
+				be over and forces the pointing device to function as the 
+				viewpoint navigation tool; <em>i.e.</em>, drag operations cause 
+				rotation, click operations cause center of rotation point 
+				selection.</li>
+</ol>
+<p>Whether user-selectable alternatives to the Shift, Ctrl, and/or Alt are 
+provided is browser-dependent. If provided, the method by which such 
+alternatives are specified is also browser-dependent.</p>
+
+        <p>If the NavigationInfo type is &quot;<code>WALK</code>&quot;, 
+          &quot;<code>FLY</code>&quot;, &quot;<code>EXAMINE</code>&quot;, 
+          or &quot;<code>NONE</code>&quot; or a combination 
+          of these types (<i>i.e.</i>, &quot;<code>ANY</code>&quot; 
+          is not in the list), <i>X3DViewpointNode</i> transitions (see
+		<a href="#X3DViewpointNode">23.3.1 <i>X3DViewpointNode</i></a>) triggered by the 
+		<a href="networking.html#Anchor">Anchor</a> node (see
+        <a href="networking.html#Anchor">9.4.1 Anchor</a>) or 
+the <tt>loadURL()</tt>scripting method 
+(see <a href="../references.html#[I19775_2]">Part 2 of ISO/IEC 19775</a>) shall be implemented as a jump 
+           
+          from the old <i>X3DViewpointNode</i> to the new <i>X3DViewpointNode</i> with transition effects 
+          that shall not trigger events besides the exit and enter events caused 
+          by the jump.</p>
+
+        <p>Browsers may create browser-specific navigation type extensions. 
+         It is recommended that extended <i>type</i> names include a unique suffix 
+          (<i>e.g.</i>,&nbsp;HELICOPTER_mydomain.com) to prevent conflicts. <i>X3DViewpointNode</i> 
+          transitions (see <a href="#Viewpoint">23.3.5 Viewpoint</a>) triggered by the 
+          Anchor node (see <a href="networking.html#Anchor">9.4.1 Anchor</a>) 
+          or the <tt>loadURL()</tt>scripting method 
+(see <a href="../references.html#[I19775_2]">Part 2 of ISO/IEC 19775</a>) are undefined 
+          for extended navigation types. If none of the types are recognized by 
+          the browser, the default &quot;<code>ANY</code>&quot; 
+          is used. These strings values are case sensitive (&quot;<code>any</code>&quot; 
+          is not equal to &quot;<code>ANY</code>&quot;).</p>
+
+        <p>The <i>transitionType</i> field specifies an ordered list of  paradigms 
+        that determine the manner in which the browser moves the viewer when a 
+        new Viewpoint node is bound. Browsers shall recognize and support at least the following 
+        transition 
+          types: &quot;<code>TELEPORT</code>&quot;, &quot;<code>LINEAR</code>&quot;, 
+          and &quot;<code>ANIMATE</code>&quot;. For value &quot;<code>TELEPORT</code>&quot;, 
+        the transition shall be immediate without any intervening positions. For 
+        value &quot;<code>LINEAR</code>&quot;, the browser shall perform a linear 
+        interpolation of the position and orientation values. For value &quot;<code>ANIMATE</code>&quot;, 
+        the browser shall perform a browser-specific animation effect. If all 
+        values are unrecognized or the field is empty, the default value of &quot;<code>LINEAR</code>&quot; 
+        shall be used. This field applies to any transitions between positions 
+        and orientations including Viewpoint bindings and 
+&quot;<code>LOOKAT</code>&quot;<span class="code"> </span>navigation type.</p>
+<p>The <i>transitionTime</i> field specifies the duration of any viewpoint 
+transition. The transition starts when the next Viewpoint node is bound. The 
+duration of the transition depends on the value of the <i>transitionType</i> 
+field. If <i>transitionType</i> is &quot;<span class="code">TELEPORT</span>&quot;, the 
+transition is instantaneous and completes at the same time it starts. A 
+transition type of &quot;<span class="code">LINEAR</span>&quot; indicates that the 
+transition lasts the number of seconds specified by the first value in the <i>
+transitionTime</i> field. If <i>transitionType</i> is &quot;<span class="code">ANIMATE</span>&quot;, <i>
+transitionTime</i> provides browser-dependent parameters to the browsers 
+viewpoint animation engine. When a transition completes, a <i>transitionComplete</i> 
+event is signaled.</p>
+
+        <p>The <i>speed</i> field specifies the rate at which the 
+          viewer travels through a scene in speed base units. Since browsers 
+          may provide mechanisms to travel faster or slower, this field specifies 
+          the default, average speed of the viewer when the NavigationInfo node 
+          is bound. If the NavigationInfo <i>type</i> is &quot;<code>EXAMINE</code>&quot;, 
+          <i>speed</i> shall not affect the viewer's rotational speed. Scaling 
+          in the transformation hierarchy of the currently bound Viewpoint node (see above) scales the <i>speed</i>; parent 
+          translation and rotation transformations have no effect on <i>speed</i>. 
+          Speed shall be non-negative. Zero speed indicates that the avatar's 
+          position is stationary, but its orientation and field of view may still 
+          change. If the navigation <i>type</i> is &quot;<code>NONE</code>&quot;, 
+          the <i>speed</i> field has no effect.</p>
+
+        <p>The <i>avatarSize</i> field specifies the user's physical 
+          dimensions in the world for the purpose of collision detection and terrain 
+          following. It is a multi-value field allowing several dimensions to 
+          be specified. The first value shall be the allowable distance between 
+          the user's position and any collision geometry 
+(as specified by a <a href="#Collision">Collision</a> 
+          node ) before a collision is detected. The second shall be the height 
+          above the terrain at which the browser shall maintain the viewer. The 
+          third shall be the height of the tallest object over which the viewer 
+          can move. This allows staircases to be built with dimensions that can 
+          be ascended by viewers in all browsers. The transformation hierarchy 
+          of the currently bound Viewpoint node scales the <i>avatarSize</i>. Translations 
+          and rotations have no effect on <i>avatarSize</i>.</p>
+
+        <p>For purposes of terrain following, the browser maintains 
+         a notion of the <i>down</i> direction (down vector), since gravity is 
+          applied in the direction of the down vector. This down vector shall 
+          be along the negative Y-axis in the local coordinate system of the currently 
+          bound <i>X3DViewpointNode</i> node (<i>i.e.</i>,&nbsp;the accumulation of the 
+		<i>X3DViewpointNode</i> node's 
+          ancestors' transformations, not including the <i>X3DViewpointNode</i> node's <i>orientation</i> 
+          field).</p>
+
+        <p>Geometry beyond the <i>visibilityLimit</i> may not be rendered. 
+          A value of 0.0 indicates an infinite <i>visibilityLimit</i>. The <i>visibilityLimit</i> 
+          field is restricted to be greater than or equal to zero.</p>
+
+        <p>The <i>speed</i>, <i>avatarSize</i> and <i>visibilityLimit</i> 
+          values are all scaled by the transformation being applied to the currently 
+          bound <i>X3DViewpointNode</i> node. If there is no currently 
+          bound <i>X3DViewpointNode</i> node, the values are interpreted in the world coordinate 
+          system. This allows these values to be automatically adjusted when binding 
+          to a <i>X3DViewpointNode</i> node that has a scaling transformation applied to it 
+          without requiring a new NavigationInfo node to be bound as well. The 
+          results are undefined if the scale applied to the <i>X3DViewpointNode</i> node is 
+          non-uniform.</p>
+
+        <p>The <i>headlight</i> field specifies whether a browser 
+          shall turn on a headlight. A headlight is a directional light that always 
+          points in the direction the user is looking. Setting this field to 
+		<span class="code">TRUE</span> 
+          allows the browser to provide a headlight, possibly with user interface 
+          controls to turn it on and off. Scenes that enlist precomputed lighting 
+          (<span class="example">EXAMPLE</span> &nbsp;radiosity solutions) can turn the headlight off. The headlight 
+          shall have <i>intensity&nbsp;</i>=&nbsp;1, <i>color</i> =&nbsp;(1&nbsp;1&nbsp;1), 
+          <i>ambientIntensity&nbsp;</i>=&nbsp;0.0, and <i>direction&nbsp;</i>=&nbsp;(0&nbsp;0&nbsp;&minus;1).</p>
+
+        <p>It is recommended that the near clipping plane be set 
+          to one-half of the collision radius as specified in the <i>avatarSize</i> 
+          field (setting the near plane to this value prevents excessive clipping 
+          of objects just above the collision volume, and also provides a region 
+          inside the collision volume for content authors to include geometry 
+          intended to remain fixed relative to the viewer). Such geometry shall 
+          not be occluded by geometry outside of the collision volume.</p>
+
+<h2><a name="OrthoViewpoint"></a>23.4.5 OrthoViewpoint</h2>
+
+<pre class="node">OrthoViewpoint : X3DViewpointNode { 
+  SFBool     [in]     set_bind
+  SFVec3f    [in,out] centerOfRotation  0 0 0         (-&#8734;,&#8734;)
+  SFString   [in,out] description       ""
+  MFFloat    [in,out] fieldOfView       -1, -1, 1, 1  (-&#8734;,&#8734;)
+  SFBool     [in,out] jump              TRUE
+  SFNode     [in,out] metadata          NULL          [X3DMetadataObject]
+  SFRotation [in,out] orientation       0 0 1 0       [-1,1],(-&#8734;,&#8734;)
+  SFVec3f    [in,out] position          0 0 10        (-&#8734;,&#8734;)
+  SFBool     [in,out] retainUserOffsets FALSE
+  SFTime     [out]    bindTime
+  SFBool     [out]    isBound
+}</pre>
+<p>The OrthoViewpoint node defines a viewpoint that provides an orthographic 
+view of the scene. An orthographic view is one in which all projectors are 
+parallel to the projector&nbsp; from <i>centerOfRotation</i> to <i>position</i>.</p>
+<p>The <i>fieldOfView</i> field specifies minimum and maximum extents of the 
+view in units of the local coordinate system. A small field of view roughly corresponds to a telephoto lens; a 
+large field of view roughly corresponds to a wide-angle lens. The minimum an 
+maximum values in each direction of the field of view shall have the 
+relationship minimum &lt; maximum. 
+The value of <i>fieldOfView</i> represents the minimum viewing extent in any 
+direction axis perpendicular to the view.</p>
+<p>A browser with a 
+rectangular viewing projection has the following relationship:</p>
+<blockquote>
+	<p><span class="code">display width&nbsp;&nbsp;&nbsp; (maximum_x - minimum_x)<br>
+	-------------- = -----------------------<br>
+	display height&nbsp;&nbsp; (maximum_y - minimum_y)<br>
+	</span></p>
+</blockquote>
+
+<h2><a name="Viewpoint"></a>23.4.6 Viewpoint</h2>
+
+<pre class="node">Viewpoint : X3DViewpointNode { 
+  SFBool     [in]     set_bind
+  SFVec3f    [in,out] centerOfRotation  0 0 0   (-&#8734;,&#8734;)
+  SFString   [in,out] description       ""
+  SFFloat    [in,out] fieldOfView       &#960;/4     (0,&#960;)
+  SFBool     [in,out] jump              TRUE
+  SFNode     [in,out] metadata          NULL    [X3DMetadataObject]
+  SFRotation [in,out] orientation       0 0 1 0 [-1,1],(-&#8734;,&#8734;)
+  SFVec3f    [in,out] position          0 0 10  (-&#8734;,&#8734;)
+  SFBool     [in,out] retainUserOffsets FALSE
+  SFTime     [out]    bindTime
+  SFBool     [out]    isBound
+}
+</pre>
+
+<p>The Viewpoint node defines a viewpoint that provides a perspective 
+view of the scene. A perspective view is one in which all projectors coalesce at <i>position</i>.</p>
+
+        <p>The <i>fieldOfView</i> field specifies a preferred minimum 
+          viewing angle from this viewpoint in angle base units. A small field of view 
+          roughly corresponds to a telephoto lens; a large field of view roughly 
+          corresponds to a wide-angle lens. The field of view shall be greater 
+          than zero and smaller than <font face="Times New Roman">&#960;</font>. The value of <i>fieldOfView</i> represents 
+          the minimum viewing angle in any direction axis perpendicular to the 
+          view. </p>
+<p>A browser with a rectangular viewing projection has the following relationship:</p>
+
+<blockquote>
+	<p><span class="code">display width&nbsp;&nbsp;&nbsp; tan(FOV<sub>horizontal</sub>/2)<br>
+	-------------- = -------------------<br>
+	display height&nbsp;&nbsp; tan(FOV<sub>vertical</sub>/2)</span></p>
+</blockquote>
+
+        <p>where the smaller of display width or display height determines 
+          which angle equals the <i>fieldOfView</i> (the larger angle is computed 
+          using the relationship described above). The larger angle shall not 
+          exceed <font face="Times New Roman">&#960;</font> and may force the smaller angle to 
+          be less than <i>fieldOfView</i> in order to sustain the aspect ratio.</p>
+
+<h2><a name="ViewpointGroup"></a>23.4.7 ViewpointGroup</h2>
+<pre class="node">ViewpointGroup : X3DChildNode { 
+  SFVec3f  [in,out] center            0 0 0 (-&#8734;,&#8734;)
+  MFNode   [in,out] children          NULL  [X3DViewpointNode | ViewpointGroup]
+  SFString [in,out] description       &quot;&quot;
+  SFBool   [in,out] displayed         TRUE
+  SFNode   [in,out] metadata          NULL  [X3DMetadataObject]
+  SFBool   [in,out] retainUserOffsets FALSE
+  SFVec3f  [in,out] size              0 0 0 (-&#8734;,&#8734;)
+}</pre>
+<p>The ViewpointGroup node is used to control display of viewpoints on the viewpoint 
+list. Use of ViewpointGroup allows a viewpoint list to have a tree structure, 
+similar to a bookmark list. </p>
+<p>The <i>children</i> field is a sequence of nodes of type <i>
+<a href="#X3DViewpointNode">X3DViewpointNode</a></i>.</p>
+<p>The <i>description</i> field provides a simple description or navigation hint 
+to be displayed for this ViewpointGroup. </p>
+<p>The <i>displayed</i> field determines whether this ViewpointGroup is 
+displayed in the current viewpoint list. </p>
+<p>The <i>center</i> and <i>size</i> fields are defined identically as the 
+corresponding <a href="envsensor.html#ProximitySensor">ProximitySensor</a> definitions. The <i>center</i> field provides a 
+position offset from origin of local coordinate system. The <i>size</i> field 
+provides the size of a proximity box within which the ViewpointGroup is usable 
+and displayed on the viewpoint list. A <i>size</i> field of <span class="code">0 
+0 0</span> specifies that the ViewpointGroup is always usable and displayable.</p>
+<p>The <i>retainUserOffsets</i> field specifies whether the user is returned to 
+the originally defined viewpoint position/orientation after local navigation 
+(see <a href="#ViewpointList">23.2.5 Viewpoint list</a>).</p>
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>23.5 Support levels</h1>
+
+<p>The Navigation component provides two levels of support as 
+specified in <a href="#t-supportlevels">Table 23.2</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption"><a name="t-supportlevels"></a>Table 23.2<b>&#8212; </b>Navigation component support levels</p>
+  
+   <table>
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td><b>1</b></td>
+        <td>Core 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+       <tr> 
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+         <td><i>X3DViewpointNode</i></td>
+         <td>n/a</td>
+       </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>NavigationInfo</td>
+        <td>avatarSize optionally supported.<br><i>speed</i> optionally 
+        supported.<br><i>type</i> support for at least <span class="code">&quot;ANY&quot;</span>, 
+		<span class="code">&quot;FLY&quot;</span>, 
+        <span class="code">&quot;EXAMINE&quot;</span>, and <span class="code">&quot;NONE&quot;</span>.<br>
+        <i>visibilityLimit</i> optionally supported.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Viewpoint</td>
+        <td> <i>fieldOfView</i> optionally supported.<br> <i>description</i> 
+        optionally supported.<br>
+		<i>retainUserOffsets</i> optionally supported.<br>
+		All other fields fully 
+        supported.</td>
+      </tr>
+      <tr> 
+        <td><b>2</b></td>
+        <td>Core 1<br>
+        Grouping 1<br>
+        Shape 1<br>
+        Environmental sensor 2</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>All Level 1 Navigation nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td> NavigationInfo</td>
+        <td valign="top"><i>type</i> support for at least <span class="code">&quot;ANY&quot;</span>, 
+		<span class="code">&quot;FLY&quot;</span>, 
+        <span class="code">&quot;EXAMINE&quot;</span>, <span class="code">&quot;WALK&quot;</span>, 
+		<span class="code">&quot;LOOKAT&quot;</span>, and <span class="code">&quot;NONE&quot;</span>.<br>
+		All other fields fully 
+        supported.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td>&nbsp;</td>
+        <td> Billboard</td>
+        <td valign="top">All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Collision</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>LOD</td>
+        <td>All fields fully supported.</td>
+      </tr>
+       <tr> 
+         <td><b>&nbsp;3</b></td>
+         <td>Core 1<br>
+             Grouping 1<br>
+			 Shape 1<br>
+		 	Environmental sensor 2</td>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+       </tr>
+       <tr> 
+         <td></td>
+         <td></td>
+         <td>All Level 2 Navigation nodes</td>
+         <td>All fields fully supported.</td>
+       </tr>
+       <tr> 
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+         <td>OrthoViewpoint</td>
+         <td>All fields fully supported.</td>
+       </tr>
+       <tr> 
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+         <td>ViewpointGroup</td>
+         <td>All fields fully supported.</td>
+       </tr>
+    </table>
+</div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

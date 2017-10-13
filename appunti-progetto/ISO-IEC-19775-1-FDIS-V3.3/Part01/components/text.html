@@ -1,0 +1,660 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 15 Text component</title>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+
+</head>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">15 Text component</p>
+
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+15.1 Introduction</h1>
+<h2><a name="Name"></a>15.1.1 Name</h2>
+<p>The name of this component is &quot;Text&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>15.1.2 Overview</h2>
+
+<p>This clause describes the Text component of this part of ISO/IEC 19775. 
+<a href="#t-Topics">Table 15.1</a> provides links to the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 15.1 &#8212; Topics</p>
+
+<table class="topics">
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">15.1 Introduction</a>
+          <ul>
+            <li><a href="#Name">15.1.1 Name</a></li>
+            <li><a href="#Overview">15.1.2 Overview</a></li>
+          </ul></li>
+          <li><a href="#Concepts">15.2 Concepts</a> 
+            <ul>
+              <li><a href="#Textsemantics">15.2.1 Text semantics</a> 
+                <ul>
+                  <li><a href="#TextSemanticsOverview">15.2.1.1 Overview</a></li> 
+                  <li><a href="#Appearance">15.2.1.2 Appearance</a></li> 
+                </ul></li>
+              <li><a href="#TextFormatting">15.2.2 Text formatting</a> 
+                <ul>
+                  <li><a href="#FormattingIntroduction">15.2.2.1 Introduction</a></li> 
+                  <li><a href="#Fontfamilyandstyle">15.2.2.2 Font family and style</a></li> 
+                  <li><a href="#Directionandjustification">15.2.2.3 Direction and justification</a></li> 
+                  <li><a href="#Language">15.2.2.4 Language</a></li> 
+                 </ul></li>
+             </ul></li>
+          <li><a href="#Abstracttypes">15.3 Abstract types</a> 
+            <ul>
+              <li><a href="#X3DFontStyleNode">15.3.1 <i>X3DFontStyleNode</i></a></li>
+            </ul></li>
+          <li><a href="#Nodereference">15.4 Node reference</a> 
+            <ul>
+              <li><a href="#FontStyle">15.4.1 FontStyle </a></li>
+              <li><a href="#Text">15.4.2 Text</a></li>
+            </ul></li>
+          <li><a href="#SupportlLevels">15.5 Support levels</a></li> 
+        </ul>
+        <ul>
+          <li><a href="#f-KeyforTables">Figure 15.1 &#8212; Key for Tables 15.5 and 15.6</a></li>
+          <li><a href="#f-Textsizeandspacingfields">Figure 15.2 &#8212; Text <i>size</i> and <i>spacing</i> fields</a></li>
+			<li><a href="#f-LineBoundsAndTextBoundsMeasurements">Figure 15.3 &mdash;
+			<i>lineBounds</i> and <i>textBounds</i> measurements</a></li>
+        </ul>
+        <ul>
+          <li><a href="#t-Topics">Table 15.1 &#8212; Topics</a></li>
+          <li><a href="#t-MajorAlignhorizTRUE">Table 15.2 &#8212; Major Alignment, horizontal = TRUE</a></li> 
+          <li><a href="#t-MajorAlignhorizFALSE">Table 15.3 &#8212; Major Alignment, horizontal = FALSE</a></li> 
+          <li><a href="#t-MinorAlignhorizTRUE">Table 15.4 &#8212; Minor Alignment, horizontal = TRUE</a></li> 
+          <li><a href="#t-MinorAlignhorizFALSE">Table 15.5 &#8212; Minor Alignment, horizontal = FALSE</a></li> 
+          <li><a href="#t-horizontalTRUE">Table 15.6 &#8212; horizontal = TRUE</a></li> 
+          <li><a href="#t-horizontalFALSE">Table 15.7 &#8212; horizontal = FALSE</a></li>
+          <li><a href="#t-supportlevels">Table 15.8 &#8212; Text component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>
+15.2 Concepts</h1>
+
+<h2><a name="Textsemantics"></a>15.2.1 Text semantics</h2>
+
+<h3><a name="TextSemanticsOverview"></a>15.2.1.1 Overview</h3>
+
+<p>Text is processed as geometry in X3D. There are special considerations when 
+  specifying text as well as when displaying text. This subclause describes the 
+  manner in which text values are specified in X3D using the <a href="#Text">Text</a> node. <a href="#TextFormatting">
+15.2.2 Text formatting</a> 
+  describes text formatting.</p>
+
+<h3><a name="Appearance"></a>15.2.1.2 Appearance</h3>
+
+<p>Textures are applied to text as follows. The texture origin is at the origin 
+  of the first string, as determined by the justification. The texture is scaled 
+  equally in both S and T dimensions, with the font height representing 1 unit. 
+  S increases to the right, and T increases up.</p>
+
+<p> <a href="shape.html">12 Shape component</a> specifies how 
+<a href="shape.html#Appearance">Appearance</a>, <a href="shape.html#Material">Material</a> and textures interact with lighting.
+<a href="lighting.html">17 Lighting component</a> specifies the X3D lighting 
+equations.</p>
+
+<h2><a name="TextFormatting"></a>15.2.2 Text formatting</h2>
+
+<h3><a name="FormattingIntroduction"></a>15.2.2.1 Introduction</h3>
+
+<p>There is a long history of text layout and formatting. This standard specifies 
+techniques to be used in X3D that provide support for a variety of languages 
+and layout schemes. Additional layout functionality is specified in
+<a href="layout.html">36 Layout component</a>.</p>
+
+<h3><a name="Fontfamilyandstyle"></a>15.2.2.2 Font family and style</h3>
+
+<p>Font attributes are defined with the <i>family</i> and <i>style</i> fields. 
+  The browser shall map the specified font attributes to an appropriate available 
+  font as described below.</p>
+
+<p>The <i>family</i> field contains a case-sensitive MFString value that specifies 
+  a sequence of font family names in preference order. The browser shall search 
+  the MFString value for the first font family name matching a supported font 
+  family. If none of the string values matches a supported font family, the default 
+  font family &quot;<code>SERIF</code>&quot; shall be used. 
+  All browsers shall support at least &quot;<code>SERIF</code>&quot; 
+  (the default) for a serif font such as Times Roman; &quot;<code>SANS</code>&quot; 
+  for a sans-serif font such as Helvetica; and &quot;<code>TYPEWRITER</code>&quot; 
+  for a fixed-pitch font such as Courier. An empty <i>family</i> value is identical 
+  to [&quot;<code>SERIF</code>&quot;]. Any font family may be specified as shown 
+in the following example of the specification of a font family:</p>
+
+<pre>    [&quot;Lucida Sans Typewriter&quot;, &quot;Lucida Sans&quot;, &quot;Helvetica&quot;, &quot;SANS&quot;]</pre>
+<p>In this example, the browser would first look for the font family &quot;Lucida 
+Sans Typewriter&quot; on the system on which the browser is operating. If that is not 
+available, the browser looks for &quot;Lucida Sans&quot;. If that is not available, the 
+browser looks for &quot;Helvetica&quot;. If that is not available, the browser looks for 
+any sans-serif font. If there are not sans-serif fonts installed, the browser 
+will use any serif font (the default). It is the responsibility of the author 
+that a suitable list of font families be&nbsp; specified so that the desired 
+appearance is achieved in most operating environments. However, the author 
+should always be willing to accept that the requested font families may not be 
+available resulting in the use of a browser-selected &quot;<code>SERIF</code>&quot; font 
+being used.</p>
+<p>The <i>style</i> field specifies a case-sensitive SFString value that may be 
+  &quot;<code>PLAIN</code>&quot; (the default) for default 
+  plain type; &quot;<code>BOLD</code>&quot; for boldface type; 
+  &quot;<code>ITALIC</code>&quot; for 
+italic type; or &quot;<code>BOLDITALIC</code>&quot; 
+  for bold and italic type. An empty <i>style</i> value (&quot;&quot;) is identical 
+  to &quot;<code>PLAIN</code>&quot;. In the case where the requested 
+style is not available, the available style that is closest to the requested 
+style shall be used. For example, some font families specify a Demibold style 
+rather than Bold. In this case, specifying &quot;<code>BOLD</code>&quot; will result in 
+the browser using Demibold as the nearest substitute.</p>
+
+<h3><a name="Directionandjustification"></a>
+15.2.2.3 Direction and justification</h3>
+
+<p>The <i>horizontal</i>, <i>leftToRight</i>, and <i>topToBottom</i> fields indicate 
+  the direction of the text. The <i>horizontal</i> field indicates whether the 
+  text advances horizontally in its major direction (<i>horizontal</i> = <code>TRUE</code>, 
+  the default) or vertically in its major direction (<i>horizontal</i> = <code>FALSE</code>). 
+  The <i>leftToRight</i> and <i>topToBottom</i> fields indicate direction of text 
+  advance in the major (characters within a single string) and minor (successive 
+  strings) axes of layout. Which field is used for the major direction and which 
+  is used for the minor direction is determined by the <i>horizontal</i> field. 
+Note that the direction specification overrides any modes inherent in a 
+particular language.</p>
+
+<p>For horizontal text (<i>horizontal</i> = <code>TRUE</code>), 
+  characters on each line of text advance in the positive X direction if <i>leftToRight</i> 
+  is <code>TRUE</code> or in the negative X direction if <i>leftToRight</i> 
+  is <code>FALSE</code>. Characters are advanced according 
+  to their natural advance width. Each line of characters is advanced in the negative 
+  Y direction if <i>topToBottom</i> is <code>TRUE</code> or 
+  in the positive Y direction if <i>topToBottom</i> is <code>FALSE</code>. 
+  Lines are advanced by the amount of <i>size&nbsp;</i>&times;&nbsp;<i>spacing</i>.</p>
+
+<p>For vertical text (<i>horizontal</i> = <code>FALSE</code>), 
+  characters on each line of text advance in the negative Y direction if <i>topToBottom</i> 
+  is <code>TRUE</code> or in the positive Y direction if <i>topToBottom</i> 
+  is <code>FALSE</code>. Characters are advanced according 
+  to their natural advance height. Each line of characters is advanced in the 
+  positive X direction if <i>leftToRight</i> is <code>TRUE</code> 
+  or in the negative X direction if <i>leftToRight</i> is <code>FALSE</code>. 
+  Lines are advanced by the amount of <i>size&nbsp;</i>&times;&nbsp;<i>spacing</i>.</p>
+
+<p>The <i>justify</i> field determines alignment of the above text layout relative 
+  to the origin of the object coordinate system. The <i>justify</i> field is an 
+  MFString which can contain 2 values. The first value specifies alignment along 
+  the major axis and the second value specifies alignment along the minor axis, 
+  as determined by the <i>horizontal</i> field. An empty <i>justify</i> value 
+  (&quot;&quot;) is equivalent to the default value. If the second string, minor 
+  alignment, is not specified, minor alignment defaults 
+to the value &quot;<code>FIRST</code>&quot;. 
+  Thus, <i>justify</i> values of &quot;&quot;, &quot;<code>BEGIN</code>&quot;, 
+  and [&quot;<code>BEGIN</code>&quot; &quot;<code>FIRST</code>&quot;] 
+  are equivalent.</p>
+
+<p>The major alignment is along the X-axis when <i>horizontal</i> is <code>TRUE</code> 
+  and along the Y-axis when <i>horizontal is</i> <code>FALSE</code>. 
+  The minor alignment is along the Y-axis when <i>horizontal</i> is <code>TRUE</code> 
+  and along the X-axis when <i>horizontal is</i> <code>FALSE</code>. 
+  The possible values for each enumerant of 
+the <i>justify</i> field are &quot;<code>FIRST</code>&quot;, 
+  &quot;<code>BEGIN</code>&quot;, &quot;<code>MIDDLE</code>&quot;, 
+  and &quot;<code>END</code>&quot;. For major alignment, each 
+  line of text is positioned individually according to the major alignment enumerant. 
+  For minor alignment, the block of text representing all lines together is positioned 
+  according to the minor alignment enumerant. 
+<a href="#t-MajorAlignhorizTRUE">Tables 15.2-15.5</a> describe 
+the behaviour in terms of which portion of the text is at the origin.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-MajorAlignhorizTRUE"></a>
+Table 15.2 &#8212; Major Alignment, <i>horizontal</i> = <code>TRUE</code></p>
+
+<table>
+      <tr> 
+        <td><b><i>justify</i> Enumerant</b></td>
+        <td><b><i>leftToRight</i> = </b><code>TRUE</code></td>
+        <td><b><i>leftToRight</i> = </b><code>FALSE</code></td>
+      </tr>
+      <tr> 
+        <td>&nbsp;<code>FIRST</code></td>
+        <td>&nbsp;Left edge of each line</td>
+        <td>&nbsp;Right edge of each line</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;<code>BEGIN</code></td>
+        <td>&nbsp;Left edge of each line</td>
+        <td>&nbsp;Right edge of each line</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;<code>MIDDLE</code></td>
+        <td>&nbsp;Centred about X-axis</td>
+        <td>&nbsp;Centred about X-axis</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;<code>END</code></td>
+        <td>&nbsp;Right edge of each line</td>
+        <td>&nbsp;Left edge of each line</td>
+      </tr>
+    </table>
+</div>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-MajorAlignhorizFALSE"></a>
+Table 15.3 &#8212; Major Alignment, <i>horizontal</i> = <code>FALSE</code></p>
+
+<table>
+        <tr> 
+          <td><b><i>justify</i> Enumerant</b></td>
+          <td><b><i>topToBottom</i> = </b><code>TRUE</code></td>
+          <td><b><i>topToBottom</i> = </b><code>FALSE</code></td>
+        </tr>
+        <tr> 
+          <td>&nbsp;<code>FIRST</code></td>
+          <td>&nbsp;Top edge of each line</td>
+          <td>&nbsp;Bottom edge of each line</td>
+        </tr>
+        <tr> 
+          <td>&nbsp;<code>BEGIN</code></td>
+          <td>&nbsp;Top edge of each line</td>
+          <td>&nbsp;Bottom edge of each line</td>
+        </tr>
+        <tr> 
+          <td>&nbsp;<code>MIDDLE</code></td>
+          <td>&nbsp;Centred about Y-axis</td>
+          <td>&nbsp;Centre about Y-axis</td>
+        </tr>
+        <tr> 
+          <td>&nbsp;<code>END</code></td>
+          <td>&nbsp;Bottom edge of each line</td>
+          <td>&nbsp;Top edge of each line</td>
+        </tr>
+      </table>
+    </div>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-MinorAlignhorizTRUE"></a>
+Table 15.4 &#8212; Minor Alignment, <i>horizontal</i> = <code>TRUE</code></p>
+
+        <table>
+          <tr> 
+            <td><b><i>justify</i> Enumerant</b></td>
+            <td><b><i>topToBottom</i> = </b><code>TRUE</code></td>
+            <td><b><i>topToBottom</i> = </b><code>FALSE</code></td>
+          </tr>
+          <tr> 
+            <td><code>FIRST</code></td>
+            <td>Baseline of first line</td>
+            <td>Baseline of first line</td>
+          </tr>
+          <tr> 
+            <td>&nbsp;<code>BEGIN</code></td>
+            <td>&nbsp;Top edge of first line</td>
+            <td>&nbsp;Bottom edge of first line</td>
+          </tr>
+          <tr> 
+            <td><code>MIDDLE</code></td>
+            <td>Centred about Y-axis</td>
+            <td>Centred about Y-axis</td>
+          </tr>
+          <tr> 
+            <td><code>END</code></td>
+            <td>Bottom edge of last line</td>
+            <td>Top edge of last line</td>
+          </tr>
+        </table>
+      </div>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-MinorAlignhorizFALSE"></a>
+Table 15.5 &#8212; Minor Alignment, <i>horizontal</i> = <code>FALSE</code></p> 
+
+          <table>
+            <tr> 
+              <td><b><i>justify</i> Enumerant</b></td>
+              <td><b><i>leftToRight</i> = </b><code>TRUE</code></td>
+              <td><b><i>leftToRight</i> = </b><code>FALSE</code></td>
+            </tr>
+            <tr> 
+              <td><code>FIRST</code></td>
+              <td>Left edge of first line</td>
+              <td>Right edge of first line</td>
+            </tr>
+            <tr> 
+              <td><code>BEGIN</code></td>
+              <td>Left edge of first line</td>
+              <td>Right edge of first line</td>
+            </tr>
+            <tr> 
+              <td><code>MIDDLE</code></td>
+              <td>Centred about X-axis</td>
+              <td>Centred about X-axis</td>
+            </tr>
+            <tr> 
+              <td><code>END</code></td>
+              <td>Right edge of last line</td>
+              <td>Left edge of last line</td>
+            </tr>
+          </table>
+        </div>
+
+<p>The default minor alignment is <b>&quot;</b><code>FIRST</code><b>&quot;</b>. 
+  This is a special case of minor alignment when <i>horizontal</i> is <code>TRUE</code>. 
+  Text starts at the baseline at the Y-axis. 
+In all other cases, <b>&quot;</b><code>FIRST</code><b>&quot;</b> 
+  is identical to <b>&quot;</b><code>BEGIN</code><b>&quot;</b>. 
+  In <a href="#t-horizontalTRUE">Tables 15.6 and 15.7</a>, each colour-coded cross-hair 
+  indicates where the X-axis and Y-axis shall be in relation to the text. 
+<a href="#f-KeyforTables">Figure 15.1</a> describes the symbols used 
+in <a href="#t-horizontalTRUE">Tables 15.6</a> and <a href="#t-horizontalFALSE">
+Table 15.7</a>.</p>
+
+<div class="CenterDiv">
+
+<a name="f-KeyforTables"></a>
+<img src="../../Images/key.gif" alt="Key for Tables 14.6 and 14.7" width="349" height="93"> 
+
+<p class="FigureCaption">Figure 15.1 &#8212; Key for Tables 15.6 and 15.7</p>
+
+</div>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-horizontalTRUE"></a>
+Table 15.6 &#8212; <i>horizontal</i> = <code>TRUE</code></p> 
+
+<img src="../../Images/horizontal.gif" alt="horizontal = TRUE" width="633" height="278">
+
+</div>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-horizontalFALSE"></a>
+Table 15.7 &#8212; <i>horizontal = </i> <code>FALSE</code></p>
+
+<img src="../../Images/vertical.gif" alt="horizontal = FALSE" width="630" height="483">
+
+</div>
+
+<h3><a name="Language"></a>
+15.2.2.4 Language</h3>
+
+<p> The <i>language</i> field specifies the context of the language for the text 
+  string in the form of a language and a country in which that language is used. 
+Both the language and the country are specified using the language tags defined 
+in
+<a style="color: blue; text-decoration: underline" href="../references.html#[RFC3066]">2.[RFC3066]</a> which may specify only a country (using the three-character 
+codes defined in
+<a style="color: blue; text-decoration: underline" href="../references.html#[I3166]">
+ISO 3166</a>) or both a language (using the two-character codes specified in
+<a style="color: blue; text-decoration: underline" href="../references.html#[I639]">
+ISO 639</a>) and a country (using the three-character codes specified in
+<a style="color: blue; text-decoration: underline" href="../references.html#[I3166]">
+ISO 3166</a>) utilizing a sub-tag structure as specified in
+<a style="color: blue; text-decoration: underline" href="../references.html#[RFC3066]">2.[RFC3066]</a>). The language tags contain between one and eight characters. 
+Note that the characters used in the language tag are in the Basic Latin 
+alphabet that maps to single-byte characters in the UTF-8 encoding.</p>
+
+  <p>See <a href="../references.html">2 Normative references</a>, for more information 
+  on RFC 3066 (<a style="color: blue; text-decoration: underline" href="../references.html#[RFC3066]">2.[RFC3066]</a>), 
+	<a href="../references.html#[I10646]">ISO/IEC 10646</a>, 
+	<a href="../references.html#[I639]">ISO/IEC 639</a>, and
+	<a href="../references.html#[I3166]">ISO 3166</a>.</p>
+
+<h1><img src="../../Images/cube.gif" width="20" height="19" alt="cube">
+<a name="Abstracttypes"></a>15.3 Abstract types</h1>
+
+<h2><a name="X3DFontStyleNode"></a>15.3.1 <i>X3DFontStyleNode</i></h2>
+
+<pre class="node">X3DFontStyleNode : X3DNode { 
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This abstract node type is the base node type for all font style nodes.</p>
+
+<h1><img src="../../Images/cube.gif" width="20" height="19" alt="cube">
+<a name="Nodereference"></a>
+15.4 Node reference</h1>
+
+<h2><a name="FontStyle"></a>
+15.4.1 FontStyle</h2>
+
+<pre class="node">FontStyle : X3DFontStyleNode {
+  SFNode   [in,out] metadata    NULL    [X3DMetadataObject]
+  MFString []       family      "SERIF"
+  SFBool   []       horizontal  TRUE
+  MFString []       justify     "BEGIN" ["BEGIN","END","FIRST","MIDDLE&quot;,""]
+  SFString []       language    ""
+  SFBool   []       leftToRight TRUE
+  SFFloat  []       size        1.0     (0,&#8734;)
+  SFFloat  []       spacing     1.0     [0,&#8734;)
+  SFString []       style       "PLAIN" ["PLAIN"|"BOLD"|"ITALIC"|"BOLDITALIC"|""]
+  SFBool   []       topToBottom TRUE
+}
+
+</pre>
+
+<p>The FontStyle node defines the size, family, and style used for  
+<a href="#Text">Text</a> nodes 
+(see <a href="#TextFormatting">15.2.2 Text formatting</a>), 
+    as well as the direction of the text strings and any language-specific rendering 
+    techniques used for non-English text. See 
+Text for a description 
+    of the Text node.</p>
+
+  <p>The <i>size</i> field specifies the nominal height, in the local coordinate 
+    system of the Text node, of glyphs rendered and determines the spacing of 
+    adjacent lines of text. Values of the <i>size</i> field shall be greater than 
+    zero.</p>
+
+  <p>The <i>spacing</i> field determines the line spacing between adjacent lines 
+    of text. The distance between the baseline of each 
+line of text is
+(<i>spacing&nbsp;</i>&times;&nbsp;<i>size) </i>in the appropriate direction (depending on other fields described below). 
+    The effects of the <i>size</i> and <i>spacing</i> 
+field are depicted in 
+<a href="#f-Textsizeandspacingfields">Figure 15.2</a> 
+(<i>spacing&nbsp;</i>greater than&nbsp;1.0). Values of the <i>spacing</i> 
+    field shall be non-negative.</p>
+
+<div class="CenterDiv">
+
+<a name="f-Textsizeandspacingfields"></a>
+
+<img src="../../Images/FontStylespacing.gif" alt="Text size and spacing fields" width="431" height="103"> 
+
+<p class="FigureCaption">
+
+Figure 15.2 &#8212; Text <i>size</i> and <i>spacing</i> fields</p> 
+
+</div>
+
+<h2><a name="Text"></a>
+15.4.2 Text</h2>
+
+<pre class="node">Text : X3DGeometryNode {
+  SFNode   [in,out] fontStyle  NULL  [X3DFontStyleNode]
+  MFFloat  [in,out] length     []    [0,&#8734;)
+  SFFloat  [in,out] maxExtent  0.0   [0,&#8734;)
+  SFNode   [in,out] metadata   NULL  [X3DMetadataObject]
+  MFString [in,out] string     []
+  MFVec2f  [out]    lineBounds
+  SFVec3f  [out]    origin
+  SFVec2f  [out]    textBounds
+  SFBool   []       solid      FALSE
+}
+</pre>
+
+  <p>The Text node specifies a two-sided, flat text string object positioned in 
+    the Z=0 plane of the local coordinate system based on values defined in the 
+    <i>fontStyle</i> field (see <a href="#FontStyle">15.4.1 FontStyle</a>). Text nodes 
+	may contain multiple text strings specified using the UTF-8 encoding as 
+	specified by <a href="../references.html#[I10646]">ISO 10646</a>. 
+    The text strings are stored in the order in which the text mode characters 
+    are to be produced as defined by the parameters in the <a href="#FontStyle">FontStyle</a> node.</p>
+
+  <p>The text strings are contained in the <i>string</i> field. The <i>fontStyle</i> 
+    field contains one FontStyle node that specifies 
+    the font size, font family and style, direction of the text strings, and any 
+    specific language rendering techniques used for the text. If no FontStyle 
+	node is specified by the <i>fontStyle</i> field, the default values of the 
+	FontStyle node are used.</p>
+
+  <p>The <i>maxExtent</i> field limits and compresses all of the text strings 
+    if the length of the maximum string is longer than the maximum extent, as 
+    measured in the local coordinate system. If the text string with the maximum 
+    length is shorter than the <i>maxExtent</i>, then there is no compressing. 
+    The maximum extent is measured horizontally for horizontal text 
+(FontStyle node: <i>horizontal</i>=TRUE) 
+and vertically for vertical text 
+(FontStyle node: <i>horizontal</i>=FALSE). 
+The <i>maxExtent</i> field shall be greater 
+    than or equal to zero.</p>
+
+  <p>The <i>length</i> field contains an MFFloat value that specifies the length 
+    of each text string in the local coordinate system. The length of each line 
+	of type is measured horizontally for horizontal text (FontStyle node: <i>
+	horizontal</i>=<span class="code">TRUE</span>) and vertically for vertical 
+	text (FontStyle node: <i>horizontal</i>=<span class="code">FALSE</span>). 
+	The <i>length</i> and <i>maxExtent</i> fields thus refer to local coordinate 
+	units along the dimension of type flow (major axis). If the string is too short, 
+    it is stretched (either by scaling the text or by adding space between the 
+    characters). If the string is too long, it is compressed (either by scaling 
+    the text or by subtracting space between the characters). If a length value 
+    is missing (for example, if there are four strings but only three length values), 
+    the missing values are considered to be 0. The <i>length</i> field shall be 
+    greater than or equal to zero.</p>
+
+  <p>Specifying a value of 0 for both the <i>maxExtent</i> and <i>length</i> fields 
+    indicates that the string may be any length.</p>
+<p>When the default values of <i>length</i> and <i>maxExtent</i> are used, the 
+Text node shall generate events called <i>origin</i>, <i>lineBounds</i> and <i>textBounds</i> 
+to provide applications with spatial data regarding the size and position of the rendered string(s) with the font being used. These events are also generated when the 
+default values of <i>length</i> and <i>maxExtent</i> are used and the text is 
+redrawn (<i>e.g.</i>, the string 
+field is changed programmatically or the FontStyle node is replaced).</p>
+<p>The field <i>origin</i> is a single 3D position that specifies the origin of 
+the text local coordinate system in units of the coordinate system in which the 
+Text node is embedded. The value of the <i>origin</i> field represents the upper 
+left corner of the <i>textBounds</i>. The field <i>lineBounds</i> is a set of 2D vectors 
+where each vector contains the size of the 2D bounding box for each line of 
+rendered text in local text x and y units. The <i>textBounds</i> event is 
+a single 2D vector that contains the size in x and y dimensions of the Text 
+node’s 2D bounding box (all strings) as rendered. An example for each value of 
+the <i>topToBottom</i> of the FontStyle node is depicted in 
+<a href="#f-LineBoundsAndTextBoundsMeasurements">Figure 
+15.3</a>. Through the <i>origin</i> event, authors can locate relative measures 
+of <i>lineBounds</i> and <i>textBounds</i> regardless of the FontStyle&#39;s major 
+or minor axis.</p>
+<p class="Example">NOTE&nbsp; In horizontal font styles, the x dimension of the
+<i>lineBounds</i> and <i>textBounds</i> fields is equivalent to a specified <i>
+length</i> or <i>maxExtent</i> (the major axis). However, in vertical font 
+styles, the x dimension of the lineBounds and textBounds fields is along the 
+minor axis.</p>
+<div class=CenterDiv>
+<a name="f-LineBoundsAndTextBoundsMeasurements"></a>
+<img border="0" src="../../Images/textBounds.jpg" alt="Text Bounds"><p class="FigureCaption">Figure 15.3 &#8212; lineBounds and textBounds measurements</div>
+
+
+
+<p><a href="rendering.html#CommonGeometryFields">11.2.3 Common geometry fields</a> provides a 
+complete description of the <i>solid</i> field.</p>
+
+
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportlLevels"></a>15.5 Support levels</h1>
+
+<p>The Text component provides 1 level of support as specified in
+<a href="#t-supportlevels">Table 15.8</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+Table 15.8 &#8212; Text component support levels</p>
+
+    <table>
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td>
+        <p align="center"><b>1</b></td>
+        <td>Core 1<br>
+        Grouping 1<br>
+        Shape 1<br>
+        Rendering 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td><i>X3DFontStyleNode</i>(abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>FontStyle</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Text</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      </table>
+</div>
+
+<p>
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23"></p>
+
+</body>
+</html>

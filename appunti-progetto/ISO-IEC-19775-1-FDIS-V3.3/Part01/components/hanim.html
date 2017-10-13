@@ -1,0 +1,329 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 26 H-Anim Component</TITLE>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</HEAD>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+<p class="HeadingClause">26 Humanoid Animation (H-Anim) component</p>
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+26.1 Introduction</h1>
+<h2><a name="Name"></a>26.1.1 Name</h2>
+<p>The name of this component is &quot;H-Anim&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>26.1.2 Overview</h2>
+
+<p>This clause describes the Humanoid Animation (H-Anim) component of this part 
+of ISO/IEC 19775. <a href="#t-Topics">Table 26.1</a> provides links to the major 
+  topics in this clause. The H-Anim component of X3D defines the node bindings 
+and other specifics for implementing ISO/IEC 19774 (see
+<a href="../references.html#[I19774]">2.[I19774]</a>) within X3D.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 26.1 &#8212; Topics</p>
+
+  <table class="topics">
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">26.1 Introduction</a>
+          <ul>
+            <li><a href="#Name">26.1.1 Name</a></li>
+            <li><a href="#Overview">26.1.2 Overview</a> </li>
+          </ul>
+          <li><a href="#Concepts">26.2 Concepts</a> 
+            </li>
+          <li><a href="#Nodereference">26.3 Node reference</a> 
+            <ul>
+              <li><a href="#HAnimDisplacer">26.3.1 HAnimDisplacer</a> 
+              <li><a href="#HAnimHumanoid">26.3.2 HAnimHumanoid</a> 
+              <li><a href="#HAnimJoint">26.3.3 HAnimJoint</a> 
+              <li><a href="#HAnimSegment">26.3.4 HAnimSegment</a> 
+              <li><a href="#HAnimSite">26.3.5 HAnimSite</a> 
+            </ul>
+          <li><a href="#SupportLevels">26.4 Support levels</a>  
+        </ul>
+        <ul>
+<li><a href="#t-Topics">Table 26.1 &#8212; Topics</a></li>
+<li><a href="#t-supportlevels">Table 26.2 &#8212; H-anim component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>
+26.2 Concepts</h1>
+
+<p>This component maps the functionality defined in
+<a href="../references.html#[I19774]">ISO/IEC 19774</a> to a set of X3D nodes. The 
+semantics for these nodes are as specified therein. </p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Nodereference"></a>
+26.3 Node reference</h1>
+
+<h2><a name="HAnimDisplacer"></a>26.3.1 HAnimDisplacer</h2>
+
+<pre class="node">HAnimDisplacer : X3DGeometricPropertyNode {
+  MFInt32  [in,out] coordIndex    []   [0,&#8734;) or -1
+  MFVec3f  [in,out] displacements []
+  SFNode   [in,out] metadata      NULL [X3DMetadataObject]
+  SFString [in,out] name          ""
+  SFFloat  [in,out] weight        0.0  (-&#8734;,&#8734;)
+}
+</pre>
+
+  <p>Applications may need to alter the shape of individual segments. At the 
+      most basic level, this is done by writing to the <i>point</i> field of the 
+      node derived from <i><a href="rendering.html#X3DCoordinateNode">X3DCoordinateNode</a></i> that is found in the <i>coord</i> field of the 
+  <a href="#HAnimSegment">HAnimSegment</a> node.</p> 
+
+  <p>In some cases, the application may need to be able to identify 
+    specific groups of vertices within an HAnimSegment.  </p>
+ 
+  <p><span class="example">EXAMPLE&emsp;The application 
+    may need to know which vertices within the skull HAnimSegment comprise the left 
+    eyebrow. </span></p>
+ 
+  <p>It may also require "hints" as to the direction in which each vertex 
+    should move. That information is stored in a node called an HAnimDisplacer. The 
+    HAnimDisplacers for a particular HAnimSegment are stored in the <i>displacers</i> field 
+    of that HAnimSegment.</p>
+ 
+  <p>The description of each field shall be as described in
+  <a href="../references.html#[I19774]">ISO/IEC 19774</a>.</p>
+ 
+<h3><a name="HAnimHumanoid"></a>26.3.2 HAnimHumanoid</h3>
+
+<pre class="node">HAnimHumanoid : X3DChildNode, X3DBoundedObject {
+  SFVec3f    [in,out] center           0 0 0    (-&#8734;,&#8734;)
+  MFString   [in,out] info             []
+  MFNode     [in,out] joints           []       [HAnimJoint]
+  SFNode     [in,out] metadata         NULL     [X3DMetadataObject]
+  SFString   [in,out] name             ""
+  SFRotation [in,out] rotation         0 0 1 0  (-&#8734;,&#8734;)|[-1,1]
+  SFVec3f    [in,out] scale            1 1 1    (0,&#8734;)
+  SFRotation [in,out] scaleOrientation 0 0 1 0  (-&#8734;,&#8734;)|[-1,1]
+  MFNode     [in,out] segments         []       [HAnimSegment]
+  MFNode     [in,out] sites            []       [HAnimSite]
+  MFNode     [in,out] skeleton         []       [HAnimJoint, HAnimSite]
+  MFNode     [in,out] skin             []       [X3DChildNode]
+  SFNode     [in,out] skinCoord        NULL     [X3DCoordinateNode]
+  SFNode     [in,out] skinNormal       NULL     [X3DNormalNode]
+  SFVec3f    [in,out] translation      0 0 0    (-&#8734;,&#8734;)
+  SFString   [in,out] version          &quot;"
+  MFNode     [in,out] viewpoints       []       [HAnimSite]
+  SFVec3f    []       bboxCenter       0 0 0    (-&#8734;,&#8734;)
+  SFVec3f    []       bboxSize         -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+
+</pre>
+
+<p>The HAnimHumanoid node is used to store human-readable data such as author and 
+copyright information, as well as to store references to the 
+<a href="#HAnimJoint">HAnimJoint</a>, <a href="#HAnimSegment">HAnimSegment</a>, 
+and <a href="#HAnimSite">HAnimSite</a> nodes in addition to serving as a container for the entire humanoid. 
+Thus, it serves as a central node for moving the humanoid through its environment.</p>
+
+  <p>The description of each field shall be as described in
+  <a href="../references.html#[I19774]">ISO/IEC 19774</a>.</p>
+ 
+<h2><a name="HAnimJoint"></a>26.3.3 HAnimJoint</h2>
+
+<pre class="node">HAnimJoint : X3DGroupingNode {
+  MFNode     [in]     addChildren               [HAnimJoint,HAnimSegment,HAnimSite]
+  MFNode     [in]     removeChildren            [HAnimJoint,HAnimSegment,HAnimSite]
+  SFVec3f    [in,out] center           0 0 0    (-&#8734;,&#8734;)
+  MFNode     [in,out] children         []       [HAnimJoint,HAnimSegment,HAnimSite]
+  MFNode     [in,out] displacers       []       [HAnimDisplacer]
+  SFRotation [in,out] limitOrientation 0 0 1 0  (-&#8734;,&#8734;)|[-1,1]
+  MFFloat    [in,out] llimit           []       (-&#8734;,&#8734;)
+  SFNode     [in,out] metadata         NULL     [X3DMetadataObject]
+  SFString   [in,out] name             ""
+  SFRotation [in,out] rotation         0 0 1 0  (-&#8734;,&#8734;)|[-1,1]
+  SFVec3f    [in,out] scale            1 1 1    (0,&#8734;)
+  SFRotation [in,out] scaleOrientation 0 0 1 0  (-&#8734;,&#8734;)|[-1,1]
+  MFInt32    [in,out] skinCoordIndex   []
+  MFFloat    [in,out] skinCoordWeight  []
+  MFFloat    [in,out] stiffness        [0 0 0]  [0,1]
+  SFVec3f    [in,out] translation      0 0 0    (-&#8734;,&#8734;)
+  MFFloat    [in,out] ulimit           []       (-&#8734;,&#8734;)
+  SFVec3f    []       bboxCenter       0 0 0    (-&#8734;,&#8734;)
+  SFVec3f    []       bboxSize         -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+<p>Each joint in the body is represented by an HAnimJoint node, which is used to 
+define the relationship of each body segment to its immediate parent. </p>
+
+<p>An HAnimJoint may only be a child of another HAnimJoint node or a child 
+within the <i>skeleton</i> field in the case of the HAnimJoint used as a 
+humanoid root 
+(<i>i.e.</i>, an HAnimJoint may not be a child of an <a href="#HAnimSegment">HAnimSegment</a>).</p>
+
+  <p>The HAnimJoint node is also used to store other joint-specific information. 
+    In particular, a joint <i>name</i> is provided so that applications can identify 
+    each HAnimJoint node at run-time. The HAnimJoint node may contain hints for 
+	inverse-kinematics systems that wish to control the H-Anim figure. These hints include the upper 
+    and lower joint limits, the orientation of the joint limits, and a stiffness/resistance 
+    value.<p class="Example">NOTE&nbsp; These limits are not enforced by any mechanism within the 
+    scene graph of the humanoid, and are provided for information purposes only. 
+    Use of this information and enforcement of the joint limits is up to the application. 
+
+<p>Humanoid authors and tools are free to implement the HAnimJoint 
+    node however they choose. In particular, they may choose to use a single polygonal 
+    mesh to represent a humanoid, rather than having a separate 
+<a href="geometry3D.html#IndexedFaceSet">IndexedFaceSet</a> 
+    for each body segment. In such a case, an HAnimJoint would be responsible for moving 
+    the vertices that correspond to a particular body segment and all the segments 
+    descended from it. </p>
+
+  <p>The description of each field shall be as described in
+  <a href="../references.html#[I19774]">ISO/IEC 19774</a>.</p>
+ 
+<h2><a name="HAnimSegment"></a>26.3.4 HAnimSegment</h2>
+
+<pre class="node">HAnimSegment : X3DGroupingNode {
+  MFNode   [in]     addChildren                          [X3DChildNode]
+  MFNode   [in]     removeChildren                       [X3DChildNode]
+  SFVec3f  [in,out] centerOfMass     0 0 0               (-&#8734;,&#8734;)
+  MFNode   [in,out] children         []                  [X3DChildNode]
+  SFNode   [in,out] coord            NULL                [X3DCoordinateNode]
+  MFNode   [in,out] displacers       []                  [HAnimDisplacer]
+  SFFloat  [in,out] mass             0                   [0,&#8734;)
+  SFNode   [in,out] metadata         NULL                [X3DMetadataObject]
+  MFFloat  [in,out] momentsOfInertia [0 0 0 0 0 0 0 0 0] [0,&#8734;)
+  SFString [in,out] name             ""
+  SFVec3f  []       bboxCenter       0 0 0               (-&#8734;,&#8734;)
+  SFVec3f  []       bboxSize         -1 -1 -1            [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+<p>Each body segment is stored in an HAnimSegment node. The HAnimSegment node is 
+a grouping node that will typically contain 
+either a number of <a href="shape.html#Shape">Shape</a> nodes or perhaps 
+<a href="group.html#Transform">Transform</a> nodes that position the body part 
+within its coordinate system as defined in <a href="../references.html#[I19774]">
+ISO/IEC 19774</a>. The use of LOD nodes is recommended 
+if the geometry of the HAnimSegment is complex.</p>
+
+  <p>The description of each field shall be as described in
+  <a href="../references.html#[I19774]">ISO/IEC 19774</a>.</p>
+ 
+<h2><a name="HAnimSite"></a>26.3.5 HAnimSite</h2>
+
+<pre class="node">HAnimSite : X3DGroupingNode {
+  MFNode     [in]     addChildren               [X3DChildNode]
+  MFNode     [in]     removeChildren            [X3DChildNode]
+  SFVec3f    [in,out] center           0 0 0    (-&#8734;,&#8734;)
+  MFNode     [in,out] children         []       [X3DChildNode]
+  SFNode     [in,out] metadata         NULL     [X3DMetadataObject]
+  SFString   [in,out] name             ""
+  SFRotation [in,out] rotation         0 0 1 0  (-&#8734;,&#8734;)|[-1,1]
+  SFVec3f    [in,out] scale            1 1 1    (0,&#8734;)
+  SFRotation [in,out] scaleOrientation 0 0 1 0  (-&#8734;,&#8734;)|[-1,1]
+  SFVec3f    [in,out] translation      0 0 0    (-&#8734;,&#8734;)|[-1,1]
+  SFVec3f    []       bboxCenter       0 0 0    (-&#8734;,&#8734;)
+  SFVec3f    []       bboxSize         -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+<p>An HAnimSite node serves three purposes. The first is to define an "end 
+effecter" 
+location that can be used by an inverse kinematics system. The second 
+is to define an attachment point for accessories such as jewelry and clothing. 
+The third is to define a location for a virtual camera in the reference 
+frame of an HAnimSegment (such as a view "through the eyes" of the humanoid 
+for use in multi-user worlds). </p>
+
+  <p>The description of each field shall be as described in
+  <a href="../references.html#[I19774]">ISO/IEC 19774</a>.</p>
+ 
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>26.4 Support levels</h1>
+
+<p>The H-Anim component provides 1 level of support as specified in <a href="#t-supportlevels">
+Table 26.2</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+<b>Table 26.</b>2 &#8212;
+<b>Humanoid animation (H-Anim) component support levels</b></p>
+
+  <table>
+              <tr> 
+                <th>Level</th>
+                <th>Prerequisites</th>
+                <th>Nodes/Features</th>
+                <th>Support</th>
+              </tr>
+              <tr> 
+                <td><b>1</b></td>
+                <td>Core 1<br> Grouping 1<br> Geometry3D 2<br> 
+                    Shape 1<br> Texturing 1<br> Navigation 2</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr> 
+                <td></td>
+                <td></td>
+                <td>HAnimDisplacer</td>
+                <td>All fields fully supported.</td>
+              </tr>
+              <tr> 
+                <td></td>
+                <td></td>
+                <td>HAnimHumanoid</td>
+                <td>All fields fully supported.</td>
+              </tr>
+              <tr> 
+                <td></td>
+                <td></td>
+                <td>HAnimJoint</td>
+                <td>All fields fully supported.</td>
+              </tr>
+              <tr> 
+                <td></td>
+                <td></td>
+                <td>HAnimSegment</td>
+                <td>All fields fully supported.</td>
+              </tr>
+              <tr> 
+                <td></td>
+                <td></td>
+                <td>HAnimSite</td>
+                <td>All fields fully supported.</td>
+              </tr>
+            </table>
+ </div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</BODY>
+</HTML>

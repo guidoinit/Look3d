@@ -1,0 +1,445 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 36 Layout component</title>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</head>
+
+<BODY>
+
+<div class=CenterDiv>
+
+<p><IMG SRC="../../Images/x3d.png" style="width: 176px; height: 88px" ALT="X3D logo"></p>
+    
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">36 Layout component</p>
+</div>
+    
+<IMG SRC="../../Images/x3dbar.png" width="430" height="23" ALT="--- X3D separator bar ---">
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Introduction"></a>36.1 Introduction</h1>
+
+<h2><a name="Name"></a>36.1.1 Name</h2>
+
+<p>The name of this component is &quot;Layout&quot;. This name shall be used when 
+referring to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+
+<h2><a name="Overview"></a>36.1.2 Overview</h2>
+
+<p>This subclause describes the Layout component of this part of ISO/IEC 19775. 
+This includes how to precisely position content in a scene in relation to the 
+rendered results. <a href="#t-Topics">
+Table 36.1</a> provides links to the major topics in this subclause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption"><a name="t-Topics"></a>Table 36.1 &#8212; Topics</p>
+<table class="topics">
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">36.1 Introduction</a>
+            <ul>
+              <li><a href="#Name">36.1.1 Name</a></li>
+              <li><a href="#Overview">36.1.2 Overview</a></li>
+            </ul></li> 
+          <li><a href="#Concepts">36.2 Concepts </a> 
+            <ul>
+              <li><a href="#OverviewLayout">36.2.1 Overview</a></li> 
+			  <li><a href="#PixelSpecificAddressing">36.2.2 Pixel-specific addressing</a></li>
+			  <li><a href="#Viewports">36.2.3 Viewports</a></li>
+            </ul></li>
+          <li><a href="#AbstractTypes">36.3 Abstract types</a>
+            <ul>
+              <li><a href="#X3DLayoutNode">36.3.1 <i>X3DLayoutNode</i></a></li>
+            </ul></li>
+          <li><a href="#NodeReference">36.4 Node reference </a> 
+            <ul>
+              <li><a href="#Layout">36.4.1 Layout</a></li>
+              <li><a href="#LayoutGroup">36.4.2 LayoutGroup</a></li>
+			  <li><a href="#LayoutLayer">36.4.3 LayoutLayer</a></li>
+			  <li><a href="#ScreenFontStyle">36.4.4 ScreenFontStyle</a></li>
+			  <li><a href="#ScreenGroup">36.4.5 ScreenGroup</a></li>
+            </ul></li>
+          <li><a href="#SupportLevels">36.4 Support levels</a></li>  
+        </ul>
+        <ul>
+          <li><a href="#t-Topics">Table 36.1 &#8212; Topics</a></li>
+          <li><a href="#t-SupportLevels">Table 36.2 &#8212; Layout component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img src="../../Images/cube.gif" width="20" height="19" alt="cube"><a name="Concepts"></a>36.2 Concepts</h1>
+
+<h2> <a name="OverviewLayout"></a>36.2.1 Overview</h2>
+	<p>This component provides a set of nodes that allow users to better 
+	integrate 2D content with 3D content. In X3D, authors have historically 
+	generated a Heads-Up Display (HUD) by placing content in a group that moves 
+	along with the user’s viewpoint. This approach is limited in that the author 
+	has limited control over where the HUD geometry is rendered relative to the 
+	display viewport. </p>
+	<p class="Example">EXAMPLE&nbsp; There is no way to ensure that the content 
+	will be aligned with a particular edge of the display viewport.</p>
+	<p>This component provides several nodes that enable the integration of 2D 
+	content into the 3D scene. It allows for constructing a hierarchy of 
+	rectangular regions that are well suited to contain 2D content, but can also 
+	contain 3D content. These 2D regions are not effected by the user navigation 
+	or the bound <i><a href="navigation.html#X3DViewpointNode">X3DViewpointNode</a></i>. They are aligned relative to the main scene 
+	viewport, or the 2D region that act as its parent.<br>
+	<br>
+	This component also contains a new <i><a href="text.html#X3DFontStyleNode">
+	X3DFontStyleNode</a></i> node that can render text so 
+	that it appears identical to typical 2D applications, with the eye soothing 
+	technique of anti-aliasing.</p>
+<h2><a name="PixelSpecificAddressing"></a>36.2.2 Pixel-specific addressing</h2>
+	<p>This component also provides utilities that allowing content authors the 
+	ability to scale and locate 2D regions and content using pixel-specific 
+	addressing. Therefore, some of the nodes and options in this component are 
+	dependent on the concept of pixel-based display devices. It is recognized 
+	that some implementations do not use such devices. Therefore, those 
+	pixel-specific nodes and options are not applicable to those 
+	implementations. The pixel-specific nodes and options are contained in a 
+	support level designated for pixel-specific concepts.</p>
+	<p>A node is specified that can exist anywhere in the scene hierarchy. This 
+	node forces a scale so that one unit is one pixel.</p>
+	<h2><a name="Viewports"></a>36.2.3 Viewports</h2>
+<p>The output to a surface can be constrained further by using an <i>
+<a href="layering.html#X3DViewportNode">X3DViewportNode</a></i> node. 
+This node is a special grouping node that defines a set of clipping bounds 
+within the extent of a surface within which the children nodes of the viewport 
+will appear. This provides support for the typical front/side/back/oblique views 
+used by CAD systems.</p>
+<h1><img src="../../Images/cube.gif" width="20" height="19" alt="cube"><a name="AbstractTypes"></a>36.3 
+Abstract types</h1>
+
+
+<h2><a name="X3DLayoutNode"></a>36.3.1 <i>X3DLayoutNode</i></h2>
+
+<pre class=node>X3DLayoutNode : X3DChildNode {
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}</pre>
+<p>This is the base node type for layout nodes. </p>
+
+
+<h1><img src="../../Images/cube.gif" width="20" height="19" alt="cube"><a name="NodeReference"></a>36.4 Node Reference</h1>
+<h2><a name="Layout"></a>36.4.1 Layout</h2>
+<pre>Layout : X3DLayoutNode { 
+   MFString [in,out] align       [&quot;CENTER&quot;,&quot;CENTER&quot;] [&quot;LEFT&quot;|&quot;CENTER&quot;|&quot;RIGHT&quot;&amp;
+                                                      &quot;BOTTOM&quot;|&quot;CENTER&quot;|&quot;TOP&quot;]
+   SFNode   [in,out] metadata    NULL                [X3DMetadataObject]
+   MFFloat  [in,out] offset      [0,0]               (-&#8734;,&#8734;)
+   MFString [in,out] offsetUnits [&quot;WORLD&quot;,&quot;WORLD&quot;]   [&quot;WORLD&quot;,&quot;FRACTION&quot;,&quot;PIXEL&quot;]
+   MFString [in,out] scaleMode   [&quot;NONE&quot;,&quot;NONE&quot;]     [&quot;NONE&quot;,&quot;FRACTION&quot;,&quot;STRETCH&quot;,&quot;PIXEL&quot;]
+   MFFloat  [in,out] size        [1,1]               (0,&#8734;)
+   MFString [in,out] sizeUnits   [&quot;WORLD&quot;,&quot;WORLD&quot;]   [&quot;WORLD&quot;,&quot;FRACTION&quot;,&quot;PIXEL&quot;]
+}</pre>
+	<p>The Layout node is used in the layout field of the <a href="#LayoutLayer">LayoutLayer</a> and 
+	<a href="#LayoutGroup">LayoutGroup</a> nodes. The Layout node provides all the parameters that are 
+	required to define the size and location of a 2D rectangular region that is 
+	associated with the containing node. Also, it contains a field that defines 
+	how the content of the containing node shall be scaled.<br>
+	<br>
+	The fields of interest in the Layout node are MFString and MFFloat fields. 
+	All have two elements. The first value corresponds to the horizontal 
+	direction and the second field corresponds to the vertical direction. If a 
+	field has a length of one, that value applies to both the horizontal and 
+	vertical directions. If the <i>align</i> field has only one value, that 
+	value shall be <span class="code">&quot;CENTER&quot;</span>.<br>
+	<br>
+	The width and height of the layout rectangle is defined by two values in the
+	<i>size</i> field. The <i>sizeUnits</i> field specifies how to interpret the 
+	size values. If the value of the <i>sizeUnits</i> field is
+	<span class="code">&quot;FRACTION&quot;</span>, the size of the corresponding 
+	dimension is interpreted as a fraction of the corresponding parent’s 
+	dimension.</p>
+	<p class="Example">EXAMPLE&nbsp; If the <i>size</i> value is ( 0.25, 0.5 ) 
+	and the value of <i>sizeUnits</i> ([<span class="code">&quot;FRACTION&quot;</span>,
+	<span class="code">&quot;FRACTION&quot;</span>]), the width of the region is one 
+	quarter of the width of the parent and the height of the region is one half 
+	of the height of the parent.</p>
+	<p>A <i>sizeUnits</i> value of <span class="code">&quot;WORLD&quot;</span> specifies 
+	that the corresponding <i>size</i> value is interpreted using the current 
+	world units of the parent node. Since the LayoutLayer node does not have a 
+	parent, a value of <span class="code">&quot;WORLD&quot;</span> is equivalent to a 
+	value of <span class="code">&quot;FRACTION&quot;</span>. Lastly, a <i>sizeUnits</i> 
+	value of <span class="code">&quot;PIXEL&quot;</span> specifies that the corresponding 
+	size value is in pixel units.</p>
+	<p class="Example">NOTE&nbsp; Implementations that do not support the 
+	concept of a pixel are not required to support the
+	<span class="code">&quot;PIXEL&quot;</span> option.</p>
+	<p>The values of the <i>align</i>, <i>offset</i>, and <i>offsetUnits</i> fields 
+	are used to determine the location of the layout region. First, the <i>align</i> 
+	field values align the sized rectangle to an edge or center of the parent 
+	rectangle. Then, the offset is applied using the units specified in the <i>
+	offsetUnits</i> field. The first value of the <i>align</i> field corresponds 
+	to the horizontal alignment. The value <span class="code">&quot;LEFT&quot;</span> 
+	specifies that the left side of this rectangle shall be aligned with the left side of 
+	the parent rectangle. The value <span class="code">&quot;RIGHT&quot;</span> 
+	specifies that the 
+	right side of this rectangle shall be aligned with the right side of the parent 
+	rectangle. The value <span class="code">&quot;CENTER&quot;</span> specifies 
+	that this 
+	rectangle shall be horizontally centred in its parent. Similarly, the second
+	<i>align</i> field value aligns the vertical position of the rectangle to 
+	either the <span class="code">&quot;TOP&quot;</span>, <span class="code">&quot;BOTTOM&quot;</span> 
+	or <span class="code">&quot;CENTER&quot;</span> of the parent rectangle.<br>
+	<br>
+	After the alignment is applied, the values of the <i>offset</i> field are 
+	used to 
+	translate the location of this rectangle after the initial alignment. The 
+	value of the offset field is interpreted using the value of the <i>offsetUnits</i> 
+	field, using the same options and logic as the <i>sizeUnits</i> field, described 
+	above.<br>
+	<br>
+	The scaleMode field specifies 
+	how the scale of the parent is modified. The <i>scale</i> field has two values, the first 
+	specifies the horizontal scale and the second value specifies the vertical 
+	scale. A <i>scaleMode</i> field value of <span class="code">&quot;NONE&quot;</span> 
+	specifies that the corresponding scale value is not modified. Instead, the scale 
+	is inherited from its parent. Since a 
+	LayoutLayer node does not have a parent, the value of <span class="code">&quot;NONE&quot;</span> reverts to 
+	<span class="code">&quot;FRACTION&quot;</span>. A <i>scaleMode</i> value of 
+	<span class="code">&quot;FRACTION&quot;</span> specifies a scale in the 
+	corresponding direction so that one unit is equal to the dimension (width 
+	or height) of this rectangle. A value of <span class="code">&quot;PIXEL&quot;</span> 
+	specifies a scale in 
+	the corresponding direction such that one unit is equal to one pixel. </p>
+	<p class="Example">NOTE&nbsp; Implementations that do not support the concept of a pixel are not required 
+	to support this <span class="code">&quot;PIXEL&quot;</span> option.</p>
+	<p>A <i>scaleMode</i> value of <span class="code">&quot;STRETCH&quot;</span> specifies a scale in the corresponding direction such that the resulting scale 
+	in the horizontal direction is equal to the scale in the vertical direction, 
+	thus producing a uniform scale. If one of the dimensions has a <i>scaleMode</i> 
+	value of <span class="code">&quot;STRETCH&quot;</span>, and the other dimension has a value other than 
+	<span class="code">&quot;STRETCH&quot;</span>, the scale for the dimension that is not 
+	<span class="code">&quot;STRETCH&quot;</span> shall be 
+	computed first and the dimension corresponding to the value of 
+	<span class="code">&quot;STRETCH&quot;</span> 
+	can then be computed to achieve a uniform scale. If both components of the
+	<i>scaleMode</i> field are <span class="code">&quot;STRETCH&quot;</span>, the scale component corresponding to the 
+	larger dimension of the rectangular region is set so that one unit is equal 
+	to the dimension of the rectangle, and the other scale component is set so 
+	that the resulting scale in the horizontal and vertical directions are the 
+	same.</p>
+<h2><a name="LayoutGroup"></a>36.4.2 
+LayoutGroup</h2>
+<pre>LayoutGroup : X3DGroupingNode {
+   MFNode  [in]     addChildren          [X3DChildNode]
+   MFNode  [in]     removeChildren       [X3DChildNode]
+   MFNode  [in,out] children       []    [X3DChildNode]
+   SFNode  [in,out] layout         NULL  [X3DLayoutNode]
+   SFNode  [in,out] metadata       NULL  [X3DMetadataObject]
+   SFNode  [in,out] viewport       NULL  [X3DViewportNode]
+   SFVec3f []       bboxCenter     0 0 0 (-&#8734;,&#8734;)
+   SFVec3f []       bboxSize       0 0 0 (-&#8734;,&#8734;)
+}</pre>
+	<p>The LayoutGroup is a grouping node whose children are related by a common 
+	layout within a parent layout. Thus, a LayoutGroup can only be a child of a 
+	<a href="#LayoutLayer">LayoutLayer</a> node or another LayoutGroup node.<br>
+	<br>
+	The layout field contains an <i><a href="#X3DLayoutNode">X3DLayoutNode</a></i> node that specifies the information 
+	required to locate and size the layout region of the LayoutGroup node 
+	relative to its parent’s layout region and to scale the contents of the 
+	LayoutGroup. The content of the LayoutGroup is clipped by the specified 
+	viewport.<br>
+	<br>
+	<a href="group.html#GroupingAndChildrenNodes">10.2.1 Grouping and children node types</a> 
+	specifies the <i>children</i>, <i>addChildren</i>, and <i>
+removeChildren</i> fields.</p>
+	<p>The origin of the node is always in the center of its layout region. Thus, children (with the exception of LayoutGroup) are specified in a 
+	coordinate system whose origin is located at the center of the rectangle and 
+	can be transformed from that location.</p>
+	<p>The LayoutGroup node does not directly have any pixel dependent concepts. 
+	However, the LayoutGroup node does contain a Layout node that does have 
+	pixel-specific options.</p>
+<h2><a name="LayoutLayer"></a>36.4.3 LayoutLayer</h2>
+<pre>LayoutLayer : X3DLayerNode { 
+  MFNode [in]     addChildren         [X3DChildNode]
+  MFNode [in]     removeChildren      [X3DChildNode]
+  MFNode [in,out] children       []   [X3DChildNode]
+  SFBool [in,out] isPickable     TRUE
+  SFNode [in,out] layout         NULL [X3DLayoutNode]
+  SFNode [in,out] metadata       NULL [X3DMetadataObject]
+  SFNode [in,out] viewport       NULL [X3DViewportNode]
+}</pre>
+<p>The LayoutLayer node specifies a <i>children</i> field that contains a list of nodes that define the subscene.</p>
+	<p><a href="group.html#GroupingAndChildrenNodes">10.2.1 Grouping and children node types</a> 
+	specifies the <i>children</i>, <i>addChildren</i>, and <i>
+removeChildren</i> fields.</p>
+	<p>An <a href="navigation.html#OrthoViewpoint">OrthoViewpoint</a> node is automatically established as the default node 
+	on the binding stack. Although not restricted to require this, the 
+	LayoutLayer 
+	node is typically used as the last rendered node in a 
+	<a href="layering.html#LayerSet">LayerSet</a> ordering.</p>
+
+	<p>The <i>layout</i> field contains an instance of <i>
+	<a href="#X3DLayoutNode">X3DLayoutNode</a></i> that 
+	contains the information required to locate and size the LayoutLayer node’s 
+	rectangular region relative to the main viewport, and to scale the content 
+	of the LayoutLayer. The content of the LayoutLayer is clipped by the defined 
+	rectangular region.</p>
+	
+<h2><a name="ScreenFontStyle"></a>36.4.4 ScreenFontStyle</h2>
+
+<pre class="node">ScreenFontStyle : X3DFontStyleNode {
+  SFNode   [in,out] metadata    NULL    [X3DMetadataObject]
+  MFString []       family      "SERIF"
+  SFBool   []       horizontal  TRUE
+  MFString []       justify     "BEGIN" ["BEGIN","END","FIRST","MIDDLE&quot;,""]
+  SFString []       language    ""
+  SFBool   []       leftToRight TRUE
+  SFFloat  []       pointSize   12.0    (0,&#8734;)
+  SFFloat  []       spacing     1.0     [0,&#8734;)
+  SFString []       style       "PLAIN" ["PLAIN"|"BOLD"|"ITALIC"|"BOLDITALIC"|""]
+  SFBool   []       topToBottom TRUE
+}</pre>
+
+<p>The ScreenFontStyle node specifies fonts styles in terms of the 
+characteristics of a particular surface upon which the text is to be rendered.</p>
+	<p>The fields in the ScreenFontStyle node are the same as those in the 
+	<a href="text.html#FontStyle">FontStyle</a> node with a single exception:&nbsp; the <i>size</i> field of the 
+	FontStyle node is replaced with a <i>pointSize</i> field. The <i>pointSize</i> 
+	field specifies the size of text in points. Thus, the distance between the 
+	baseline of each line of text is (<em>spacing</em> &nbsp;× <em>pointSize</em>) in 
+	the appropriate direction. </p>
+	<p>Each glyph of the text should be rendered as a quadrilateral with texture 
+	applied. The texture for each character shall be generated using the 
+	specified font and font attributes. The texture shall have an alpha 
+	component whose alpha value shall be derived from the anti-aliasing feature 
+	of the glyph. Rendering should occur with bi-linear filtering turned off for 
+	best results.</p>
+	<p>Otherwise, the attributes are as specified in
+	<a href="text.html#FontStyle">15.4.1 FontStyle</a>.</p>
+  
+<h2><a name="ScreenGroup"></a>36.4.5 ScreenGroup</h2>
+
+	<pre class="node">ScreenGroup : X3DGroupingNode {
+  MFNode  [in]     addChildren             [X3DChildNode]
+  MFNode  [in]     removeChildren          [X3DChildNode]
+  MFNode  [in,out] children       []       [X3DChildNode]
+  SFNode  [in,out] metadata       NULL     [X3DMetadataObject]
+  SFVec3f []       bboxCenter     0 0 0    (-&#8734;,&#8734;)
+  SFVec3f []       bboxSize       -1 -1 -1 (0,&#8734;) or -1 -1 -1
+}</pre>
+
+	<p>The ScreenGroup node is a node derived from
+	<a href="group.html#X3DGroupingNode">X3DGroupingNode</a> with one additional functional 
+	feature:&nbsp; it modifies the scale in such a way that one unit is equal to 
+	one pixel in both the horizontal and vertical directions.</p>
+	<p>If the ScreenGroup node is a child of a 
+	<a href="navigation.html#Billboard">Billboard</a> node that is 
+	screen-aligned (<i>i.e.</i>, has an <i>axisOfRotation</i> value of (0,0,0)), the 
+	children of the ScreenGroup shall be both screen-aligned and scaled so that 
+	one unit is equal to one pixel. This allows users to place screen-aligned 
+	and screen-scaled content into the 3D scene. It will maintain its location 
+	in the 3D scene but can be occluded by other geometry that lies in front. 
+	Additionally, it can occlude other geometry that lies in back.</p>
+	<p><a href="group.html#GroupingAndChildrenNodes">10.2.1 Grouping and children node types</a> 
+	specifies the <i>children</i>, <i>addChildren</i>, and <i>
+removeChildren</i> fields.</p>
+	<p>The <i>bboxCenter</i> and <i>bboxSize</i> fields specify a bounding box 
+	that encloses the children. This is a hint that may be used for optimization 
+	purposes. The results are undefined if the specified bounding box is smaller 
+	than the actual bounding box of the children at any time. The default <i>
+	bboxSize</i> value, (-1, -1, -1), implies that the bounding box is not 
+	specified and, if needed, shall be calculated by the browser. More details 
+	on the <i>bboxCenter</i> and <i>bboxSize</i> fields can be found in
+	<a href="group.html#BoundingBoxes">10.2.2 Bounding boxes</a>.</p>
+
+<h1><img src="../../Images/cube.gif" width="20" height="19" alt="cube"><a name="SupportLevels"></a>36.5 Support levels</h1>
+  
+<p>The Layout component provides two levels of support as specified in 
+<a href="#t-SupportLevels">
+Table 36.2</a>. Level 1 provides the basic support for layout. Level 2 provides 
+for pixel-specific addressing.</p>
+
+<div class=CenterDiv>
+<p class="TableCaption"><a name="t-SupportLevels"></a>Table 36.2 &#8212; 
+Layout component support levels</p>
+    <table>
+      <tr> 
+        <th><b>Level</b></th>
+        <th>Prerequisites</th>
+        <th><b>Nodes</b></th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td><b>1</b></td>
+        <td> 
+          <p>Core 1<br>
+			Grouping 1<br>
+			Layering 1</p>
+        </td>
+        <td> 
+          <p>&nbsp;</p>
+        </td>
+        <td>&nbsp; </td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DLayoutNode</i></td>
+        <td>n/a</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>Layout</td>
+        <td>All fields fully supported except <span class="code">&quot;PIXEL&quot;</span> 
+		values not supported.</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>LayoutGroup</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>LayoutLayer</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td><b>2</b></td>
+        <td>Core 1<br>
+		Grouping 1<br>
+		Layering 1<br>
+		Text 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>All Level 1 nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ScreenFontStyle</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ScreenGroup</td>
+        <td>All fields fully supported.</td>
+      </tr>
+    </table>
+</div>
+
+<p> <img src="../../Images/x3dbar.png" width="430" height="23" alt="--- X3D separator bar ---"></p>
+
+</BODY>
+</HTML>

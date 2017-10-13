@@ -1,0 +1,593 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 3 Definitions, acronyms, and abbreviations</TITLE>
+<link rel="stylesheet" href="X3D.css" type="text/css">
+
+</head>
+<body>
+
+<div class="CenterDiv">
+<a href="X3D.html">
+<img class="x3dlogo" SRC="../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">3 Definitions, acronyms, and abbreviations</p>
+</div>
+
+<img class="x3dbar" SRC="../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube">
+<a name="Definitions"></a>3.1 Definitions</h1>
+
+
+<p class="Params">For the purposes of this part of ISO/IEC 19775, the following definitions apply.</p>
+
+  <h2 class="terms"><a name="Activate"></a>3.1.1<br>activate</h2>
+
+<p class="Params">cause a <i><a href="#SensorNode">sensor node</a> </i>to generate an &quot;isActive&quot; 
+  <i><a href="#Event">event</a></i></p>
+ 
+  <h2 class="terms"><a name="Ancestor"></a>3.1.2<br>ancestor</h2>
+
+<p class="Params"> <EM><a href="#Node">node</a></EM> which is an antecedent of another node 
+  in the <EM><a href="#TransformationHierarchy">transformation hierarchy</a></EM></p>
+ 
+  <h2 class="terms"><a name="Author"></a>3.1.3<br>author</h2>
+
+<p class="Params">person or agent that creates <i><a href="#X3DFile">X3D files</a></i></p>
+ 
+  <h2 class="terms"><a name="AuthoringTool"></a>3.1.4<br>authoring tool</h2>
+
+<p class="Params">See <i><a href="#Generator">generator</a></i>.</p>
+ 
+  <h2 class="terms"><a name="Avatar"></a>3.1.5<br>avatar</h2>
+
+<p class="Params">abstract representation of the <i><a href="#User">user</a></i> in an X3D 
+  <i><a href="#World">world</a></i></p>
+ 
+  <h2 class="terms"><a name="Bearing"></a>3.1.6<br>bearing</h2>
+
+<p class="Params">straight line passing through the <i><a href="#Pixel">pointer</a></i> 
+location in the direction of the pointer</p>
+ 
+  <h2 class="terms"><a name="BindingNode"></a>3.1.7<br>bindable node</h2>
+
+<p class="Params"> <i><a href="#Node">node</a></i> that may have many <i><a href="#Instance">instances</a></i> 
+  in a <i><a href="#SceneGraph">scene graph</a></i> but only one instance may 
+  be active at any instant of <i><a href="#Time">time</a></i></p>
+ 
+  <h2 class="terms"><a name="Browser"></a>3.1.8<br>browser</h2>
+
+<p class="Params">computer program that interprets <i><a href="#X3DFile">X3D files</a></i>, 
+  presents their content to a <i><a href="#User">user</a></i> on a <i>
+  <a href="#DisplayDevice">display device</a></i>, and allows the user to interact 
+  with <i><a href="#World">worlds</a></i> defined by X3D files by means of a 
+user interface</p>
+ 
+  <h2 class="terms"><a name="BrowserExtension"></a>3.1.9<br>browser extension</h2>
+
+<p class="Params"><a href="#Node"><i>nodes</i></a> defined using the prototyping mechanism that 
+  are understood only by certain <i><a href="#Browser">browsers</a></i></p>
+ 
+  <h2 class="terms"><a name="Built-InNode"></a>3.1.10<br>built-in node</h2>
+
+<p class="Params"> <EM><a href="#Node">node</a></EM> of a <i><a href="#NodeType">type</a></i> 
+  explicitly defined in this part of ISO/IEC 19775</p>
+ 
+  <h2 class="terms"><a name="Callback"></a>3.1.11<br>callback</h2>
+
+<p class="Params">function defined in a <i><a href="#ScriptingLanguage">scripting language</a></i> 
+  to which <i><a href="#Event">events</a></i> are passed</p>
+ 
+  <h2 class="terms"><a name="Child"></a>3.1.12<br>child</h2>
+
+<p class="Params">instance of a <EM><a href="#ChildrenNode">children node</a></EM></p>
+ 
+  <h2 class="terms"><a name="ChildrenNode"></a>3.1.13<br>children node</h2>
+
+<p class="Params">one of a set of <EM><a href="#NodeType">node type</a></EM>s, instances of which 
+  can be collected in a group to share specific properties dependent on the type 
+  of the <EM><a href="#GroupingNode">grouping node</a></EM></p>
+ 
+  <h2 class="terms"><a name="ClientSystem"></a>3.1.14<br>client system</h2>
+
+<p class="Params">computer system, attached to a <i><a href="#Network">network</a></i>, that 
+relies on another computer (the server) for essential processing functions</p>
+ 
+  <h2 class="terms"><a name="CollisionProxy"></a>3.1.15<br>collision proxy</h2>
+
+<p class="Params"> <i><a href="#Node">node</a></i> used as a substitute for all of a Collision 
+node&#39;s children during collision detection</p>
+ 
+  <h2 class="terms"><a name="ColourModel"></a>3.1.16<br>colour model</h2>
+
+<p class="Params">characterization of a colour space in terms of explicit parameters</p>
+ 
+  <h2 class="terms"><a name="Culling"></a>3.1.17<br>culling</h2>
+
+<p class="Params">process of identifying <i><a href="#Object">objects</a></i> or parts of 
+  objects which do not need to be processed further by the <i><a href="#Browser">browser</a></i> in 
+  order to produce the desired view of a <i><a href="#World">world</a></i></p>
+ 
+  <h2 class="terms"><a name="Descendent"></a>3.1.18<br>descendant</h2>
+
+<p class="Params"> <i><a href="#Node">node</a></i> which descends from another node in the <EM>
+<a href="#TransformationHierarchy">transformation hierarchy</a></EM> (a <i><a href="#ChildrenNode">children node</a></i>)</p>
+ 
+  <h2 class="terms"><a name="DisplayDevice"></a>3.1.19<br>display device</h2>
+
+<p class="Params">graphics device on which X3D <i><a href="#World">worlds</a></i> may be 
+rendered</p>
+ 
+  <h2 class="terms"><a name="DragSensor"></a>3.1.20<br>drag sensor</h2>
+
+<p class="Params"> <i><a href="#PointingDeviceSensor">pointing device sensor</a></i> that causes 
+  <i><a href="#Event">events</a></i> to be generated in response to 
+sensor-dependent pointer motions</p>
+ 
+  <h2 class="terms"><a name="EnvironmentalSensor"></a>3.1.21<br>environmental sensor</h2>
+
+<p class="Params">sensor <i><a href="#Node">node</a></i> that generates <i><a href="#Event">events</a></i> 
+  based on the location of the viewpoint in the <EM><a href="#World">world</a></EM> 
+  or in relation to <i><a href="#Object">objects</a></i> in the world</p>
+ 
+  <h2 class="terms"><a name="Event"></a>3.1.22<br>event</h2>
+
+<p class="Params">message sent from one <i><a href="#Node">node</a></i> 
+  to another as defined by a <i><a href="#Route">route</a></i></p>
+ 
+  <h2 class="terms"><a name="EventCascade"></a>3.1.23<br>event cascade</h2>
+
+<p class="Params">sequence of <i><a href="#Event">events</a></i> initiated by a script or sensor 
+  event and propagated from <i><a href="#Node">node</a></i> to node along one 
+  or more <a href="#Route"> <i>routes</i></a> all of which are considered to 
+have occurred simultaneously</p>
+ 
+  <h2 class="terms"><a name="ExecutionModel"></a>3.1.24<br>execution model</h2>
+
+<p class="Params">rules governing how <i><a href="#Event">events</a></i> are processed by 
+  <i><a href="#Browser">browsers</a></i> and scripts</p>
+ 
+  <h2 class="terms"><a name="ExternalPrototype"></a>3.1.25<br>external prototype</h2>
+
+<p class="Params"> <i><a href="#Prototype">prototype</a></i> defined in an external file and 
+  referenced by a <i><a href="#URL">URL</a></i></p>
+ 
+  <h2 class="terms"><a name="Field"></a>3.1.26<br>field</h2>
+
+<p class="Params">property or attribute of a <i><a href="#Node">node</a></i></p>
+ 
+  <h2 class="terms"><a name="FieldName"></a>3.1.27<br>field name</h2>
+
+<p class="Params">identifier of a <i><a href="#Field">field</a></i></p>
+ 
+  <h2 class="terms"><a name="Frame"></a>3.1.28<br>frame</h2>
+
+<p class="Params">single rendering of a <i><a href="#World">world</a></i> on a <i><A
+HREF="#DisplayDevice">display device</a></i> or a single time-step in a 
+simulation</p>
+ 
+  <h2 class="terms"><a name="Generator"></a>3.1.29<br>generator</h2>
+
+<p class="Params">computer program which creates <i><a href="#X3DFile">X3D files</a></i></p>
+ 
+  <h2 class="terms"><a name="GeometricPropertyNode"></a>3.1.30<br>geometric property node</h2>
+
+<p class="Params"> <i><a href="#Node">node</a></i> defining the properties of a specific 
+geometry node</p>
+ 
+  <h2 class="terms"><a name="GeometryNode"></a>3.1.31<br>geometry node</h2>
+
+<p class="Params"> <i><a href="#Node">node</a></i> containing mathematical descriptions of points, lines, surfaces, text strings and solids</p>
+ 
+  <h2 class="terms"><a name="Grab"></a>3.1.32<br>grab</h2>
+
+<p class="Params">receive <i><a href="#Event">events</a></i> from activated 
+<a href="#PointingDevice">pointing devices</a></p>
+ 
+  <h2 class="terms"><a name="GroupingNode"></a>3.1.33<br>grouping node</h2>
+
+<p class="Params">one of a set of <EM><a href="#NodeType">node types</a></EM> which include a 
+list of nodes, referred to as its <i><a href="#ChildrenNode">children nodes</a></i></p>
+ 
+<h2 class="terms"><a name="HostApplication"></a>3.1.34<br>
+host application</h2>
+<p class="Params">
+client application with which the <i><a href="#Browser">browser</a></i> 
+communicates using the SAI</p>
+ 
+  <h2 class="terms"><a name="Image"></a>3.1.35<br>image</h2>
+
+<p class="Params">two-dimensional (2D) rectangular array of pixel values</p>
+ 
+  <h2 class="terms"><a name="Immersive"></a>3.1.36<br>immersive</h2>
+
+<p class="Params">creating the illusion of being inside a computer-generated scene</p>
+ 
+  <h2 class="terms"><a name="In-lining"></a>3.1.37<br>in-lining</h2>
+
+<p class="Params">mechanism by which one <i><a href="#X3DFile">X3D file</a></i> is 
+hierarchically included in another</p>
+ 
+  <h2 class="terms"><a name="Instance"></a>3.1.38<br>instance</h2>
+
+<p class="Params">the <a href="#Node"> <i>node</i></a><span style="text-decoration: none"> 
+created by an instantiation</span></p>
+ 
+  <h2 class="terms"><a name="Instantiation"></a>3.1.39<br>instantiation</h2>
+
+<p class="Params">the creation of a <a href="#Node"> <i>node</i></a> based on 
+its <i><a href="#NodeType">node type</a></i></p>
+ 
+  <h2 class="terms"><a name="InterpolatorNode"></a>3.1.40<br>interpolator node</h2>
+
+<p class="Params"> <i><a href="#Node">node</a></i> that defines a piece-wise linear 
+interpolation</p>
+ 
+  <h2 class="terms"><a name="Intranet"></a>3.1.41<br>intranet</h2>
+
+<p class="Params">private <i><a href="#Network">network</a></i> that uses the same protocols 
+  and standards as the Internet</p>
+ 
+  <h2 class="terms"><a name="LevelOfDetail"></a>3.1.42<br>level of detail</h2>
+
+<p class="Params">amount of detail or complexity which is displayed at any particular <i><a href="#Time">time</a></i> 
+  for any particular <i><a href="#Object">object</a></i></p>
+ 
+  <h2 class="terms"><a name="LineTerminator"></a>3.1.43<br>line terminator</h2>
+
+<p class="Params">linefeed character (0x0A) and/or carriage return character (0x0D)</p>
+ 
+  <h2 class="terms"><a name="Loop"></a>3.1.44<br>loop</h2>
+
+<p class="Params">sequence of <i><a href="#Event">events</a></i> which would result in a specific 
+event generator sending more than one event with the 
+  same <EM><a href="#Timestamp">timestamp</a></EM></p>
+ 
+  <h2 class="terms"><a name="Multimedia"></a>3.1.45<br>multimedia</h2>
+
+<p class="Params">integrated presentation, typically on a computer, of content of various 
+types, such as computer graphics, audio, and video</p>
+ 
+  <h2 class="terms"><a name="Network"></a>3.1.46<br>network</h2>
+
+<p class="Params">set of interconnected computers</p>
+ 
+  <h2 class="terms"><a name="Node"></a>3.1.47<br>node</h2>
+
+<p class="Params">fundamental component of a <i><a href="#SceneGraph">scene graph</a></i></p>
+ 
+  <h2 class="terms"><a name="NodeType"></a>3.1.48<br>node type</h2>
+
+<p class="Params">characteristic of each <i><a href="#Node">node</a></i> that describes, in 
+general, its particular semantics</p>
+ 
+  <h2 class="terms"><a name="Object"></a>3.1.49<br>object</h2>
+
+<p class="Params">collection of data and procedures, packaged according to the rules and syntax 
+  defined in this part of ISO/IEC 19775</p>
+ 
+<p class="Params"><span style="font-size: 90%">Note: This term is usually synonymous with
+</span> <i><span style="font-size: 90%"><a href="#Node">node</a>.</span></i></p>
+ 
+<h2 class="terms"><a name="OrderOfPreference"></a>3.1.50<br>
+order of preference</h2>
+<p class="Params">
+order (specified by the user) in which a list of <i><a href="#Field">field</a></i> 
+values is processed by the <i><a href="#Browser">browser</a></i></p>
+ 
+  <h2 class="terms"><a name="Panorama"></a>3.1.51<br>panorama</h2>
+
+<p class="Params">background texture that is placed behind all geometry in the scene and in 
+  front of the ground and sky</p>
+ 
+  <h2 class="terms"><a name="Parent"></a>3.1.52<br>parent</h2>
+
+<p class="Params"> <EM><a href="#Node">node</a></EM> which is an instance of a <EM><A
+HREF="#GroupingNode">grouping node</a></EM></p>
+ 
+  <h2 class="terms"><a name="Pixel"></a>3.1.53<br>pixel</h2>
+
+<p class="Params">one element of an <a href="#Image">image</a> specified as a 
+matrix of colour elements</p>
+ 
+  <h2 class="terms"><a name="Pointer"></a>3.1.54<br>pointer</h2>
+
+<p class="Params">location and direction in the <i><a href="#VirtualWorld">virtual world</a></i> 
+  defined by the <i><a href="#PointingDevice">pointing device</a></i> with which the 
+  <i><a href="#User">user</a></i> is currently interacting with the virtual 
+world</p>
+ 
+  <h2 class="terms"><a name="PointingDevice"></a>3.1.55<br>pointing device</h2>
+
+<p class="Params">hardware device connected to the <i><a href="#User">user's</a></i> computer 
+  by which the user directly controls the location and direction of the <i>
+<a href="#Pixel">pointer</a></i></p>
+ 
+  <h2 class="terms"><a name="PointingDeviceSensor"></a>3.1.56<br>pointing device sensor</h2>
+
+<p class="Params">sensor <i><a href="#Node">node</a></i> that generates <i><a href="#Event">events</a></i> 
+  based on <i><a href="#User">user</a></i> actions, such as <i><a href="#PointingDevice">pointing 
+  device</a></i> motions or button activations</p>
+ 
+  <h2 class="terms"><a name="Polyline"></a>3.1.57<br>polyline</h2>
+
+<p class="Params">piecewise linear curve</p>
+ 
+  <h2 class="terms"><a name="Profile"></a>3.1.58<br>profile</h2>
+
+<p class="Params">named collection of criteria for functionality and conformance that defines 
+  an implementable subset of a standard</p>
+ 
+  <h2 class="terms"><a name="Prototype"></a>3.1.59<br>prototype</h2>
+
+<p class="Params">definition of a new <i><a href="#NodeType">node type</a></i> in terms of 
+  the <i><a href="#Node">nodes</a></i> defined in this part of ISO/IEC 19775</p>
+ 
+  <h2 class="terms"><a name="Prototyping"></a>3.1.60<br>prototyping</h2>
+
+<p class="Params">mechanism for extending the set of <i><a href="#NodeType">node types</a></i> 
+  from within a <i><a href="#X3DFile">X3D file</a></i></p>
+ 
+  <h2 class="terms"><a name="Route"></a>3.1.61<br>route</h2>
+
+<p class="Params">connection between a <i><a href="#Node">node</a></i> generating an <i><a href="#Event">event</a></i> 
+and a node receiving the event</p>
+ 
+  <h2 class="terms"><a name="SceneGraph"></a>3.1.62<br>scene graph</h2>
+
+<p class="Params">ordered collection of <EM><a href="#GroupingNode">grouping nodes</a></EM><i> 
+  </i>and other nodes</p>
+ 
+  <h2 class="terms"><a name="Script"></a>3.1.63<br>script</h2>
+
+<p class="Params">set of procedural functions normally executed as part of an <EM><A
+HREF="#EventCascade">event cascade</a></EM></p>
+ 
+  <h2 class="terms"><a name="Scripting"></a>3.1.64<br>scripting</h2>
+
+<p class="Params">process of creating or referring to a script</p>
+ 
+  <h2 class="terms"><a name="ScriptingLanguage"></a>3.1.65<br>scripting language</h2>
+
+<p class="Params">system of syntactical and semantic constructs used to define and automate 
+procedures and processes on a computer</p>
+ 
+  <h2 class="terms"><a name="SensorNode"></a>3.1.66<br>sensor node</h2>
+
+<p class="Params"> <i><a href="#Node">node</a></i> that enables the <i><a href="#User">user</a></i> 
+  to interact with the <i><a href="#World">world</a></i> in the scene graph 
+hierarchy</p>
+ 
+  <h2 class="terms"><a name="SeparatorCharacter"></a>3.1.67<br>separator character</h2>
+
+<p class="Params"> <i><a href="#UTF-8">UTF-8</a></i> character used to separate syntactical 
+  entities in an <i><a href="#X3DFile">X3D file</a></i></p>
+ 
+  <h2 class="terms"><a name="Sibling"></a>3.1.68<br>sibling</h2>
+
+<p class="Params"> <EM><a href="#Node">node</a></EM> which shares a <EM><a href="#Parent">parent</a></EM> 
+with other nodes</p>
+ 
+  <h2 class="terms"><a name="SimulationTick"></a>3.1.69<br>simulation tick</h2>
+
+<p class="Params">smallest time unit capable of being identified in a digital simulation of 
+analog time</p>
+ 
+  <h2 class="terms"><a name="SpecialGroupNode"></a>3.1.70<br>special group node</h2>
+
+<p class="Params"> <i><a href="#GroupingNode">grouping node</a></i> that exhibits special behaviour 
+(<i>e.g.</i>, Switch or LOD)</p>
+ 
+<h2 class="terms"><a name="Texel"></a>3.1.71<br>
+texel</h2>
+<p class="Params">
+<a href="#Pixel">pixel</a> in an <a href="#Image">image</a> used as a <a href="#Texture">texture</a></p>
+
+  <h2 class="terms"><a name="Texture"></a>3.1.72<br>texture</h2>
+
+<p class="Params"> <i><a href="#Immersive">image</a></i> used to create visual appearance effects when applied to <i><a href=
+"#GeometryNode">geometry nodes</a></i></p>
+ 
+  <h2 class="terms"><a name="TextureCoordinates"></a>3.1.73<br>texture coordinates</h2>
+
+<p class="Params">set of coordinates used to map a texture to geometry</p>
+ 
+<h2 class="terms"><A NAME="Time"></A>3.1.74<br>
+time</h2>
+
+<p class="Params">monotonically increasing value generated by a node</P>
+
+  <h2 class="terms"><a name="Timestamp"></a>3.1.75<br>timestamp</h2>
+
+<p class="Params">that part of an <i><a href="#Event">event</a> </i>that describes the time 
+  the <i><a href="#Event">event</a></i> occurred and that caused the message to 
+be sent</p>
+ 
+  <h2 class="terms"><a name="TransformationHierarchy"></a>3.1.76<br>transformation hierarchy</h2>
+
+<p class="Params">subset of the <EM><a href="#SceneGraph">scene graph</a></EM> consisting 
+  of <EM><a href="#Node">nodes</a></EM> that have well-defined coordinate 
+systems</p>
+ 
+  <h2 class="terms">3.1.77<br>transparency chunk</h2>
+
+<p class="Params">section of a PNG file containing transparency information (derived from
+<a href="references.html#[I15948]">ISO/IEC 15948</a>)</p>
+ 
+  <h2 class="terms"><a name="Traverse"></a>3.1.78<br>traverse</h2>
+
+<p class="Params">process the <i><a href="#Node">nodes</a></i> in a <i><a href="#SceneGraph">scene 
+  graph</a></i> in the correct order</p>
+ 
+  <h2 class="terms"><a name="User"></a>3.1.79<br>user</h2>
+
+<p class="Params">person or agent who uses and interacts with <i><a href="#X3DFile">X3D files</a></i> 
+  by means of a <i><a href="#Browser">browser</a></i></p>
+ 
+  <h2 class="terms"><a name="Viewer"></a>3.1.80<br>viewer</h2>
+
+<p class="Params">location, direction, and viewing angle in a <i><a href="#VirtualWorld">virtual 
+  world</a></i> that determines the portion of the virtual world presented by 
+  the <i><a href="#Browser">browser</a></i> to the <i><a href="#User">user</a></i></p>
+ 
+  <h2 class="terms"><a name="VirtualWorld"></a>3.1.81<br>virtual world</h2>
+
+<p class="Params">See <i><a href="#World">world</a></i>.</p>
+ 
+  <h2 class="terms"><a name="WhiteSpace"></a>3.1.82<br>white space</h2>
+
+<p class="Params">one or more consecutive occurrences of a <font color="#FF0000"> <EM><a href="#SeparatorCharacter">separator 
+  character</a></EM></font></p>
+ 
+  <h2 class="terms"><a name="World"></a>3.1.83<br>world</h2>
+
+<p class="Params">collection of one or more <i><a href="#X3DFile">X3D files</a></i> and other 
+  multimedia content that, when interpreted by an <i><a href="#X3DBrowser"> X3D 
+  browser</a></i>, presents an interactive experience to the <i><a href="#User">user</a></i> 
+  consistent with the <i><a href="#Author">author's</a></i> intent</p>
+ 
+  <h2 class="terms"><a name="WorldCoordinateSpace"></a>3.1.84<br>world coordinate space</h2>
+
+<p class="Params">coordinate system in which each X3D <i><a href="#World">world</a></i> is 
+defined</p>
+ 
+  <h2 class="terms"><a name="X3DBrowser"></a>3.1.85<br>X3D browser</h2>
+
+<p class="Params">See <i><a href="#Browser">browser</a></i>.</p>
+ 
+  <h2 class="terms"><a name="X3DDocumentServer"></a>3.1.86<br>X3D document server</h2>
+
+<p class="Params">computer program that locates and transmits <i><a href="#X3DFile">X3D file</a></i>s 
+  and supporting files in response to requests from <i><a href=
+"#Browser">browsers</a></i></p>
+ 
+  <h2 class="terms"><a name="X3DFile"></a>3.1.87<br>X3D file</h2>
+
+<p class="Params">set of X3D nodes and statements as defined in this part of ISO/IEC 19775</p>
+ 
+  <h2 class="terms"><a name="XYPlane"></a>3.1.88<br>XY plane</h2>
+
+<p class="Params">plane perpendicular to the Z-axis that passes through the point Z = 0.0</p>
+ 
+  <h2 class="terms"><a name="YZ Plane"></a>3.1.89<br>YZ plane</h2>
+
+<p class="Params">plane perpendicular to the X-axis that passes through the point X = 0.0</p>
+ 
+  <h2 class="terms"><a name="ZXPlane"></a>3.1.90<br>ZX plane</h2>
+
+<p class="Params">plane perpendicular to the Y-axis that passes through the point Y = 0.0</p>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube">
+<a name="AcronymsAndAbbreviations"></a>3.2 Acronyms and abbreviations</h1>
+
+
+<p>For the purposes of this part of ISO/IEC 19775, the following expansion of 
+acronyms and abbreviations apply:</p>
+ 
+  <h2 class="terms"><a name="CAD"></a>3.2.1<br>CAD</h2>
+
+<p class="Params">Computer-Assisted Design</p>
+ 
+  <h2 class="terms"><a name="HSV"></a>3.2.2<br>HSV</h2>
+
+<p class="Params">Hue, Saturation, and Value colour model</p>
+ 
+<p class="TermRef"> [<a href="bibliography.html#[FOLEY]">FOLEY</a>]</p>
+ 
+  <h2 class="terms"><a name="JPEG"></a>3.2.3<br>JPEG</h2>
+
+<p class="Params">Joint Photographic Experts Group</p>
+ 
+<p class="TermRef">[<a href="references.html#[JPEG]">ISO/IEC 10918-1</a>]</p>
+ 
+  <h2 class="terms"><a name="MIDI"></a>3.2.4<br>MIDI</h2>
+
+<p class="Params">Musical Instrument Digital Interface. A standard for digital 
+music representation</p>
+ 
+<p class="TermRef">[<a href="references.html#[MIDI]">MIDI</a>]</p>
+ 
+  <h2 class="terms"><a name="MIME"></a>3.2.5<br>MIME</h2>
+
+<p class="Params">Multipurpose Internet Mail Extension</p>
+ 
+<p class="TermRef">[<a href="references.html#[RFC2077]">IETF RFC2077</a>]</p>
+ 
+  <h2 class="terms"><a name="MPEG"></a>3.2.6<br>MPEG</h2>
+
+<p class="Params">Moving Picture Experts Group</p>
+ 
+<p class="TermRef">[<a href="references.html#[I11172_1]">ISO/IEC 11172-1</a>]</p>
+ 
+  <h2 class="terms"><a name="PNG"></a>3.2.7<br>PNG</h2>
+
+<p class="Params">Portable Network Graphics. A specification for representing two-dimensional 
+  images in <EM style="font-style: normal">files </EM></p>
+ 
+<p class="TermRef">[<a href="references.html#[I15948]">ISO/IEC 15948</a>]</p>
+ 
+  <h2 class="terms"><a name="RGB"></a>3.2.8<br>RGB</h2>
+
+<p class="Params">Red, Green, and Blue colour model</p>
+ 
+<p class="TermRef">[<a href="bibliography.html#[FOLEY]">FOLEY</a>]</p>
+ 
+  <h2 class="terms"><a name="RURL"></a>3.2.9<br>RURL</h2>
+
+<p class="Params">Relative Uniform Resource Locator</p>
+ 
+<p class="TermRef">[<a href="references.html#[RFC1808]">IETF RFC1808</a>]</p>
+ 
+  <h2 class="terms"><a name="SAI"></a>3.2.10<br>SAI</h2>
+
+<p class="Params">Scene Access Interface</p>
+ 
+<p class="TermRef">[<a href="references.html#[I19775_2]">ISO/IEC 19775-2</a>]</p>
+ 
+  <h2 class="terms"><a name="UCS"></a>3.2.11<br>UCS</h2>
+
+<p class="Params">Universal multiple-octet coded Character Set</p>
+ 
+<p class="TermRef">[<a href="references.html#[I10646]">ISO/IEC 10646</a>]</p>
+ 
+  <h2 class="terms"><a name="URI"></a>3.2.12<br>URI</h2>
+
+<p class="Params">Universal Resource Identifier</p>
+ 
+<p class="TermRef">[<a href="bibliography.html#[URI]">IETF RFC1630</a>]</p>
+ 
+  <h2 class="terms"><a name="URL"></a>3.2.13<br>URL</h2>
+
+<p class="Params">Uniform Resource Locator</p>
+ 
+<p class="TermRef">[<a href="references.html#[RFC1738]">IETF RFC1738</a>]</p>
+ 
+  <h2 class="terms"><a name="URN"></a>3.2.14<br>URN</h2>
+
+<p class="Params">Universal Resource Name</p>
+ 
+<p class="TermRef">[<font color="#FF0000"><a href="references.html#[RFC2141]">IETF 
+RFC2141</a></font>]</p>
+ 
+  <h2 class="terms"><a name="UTF-8"></a>3.2.15<br>UTF-8</h2>
+
+<p class="Params">variable-length 8-bit Universal multiple-octet coded character 
+set Transformation Format</p>
+ 
+<p class="TermRef">[<a href="references.html#[I10646]">ISO/IEC 10646</a>]</p>
+ 
+<p class="Params">
+<img class="x3dbar" src="../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23"></p>
+
+</body>
+</html>

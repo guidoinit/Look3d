@@ -1,0 +1,474 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 16 Sound component</title>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+
+</head>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">16 Sound component</p>
+
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+16.1 Introduction</h1>
+<h2><a name="Name"></a>16.1.1 Name</h2>
+<p>The name of this component is &quot;Sound&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>16.1.2 Overview</h2>
+
+<p>This clause describes the Sound component of this part of ISO/IEC 19775. This 
+  includes how sound is delivered to an X3D world as well as how sounds are accessed. 
+  <a href="#t-Topics">Table 16.1</a> provides links to the major topics in 
+  this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 16.1 &#8212; Topics</p>
+
+<table class="topics">
+    <tr> 
+      <td> 
+         <ul>
+           <li><a href="#Introduction">16.1 Introduction</a>
+             <ul>
+                <li><a href="#Name">16.1.1 Name</a></li>
+                <li><a href="#Overview">16.1.2 Overview</a> </li>
+             </ul></li>
+           <li><a href="#Concepts">16.2 Concepts</a> 
+             <ul>
+               <li><a href="#Soundpriority">16.2.1 Sound priority</a></li> 
+               <li><a href="#Soundattenandspatial">16.2.2 Sound attenuation and spatialization</a></li> 
+             </ul></li>
+           <li><a href="#Abstracttypes">16.3 Abstract types</a> 
+             <ul>
+               <li><a href="#X3DSoundNode">16.3.1 <i>X3DSoundNode</i></a></li> 
+               <li><a href="#X3DSoundSourceNode">16.3.2 <i>X3DSoundSourceNode</i></a></li> 
+             </ul></li>
+           <li><a href="#Nodereference">16.4 Node reference</a> 
+             <ul>
+               <li><a href="#AudioClip">16.4.1 AudioClip</a></li> 
+               <li><a href="#Sound">16.4.2 Sound</a></li> 
+             </ul></li>
+           <li><a href="#SupportLevels">16.5 Support levels</a></li>  
+         </ul>
+         <ul>
+           <li><a href="#f-Stereopanning">Figure 16.1 &#8212; Stereo panning</a></li>
+           <li><a href="#f-Soundnodegeometry">Figure 16.2 &#8212; Sound node geometry</a></li> 
+         </ul>
+         <ul>
+           <li><a href="#t-Topics">Table 16.1 &#8212; Topics</a></li>
+           <li><a href="#t-SupportLevels">Table 16.2 &#8212; Sound component support levels</a></li>
+         </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>
+16.2 Concepts</h1>
+
+<h2><a name="Soundpriority"></a>
+16.2.1 Sound priority</h2>
+
+<p>If the browser does not have the resources to play all of the currently active 
+  sounds, it is recommended that the browser sort the active sounds into an ordered 
+  list using the following sort keys in the order specified:</p>
+
+<ol type="a">
+  <li>decreasing <i>priority;</i></li>
+  <li>for sounds with <i>priority</i> &gt; 0.5, increasing (now-<i>startTime</i>);</li>
+  <li>decreasing <i>intensity</i> at viewer location (<i>intensity </i>× &quot;intensity 
+    attenuation&quot;);</li>
+</ol>
+
+<p>where <i>priority </i>is the <i>priority</i> field of the Sound node, now represents 
+  the current time, <i>startTime</i> is the <i>startTime</i> field of the audio 
+  source node specified in the <i>source</i> field, and &quot;intensity attenuation&quot; 
+  refers to the intensity multiplier derived from the linear decibel attenuation 
+  ramp between inner and outer ellipsoids.</p>
+
+<p>It is important that sort key 2 be used for the high priority (event and cue) 
+  sounds so that new cues will be heard even when the browser is &quot;full&quot; 
+  of currently active high priority sounds. Sort key 2 should not be used for 
+  normal priority sounds, so selection among them will be based on sort key 3 
+  (intensity at the location of the viewer).</p>
+
+<p>The browser shall play as many sounds from the beginning of this sorted list 
+  as it can given available resources and allowable latency between rendering. 
+  On most systems, the resources available for MIDI streams are different from 
+  those for playing sampled sounds, thus it may be beneficial to maintain a separate 
+  list to handle MIDI data.</p>
+
+<h2><a name="Soundattenandspatial"></a>
+16.2.2 Sound attenuation and spatialization</h2>
+
+<p>In order to create a linear decrease in loudness as the viewer moves from the 
+  inner to the outer ellipsoid of the sound, the attenuation must be based on 
+  a linear decibel ramp. To make the falloff consistent across browsers, the decibel 
+  ramp is to vary from 0 dB at the minimum ellipsoid to -20 dB at the outer ellipsoid. 
+  Sound nodes with an outer ellipsoid that is ten times larger than the minimum 
+  will display the inverse square intensity drop-off that approximates sound attenuation 
+  in an anechoic environment.</p>
+
+<p>Browsers may support spatial localization of sounds whose <i>spatialize</i> 
+  field is <code>TRUE</code> as well as their underlying sound 
+  libraries will allow. Browsers shall at least support stereo panning of non-MIDI 
+  sounds based on the angle between the viewer and the source. This angle is obtained 
+  by projecting the <a href="#Sound">Sound</a> <i>location</i> (in global space) onto the XZ plane 
+  of the viewer. Determine the angle between the Z-axis and the vector from the 
+  viewer to the transformed <i>location</i>, and assign a pan value in the range 
+  [0.0, 1.0] as depicted in <a href="#f-Stereopanning">Figure 16.1</a>. Given 
+  this pan value, left and right channel levels can be obtained using the following 
+  equations:</p>
+
+<p class="Equation">    &nbsp;&nbsp;&nbsp; leftPanFactor&nbsp; = 1 - pan<sup>2</sup><br>
+&nbsp;&nbsp;&nbsp; rightPanFactor = 1 - (1 - pan)<sup>2</sup><br>
+</p>
+
+<div class="CenterDiv">
+
+<a name="f-Stereopanning"></a>
+<img src="../../Images/Sound2.gif" alt="Stereo Panning" width="394" height="288"> 
+
+<p class="FigureCaption">
+Figure 16.1 &#8212; Stereo panning</p>
+
+</div>
+
+<p>Using this technique, the loudness of the sound is modified by the <i> intensity</i> 
+  field value, then distance attenuation to obtain the unspatialized audio output. 
+  The values in the unspatialized audio output are then scaled by leftPanFactor 
+  and rightPanFactor to determine the final left and right output signals. The 
+  use of more sophisticated localization techniques is encouraged, but not required 
+  (see <a href="../bibliography.html#[SNDB]"> 
+  [SNDB]</a>).</p>
+
+<h1><img src="../../Images/cube.gif" width="20" height="19" alt="cube"><a name="Abstracttypes"></a>16.3 Abstract types</h1>
+<h2><a name="X3DSoundNode"></a>16.3.1 <i>X3DSoundNode</i></h2>
+
+<pre class="node">X3DSoundNode : X3DChildNode { 
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This abstract node type is the base for all sound nodes.</p>
+
+<h2><a name="X3DSoundSourceNode"></a>
+16.3.2 <i>X3DSoundSourceNode</i></h2>
+
+<pre class="node">X3DSoundSourceNode : X3DTimeDependentNode { 
+  SFString [in,out] description      ""
+  SFBool   [in,out] loop             FALSE
+  SFNode   [in,out] metadata         NULL [X3DMetadataObject]
+  SFTime   [in,out] pauseTime        0    (-&#8734;,&#8734;)
+  SFFloat  [in,out] pitch            1.0  (0,&#8734;)
+  SFTime   [in,out] resumeTime       0    (-&#8734;,&#8734;)
+  SFTime   [in,out] startTime        0    (-&#8734;,&#8734;)
+  SFTime   [in,out] stopTime         0    (-&#8734;,&#8734;)
+  SFTime   [out]    duration_changed
+  SFTime   [out]    elapsedTime
+  SFBool   [out]    isActive
+  SFBool   [out]    isPaused
+}
+</pre>
+
+<p>This abstract node type is used 
+          to derive node types that can emit audio data.</p>
+
+<h1><img src="../../Images/cube.gif" width="20" height="19" alt="cube">
+<a name="Nodereference"></a>16.4 Node reference</h1>
+
+<h2><a name="AudioClip"></a>16.4.1 AudioClip</h2>
+
+<pre class="node">AudioClip : X3DSoundSourceNode, X3DUrlObject {
+  SFString [in,out] description      ""
+  SFBool   [in,out] loop             FALSE
+  SFNode   [in,out] metadata         NULL  [X3DMetadataObject]
+  SFTime   [in,out] pauseTime        0     (-&#8734;,&#8734;)
+  SFFloat  [in,out] pitch            1.0   (0,&#8734;)
+  SFTime   [in,out] resumeTime       0     (-&#8734;,&#8734;)
+  SFTime   [in,out] startTime        0     (-&#8734;,&#8734;)
+  SFTime   [in,out] stopTime         0     (-&#8734;,&#8734;)
+  MFString [in,out] url              []    [URI]
+  SFTime   [out]    duration_changed
+  SFTime   [out]    elapsedTime
+  SFBool   [out]    isActive
+  SFBool   [out]    isPaused
+}
+</pre>
+
+<p>An AudioClip node specifies audio data that can be referenced 
+by <a href="#Sound">Sound</a> nodes.</p>
+
+        <p>The <i>description</i> field specifies a textual description 
+          of the audio source. A browser is not required to display the <i>description</i> 
+          field but may choose to do so in addition to playing the sound.</p>
+
+        <p>The <i>url</i> field specifies the URL from which the 
+          sound is loaded. Browsers shall support at least the <i>wavefile</i> 
+          format in uncompressed PCM format (see 
+<a href="../bibliography.html#[WAV]">[WAV]</a>). It is recommended that 
+          browsers also support the MIDI file type 1 sound format 
+(see <a href="../references.html#[MIDI]">2.[MIDI]</a>) and the MP3 compressed 
+        format (see <a href="../references.html#[I11172_1]">2.[I11172-1]</a>). MIDI files are 
+presumed to use the General 
+          MIDI patch set. <a href="networking.html#URLs">9.2.1 URLs</a> contains 
+          details on the <i>url</i> field.</p>
+
+        <p>The <i>loop, pauseTime, resumeTime, startTime,</i> and<i> stopTime</i> inputOutput fields 
+          and the <i>elapsedTime, isActive, </i>and<i> isPaused</i> outputOnly fields, and their effects on the AudioClip node, 
+          are discussed in detail in <a href="time.html">8 Time component</a>. 
+          The &quot;<i>cycle&quot;</i> of an AudioClip is the length of time in 
+          seconds for one playing of the audio at the specified <i>pitch</i>.</p>
+
+        <p>The <i>pitch</i> field specifies a multiplier for the 
+          rate at which sampled sound is played. Values for the <i>pitch</i> field 
+          shall be greater than zero<i>.</i> Changing the <i>pitch</i> field affects 
+          both the pitch and playback speed of a sound. A <i>set_pitch</i> event 
+          to an active AudioClip is ignored and no <i>pitch_changed</i> field 
+          is generated. If <i>pitch</i> is set to 2.0, the sound shall be played 
+          one octave higher than normal and played twice as fast. For a sampled 
+          sound, the <i>pitch</i> field alters the sampling rate at which the 
+          sound is played. The proper implementation of pitch control for MIDI 
+          (or other note sequence sound clips) is to multiply the tempo of the 
+          playback by the <i>pitch</i> value and adjust the MIDI Coarse Tune and 
+          Fine Tune controls to achieve the proper pitch change.</p>
+
+        <p>A <i>duration_changed</i> event is sent whenever there 
+          is a new value for the &quot;normal&quot; duration of the clip. Typically, 
+          this will only occur when the current <i>url</i> in use changes and 
+          the sound data has been loaded, indicating that the clip is playing 
+          a different sound source. The duration is the length of time in seconds 
+          for one cycle of the audio for a <i>pitch</i> set to 1.0. Changing the 
+          <i>pitch</i> field will not trigger a <i>duration_changed</i> event. 
+          A duration value of &quot;&minus;1&quot; implies that the sound data has not 
+          yet loaded or the value is unavailable for some reason. A <i>duration_changed</i> 
+          event shall be generated if the AudioClip node is loaded when the X3D 
+          file is read or the AudioClip node is added to the scene graph.</p>
+
+        <p>The <i>isActive</i> field may be used by other nodes to 
+          determine if the clip is currently active. If an AudioClip is active, 
+          it shall be playing the sound corresponding to the sound time (<i>i.e.</i>,&nbsp;in 
+          the sound's local time system with sample 0 at time 0):</p>
+
+<pre class="listing">    t = (now &minus; startTime) modulo (<tt>duration</tt> / pitch)
+</pre>
+
+<h2><a name="Sound"></a>
+16.4.2 Sound</h2>
+ 
+<pre class="node">Sound : X3DSoundNode {
+  SFVec3f [in,out] direction  0 0 1 (-&#8734;,&#8734;)
+  SFFloat [in,out] intensity  1     [0,1]
+  SFVec3f [in,out] location   0 0 0 (-&#8734;,&#8734;)
+  SFFloat [in,out] maxBack    10    [0,&#8734;)
+  SFFloat [in,out] maxFront   10    [0,&#8734;)
+  SFNode  [in,out] metadata   NULL  [X3DMetadataObject]
+  SFFloat [in,out] minBack    1     [0,&#8734;)
+  SFFloat [in,out] minFront   1     [0,&#8734;)
+  SFFloat [in,out] priority   0     [0,1]
+  SFNode  [in,out] source     NULL  [X3DSoundSourceNode]
+  SFBool  []       spatialize TRUE
+}
+</pre>
+
+<p>The Sound node specifies the spatial presentation of a 
+    sound in a X3D scene. The sound is located at a point in the local coordinate 
+    system and emits sound in an elliptical pattern (defined by two ellipsoids). 
+    The ellipsoids are oriented in a direction specified by the <i>direction</i> 
+    field. The shape of the ellipsoids may be modified to provide more or 
+    less directional focus from the location of the sound.</p>
+
+<p>The <i>source</i> field specifies the sound source for 
+   the Sound node. If the <i>source</i> field is not specified, the Sound 
+   node will not emit audio. The <i>source</i> field shall specify either 
+   an <a href="#AudioClip">AudioClip</a> node or a 
+<a href="texturing.html#MovieTexture">MovieTexture</a> node. If a MovieTexture node is 
+   specified as the sound source, the MovieTexture shall refer to a movie 
+   format that supports sound (<span class="example">EXAMPLE</span> &nbsp;MPEG-1Systems, see
+<a href="../references.html#[I11172_1]">ISO/IEC 11172-1</a>).</p>
+
+<p>The <i>intensity </i>field adjusts the loudness (decibels) 
+          of the sound emitted by the Sound node.&nbsp; The <i>intensity</i> 
+          field has a value that ranges from 0.0 to 1.0 and specifies a factor 
+          which shall be used to scale the normalized sample data of the sound 
+          source during playback. A Sound node with an intensity of 1.0 shall 
+          emit audio at its maximum loudness (before attenuation), and a Sound 
+          node with an intensity of 0.0 shall emit no audio. Between these values, 
+          the loudness should increase linearly from a -20 dB change approaching 
+          an <i>intensity</i> of 0.0 to a 0 dB change at an <i>intensity</i> of 
+          1.0.</p>
+<p class="Example">NOTE &nbsp;This is different 
+          from the traditional definition of intensity with respect to sound; 
+          see <a href="../bibliography.html#[SNDA]">[SNDA]</a>.</p>
+
+        <p>The <i>priority</i> field provides a hint for the browser 
+          to choose which sounds to play when there are more active Sound nodes 
+          than can be played at once due to either limited system resources or 
+          system load. <a href="#Concepts">16.2 Concepts</a> describes a 
+          recommended algorithm for determining which sounds to play under such 
+          circumstances. The <i>priority</i> field ranges from 0.0 to 1.0, with 
+          1.0 being the highest priority and 0.0 the lowest priority.</p>
+
+        <p>The <i>location</i> field determines the location of the 
+          sound emitter in the local coordinate system. A Sound node's output 
+          is audible only if it is part of the traversed scene. Sound nodes that 
+          are descended from <a href="navigation.html#LOD">LOD</a>, 
+		<a href="group.html#Switch">Switch</a>, or any grouping or prototype node that 
+          disables traversal (<i>i.e.</i>,<i>&nbsp;</i>drawing) of its children are not 
+          audible unless they are traversed. If a Sound node is disabled by a 
+          Switch or LOD node, and later it becomes part of the traversal again, 
+          the sound shall resume where it would have been had it been playing 
+          continuously.</p>
+
+        <p>The Sound node has an inner ellipsoid that defines a volume 
+          of space in which the maximum level of the sound is audible. Within 
+          this ellipsoid, the normalized sample data is scaled by the <i>intensity</i> 
+          field and there is no attenuation. The inner ellipsoid is defined by 
+          extending the <i>direction</i> vector through the <i>location</i>. The 
+          <i>minBack</i> and <i>minFront</i> fields specify distances behind and 
+          in front of the <i>location</i> along the <i>direction</i> vector respectively. 
+          The inner ellipsoid has one of its foci at <i>location</i> (the second 
+          focus is implicit) and intersects the <i>direction</i> vector at <i>minBack</i> 
+          and <i>minFront</i>.</p>
+
+        <p>The Sound node has an outer ellipsoid that defines a volume 
+          of space that bounds the audibility of the sound. No sound can be heard 
+          outside of this outer ellipsoid. The outer ellipsoid is defined by extending 
+          the <i>direction</i> vector through the <i>location</i>. The <i>maxBack</i> 
+          and <i>maxFront </i>fields specify distances behind and in front of 
+          the <i>location</i> along the <i>direction</i> vector respectively. 
+          The outer ellipsoid has one of its foci at <i>location</i> (the second 
+          focus is implicit) and intersects the <i>direction</i> vector at <i>maxBack</i> 
+          and <i>maxFront</i>.</p>
+
+        <p>The <i>minFront</i>, <i>maxFront</i>, <i>minBack</i>, 
+          and <i>maxBack</i> fields are defined in local coordinates, and shall 
+          be greater than or equal to zero. The <i>minBack</i> field shall be 
+          less than or equal to&nbsp;<i>maxBack</i>, and <i>minFront</i> shall 
+          be less than or equal to&nbsp;<i>maxFront.</i> The ellipsoid parameters 
+          are specified in the local coordinate system but the ellipsoids' geometry 
+          is affected by ancestors' transformations.</p>
+
+        <p>Between the two ellipsoids, there shall be a linear attenuation 
+          ramp in loudness, from 0 dB at the minimum ellipsoid to -20 dB at the 
+          maximum ellipsoid:</p>
+
+<pre class="listing">    attenuation = -20 &times; (d' / d&quot;)
+</pre>
+
+<p>where d' is the distance along the location-to-viewer 
+   vector, measured from the transformed minimum ellipsoid boundary to 
+   the viewer, and d&quot; is the distance along the location-to-viewer 
+   vector from the transformed minimum ellipsoid boundary to the transformed 
+   maximum ellipsoid boundary (see 
+<a href="#f-Soundnodegeometry">Figure 16.2</a>).</p>
+
+<div class="CenterDiv">
+
+<a name="f-Soundnodegeometry"></a>
+<img src="../../Images/Sound.gif" alt="Sound Node Geometry" width="408" height="289"> 
+
+<p class="FigureCaption">Figure 16.2 &#8212; Sound Node Geometry</p>
+
+</div>
+
+<p>The <i>spatialize</i> field specifies if the sound is 
+          perceived as being directionally located relative to the viewer. If 
+          the <i>spatialize </i>field is <code>TRUE</code> 
+          and the viewer is located between the transformed inner and outer ellipsoids, 
+          the viewer's direction and the relative location of the Sound node should 
+          be taken into account during playback. Details outlining the minimum 
+          required spatialization functionality can be found in
+<a href="#Soundattenandspatial">16.2.2 Sound attenuation and spatialization</a>.  
+If the <i>spatialize</i> field is <code>FALSE</code>, 
+ 
+directional effects are ignored, but the ellipsoid dimensions and<i> 
+          intensity</i> will still affect the loudness of the sound. If the sound 
+          source is multi-channel (<span class="code">EXAMPLE</span> &nbsp;stereo),  the source 
+shall 
+          retain its channel separation during playback.</p>
+
+
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>16.5 Support levels</h1>
+
+<p>The Sound component provides one level of support as 
+specified in <a href="#t-SupportLevels">Table 16.2</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-SupportLevels"></a>Table 16.2 &#8212; Sound component support levels</p>
+
+    <table>
+      <tr> 
+        <th><b>Level</b></th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td>
+        <p align="center"><b>1</b></td>
+        <td>Core 1<br>
+        Time 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DSoundSourceNode </i>(abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DSoundNode </i>(abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>AudioClip</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>Sound</td>
+        <td>All fields fully supported.</td>
+      </tr>
+    </table>
+    </div>
+
+<p>
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23"></p>
+
+</body>
+</html>

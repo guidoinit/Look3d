@@ -1,0 +1,292 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 35 Layering component</title>
+<link href="../X3D.css" type="text/css" rel=stylesheet>
+</head>
+
+<body bgcolor=white text=black>
+
+<div class=CenterDiv>
+<a href="../X3D.html">
+<IMG SRC="../../Images/x3d.png" ALT="X3D logo"  style="border-width: 0px; width: 176px; height: 88px"></a>
+</div>
+    
+<div class=CenterDiv>
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">35 Layering component</p>
+</div>
+    
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Introduction"></a>35.1 Introduction</h1>
+
+<h2><a name="Name"></a>35.1.1 Name</h2>
+
+<p>The name of this component is &quot;Layering&quot;. This name shall be used when 
+referring to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+
+<h2><a name="Overview"></a>35.1.2 Overview</h2>
+
+<p>This subclause describes the Layering component of this International 
+Standard. This includes how to layer a set of subscene layer into a composite scene. <a href="#t-Topics">
+Table 35.1</a> provides links to the major topics in this subclause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption"><a name="t-Topics"></a>Table 35.1 &#8212; Topics</p>
+<table class="topics">
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">35.1 Introduction</a>
+            <ul>
+              <li><a href="#Name">35.1.1 Name</a></li>
+              <li><a href="#Overview">35.1.2 Overview</a></li>
+            </ul></li> 
+          <li><a href="#Concepts">35.2 Concepts </a> 
+            <ul>
+              <li><a href="#OverviewOfLayering">35.2.1 Overview of layering</a></li> 
+			  <li><a href="#LayerSets">35.2.2 Layer sets</a></li>
+			  <li><a href="#Layers">35.2.3 Layers</a></li>
+				<li><a href="#Viewports">35.2.4 Viewports</a></li>
+           </ul></li>
+          <li><a href="#Abstracttypes">35.3 Abstract types </a> 
+            <ul>
+              <li><a href="#X3DLayerNode">35.3.1 <i>X3DLayerNode</i></a></li>
+			  <li><a href="#X3DViewportNode">35.3.2 <i>X3DViewportNode</i></a></li>
+            </ul></li>
+          <li><a href="#NodeReference">35.4 Node reference </a> 
+            <ul>
+              <li><a href="#Layer">35.4.1 Layer</a></li>
+              <li><a href="#LayerSet">35.4.2 LayerSet</a></li>
+			  <li><a href="#Viewport">35.4.3 Viewport</a></li>
+            </ul></li>
+          <li><a href="#SupportLevels">35.5 Support levels</a></li>  
+        </ul>
+<ul>
+<li><a href="#t-Topics">Table 35.1 &#8212; Topics</a></li>
+<li><a href="#t-SupportLevels">Table 35.2 &#8212; Layering component support levels</a></li>
+</ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<p>&nbsp;</p>
+
+<h2><img src="../../Images/cube.gif" width="20" height="19" alt="cube"><a name="Concepts"></a>35.2 Concepts</h2>
+
+<h3> <a name="OverviewOfLayering"></a>35.2.1 Overview of layering</h3>
+
+<p>A scene&nbsp;is embodied by the basic concept of layering.&nbsp; 
+A scene is defined to consist of a sequence of layers and the order in which they are to be 
+rendered.</p>
+
+<h3><a name="LayerSets"></a>35.2.2 Layer sets</h3>
+
+<p>A layer set is defined to be an ordered list of <i><a href="#X3DLayerNode">
+X3DLayerNode</a></i> nodes that form a scene. The layers are 
+assigned ordinals according to their position in the list in the
+<a href="#LayerSet">LayerSet</a> node. The 
+rendering order is specified by the order field. Thus, the layer first specified 
+in the order field will be the first layer rendered and will appear to be below 
+any other layers. The layer last specified in the order field will be the last 
+layer rendered and will correspondingly appear to be on top of all other layers.</p>
+	<p>The LayerSet node may make access to some of its content public by using the EXPORT 
+statement to identify public names.</p>
+	<p>Only one LayerSet node is allowed and shall be a root node.</p>
+	
+<h3><a name="Layers"></a>35.2.3 Layers</h3>
+
+<p>Each subscene is specified by a single <i><a href="#X3DLayerNode">
+X3DLayerNode</a></i> node that contains its 
+definition. The <i><a href="#X3DLayerNode">X3DLayerNode</a></i> nodes may contain any child nodes allowed in grouping 
+nodes. Hence, <i><a href="#X3DLayerNode">X3DLayerNode</a></i> nodes may be used to create special effects such as heads up 
+displays or non-transforming control elements. Each <i><a href="#X3DLayerNode">
+X3DLayerNode</a></i> node contains its own 
+binding stacks and thus has its own viewpoints and navigation.</p>
+
+<h3><a name="Viewports"></a>35.2.4 Viewports</h3>
+
+<p>The output to a surface can be constrained further by using an <i>
+<a href="#X3DViewportNode">X3DViewportNode</a></i> node. 
+These nodes are special grouping nodes that each define a set of clipping bounds 
+within the extent of a surface within which the children nodes of the <i>
+<a href="#X3DViewportNode">X3DViewportNode</a> </i>will appear. This provides support for the typical front/side/back/oblique views 
+used by CAD systems.</p>
+<h2><img src="../../Images/cube.gif" width="20" height="19" alt="cube"><a name="Abstracttypes"></a>35.3 
+	Abstract types</h2>
+
+
+<h3><a name="X3DLayerNode"></a>35.3.1 <i>X3DLayerNode</i></h3>
+
+<pre class=node>X3DLayerNode : X3DNode {
+  SFBool [in,out] isPickable TRUE
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+  SFNode [in,out] viewport NULL [X3DViewportNode]
+}</pre>
+<p>The <i>X3DLayerNode</i> abstact node type is the base node type for layer nodes. </p>
+
+
+  	<p>The <i>isPickable</i> field determines if pick traversal is to be 
+	performed for this layer. An <i>X3DLayerNode</i> node specified with <i>isPickable</i> set 
+	to <span class="code">FALSE</span> will not participate in picking 
+	operations.</p>
+<p>The <i>viewport</i> field constrains the output of the layer to a sub-region 
+of the render surface.</p>
+
+
+<h3><a name="X3DViewportNode"></a>35.3.2 <i>X3DViewportNode</i></h3>
+
+<pre class=node>X3DViewportNode : X3DGroupingNode {
+  MFNode  [in]     addChildren             [X3DChildNode]
+  MFNode  [in]     removeChildren          [X3DChildNode]
+  MFNode  [in,out] children       []       [X3DChildNode]
+  SFNode  [in,out] metadata       NULL     [X3DMetadataObject]
+  SFVec3f []       bboxCenter     0 0 0    (-&#8734;,&#8734;)
+  SFVec3f []       bboxSize       -1 -1 -1 (0,&#8734;) or -1 -1 -1
+}</pre>
+<p>The <i>X3DViewportNode</i> abstract node type is the base node type for viewport nodes. Nodes of this type specify a 
+boundary to which all content affected by the node is to be clipped. The 
+boundary is specified in units appropriate for the surface on which the content 
+is to be rendered.</p>
+	<p>More details on the children, addChildren, and removeChildren fields can 
+	be found in <a href="group.html#Concepts">10.2 Concepts</a>.</p>
+	<p>The <i>bboxCenter</i> and <i>bboxSize</i> fields specify a bounding box 
+	that encloses the children. This is a hint that may be used for optimization 
+	purposes. The results are undefined if the specified bounding box is smaller 
+	than the actual bounding box of the children at any time. The default <i>
+	bboxSize</i> value, (-1, -1, -1), implies that the bounding box is not 
+	specified and, if needed, shall be calculated by the browser. More details 
+	on the <i>bboxCenter</i> and <i>bboxSize</i> fields can be found in
+	<a href="group.html#BoundingBoxes">10.2.2 Bounding boxes</a>.</p>
+
+<h2><img src="../../Images/cube.gif" width="20" height="19" alt="cube"><a name="NodeReference"></a>35.4 Node Reference</h2>
+<h3><a name="Layer"></a>35.4.1 Layer</h3>
+<pre>Layer : X3DLayerNode { 
+  MFNode [in]     addChildren          [X3DChildNode]
+  MFNode [in]     removeChildren       [X3DChildNode]
+  MFNode [in,out] children       []    [X3DChildNode]
+  SFBool [in,out] isPickable     TRUE
+  SFNode [in,out] metadata       NULL  [X3DMetadataObject]
+  SFNode [in,out] viewport       NULL  [X3DViewportNode]
+}</pre>
+<p>The Layer node specifies a <i>children</i> field that contains a list of nodes that define the 
+contents of the layer.</p>
+	<p><a href="group.html#GroupingAndChildrenNodes">10.2.1 Grouping and children node types</a> 
+provides a description of the <i>children</i>, <i>addChildren</i>, and <i>
+removeChildren</i> fields.</p>
+
+<h3><a name="LayerSet"></a>35.4.2 LayerSet</h3>
+<pre>LayerSet : X3DNode { 
+  SFInt32 [in,out]  activeLayer 0    (0,&infin;)
+  MFNode  [in,out]  layers      []   [X3DLayerNode]
+  SFNode  [in,out]  metadata    NULL [X3DMetadataObject]
+  MFInt32 [in,out]  order       [0]   (0,&infin;)
+}</pre>
+<p>The LayerSet node specifies a list of layers and a rendering order.</p>
+<p>The list defined by <i>layers</i> contains the constituent parts of the 
+scene. Each layer is assigned an ordinal number depending on its position in the 
+list. Ordinals start with the numeral 1 representing the first item in the list.</p>
+<p>The list defined by <i>order</i> specifies the order in which the layers are 
+rendered. The number specified correspond to the ordinals of the layers. <i>
+Order</i> may contain repetitions of the ordinals in which case the layer is 
+rendered again. If <i>order</i> contains numbers that are not ordinals assigned 
+to layers, such numbers are ignored. Layers included in <i>layers</i> that are 
+not listed in <i>order</i> are not rendered.</p>
+	<p>The <i>activeLayer</i> field specifies the layer in which navigation 
+	takes place.</p>
+	<p>Nodes that are not part of a layer are considered to be the first nodes in 
+	layer 0.</p>
+
+<h3><a name="Viewport"></a>35.4.3 Viewport</h3>
+
+<pre class="node">Viewport : X3DViewportNode, X3DBoundedObject {
+  MFNode  [in]     addChildren             [X3DChildNode]
+  MFNode  [in]     removeChildren          [X3DChildNode]
+  MFNode  [in,out] children       []       [X3DChildNode]
+  MFFloat [in,out] clipBoundary   0 1 0 1  [0,1]
+  SFNode  [in,out] metadata       NULL     [X3DMetadataObject]
+  SFVec3f []       bboxCenter     0 0 0    (-&#8734;,&#8734;)
+  SFVec3f []       bboxSize       -1 -1 -1 (0,&#8734;) or -1 -1 -1
+}</pre>
+
+<p>The Viewport node is a grouping node that specifies a set of rectangular clip boundaries 
+against which the children nodes are clipped as they are rendered.</p>
+	<p>The <i>clipBoundary</i> field is specified in fractions of the normal 
+	render surface in the sequence left/right/bottom/top. When the children are 
+	rendered, the output will only appear in the specified subset of the render 
+	surface.</p>
+
+<h2><img src="../../Images/cube.gif" width="20" height="19" alt="cube"><a name="SupportLevels"></a>35.5 Support levels</h2>
+  
+<p>The Layering component provides four levels of support as specified in 
+<a href="#t-SupportLevels">
+Table 35.2</a>. Level 1 provides the support for scenes and layers.</p>
+
+<div class=CenterDiv>
+<p class="TableCaption"><a name="t-SupportLevels"></a>Table 35.2 &#8212; 
+Layering component support levels</p>
+    <table>
+      <tr> 
+        <th><b>Level</b></th>
+        <th>Prerequisites</th>
+        <th><b>Nodes</b></th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td><b>1</b></td>
+        <td> 
+          <p>Core 1;<br>
+			Grouping 1 </p>
+        </td>
+        <td> 
+          <p>&nbsp;</p>
+        </td>
+        <td>&nbsp; </td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DLayerNode</i></td>
+        <td>n/a</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DViewportNode</i></td>
+        <td>n/a</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>Layer</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>LayerSet</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>Viewport</td>
+        <td>All fields fully supported.</td>
+      </tr>
+    </table>
+</div>
+
+<p> <img src="../../Images/x3dbar.png" width="430" height="23" alt="--- X3D separator bar ---"></p>
+
+</BODY>
+</HTML>

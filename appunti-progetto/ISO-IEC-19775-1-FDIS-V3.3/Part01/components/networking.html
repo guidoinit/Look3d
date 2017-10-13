@@ -1,0 +1,852 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 9 Networking component</title>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+
+</head>
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">9 Networking component</p>
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Introduction"></a>9.1 Introduction</h1>
+
+<h2><a name="Name"></a>9.1.1 Name</h2>
+
+<p>The name of this component is &quot;Networking&quot;. This name shall be used when 
+referring to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+
+<h2><a name="Overview"></a>9.1.2 Overview</h2>
+
+<P>This clause describes the Networking component of this part of ISO/IEC 19775. This
+  component defines the node types and other features used to
+  access file-based and streaming resources on the World Wide Web.
+<A href="#t-Topics">Table 9.1</A> lists the major topics in this clause.</P>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 9.1 &#8212; Topics</p>
+
+<table class="topics">
+  <TR>
+      <TD> 
+        <ul>
+          <li><a href="#Introduction">9.1 Introduction</a>
+            <ul>
+              <li><a href="#Name">9.1.1 Name</a></li>
+              <li><a href="#Overview">9.1.2 Overview</a></li>
+            </ul></li> 
+          <li><a href="#Concepts">9.2 Concepts</a> 
+            <ul>
+              <li><a href="#URLs">9.2.1 URLs</a></li> 
+              <li><a href="#RelativeURLs">9.2.2 Relative URLs</a></li> 
+              <li><a href="#ScriptingLanguageProtocols">9.2.3 Scripting language protocols</a></li> 
+              <li><a href="#BrowserProperties">9.2.4 Browser options</a></li>
+			  <li><a href="#IMPORTStatement">9.2.5 IMPORT statement</a></li>
+			  <li><a href="#EXPORTStatement">9.2.6 EXPORT statement</a></li> 
+            </ul></li>
+          <li><a href="#Abstracttypes">9.3 Abstract types</a> 
+            <ul>
+              <li><a href="#X3DNetworkSensorNode">9.3.1 <i>X3DNetworkSensorNode</i></a></li> 
+              <li><a href="#X3DUrlObject">9.3.2 <i>X3DUrlObject</i></a></li> 
+            </ul></li>
+          <li><a href="#Nodereference">9.4 Node reference</a> 
+            <ul>
+              <li><a href="#Anchor">9.4.1 Anchor</a></li> 
+              <li><a href="#Inline">9.4.2 Inline</a></li> 
+              <li><a href="#LoadSensor">9.4.3 LoadSensor</a></li> 
+            </ul></li>
+          <li><a href="#SupportLevels">9.5 Support levels</a></li>
+        </ul>
+        <ul>
+          <li><a href="#t-Topics">Table 9.1 &#8212; Topics</a></li>
+          <li><a href="#t-BrowserProperties">Table 9.2 &#8212; Browser options</a></li>
+          <li><a href="#t-supportlevels">Table 9.3 &#8212; Networking component support levels</a></li>
+        </ul>
+      </TD>
+</TR>
+</TABLE>
+</DIV>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="Concepts"></A>
+9.2 Concepts</H1>
+
+<h2><a name="URLs"></a>
+9.2.1 URLs</h2>
+
+<p>A <i>URL</i> (Uniform Resource Locator), described in
+<a href="../references.html#[RFC1738]">2.[RFC1738]</a>, 
+  is a form of Universal Resource Identifier (URI) that specifies a file located on a particular server and accessed through a specified 
+  protocol (<i>e.g.</i>, http). In this part of ISO/IEC 19775, the upper-case term URL refers to a 
+  Uniform Resource Locator, while the italicized lower-case version <i>url</i> 
+  refers to a field which may contain URLs or in-line encoded data.</p>
+
+<p>Higher levels of this component extend the 
+  URL support of a browser to additional forms of URI, such as supporting <i>URNs</i> (Uniform Resource Name), which are 
+  another form of URI. A URN allows an abstract resolution mechanism 
+  to be invoked to locate a resource (see <a href="../references.html#[RFC2141]">2.[RFC2141]</a>). 
+  This allows a resource to be located on the local machine or a platform dependent 
+  resource to be located using the URN along with platform-specific identifiers.<p>For levels that support URNs, the <i>url</i> field shall also support the Web3D Consortium URN Namespace 
+(see <a href="../references.html#[RFC3541]">2.[RFC3541]</a>) and also support 
+the Universal Media Library that may be accessed using that namespace. A URN 
+allows an abstract resolution mechanism to be invoked to locate a resource (see <a href="../references.html#[RFC2141]">
+2.[RFC2141]</a>). This allows a resource to located on the local machine or a 
+platform dependent resource to be located using the URN along with platform 
+specific identifiers. A component extension can extend the URL support of a 
+browser by supporting other URN naming schemes. More information on the <i>url</i> 
+field may be found in <a href="#X3DUrlObject">9.3.2 X3DUrlObject</a>.<p>More general information on URLs is described in
+<a href="../references.html#[RFC1738]">2.[RFC1738]</a><a href="../references.html#URL">.</a>
+
+<h2><a name="RelativeURLs"></a>
+9.2.2 Relative URLs</h2>
+
+
+<p>Relative URLs are handled as described in
+<a href="../references.html#[RFC1808]">2.[RFC1808]</a>. All name scopes (see
+<a href="../concepts.html#Runtimenamescope">4.4.7 Run-time name scope</a>) 
+maintain a base URI which is used for all relative URLs within that name scope. 
+Whenever a node with a relative URL is defined, that node may only reference 
+assets available within its name scope. It has no advance knowledge of how it 
+may or may not be included by an Inline node or referenced by an external 
+prototype instantiation. The base document for EXTERNPROTO statements or nodes 
+that contain a URL field is:&nbsp; </p>
+
+<ol type="a">
+  <li> The X3D file in which an EXTERNPROTO is declared, namely the value of the
+  <em>externprotoURL</em> field specified in
+  <a href="core.html#EXTERNPROTOStatement">7.2.5.9 EXTERNPROTO statement</a>. </li>
+  <li> The X3D file in which the parent PROTO is declared, if the statement is 
+  inside the body of a prototype declaration, namely the value of the 
+  protoDefinition field specified in <a href="core.html#PROTOStatement">7.2.5.8 
+  PROTO statement</a>. </li>
+	<li> The X3D file in which a Script is defined. </li>
+  <li>  Otherwise, the X3D file from which the 
+    statement is read.</li>
+</ol>
+
+<h2><a name="ScriptingLanguageProtocols"></a>9.2.3 Scripting language protocols</h2>
+
+
+<p>Components can 
+add scripting support to an X3D browser. An example of this is the Scripting 
+component which introduces a <a href="scripting.html#Script">Script</a> node. The Script node's <i>url </i>field 
+may support custom protocols for the various scripting languages. For 
+example, a script <i>url </i>prefixed with <i>ecmascript:</i> (or the deprecated 
+<i>javascript:</i>) shall contain ECMAScript source, with line terminators 
+allowed in the string. The details of each language protocol are defined in the 
+parts of <a href="../references.html#[I19777]">ISO/IEC 19777</a>, which define the bindings for each language. Browsers 
+that 
+conform to a profile that supports scripting are not required to support both 
+the Java and ECMAScript scripting languages. Browsers shall adhere to the protocol 
+defined in the corresponding part of <a href="../references.html#[I19777]">
+ISO/IEC 19777</a> for any scripting language 
+that is supported.</p>
+<p class="Example">EXAMPLE&nbsp; The following illustrates the use of mixing custom 
+protocols and standard protocols in a single <i>url</i> field (order of precedence 
+determines priority):</p>
+
+<pre class="listing">#X3D V3.0 utf8
+Script {
+ url [ &quot;ecmascript: ...&quot;, # custom in-line ECMAScript code
+ &quot;http://bar.com/foo.js&quot;, # ECMAScript file reference
+ &quot;http://bar.com/foo.class&quot; ] # Java platform bytecode file reference
+}
+</pre>
+
+<p class="Example">The &quot;...&quot; represents in-line ECMAScript source code.</p>
+
+<h2><a name="BrowserProperties"></a>9.2.4 Browser options</h2>
+
+
+<p>X3D supports configuring the browser via a set of options. These 
+options are
+values passed to the browser at start-up time that control its run-time operation.
+Browser options may be set as HTML PARAM values within an EMBED or OBJECT tag
+if the X3D browser is running as an embedded control within a World Wide Web browser,
+or through an application-specific mechanism such as a configuration file or
+system registry entry if the browser is running within some other containing application.</p>
+<p>
+Support for browser options is not required but is strongly recommended. Some browsers may
+not support all available options, due to limitations in the underlying rendering system.
+</p>
+<p>
+<a href="#t-BrowserProperties">Table 9.2</a> lists the available X3D Browser 
+options.
+
+<div class="CenterDiv">
+<p class="TableCaption">
+<a name="t-BrowserProperties"></a>Table 9.2 &#8212; Browser options</p> 
+
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Type/valid range</th>
+      <th>Default</th>
+    </tr>
+    <tr>
+      <td>Antialiased</td>
+      <td>Render using hardware antialiasing if available</td>
+      <td>Boolean</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>Dashboard</td>
+      <td>Display browser navigation user interface</td>
+      <td>Boolean</td>
+      <td>Specified by bound NavigationInfo in content</td>
+    </tr>
+    <tr>
+      <td>EnableInlineViewpoints</td>
+      <td>Viewpoints from Inline nodes are included in list of viewpoints if 
+      made available by the Inline node.</td>
+      <td>Boolean</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>MotionBlur</td>
+      <td>Render animations with motion blur</td>
+      <td>Boolean</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>PrimitiveQuality</td>
+      <td>Render quality (tesselation level) for Box, Cone, Cylinder, Sphere</td>
+      <td>Low, Medium, High</td>
+      <td>Medium</td>
+    </tr>
+    <tr>
+      <td>QualityWhenMoving</td>
+      <td>Render quality while camera is moving</td>
+      <td>Low, Medium, High, Same (as while stationary)</td>
+      <td>Same</td>
+    </tr>
+    <tr>
+      <td>Shading</td>
+      <td>Specify shading mode for all objects</td>
+      <td>Wireframe, Flat, Gouraud, Phong</td>
+      <td>Gouraud</td>
+    </tr>
+    <tr>
+      <td>SplashScreen</td>
+      <td>Display browser splash screen on startup</td>
+      <td>Boolean</td>
+      <td>Implementation-dependent</td>
+    </tr>
+    <tr>
+      <td>TextureQuality</td>
+      <td>Quality of texture map display</td>
+      <td>Low, Medium, High</td>
+      <td>Medium</td>
+    </tr>
+</table>
+</div>
+
+<h2><a name="IMPORTStatement"></a>9.2.5 IMPORT statement</h2>
+<p>The IMPORT statement is used within an X3D file to specify nodes, which are 
+defined within Inline files or programmatically created content, that are to be 
+brought into the namespace of the containing file for the purposes of event 
+routing. Once a node is imported, events may be sent to its fields via ROUTEs, 
+or routed from any fields of the node which have output events. The IMPORT 
+statement has the following components:</p>
+<ol type="a">
+	<li>The name of the Inline node that contains the node to be imported 
+	</li>
+	<li>The name of the node to import 
+	</li>
+	<li>An optional name to be used as an alias for the imported node within the 
+	run-time name scope, to help prevent name clashes within the parent scene 
+	containing the IMPORT statement.</li>
+</ol>
+<p>The IMPORT statement has the following semantics:</p>
+<ol type="a" start="4">
+	<li>Once imported, events may be routed to or from the imported node in exactly the same 
+	manner as any node defined with DEF. 
+	</li>
+	<li>Nodes imported into an X3D scene using the IMPORT statement may not be 
+	instanced via the USE statement. 
+	</li>
+	<li>Only nodes that are exported from within the Inline via an EXPORT 
+	statement may be imported using a corresponding IMPORT statement. </li>
+</ol>
+<p>The following example illustrates the use of the IMPORT statement (Classic 
+VRML encoding syntax):</p>
+<pre class="listing">DEF I1 Inline {
+  url &quot;someurl.x3d&quot;
+}
+      . . .
+
+IMPORT I1.rootTransform AS I1Root
+DEF PI PositionInterpolator { ... }
+ROUTE PI.value_changed TO I1Root.set_translation
+</pre>
+<p>In the above example, <span class="code">rootTransform</span><b> </b>is 
+defined as a Transform node in the file someurl.x3d and exported via an EXPORT 
+statement (see <a href="../concepts.html#EXPORTSemantics">4.4.6.3 EXPORT semantics</a>). The 
+optional AS keyword defines an alias for <span class="code">rootTransform</span> 
+so that within the containing scene the node is referenced using the DEF name
+<span class="code">I1Root</span>.</p>
+<h2><a name="EXPORTStatement"></a>9.2.6 EXPORT statement</h2>
+<p>The EXPORT statement is used within an X3D file to specify nodes that may be 
+imported into other scenes when Inlining that file. Only named nodes exported with an 
+EXPORT statement are eligible to be imported into another file. The EXPORT 
+statement has the following components:</p>
+<ol type="a">
+	<li>The DEF name of the node to be exported 
+	</li>
+	<li>An optional name to be used as an alias for the exported node when 
+	importing it into other files </li>
+</ol>
+<p>The EXPORT statement has the following semantics:</p>
+<ol type="a" start="3">
+	<li>Once imported into a containing scene, events may be routed to 
+	or from an exported node in exactly the same manner as any node defined with DEF. 
+	</li>
+	<li>Exported nodes imported into a containing scene may not be instanced via 
+	the USE statement. 
+	</li>
+	<li>Exportation may not be propagated across multiple files; that is, a node imported 
+	into one scene using the IMPORT statement may not then be further exported into another 
+	scene using the EXPORT statement.</li>
+	<li>Nodes shall not be exported from the body of a PROTO declaration.</li>
+</ol>
+<p>The following example illustrates the use of the EXPORT statement (Classic 
+VRML encoding):</p>
+<pre class="listing">DEF T1 Transform {
+   ...
+}
+     . . .
+
+EXPORT T1 AS rootTransform 
+</pre>
+<p>In the above example, node <span class="code">T1</span><b> </b>is exported for use 
+by other X3D scenes. The optional AS keyword defines the exported name of
+<span class="code"><b>T1</b></span> as <span class="code"><b>rootTransform</b></span> 
+(<i>i.e.</i>, 
+other scenes may import the node only using the name <span class="code">
+rootTransform</span>).</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="Abstracttypes"></A>
+9.3 Abstract types</H1>
+
+<h2><a name="X3DNetworkSensorNode"></a>
+9.3.1 <i>X3DNetworkSensorNode</i></h2>
+<pre class="node"> 
+X3DNetworkSensorNode : X3DSensorNode {
+  SFBool [in,out] enabled  TRUE
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+  SFBool [out]    isActive
+}
+</pre>
+<p>This abstract node type is the basis for all sensors that generate events based
+on network activity.</p>
+
+<h3><a name=X3DUrlObject></a>
+9.3.2 <i>X3DUrlObject</i></h3>
+
+<pre class="node">X3DUrlObject {
+  MFString [in,out] url [] [URI]
+}
+</pre>
+
+<p>This abstract interface is inherited by all nodes 
+  that contain data located on the World Wide Web, such as 
+<a href="sound.html#AudioClip">AudioClip</a>, 
+<a href="texturing.html#ImageTexture">ImageTexture</a> 
+and <a href="#Inline">Inline</a>.</p>
+
+<p>All <i>url</i> fields can hold multiple string 
+  values. The strings in these fields indicate multiple locations to search for 
+data in the order listed. If the browser cannot locate or interpret 
+  the data specified by the first location, it shall try the second and subsequent 
+  locations in order until a location containing interpretable data is encountered. 
+   
+  X3D browsers only have to interpret a single string. If no interpretable 
+locations 
+  are found, the node type defines the resultant default behaviour.</p>
+
+<p>Each specified URL shall refer to a valid X3D file that contains a list of children nodes,
+  prototypes and routes at the top level as described in
+<a href="group.html#Groupingandchildrennodes">10.2.1 Grouping and children node 
+types.</a> The results are undefined if the URL refers to a file
+  that is not an X3D file, or if the X3D file contains an invalid scene.</p>
+
+<p>It shall be an error to specify a file in the URL field that has a set of 
+component definitions that is not a subset of the components of the containing 
+world. In addition, the components shall not be of a higher support level than 
+those used by the containing world, either implicitly or through the PROFILE 
+declaration or additional COMPONENT statements. When the world indicated by the
+<em>url</em> field requests 
+capabilities greater than its parent, the following actions shall occur:</p>
+
+<ul>
+  <li>an error shall be generated,</li>
+  <li>the URL shall be treated as not interpretable as specified in
+  <a href="#X3DUrlObject">9.3.2 <i>X3DUrlObject</i></a>, and</li>
+  <li>the next URL shall be loaded and checked in accordance with
+  <a href="#Concepts">9.2 Concepts</a>.</li>
+</ul>
+
+<p>For more information on URLs, see 
+<a href="#URLs">9.2.1 URLs</a>.
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="Nodereference"></A>
+9.4 Node reference</H1>
+
+<h2><a name="Anchor"></a>
+9.4.1 Anchor</h2>
+
+<pre>Anchor : X3DGroupingNode,X3DUrlObject { 
+  MFNode   [in]     addChildren
+  MFNode   [in]     removeChildren
+  MFNode   [in,out] children       []       [X3DChildNode]
+  SFString [in,out] description    ""
+  SFNode   [in,out] metadata       NULL     [X3DMetadataObject]
+  MFString [in,out] parameter      []
+  MFString [in,out] url            []       [URI]
+  SFVec3f  []       bboxCenter     0 0 0    (-&#8734;,&#8734;)
+  SFVec3f  []       bboxSize       -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1 
+}
+</pre>
+
+<p>The Anchor grouping node retrieves the content of a URL when the user activates 
+  (<i>e.g.</i>,&nbsp;clicks) some geometry contained within the Anchor node's children. 
+  If the URL points to a valid X3D file, that world replaces the world of which 
+  the Anchor node is a part (except when the <i>parameter</i> field, described 
+  below, alters this behaviour). If non-X3D data is retrieved, the browser shall 
+  determine how to handle that data; typically, it will be passed to an appropriate 
+  non-X3D browser.</p>
+
+<p>Exactly how a user activates geometry contained by the Anchor node depends 
+  on the pointing device and is determined by the X3D browser. Typically, clicking 
+  with the pointing device will result in the new scene replacing the current 
+  scene. An Anchor node with an empty <i>url</i> does nothing when its children 
+  are chosen. A description of how multiple Anchors and pointing-device sensors 
+  are resolved on activation is contained in 
+<a href="pointingsensor.html#Concepts">20.2&nbsp;Concepts.</a></p>
+
+<p>More details on the <i>children</i>, <i>addChildren</i>, and <i>removeChildren</i> 
+fields can be found in <a href="group.html#Concepts">10.2 Concepts</a>.</p>
+<p>The <i>description</i> field in the Anchor node specifies a textual description 
+  of the Anchor node. This may be used by browser-specific user interfaces that 
+  wish to present users with more detailed information about the Anchor.</p>
+
+<p>The <i>parameter</i>&nbsp; field may be used to supply any additional information 
+  to be interpreted by the browser. Each string shall consist of &quot;keyword=value&quot; 
+  pairs. For example, some browsers allow the specification of a &quot;target&quot; for 
+  a link to display a link in another part of an HTML document. The <i>parameter</i> 
+  field is then:</p>
+
+<pre class="listing">Anchor { 
+ parameter [ &quot;target=name_of_frame&quot; ];
+  ...
+}
+</pre>
+
+<p>An Anchor node may be used to bind the initial Viewpoint node in a world by 
+  specifying a URL ending with &quot;#ViewpointName&quot; 
+where &quot;ViewpointName&quot; 
+  is the DEF name of a viewpoint defined in the X3D file.</p>
+
+<p><span class="example">EXAMPLE</span></p>
+
+<pre class="listing">Anchor { 
+  url &quot;http://www.school.edu/X3D/someScene.wrl#OverView&quot;;
+    children  Shape { geometry Box {} };
+}
+</pre>
+
+<p>specifies an anchor that loads the X3D file &quot;someScene.wrl&quot; and binds 
+  the initial user view to the Viewpoint node named &quot;OverView&quot; when 
+  the Anchor node's geometry (Box) is activated. If the named Viewpoint node is 
+  not found in the X3D file, the X3D file is loaded using the default Viewpoint 
+  node binding stack rules (see <a href="navigation.html#Viewpoint">23.3.5 
+Viewpoint</a>).</p>
+
+<p>If the <i>url</i> field is specified in the form &quot;#ViewpointName&quot; 
+  (<i>i.e.</i>,&nbsp;no file name), the Viewpoint node 
+with the given name (&quot;ViewpointName&quot;) 
+  in the Anchor's run-time name scope(s) shall 
+be bound (<i>set_bind </i> <span class="code"> <code>TRUE</code></span>). 
+  The results are undefined if there are multiple nodes derived from <em>
+X3DViewpointNode</em> with the same name 
+  in the Anchor's run-time name scope(s). The results are undefined if the Anchor 
+  node is not part of any run-time name scope or is part of more than one run-time 
+  name scope. See <a href="../concepts.html#Runtimenamescope">4.4.7 Run-time 
+name scope</a> for a description of run-time name scopes. 
+See <a href="navigation.html#Viewpoint">23.3.5 Viewpoint</a>, for the <em>
+X3DViewpointNode</em> transition 
+  rules that specify how browsers shall interpret the transition from the old 
+  node derived from <em>X3DViewpointNode</em> to the new one. For example:</p>
+
+<pre class="listing">Anchor { 
+  url &quot;#Doorway&quot;;
+  children Shape { geometry Sphere {} };
+}
+</pre>
+
+<p>binds the viewer to the viewpoint defined by the &quot;Doorway&quot; viewpoint 
+  in the current world when the sphere is activated. In this case, if the node 
+derived from <em>X3DViewpointNode</em> 
+  is not found, no action occurs on activation.</p>
+
+<p>More details on the <i>url</i> field are contained in
+<a href="../concepts.html#URLs">9.2.1 URLs</a>.</p>
+
+<p class="Example">NOTE&nbsp; Viewpoint functionality is in addition to the 
+X3DUrlObject interface characteristics. </p>
+
+<p>The <i>bboxCenter</i> and <i>bboxSize</i> fields specify a bounding box that 
+  encloses the Anchor's children. This is a hint that may be used for optimization 
+  purposes. The results are undefined if the specified bounding box is smaller 
+  than the actual bounding box of the children at any time. The default <i>bboxSize</i> 
+  value, (-1,&nbsp;-1,&nbsp;-1), implies that the bounding box is not specified 
+  and if needed shall be calculated by the browser. More details on the <i>bboxCenter</i> 
+  and <i>bboxSize</i> fields can be found in <a href="group.html#Boundingboxes">
+10.2.2 Bounding boxes</a>.</p>
+
+<h2><a name="Inline"></a>
+9.4.2 Inline</h2>
+
+<pre class="node">Inline : X3DChildNode, X3DBoundedObject, X3DUrlObject {
+  SFBool   [in,out] load       TRUE
+  SFNode   [in,out] metadata   NULL     [X3DMetadataObject]
+  MFString [in,out] url        []       [URI]
+  SFVec3f  []       bboxCenter 0 0 0    (-&#8734;,&#8734;)
+  SFVec3f  []       bboxSize   -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+<p>The Inline node embeds an X3D scene stored at a location on the World Wide Web
+  into the current scene. Exactly when the Inline scene is read and displayed
+  is defined by the value of the <i>load</i> field, in profiles that support that field. In
+  profiles  that do not support the <i>load</i> field, exactly when the scene is read and
+  displayed is not defined (<i>e.g.</i>,&nbsp;reading the scene may be delayed until the Inline 
+  node's bounding box is visible to the viewer). Once the Inline scene is loaded, its children are
+  added to the current scene and are treated as children of the Inline for rendering and interaction;
+  however the children are not exposed to the current scene for routing and DEF name
+  access unless their names have been explicitly imported into the scene using the 
+IMPORT statement (see <a href="../concepts.html#IMPORTSemantics">4.4.6.2 IMPORT 
+semantics</a>).</p>
+
+<p> If the <i>load</i> field is set to <span class="code"> <code>TRUE</code></span> 
+(the default field value), the X3D 
+  file specified by the <i>url</i> field is loaded immediately. If the <i>load</i> field 
+  is set to <code>FALSE</code>, no action is taken. It is possible to explicitly load 
+  the URL at a later time by sending a <code>TRUE</code> event to the <i>load</i> field 
+(<i>e.g.</i>, as the result of a ProximitySensor or other sensor firing an event). If a
+  <code>FALSE</code> event is sent to the <i>load</i> field of a previously loaded Inline,
+  the contents of the Inline will be unloaded from the scene graph.<p>An event sent to <i>url</i> can be used to change the scene that is inlined 
+  by the Inline node. If this value is set after the Inline is already loaded, its
+  contents will be unloaded and the scene to which the new URL points will be 
+  loaded.<p>The user is able to specify a bounding box for the Inline node using the <i>bboxCenter</i> 
+  and <i>bboxSize</i> fields. This is a hint to the browser and could be used 
+  for optimization purposes such as culling. 
+
+
+<h2><a name="LoadSensor"></a>
+9.4.3 LoadSensor</h2>
+
+<pre class="node">LoadSensor : X3DNetworkSensorNode {
+  SFBool  [in,out] enabled   TRUE
+  SFNode  [in,out] metadata  NULL [X3DMetadataObject]
+  SFTime  [in,out] timeOut   0
+  MFNode  [in,out] watchList []   [X3DUrlObject]
+  SFBool  [out]    isActive
+  SFBool  [out]    isLoaded
+  SFTime  [out]    loadTime
+  SFFloat [out]    progress
+}
+</pre>
+
+<p>The LoadSensor monitors the progress and success of downloading 
+      URL elements over a network. Only nodes that contain a valid URL field (<i>i.e.</i>, descendants of <i>X3DUrlObject)</i>, may be specified in the <i>watchList</i> 
+      field. Multiple nodes may be watched with a single LoadSensor.</p>
+
+<p>The <i>timeOut</i> field specifies the maximum time for which the LoadSensor 
+will monitor loading, starting from when the sensor becomes active. A value of 0 
+for the <i>timeOut</i> field indicates an indefinite time out period; <i>i.e.</i>, the LoadSensor will wait until loading has completed either with success or failure.
+</p>
+<p>The <i>watchList</i> field contains one or more URL objects to monitor. Only 
+nodes that contain a valid URL field (<i>i.e.</i>, descendants of <i>X3DUrlObject)</i>, 
+may be specified as elements of <i>watchList</i>. If multiple values are 
+specified for this field, output events are generated only when all of the 
+children have loaded or at least one has failed. If individual load status 
+information is desired for different nodes, multiple LoadSensor nodes may be 
+used, each with a single <i>watchList</i> element.</p>
+<p>If an Anchor node is part of a <em>watchList</em> field value, <em>isLoaded</em> 
+reports success for this node as follows. There are three cases that Anchor node 
+can handle:</p>
+<ol>
+				<li>binding to a Viewpoint node in the current 
+				scene,</li>
+				<li>loading a replacement world or file asset, 
+				and</li>
+				<li>launching a separate window for a file asset.</li>
+</ol>
+<p>When binding to a viewpoint (item a above), the asset is loaded when the 
+Viewpoint is bound. When loading a replacement world or asset (item b above), no 
+action is taken because the current world is lost. When launching a separate 
+window or asset (item c above), the load is considered complete when the 
+operating system or web browser acknowledges the load request.</p>
+<p>The <i>isActive</i> field generates events when loading of the LoadSensor&#39;s
+<i>watchList</i> elements begins and ends. An <i>isActive</i> <span class="code">TRUE</span> event is 
+generated when the first element begins loading. An <i>isActive</i>
+<span class="code">FALSE</span> event 
+is generated when loading has completed, either with a successful load of all 
+objects or a failed load of one of the objects, or when the timeout period is 
+reached as specified in the <i>timeout</i> field.</p>
+<p>The <i>isLoaded</i> field generates events when loading of the LoadSensor&#39;s
+<i>watchList</i> has completed. An <i>isLoaded</i> <span class="code">TRUE</span> 
+event is generated when all of the elements have been loaded. An <i>isLoaded</i>
+<span class="code">FALSE</span> event is generated when one or more of the 
+elements has failed to load, or when the timeout period is reached as specified 
+in the <i>timeout</i> field. If all elements in the watchlist are already loaded by the time the 
+LoadSensor is processed, the LoadSensor shall generate an <i>isLoaded</i> event 
+with value <span class="code">TRUE</span> and a <i>progress</i> event with value 
+1 at the next event cascade.</p>
+<p>The <i>loadTime</i> event is generated when loading of the LoadSensor&#39;s <i>
+watchList</i> has successfully completed. If loading fails or the timeout period 
+is reached, a <i>loadTime</i> event is not generated.</p>
+<p>The <i>progress</i> field generates events as loading progresses. The value 
+of <i>progress</i> is a floating-point number between 0 and 1 inclusive. A value 
+of 1 indicates complete loading of all <i>watchList</i> elements. The exact 
+meaning of all other values (<i>i.e.</i>, whether these indicate a percentage of total 
+bytes, a percentage of total number of files, or some other measurement) and the 
+frequency with which <i>progress</i> events are generated are browser-dependent. 
+Regardless, the browser shall in all cases guarantee that a <i>progress</i> 
+value of 1 is generated upon successful load of all URL objects.</p>
+
+<p>The following example defines a LoadSensor that monitors the progress of 
+loading two different ImageTexture nodes:</p>
+
+<pre class="listing">Shape {
+   appearance Appearance {
+      material Material {
+         texture DEF TEX1 ImageTexture { url "Amypic.png" }
+      }
+   }
+   geometry Sphere {}
+}
+Shape {
+   appearance Appearance {
+      material Material {
+         texture DEF TEX2 ImageTexture { url "Bmypic.png" }
+      }
+   }
+   geometry Sphere {}
+}
+DEF LS LoadSensor {
+   watchList [ USE TEX1, USE TEX2 ]
+}
+ROUTE LS.loadTime TO MYSCRIPT.loadTime
+</pre>
+
+<p>The events this would generate are:</p>
+
+<ul>
+  <li>Success of all children:
+    <ul>
+      <li>isLoaded = true</li>
+      <li>loadTime = now</li>
+      <li>progress = 1</li>
+      <li>isActive = false</li>
+    </ul></li>
+  <li>Timeout of any children, failure of any children, or no network present:
+    <ul>
+      <li>isLoaded = false</li>
+      <li>isActive = false</li>
+    </ul></li>
+</ul>
+
+<p>For <i>watchList</i> elements that allow dynamic reloading of their contents, 
+any reload of that element (<span class="example">EXAMPLE</span>&nbsp; changing the <i>url</i> field of an 
+ImageTexture or setting the <i>load</i> field of an Inline), resets the 
+LoadSensor so that it monitors those elements based on the new values and resets 
+its <i>timeout</i> period if one was specified.</p>
+
+<p>For streamed media types, the first frame of data available means successful 
+load of the URL object (<i>i.e.</i>, the browser can render one frame of a movie or 
+start playing an audio file).</p>
+
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="SupportLevels"></a>9.5 Support levels</H1>
+
+<p>The Networking component provides three levels of support as specified in 
+<a href="#t-supportlevels">Table 9.3</a>. 
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+Table 9.3 &#8212; Networking component support levels</p>
+
+   <table>
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th><b>Nodes/Features</b></th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td><b>1</b></td>
+        <td>Core 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DUrlObject</i> (Abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td><i>X3DNetworkSensorNode</i> (Abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>Protocols</td>
+        <td>file: protocol only.</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>Name resolution</td>
+        <td>Fully-specified URLs.</td>
+      </tr>
+      <tr> 
+        <td><b>2</b></td>
+        <td>Core 1<br>
+        Grouping 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>Level 1 supported nodes</td>
+        <td>Support as specified for Level 1.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Anchor</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Inline</td>
+        <td>All fields except <i>load</i> which is optionally supported.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Protocols</td>
+        <td>file: and http: protocols are required.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Name resolution</td>
+        <td>Relative URLs; URNs.</td>
+      </tr>
+      <tr> 
+        <td><b>3</b></td>
+        <td>Core 1<br>
+        Grouping 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>Level 2 supported nodes</td>
+        <td>Support as specified for Level 2.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Inline</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>LoadSensor</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>Statements:<br>
+&nbsp; IMPORT<br>
+&nbsp; EXPORT</td>
+        <td>Full support.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Browser options</td>
+        <td>Implementation-dependent.</td>
+      </tr>
+      <tr> 
+        <td><b>4</b></td>
+        <td>Core 1<br>
+		Grouping 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>Level 3 supported nodes</td>
+        <td>Support as specified for Level 3.</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>Protocols</td>
+        <td>https: protocol is required.</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>Communication security</td>
+        <td>HTTP and HTTPS username/password is required.</td>
+      </tr>
+      </table>
+</div>
+
+<img class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

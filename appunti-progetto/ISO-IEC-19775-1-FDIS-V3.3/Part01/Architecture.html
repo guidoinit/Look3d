@@ -1,0 +1,435 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, Architecture and base components</title>
+<link rel="stylesheet" href="X3D.css" type="text/css">
+
+</head>
+<body>
+
+<div class="CenterDiv">
+<a href="X3D.html">
+<img class="x3dlogo" SRC="../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">ISO/IEC 19775-1:2013</p>
+</div>
+
+
+<img class="x3dbar" SRC="../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<p>This document is Edition 3 of 
+    ISO/IEC 19775-1, Extensible 3D (X3D). The full title of this part of 
+  the International Standard is: <I>Information technology &mdash; Computer graphics, image processing 
+and environmental representation &mdash; Extensible 3D (X3D) 
+&mdash; Part 1: Architecture and base 
+  components</I>. <strong>When navigating within this document, it is possible 
+to return to the beginning of the document by clicking on the X3D logo.</strong></p>
+
+<div class="CenterDiv">
+
+ <table class="cont" id="table1">
+    <tr> 
+      <th class="cont1">Background</th>
+      <th class="contdouble" colspan="2" >Clauses</th>
+      <th>Annexes</th>
+    </tr>
+    <tr> 
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube">
+&nbsp;<a href="foreword.html">Foreword</a></td> 
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube"> 1&nbsp; 
+		<a href="scope.html">Scope</a></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">22&nbsp; 
+		<a href="components/envsensor.html">Environmental sensor component</a></td> 
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube">A&nbsp;
+      	<a href="coreprofile.html">Core profile</a></td> 
+    </tr>
+    <tr> 
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube">
+		<a href="introduction.html">Introduction</a></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube"> 2&nbsp; 
+		<a href="references.html">Normative references</a></td> 
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">23&nbsp; 
+		<a href="components/navigation.html">Navigation component</a></td> 
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube">B&nbsp; 
+      	<a href="interchange.html">Interchange profile</a></td> 
+    </tr>
+    <tr> 
+      <td></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube"> 3&nbsp;
+      	<a href="glossary.html">Definitions, acronyms, and abbreviations</a></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">24&nbsp; 
+		<a href="components/enveffects.html">Environmental effects component</a></td> 
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube">C&nbsp; 
+      	<a href="interactive.html">Interactive profile</a></td> 
+    </tr>
+    <tr> 
+      <td></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube"> 4&nbsp; 
+		<a href="concepts.html">Concepts</a></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">25&nbsp; 
+		<a href="components/geodata.html">Geospatial component</a> </td> 
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube">D&nbsp; 
+      	<a href="MPEG4interactive.html">MPEG-4 interactive profile</a></td> 
+    </tr>
+    <tr> 
+      <td></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube"> 5&nbsp; 
+		<a href="fieldsDef.html">Field type reference</a></td> 
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">26&nbsp; 
+		<a href="components/hanim.html">Humanoid animation 
+      (H-Anim) component</a></td> 
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube">E&nbsp;
+      	<a href="immersive.html">Immersive profile</a></td> 
+    </tr>
+    <tr> 
+      <td></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube"> 6&nbsp; 
+		<a href="conformance.html">Conformance</a></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">27&nbsp; 
+		<a href="components/nurbs.html">NURBS component</a></td> 
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube">F&nbsp; 
+		<a href="fullProfile.html">Full profile</a></td> 
+    </tr>
+    <tr> 
+      <td></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube"> 7&nbsp; 
+		<a href="components/core.html">Core component</a></td> 
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">28&nbsp; 
+      	<a href="components/dis.html">Distributed interactive simulation (DIS) component</a></td> 
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube">G&nbsp;
+      	<a href="behaviours.html">Recommended navigation behaviours</a></td> 
+    </tr>
+    <tr> 
+      <td></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube"> 8&nbsp; 
+		<a href="components/time.html">Time component</a></td> 
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">29&nbsp; 
+		<a href="components/scripting.html">Scripting component</a> </td> 
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube">H&nbsp;<a href="CADInterchange.html">CADInterchange profile</a></td>
+    </tr>
+    <tr> 
+      <td></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube"> 9&nbsp;
+      	<a href="components/networking.html">Networking 
+        component</a></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">30&nbsp; 
+		<a href="components/utils.html">Event utilities component</a></td>
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube">I&nbsp;
+		<a href="shaders_glsl.html">OpenGL shading language (GLSL) 
+		binding</a></td>
+    </tr>
+    <tr> 
+      <td></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">10&nbsp; 
+		<a href="components/group.html">Grouping component</a></td> 
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">31&nbsp; 
+		<a href="components/shaders.html">Programmable shaders component</a></td>
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube">J&nbsp; 
+		<a href="shaders_hlsl.html">Microsoft high level shading language (HLSL) 
+		binding</a></td>
+    </tr>
+    <tr> 
+      <td></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">11&nbsp; 
+		<a href="components/rendering.html">Rendering 
+        component</a></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">32&nbsp; 
+		<a href="components/CADGeometry.html">CAD geometry component</a></td>
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube">K&nbsp; 
+		<a href="shaders_cg.html">nVidia Cg shading language binding</a></td>
+    </tr>
+    <tr> 
+      <td></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">12&nbsp; 
+		<a href="components/shape.html">Shape component</a></td> 
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">33&nbsp;
+		<a href="components/texture3D.html">Texturing3D component</a> </td>
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube">L&nbsp;
+		<a href="MedInterchange.html">MedicalInterchange profile</a></td>
+    </tr>
+    <tr> 
+      <td></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">13&nbsp; 
+		<a href="components/geometry3D.html">Geometry3D component</a></td> 
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">34&nbsp;
+		<a href="components/env_texture.html">Cube map environmental texturing 
+		component</a></td>
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube">Z
+		<a href="versionContent.html">Version content</a></td>
+    </tr>
+    <tr> 
+      <td></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">14&nbsp; 
+		<a href="components/geometry2D.html">Geometry2D component</a> </td> 
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">35&nbsp;
+		<a href="components/layering.html">Layering component</a> </td>
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube"><a href="bibliography.html">Bibliography</a></td>
+    </tr>
+    <tr> 
+      <td></td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">15&nbsp; 
+		<a href="components/text.html">Text component</a></td> 
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">36&nbsp;
+		<a href="components/layout.html">Layout component</a></td>
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube"><a href="componentIndex.html">Component 
+		index</a></td>
+    </tr>
+    <tr> 
+      <td>&nbsp;</td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">16&nbsp; 
+		<a href="components/sound.html">Sound 
+        component</a></td> 
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">37&nbsp; 
+		<a href="components/rigid_physics.html">Rigid body physics component
+		</a></td>
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube"><a href="profileIndex.html">Profile 
+		index</a></td>
+    </tr>
+    <tr> 
+      <td>&nbsp;</td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">17&nbsp; 
+		<a href="components/lighting.html">Lighting component</a> </td> 
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">38&nbsp;
+		<a href="components/picking.html">Picking sensor component </a></td>
+      <td>
+		<img class="cube" src="../Images/cube.gif" alt="cube"><a href="nodeIndex.html">Node 
+		index</a></td>
+    </tr>
+    <tr> 
+      <td>&nbsp;</td>
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">18&nbsp; 
+		<a href="components/texturing.html">Texturing component</a></td> 
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">39&nbsp;
+		<a href="components/followers.html">Followers component </a></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td>&nbsp;</td>
+      <td class="cont"> 
+        <img class="cube" src="../Images/cube.gif" alt="cube">19&nbsp; 
+		<a href="components/interp.html">Interpolation component</a></td> 
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">40&nbsp;
+		<a href="components/particle_systems.html">Particle systems component
+		</a></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td>&nbsp;</td>
+      <td class="cont"> 
+        <img class="cube" src="../Images/cube.gif" alt="cube">20&nbsp; 
+		<a href="components/pointingsensor.html">Pointing device sensor component</a></td> 
+      <td class="cont">
+		<img class="cube" src="../Images/cube.gif" alt="cube">41&nbsp;
+		<a href="components/volume.html">Volume rendering component </a></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td>&nbsp;</td>
+      <td class="cont"> 
+        <img class="cube" src="../Images/cube.gif" alt="cube">21&nbsp; 
+		<a href="components/keyboard.html">Key device sensor component</a></td> 
+      <td class="cont">
+		&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    </table>
+  </div>
+
+
+<p>The <b><I>Foreword</i></b> provides background on the standards process for 
+  X3D. The <b><i>Introduction</i></b> describes the purpose, design criteria, 
+  and functional characteristics of X3D. The following clauses define Part 1 of 
+  ISO/IEC 19775:</p>
+
+<ol start="1">
+  <li><b><i>Scope</i></b> defines the problem area that X3D addresses.</li> 
+  <li><b><i>Normative references</i></b> lists the normative standards referenced 
+    in this part of ISO/IEC 19775.</li> 
+  <li><b><i>Definitions, acronyms, and abbreviations</i></b> contains the glossary of terminology used in this 
+    part of ISO/IEC 19775. </li>
+  <li><b><i>Concepts</i></b> describes the workings of the X3D runtime system.
+  <li><b><i>Field type reference</i></b> describes the fundamental data types 
+    in X3D.</li> 
+  <li><b><i>Conformance</i></b> describes the conformance requirements for X3D 
+    implementations.</li>
+  <li><b><i>Core component</i></b> provides a detailed specification of the Core 
+  component of X3D.</li> 
+  <li><b><i>Time component</i></b> provides a detailed specification of the Time 
+  component of X3D.</li> 
+  <li><b><i>Networking</i></b><i><b> component</b></i> provides a detailed specification of the 
+  Networking component of X3D.</li> 
+  <li><i><b>Grouping component</b></i> provides a detailed specification of the 
+  Grouping component of X3D.</li> 
+  <li><b><i>Rendering component</i></b> provides a detailed specification of the 
+  Rendering component of X3D.</li> 
+  <li><b><i>Shape component</i></b> provides a detailed specification of the 
+  Shape component of X3D.</li> 
+  <li><b><i>Geometry3D component</i></b> provides a detailed specification of 
+  the Geometry3D component of X3D.</li> 
+  <li><b><i>Geometry2D component</i></b> provides a detailed specification of 
+  the Geometry2D component of X3D.</li> 
+  <li><b><i>Text</i></b> provides a detailed specification of the Text component of X3D.</li> 
+  <li><b><i>Sound component</i></b> provides a detailed specification of the 
+  Time component of X3D.</li> 
+  <li><b><i>Lighting component</i></b> provides a detailed specification of the 
+  Lighting component of X3D.</li> 
+  <li><b><i>Texturing component</i></b> provides a detailed specification of the 
+  Texturing component of X3D.</li> 
+  <li><b><i>Interpolation component</i></b> provides a detailed specification of 
+  the Interpolation component of X3D.</li> 
+  <li><b><i>Pointing device sensor component</i></b> provides a detailed 
+  specification of the Pointing device sensor component of X3D.</li> 
+  <li><b><i>Key device sensor component</i></b> provides a detailed 
+  specification of the Key device sensor component of X3D.</li> 
+  <li><i><b>Environmental sensor component</b></i> provides a detailed 
+  specification of the Environmental sensor component of X3D.</li> 
+  <li><b><i>Navigation component</i></b> provides a detailed specification of 
+  the Navigation component of X3D.</li> 
+  <li><b><i>Environmental effects component</i></b> provides a detailed 
+  specification of the Environmental effects component of X3D.</li> 
+  <li><b><i>Geospatial component</i></b> provides a detailed specification of 
+  the Geospatial component of X3D.</li> 
+  <li><b><i>Humanoid animation (H-Anim) component</i></b> provides a detailed 
+  specification of the Humanoid animation (H-Anim) component of X3D.</li> 
+  <li><b><i>NURBS component</i></b> provides a detailed specification of the 
+  NURBS component of X3D.</li> 
+  <li><b><i>Distributed interactive simulation (DIS) component</i></b> provides a detailed specification of the DIS 
+  component of X3D.</li> 
+  <li><b><i>Scripting component</i></b> provides a detailed specification of the 
+  Scripting component of X3D.</li> 
+  <li><b><i>Event utilities component</i></b> provides a detailed specification of 
+  the Event utilities component of X3D.</li> 
+  <li><b><i>Shader component</i></b> provides a detailed specification of 
+  the Shader component of X3D.</li>
+	<li><i><b>CAD geometry component</b></i> provides a detailed specification of the CAD 
+	geometry component of X3D.</li>
+	<li><b><i>Texturing3D component</i></b> provides a detailed specification 
+	of the 3D texturing component of X3D.</li>
+	<li><b><i>Environmental texturing component</i></b> provides a detailed 
+	specification of the environmental texturing component of X3D.</li>
+	<li><b><i>Layering component</i></b> provides a detailed specification for 
+	organizing the content of worlds into independent, overlapping layers.</li>
+	<li><b><i>Layout component</i></b> provides a detailed specification for 
+	arranging content to appear in specific regions of the display surface.</li>
+	<li><b><i>Rigid body physics component</i></b> provides a detailed 
+	specification for applying rigid body physics properties to content.</li>
+	<li><b><i>Picking sensor component</i></b> provides a detailed specification 
+	for selecting items in the content by user interaction.</li>
+	<li><b><i>Followers component</i></b> provides a detailed 
+	specification for using follower transitions.</li>
+	<li><b><i>Particle systems component</i></b> provides a detailed 
+	specification for specifying and using particle systems in X3D worlds.</li>
+	<li><em><strong>Volume rendering component</strong></em> provides<em> </em>a 
+	detailed specification for the rendering of volumetric data sets as part of 
+	X3D worlds.</li>
+</ol>
+
+<P>There are several annexes included in the specification:</P>
+
+<ol type="A">
+  <li><b><i>Core proflie </i></b>defines a minimal subset of X3D functionality 
+  that contstitutes the Core profile.</li>
+  <li><b><i>Interchange profile</i></b> defines the proper subset of X3D 
+  functionality that constitutes the Interchange profile.</li>
+  <li><b><i>Interactive profile</i></b> defines the proper subset of X3D 
+  functionality that constitutes the Interactive profile.</li>
+  <li><b><i>MPEG-4 interactive profile</i></b> defines the proper subset of X3D 
+  functionality that constitutes the MPEG-4 interactive profile.</li>
+  <li><b><i>Immersive profile</i></b> defines the proper subset of X3D 
+  functionality that corresponds to the base profile defined in ISO/IEC 14772-1.</li>
+  <li><b><i>Full profile</i></b> defines the proper subset of X3D functionality 
+  that constitutes the Full profile.</li>
+  <li><b><i>Recommended navigation behaviours</i></b> specifies some recommended 
+  behaviours that may be adopted by browser implementers.</li> 
+  <li><b><i>CADInterchange profile</i></b> defines the proper subset of X3D 
+	functionality that constitutes the CADInterchange profile.</li>
+	<li><b><i>OpenGL shading language (GLSL) binding</i></b> provides a mapping 
+	of Programmable shader component functionality to the GLSL shading language.</li>
+	<li><b><i>Microsoft DirectX shading language (HLSL) binding</i></b> provides a 
+	mapping of Programmable shader component functionality to the HLSL shading language.</li>
+	<li><b><i>nVidia CG shading language binding</i></b> provides a mapping of 
+	Programmable shader 
+	component functionality to the Cg shading language.</li>
+	<li><strong><em>MedicalInterchange profile</em></strong> defines the proper 
+	subset of X3D functionality that constitutes the MedicalInterchange profile.</li>
+	<li value="26"><b><i>Version content</i></b> specifies which X3D 
+	functionality is in which version.</li>
+</ol>
+
+<b><i>Bibliography</i></b> lists the informative, non-standard topics referenced  
+    in this part of ISO/IEC 19775.<p><b><i>Component index</i></b> lists the  
+available components defined in this part of ISO/IEC 19775 in alphabetical order 
+with hyperlinks to their respective definitions.</p>
+<p><b><i>Profile index</i></b> lists the profiles defined in this part of ISO/IEC 
+19775 in alphabetical order with hyperlinks to their respective definitions.</p>
+<p><b><i>Node index</i> </b>lists the nodes defined in this part of ISO/IEC 
+19775 in alphabetical order with hyperlinks to their respective definitions.</p>
+
+<p>
+<img class="x3dbar" src="../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23"></p>
+
+</body>
+</html>

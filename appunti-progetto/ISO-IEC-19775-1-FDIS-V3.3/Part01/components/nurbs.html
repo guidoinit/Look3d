@@ -1,0 +1,962 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 27 NURBS Component</TITLE>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</HEAD>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+<p class="HeadingClause">27 NURBS component</p>
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+27.1 Introduction</h1>
+<h2><a name="Name"></a>27.1.1 Name</h2>
+<p>The name of this component is &quot;NURBS&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>27.1.2 Overview</h2>
+
+<p>This subclause describes the Non-uniform Rational B-Spline (NURBS) component 
+  of this part of ISO/IEC 19775. <a href="#t-Topics">Table 27.1</a> provides 
+  links to the major topics in this subclause.</p>
+
+<div class="CenterDiv">
+
+<p><a name="t-Topics"></a>
+<b>Table 27.1 &#8212; Topics</b></p>
+
+  <table>
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">27.1 Introduction</a>
+            <ul>
+              <li><a href="#Name">27.1.1 Name</a></li>
+              <li><a href="#Overview">27.1.2 Overview</a> </li>
+            </ul></li>
+          <li><a href="#Concepts">27.2 Concepts</a> 
+            <ul>
+                <li><a href="#OverviewOfNurbs">27.2.1 Overview of NURBS</a></li> 
+                <li><a href="#NURBS-relatednodes">27.2.2 NURBS-related nodes</a></li> 
+                <li><a href="#CommonGeometryFieldsAndCorrectness">27.2.3 Common 
+                geometry fields and correctness</a></li> 
+                <li><a href="#Tessellationstrategies">27.2.4 Tessellation 
+                strategies</a></li> 
+                <li><a href="#TrimmedNURBS">27.2.5 Trimmed NURBS</a></li> 
+            </ul></li>
+          <li><a href="#Abstracttypes">27.3 Abstract types</a>  
+            <ul>
+              <li><a href="#X3DNurbsControlCurveNode">27.3.1 <i>X3DNurbsControlCurveNode</i></a></li>
+              <li><a href="#X3DNurbsSurfaceGeometryNode">27.3.2 <i>X3DNurbsSurfaceGeometryNode</i></a></li>
+              <li><a href="#X3DParametricGeometryNode">27.3.3 <i>X3DParametricGeometryNode</i></a></li>
+            </ul></li>
+          <li><a href="#Nodereference">27.4 Node reference</a>  
+            <ul>
+              <li><a href="#Contour2D">27.4.1 Contour2D</a></li> 
+              <li><a href="#ContourPolyline2D">27.4.2 ContourPolyline2D</a> </li>
+              <li><a href="#CoordinateDouble">27.4.3 CoordinateDouble</a> 
+              <li><a href="#NurbsCurve">27.4.4 NurbsCurve</a></li> 
+              <li><a href="#NurbsCurve2D">27.4.5 NurbsCurve2D</a></li>
+              <li><a href="#NurbsOrientationInterpolator">27.4.6 NurbsOrientationInterpolator</a></li>
+              <li><a href="#NurbsPatchSurface">27.4.7 NurbsPatchSurface</a></li>
+              <li><a href="#NurbsPositionInterpolator">27.4.8 NurbsPositionInterpolator</a> </li>
+              <li><a href="#NurbsSet">27.4.9 NurbsSet</a></li>
+              <li><a href="#NurbsSurfaceInterpolator">27.4.10 NurbsSurfaceInterpolator</a></li>
+              <li><a href="#NurbsSweptSurface">27.4.11 NurbsSweptSurface</a></li>
+              <li><a href="#NurbsSwungSurface">27.4.12 NurbsSwungSurface</a></li>
+              <li><a href="#NurbsTextureCoordinate">27.4.13 NurbsTextureCoordinate</a></li>
+              <li><a href="#NurbsTrimmedSurface">27.4.14 NurbsTrimmedSurface</a></li>
+            </ul></li>
+          <li><a href="#SupportLevels">27.5 Support levels</a></li>  
+        </ul>
+        <ul>
+          <li><a href="#f-NurbsCurve">Figure 27.1 &#8212; NurbsCurve</a></li>
+          <li><a href="#f-NurbsPatchSurface">Figure 27.2 &#8212; NurbsPatchSurface</a></li>
+          <li><a href="#f-NurbsSweptSurface">Figure 27.3 &#8212; NurbsSweptSurface</a></li>
+          <li><a href="#f-NurbsSwungSurface">Figure 27.4 &#8212; NurbsSwungSurface</a></li>
+          <li><a href="#f-NurbsTrimmedSurface">Figure 27.5 &#8212; NurbsTrimmedSurface</a></li>
+        </ul>
+        <ul>
+          <li><a href="#t-Topics">Table 27.1 &#8212; Topics</a></li>
+          <li><a href="#t-supportlevels">Table 27.2 &#8212; NURBS component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>
+27.2 Concepts</h1>
+
+<h2><a name="OverviewOfNurbs"></a>27.2.1 Overview of NURBS</h2>
+
+<p>Non-uniform Rational B-Splines (NURBS) provide a convenient and efficient manner to 
+  generate curved lines and surfaces which can be smooth at any viewing distance. 
+  Since these surfaces are generated parametrically, only a small amount of data 
+  need be provided for describing complex surfaces.</p>
+
+<h2><a name="NURBS-relatednodes"></a>
+27.2.2 NURBS-related nodes</h2>
+
+<p>The characteristics of a NURBS surfaces and curves are defined according to 
+the mathematical definitions for Non-Uniform Rational B-Spline geometry.</p>
+
+<p>There are many  construction techniques including:</p>
+
+<ol type="a">
+  <li>special cases of NURBS surfaces such as sphere, 
+    cylinder or Bezier surfaces;</li>
+  <li>Extrusion/swept surfaces, constructed given 
+    a spine curve and a cross-section curve either or both of which can be NURBS curves;</li> 
+  <li>surfaces of revolution, constructed given 
+    a circle/arc and a NURBS cross-section curve;</li>
+  <li>skinned surfaces constructed from a set of curves;</li>
+  <li>Gordon surfaces interpolating two sets of 
+    curves;</li>
+  <li>Coons patches, a bi-cubic blended surface 
+    constructed from four border curves;</li>
+  <li>Surfaces interpolating a set of points.</li>
+</ol>
+
+<p>For this standard, it is assumed that creation of such surfaces is only a construction 
+  step at authoring time and that the surface will be represented as one of the
+<i><a href="#X3DParametricGeometryNode">X3DParametricGeometryNode</a></i> nodes for X3D run-time delivery.</p>
+
+<h2><a name="CommonGeometryFieldsAndCorrectness"></a>27.2.3 Common geometry 
+fields and correctness</h2>
+
+<p>Background information on NURBS and some implementation strategies are 
+described in [<a href="../bibliography.html#[NURBS]">NURBS</a>].</p>
+
+<p>NURBs require input to be specified using control points, weights, knots and 
+the order. Each of these inputs are defined using separate fields of the 
+appropriate data type.</p>
+<p>The control points and the corresponding weight values are held in separate 
+fields. This separation also allows independent animation of the <i>controlPoint</i> 
+fields using a <a href="interp.html#CoordinateInterpolator">CoordinateInterpolator</a> node.</p>
+<p>All nodes that use NURBs principles use the same field names (or u/v 
+variations on them for the surface case). Those field names shall be interpreted 
+as follows:</p>
+<p><i>order</i> defines the order of curve. From a mathematical point of view, 
+the curve is defined by a polynomial of the degree <i>order<font face="Verdana">&minus;</font>1</i>. 
+The value of <i>order</i> shall be greater than or equal to 2. An implementation 
+may limit order to a certain number. If it does so, then a warning shall be 
+generated and the surface not displayed. An implementation shall at least 
+support orders 2,3 and 4. The number of control points shall be at least equal 
+to the order of the curve. The order defines the number of adjacent control 
+points that influence a given control point.</p>
+<p><i>controlPoint</i> defines the <i>
+<a href="rendering.html#X3DCoordinateNode">X3DCoordinateNode</a></i> instance that provides the 
+source of coordinates used to control the curve or surface. Depending on the 
+weight value and the order, this piecewise linear curve is approximated by the 
+resulting parametric curve. The number of control points shall be equal to or 
+greater than the order. A closed B-Spline curve can be specified by repeating 
+the limiting control points, specifying a periodic knot vector, and setting the
+<i>closed</i> field to <span class="code">TRUE</span>. If the last control point 
+is not identical to the first or there exists a non-unitary value of weight 
+within <span class="code">(order-1)</span> control 
+points of the seam, the <i>closed</i> field is ignored.</p>
+<p>A <i>weight</i> value that shall be greater than zero is assigned to each <i>
+controlPoint</i>. The ordering of the values is equivalent to the ordering of 
+the control point values. The number of values shall be identical to the number 
+of control points. If the length of the weight vector is 0, the default weight 
+1.0 is assumed for each control point, thus defining a non-Rational curve. If 
+the number of weight values is less than the number of control points, all 
+weight values shall be ignored and a value of 1.0 shall be used.</p>
+<p><i>knots</i> defines the knot vector. The number of knots shall be equal to 
+the number of control points plus the order of the curve. The order shall be 
+non-decreasing. Within the knot vector there may not be more than <i>order<font face="Verdana">−</font>1</i> 
+consecutive knots of equal value. If the length of a knot vector is 0 or not the 
+exact number required (<i>numcontrolPoint + order</i>), a default uniform knot vector is computed.</p>
+
+<h2><a name="Tessellationstrategies"></a>27.2.4 Tessellation strategies</h2>
+
+<p>Because low-level real-time rendering systems currently can handle only planar 
+  triangles, a NURBS surface needs to be broken down (<i>i.e.</i>, tessellated) into 
+  a set of triangles approximating the true surface.</p>
+<p>Tessellation can be done in different coordinate spaces:</p>
+
+<ol type="a">
+  <li>Tessellation in object space and the internal 
+    computation of the equivalent to an X3D 
+	<a href="geometry3D.html#IndexedFaceSet">IndexedFaceSet</a>.</li>
+  <li>Transforming the control vertices to screen 
+    space, and tessellation in screen space</li>
+</ol>
+<p>There are different methods to determine tessellation points on the surface:</p>
+<ol type="a" start="3">
+  <li>fixed tessellation based on a absolute number 
+    of subdivisions;</li>
+  <li>adaptive tessellation based on chord length;</li>
+  <li>adaptive tessellation based on the angle 
+    between two triangles;</li>
+  <li>view dependent tessellation, fine tessellation 
+    near silhouette edges.</li>
+</ol>
+
+<p>This standard does not specify which method is used to tessellate the surface. 
+  However, the implementation shall render the NURBS such that the approximation 
+  produces a rendered image  in which the edges of the tessellation can not 
+  be perceived.</p>
+
+<p><span class="example">NOTE:</span>&nbsp; <span class="example">Tessellation in screen space requires the ability to 
+  pass already transformed vertices for rendering. This requires the application 
+  to already light the vertices (see <a href="lighting.html">17 Lighting 
+component</a>) 
+  and pass the resulting color and specular RGB values 
+for each vertex of a triangle.</span></p>
+
+<p>To avoid cracks at the junction of two surfaces, tessellation values 
+  of a whole set of surfaces can be specified in a <a href="#NurbsSet">NurbsSet</a>.</p>
+
+<h2><a name="TrimmedNURBS"></a>
+27.2.5 Trimmed NURBS</h2>
+
+<p>The trimming curve specifies a NURBS-curve that limits the NURBS surface in 
+  order to create NURBS surfaces that contain holes or have smooth boundaries. 
+Trimming curves are curves in the parametric space of the surface.</p>
+
+<p>A trimming region is defined by a set of closed trimming loops in the parameter 
+  space of a surface. When a loop is oriented counter-clockwise, the area within 
+  the loop is retained, and the part outside is discarded. When the loop is oriented 
+  clockwise, the area within the loop is discarded, and the rest is retained. 
+  Loops may be nested, but a nested loop must be oriented oppositely from the 
+  loop that contains it. The outermost loop must be oriented counter-clockwise. 
+Clockwiseness is determined by viewing the parametric surface from the side 
+defined by the cross-product between the u and v axes of the parametric space.</p>
+ 
+<p>A trimming loop consists of a connected sequence of NURBS curves and piecewise 
+  linear curves. The last point of every curve in the sequence shall be the same 
+  as the first point of the next curve, and the last point of the last curve 
+shall 
+  be the same as the first point of the first curve. Self intersecting curves 
+  are not allowed.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Abstracttypes"></a>
+27.3 Abstract types</h1>
+
+<h2><a name="X3DNurbsControlCurveNode"></a>27.3.1 <i>X3DNurbsControlCurveNode</i></h2>
+
+<pre class="node">X3DNurbsControlCurveNode : X3DNode {
+  MFVec2d  [in,out] controlPoint []   (-&#8734;,&#8734;)
+  SFNode   [in,out] metadata     NULL [X3DMetadataObject]
+}</pre>
+<p>The <i>X3DNurbsControlCurveNode</i> abstract node type is the base type for all node types that provide 
+control curve information in 2D space. </p>
+<p>The control points are defined in 2D coordinate space and interpreted 
+according to the descendent node type as well as the user of this node instance.</p>
+<h2><a name="X3DNurbsSurfaceGeometryNode"></a>27.3.2 <i>X3DNurbsSurfaceGeometryNode</i></h2>
+
+<pre class="node">X3DNurbsSurfaceGeometryNode : X3DParametricGeometryNode { 
+  SFNode   [in,out] controlPoint  NULL  [X3DCoordinateNode]
+  SFNode   [in,out] metadata      NULL  [X3DMetadataObject]
+  SFNode   [in,out] texCoord      NULL  [X3DTextureCoordinateNode|NurbsTextureCoordinate]
+  SFInt32  [in,out] uTessellation 0     (-&#8734;,&#8734;)
+  SFInt32  [in,out] vTessellation 0     (-&#8734;,&#8734;)
+  MFDouble [in,out] weight        []    (0,&#8734;)
+  SFBool   []       solid         TRUE
+  SFBool   []       uClosed       FALSE 
+  SFInt32  []       uDimension    0     [0,&#8734;)
+  MFDouble []       uKnot         []    (-&#8734;,&#8734;)
+  SFInt32  []       uOrder        3     [2,&#8734;)
+  SFBool   []       vClosed       FALSE 
+  SFInt32  []       vDimension    0     [0,&#8734;)
+  MFDouble []       vKnot         []    (-&#8734;,&#8734;)
+  SFInt32  []       vOrder        3     [2,&#8734;)
+}</pre>
+<p>The X3DNurbsSurfaceGeometryNode represents the abstract geometry type for all 
+types of NURBS surfaces.</p>
+<p><i>uDimension</i> and <i>vDimension</i> define the number of control points 
+in the u and v dimensions. </p>
+<p><i>uOrder</i> and <i>vOrder</i> define the order of the surface in the u and 
+v dimensions.</p>
+<p><i>uKnot</i> and <i>vKnot</i> define the knot values of the surface in the u 
+and v dimensions.</p>
+<p><i>uClosed</i> and <i>vClosed</i> define whether or not the specific 
+dimension is to be evaluated as a closed surface along the u and v directions, 
+respectively.</p>
+<p><i>controlPoint</i> defines a set of control points of dimension <i>
+uDimension</i> × <i>vDimension</i>. This set of points defines a mesh where the 
+points do not have a uniform spacing. <i>uDimension</i> points define a polyline 
+in u-direction followed by further u-polylines with the v-parameter in ascending 
+order. The number of control points shall be equal or greater than the order. A 
+closed surface shall be specified by repeating the limiting control points and 
+setting the <i>closed</i> field to <span class="code">TRUE</span>. If the <i>
+closed</i> field is set to <span class="code">FALSE</span>, the implementation 
+shall not be required to smoothly blend the edges of the surface in that 
+dimension into a continuous surface. A closed surface in either the u-dimension 
+or the v-dimension shall be specified by repeating the limiting control points 
+for that dimension and setting the respective <i>uClosed</i> or <i>vClosed</i> field to
+<span class="code">TRUE</span>. If the last control point is not identical with 
+the first control point, the field is ignored. If either the <i>uClosed</i> or 
+the <i>vClosed</i> field is set to <span class="code">FALSE</span>, the 
+implementation shall not be required to smoothly blend the edges of the surface 
+in that dimension into a continuous surface.</p>
+<p>The control vertex corresponding to the control point P[i,j] on the control 
+grid is: </p>
+<pre class="listing">    P[i,j].x = controlPoint[i + ( j × uDimension)].x
+    P[i,j].y = controlPoint[i + ( j × uDimension)].y
+    P[i,j].z = controlPoint[i + ( j × uDimension)].z
+    P[i,j].w = weight[ i + (j × uDimension)]
+
+    where 0 ≤ i &lt; uDimension and 
+          0 ≤ j &lt; vDimension.</pre>
+<p>For an implementation subdividing the surface in a equal number of 
+subdivision steps, tessellation values could be interpreted in the following 
+way:</p>
+<ol type="a">
+  <li>if a tessellation value is greater than 0, the number of tessellation 
+  points is:<br>
+  <br>
+&nbsp;&nbsp;&nbsp; <i>tessellation+1</i>;<br>
+&nbsp;</li>
+  <li>if a tessellation value is smaller than 0, the number of tessellation 
+  points is:<br>
+  <br>
+&nbsp;&nbsp;&nbsp; <i>&minus;tessellation × (u/v)dimension)+1</i>;<br>
+&nbsp;</li>
+  <li>if a tessellation value is 0, the number of tessellation points is:<br>
+  <br>
+  &nbsp;&nbsp;&nbsp; <i>(2 × (u/v)dimension)+1</i>. </li>
+</ol>
+<p>For implementations doing tessellations based on chord length, tessellation 
+values less than zero are interpreted as the maximum chord length deviation in 
+pixels. Implementations doing fully automatic tessellation may ignore the 
+tessellation hint parameters.</p>
+<p><i>texCoord</i> provides additional information on how to generate texture 
+coordinates. By default, texture coordinates in the unit square (or cube for 3D 
+coordinates) are generated automatically from the parametric subdivision. A 
+<a href="#NurbsTextureCoordinate">NurbsTextureCoordinate</a> node or simply a 
+<a href="texturing.html#TextureCoordinate">TextureCoordinate</a> node can then be used 
+to compute a texture coordinate given a u/v parameter of the <i>
+<a href="#X3DParametricGeometryNode">X3DParametricGeometryNode</a></i>. 
+The NurbsTextureCoordinate also supports non-animated surfaces to specify a 
+&quot;chord length&quot;-based texture coordinate parametrization. </p>
+<p>The <i>solid</i> field determines whether the surface is visible when viewed 
+from the inside. <a href="rendering.html#CommonGeometryFields">11.2.3 Common 
+geometry fields</a> provides a complete description of the <i>solid</i> field. 
+When <em>solid</em>=<span class="code">TRUE</span> is used, the surface shall be 
+visible only from the side that appears ccw (counter-clockwise) on the screen, 
+assuming a surface&#39;s quads would be rendered in this order:</p>
+<pre class="listing">point(u  , v  );
+point(u-1, v  );
+point(u-1, v-1);
+point(u  , v-1);</pre>
+<p>where u is the parameter generating successive points along the u dimension, 
+and v is the parameter generating successive points along the v dimension.</p>
+
+<h2><a name="X3DParametricGeometryNode"></a> 
+27.3.3 <i>X3DParametricGeometryNode</i></h2>
+
+<pre class="node">X3DParametricGeometryNode : X3DGeometryNode {
+  SFNode [in,out] metadata NULL  [X3DMetadataObject]
+}
+</pre>
+
+<p>The <i>X3DParametricGeometryNode</i> abstract node type is the base type for all geometry node types that are 
+created parametrically and use control points to describe the final shape of the 
+surface. How the control points are described and interpreted shall be a 
+property of the individual node type.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Nodereference"></a>
+27.4 Node reference</h1>
+
+<h2><a name="Contour2D"></a>
+27.4.1 Contour2D</h2>
+
+<pre class="node">Contour2D : X3DNode { 
+  MFNode [in]     addChildren         [NurbsCurve2D|ContourPolyline2D]
+  MFNode [in]     removeChildren      [NurbsCurve2D|ContourPolyline2D]
+  MFNode [in,out] children       []   [NurbsCurve2D|ContourPolyline2D]
+  SFNode [in,out] metadata       NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>The Contour2D node groups a set of curve segments to a composite contour. The 
+children shall form a closed loop with the first point of the first child 
+repeated as the last point of the last child and the last point of a segment 
+repeated as the first point of the consecutive one. The segments shall be 
+defined by concrete nodes that implement the <i>
+<a href="#X3DNurbsControlCurveNode">X3DNurbsControlCurveNode</a></i> abstract 
+type nodes and shall be enumerated in the child field in consecutive order 
+according to the topology of the contour.&nbsp;</p>
+
+<p>The 2D coordinates used by the node shall be interpreted to lie in the (u, v) 
+coordinate space defined by the NURBS surface.</p>
+
+<h2><a name="ContourPolyline2D"></a> 
+27.4.2 ContourPolyline2D</h2>
+
+<pre class="node">ContourPolyline2D : X3DNurbsControlCurveNode {
+  SFNode  [in,out] metadata     NULL [X3DMetadataObject]
+  MFVec2d [in,out] controlPoint []   (-&infin;, &infin;)
+}
+</pre>
+
+<p>The ContourPolyline2D node defines a piecewise 
+      linear curve segment as a part of a trimming contour in the u,v domain of 
+      a surface.</p>
+
+<p>The <i>controlPoint</i> field specifies the end points of each segment of the 
+piecewise linear curve.</p>
+
+<p>ContourPolyline2D nodes are 
+      used as children of the <a href="#Contour2D">Contour2D</a> group.</p>
+
+<h2><a name="CoordinateDouble"></a>27.4.3 CoordinateDouble</h2>
+
+ <pre class="node">CoordinateDouble : X3DCoordinateNode { 
+  SFNode  [in,out] metadata NULL [X3DMetadataObject]
+  MFVec3d [in,out] point    []   (-&#8734;,&#8734;)
+}</pre>
+<p>CoordinateDouble is a node type derived from <i>
+<a href="rendering.html#X3DCoordinateNode">X3DCoordinateNode</a></i> that allows the 
+definition of 3D coordinates in double precision floating point values.</p>
+
+<h2><a name="NurbsCurve"></a>27.4.4 NurbsCurve</h2>
+
+<pre class="node">NurbsCurve : X3DParametricGeometryNode {
+  SFNode   [in,out] controlPoint NULL  [X3DCoordinateNode]
+  SFNode   [in,out] metadata     NULL  [X3DMetadataObject]
+  SFInt32  [in,out] tessellation 0     (-&#8734;,&#8734;)
+  MFDouble [in,out] weight       []    (0,&#8734;)
+  SFBool   []       closed       FALSE 
+  MFDouble []       knot         []    (-&#8734;,&#8734;)
+  SFInt32  []       order        3     [2,&#8734;)
+}</pre>
+<p>The NurbsCurve node is a geometry node defining a parametric curve in 3D 
+space (see <a href="#f-NurbsCurve">Figure 27.1</a>)</p>
+<p>The <i>tessellation</i> field gives a hint to the curve tessellator by 
+setting an absolute number of subdivision steps. These values shall be greater 
+than or equal to the <i>Order</i> field. A value of 0 indicates that the browser 
+choose a suitable tessellation. Interpretation of values below 0 is 
+implementation dependent.</p>
+<p>For an implementation subdividing the surface into an equal number of 
+subdivision steps, tessellation values are interpreted as follows:</p>
+<ol type="a">
+  <li>if a tessellation value is greater than 0, the number of tessellation 
+  points is:<br>
+  <br>
+&nbsp;&nbsp;&nbsp; <i>tessellation+1</i>;<br>
+&nbsp;</li>
+  <li>if a tessellation value is smaller than 0, the number of tessellation 
+  points is:<br>
+  <br>
+&nbsp;&nbsp;&nbsp; <i>&minus;tessellation × (number of control points)+1</i>;<br>
+&nbsp;</li>
+  <li>if a tessellation value is 0, the number of tessellation points is:<br>
+  <br>
+  &nbsp;&nbsp;&nbsp; <i>(2 × (number of control points)+1</i>. </li>
+</ol>
+<p>For implementations doing tessellations based on chord length, tessellation 
+values&nbsp;less than zero are interpreted as the maximum chord length deviation in 
+pixels. Implementations doing fully automatic tessellation may ignore the 
+tessellation hint parameters.</p>
+
+<div class=CenterDiv>
+<a name="f-NurbsCurve"></a>
+<img src="../../Images/NurbsCurve.png" alt="NurbsCurve" width="600" height="579">
+
+<p class="FigureCaption">Figure 27.1 &#8212; NurbsCurve</p>
+</div>
+
+<h2><a name="NurbsCurve2D"></a>27.4.5 NurbsCurve2D</h2>
+
+<pre class="node">NurbsCurve2D : X3DNurbsControlCurveNode {
+  MFVec2d  [in,out] controlPoint []    (-&#8734;,&#8734;)
+  SFNode   [in,out] metadata     NULL  [X3DMetadataObject]
+  SFInt32  [in,out] tessellation 0     (-&#8734;,&#8734;)
+  MFDouble [in,out] weight       []    (0,&#8734;)
+  SFBool   []       closed       FALSE 
+  MFDouble []       knot         []    (-&#8734;,&#8734;)
+  SFInt32  []       order        3     [2,&#8734;)
+}</pre>
+
+  <p>The NurbsCurve2D node defines a trimming segment 
+        that is part of a trimming contour in the u,v domain of the surface.</p>
+
+
+<p>NurbsCurve2D nodes are 
+      used as children of the <a href="#Contour2D">Contour2D</a> group.</p>
+
+
+<h2><a name="NurbsOrientationInterpolator"></a>27.4.6 
+NurbsOrientationInterpolator</h2>
+
+<pre class="node">NurbsOrientationInterpolator : X3DChildNode { 
+  SFFloat    [in]     set_fraction       (-&#8734;,&#8734;)
+  SFNode     [in,out] controlPoint  NULL [X3DCoordinateNode]
+  MFDouble   [in,out] knot          []   (-&#8734;,&#8734;)  
+  SFNode     [in,out] metadata      NULL [X3DMetadataObject]
+  SFInt32    [in,out] order         3    (2,&#8734;)
+  MFDouble   [in,out] weight        []   (-&#8734;,&#8734;)
+  SFRotation [out]    value_changed
+}</pre>
+<p>NurbsOrientationInterpolator specifies a 3D NURBS curve using the same fields 
+as described for the <a href="#NurbsCurve">NurbsCurve</a> node.</p>
+<p>The field <i>set_fraction</i> has the same meaning as in the 
+<a href="#NurbsPositionInterpolator">NurbsPositionInterpolator</a>.</p>
+<p>Sending a <i>set_fraction</i> input computes a 3D position on the curve, from 
+which a tangent to the curve at that position is calculated. The tangent 
+direction shall be oriented to point along the curve from the first knot value 
+towards the last value. This orientation value 
+shall be then sent by <i>value_changed</i>. Given the same definition for 
+control points, knots, order and weights, and the same value for <i>set_fraction</i> 
+the orientation interpolator shall generate the orientation of the tangent of 
+the curve at the same position as the NurbsPositionInterpolator.</p>
+
+<h2>
+<b><a name="NurbsPatchSurface"></a>27.4.7 Nurbs</b>PatchSurface</h2>
+
+<pre class="node">NurbsPatchSurface : X3DNurbsSurfaceGeometryNode { 
+  SFNode   [in,out] controlPoint  NULL  [X3DCoordinateNode]
+  SFNode   [in,out] metadata      NULL  [X3DMetadataObject]
+  SFNode   [in,out] texCoord      NULL  [X3DTextureCoordinateNode|NurbsTextureCoordinate]
+  SFInt32  [in,out] uTessellation 0     (-&#8734;,&#8734;)
+  SFInt32  [in,out] vTessellation 0     (-&#8734;,&#8734;)
+  MFDouble [in,out] weight        []    (0,&#8734;)
+  SFBool   []       solid         TRUE
+  SFBool   []       uClosed       FALSE 
+  SFInt32  []       uDimension    0     [0,&#8734;)
+  MFDouble []       uKnot         []    (-&#8734;,&#8734;)
+  SFInt32  []       uOrder        3     [2,&#8734;)
+  SFBool   []       vClosed       FALSE 
+  SFInt32  []       vDimension    0     [0,&#8734;)
+  MFDouble []       vKnot         []    (-&#8734;,&#8734;)
+  SFInt32  []       vOrder        3     [2,&#8734;)
+}
+</pre>
+<p>The NurbsPatchSurface node is a contiguous NURBS surface patch. 
+<a href="#f-NurbsPatchSurface">Figure 27.2</a> shows an example of a NurbsPatchSurface node:</p>
+
+<div class=CenterDiv>
+<p><a name="f-NurbsPatchSurface"></a>
+<img src="../../Images/NurbsPatchSurface.png" width="604" height="481" alt="NurbsPatchSurface">
+</p>
+
+<p class="FigureCaption">Figure 27.2 &#8212; NurbsPatchSurface</p>
+</div>
+
+<h2><a name="NurbsPositionInterpolator"></a>27.4.8 NurbsPositionInterpolator</h2>
+
+<pre class="node">NurbsPositionInterpolator : X3DChildNode { 
+  SFFloat  [in]     set_fraction       (-&#8734;,&#8734;)
+  SFNode   [in,out] controlPoint  NULL [X3DCoordinateNode]
+  MFDouble [in,out] knot          []   (-&#8734;,&#8734;)  
+  SFNode   [in,out] metadata      NULL [X3DMetadataObject]
+  SFInt32  [in,out] order         3    (2,&#8734;)
+  MFDouble [in,out] weight        []   (-&#8734;,&#8734;)
+  SFVec3f  [out]    value_changed
+}</pre>
+
+<p>NurbsPositionInterpolator describes a 3D NURBS curve as specified in <a href="#NurbsCurve">27.4.4 NurbsCurve</a>.</p>
+
+<p>The fields <i>set_fraction</i> 
+      and <i>value_changed</i> have the same meaning as specified in
+<a href="interp.html#PositionInterpolator">19.4.6 PositionInterpolator</a>.</p>
+
+<p>Sending a <i>set_fraction</i> 
+      input computes a 3D position on the curve, which is sent by <i>value_changed</i>. 
+      The <i>set_fraction</i> value is used as the input value for 
+      the tessellation function. Thereby, the <i>knot</i> corresponds 
+      to the <i>key</i> field of a conventional interpolator node; 
+      <i>i.e.</i>, if the <i>set_fraction</i> value is within [0,1] and the 
+      knot vector within [0,2], only half of the curve is computed.</p>
+
+<h2><b>
+<a name="NurbsSet"></a>27.4.9 Nurbs</b>Set</h2>
+
+<pre class="node">NurbsSet : X3DChildNode, X3DBoundedObject {
+  MFNode  [in]     addGeometry                [<em>X3DNurbsSurfaceGeometryNode</em>]
+  MFNode  [in]     removeGeometry             [<em>X3DNurbsSurfaceGeometryNode</em>]
+  MFNode  [in,out] geometry          []       [<em>X3DNurbsSurfaceGeometryNode</em>]
+  SFNode  [in,out] metadata          NULL     [X3DMetadataObject]
+  SFFloat [in,out] tessellationScale 1.0      (0,&#8734;)
+  SFVec3f []       bboxCenter        0 0 0    (-&#8734;,&#8734;)
+  SFVec3f []       bboxSize          -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}</pre>
+<p>The NurbsSet node groups a set of Nurbs surface nodes to a common group for 
+rendering purposes only. This informs the browser that the set of Nurbs surfaces shall be treated as a unit during tessellation to enforce 
+tessellation continuity along borders. The <i>tessellationScale</i> parameter is 
+scaling the tessellation values in lower level Nurbs surface nodes. A set of 
+Nurbs surfaces that use a matching set of <i>controlPoint </i>along the borders shall 
+result in a common tessellation stepping.</p>
+<p>The geometry represented in the children of this node shall not be directly 
+rendered. It is an informational node only. Surfaces not represented elsewhere 
+in the transformation hierarchy shall not be rendered.</p>
+<p>The bounds information is provided for optimization purposes only. A browser 
+may choose to use this information about when to apply trimming or smooth 
+tessellation between patches based on the bounds information (<span class="example">EXAMPLE&nbsp; 
+only smooth when the viewer is within the bounds</span>).</p>
+
+<h2><a name="NurbsSurfaceInterpolator"></a><b>
+27.4.10 NurbsSurfaceInterpolator</b></h2>
+
+<pre class="node">NurbsSurfaceInterpolator : X3DChildNode { 
+  SFVec2f  [in]     set_fraction          (-&#8734;,&#8734;)
+  SFNode   [in,out] controlPoint     NULL [X3DCoordinateNode]
+  SFNode   [in,out] metadata         NULL [X3DMetadataObject]
+  MFDouble [in,out] weight           []   (-&#8734;,&#8734;)
+  SFVec3f  [out]    position_changed
+  SFVec3f  [out]    normal_changed
+  SFInt32  []       uDimension       0    [0,&#8734;)
+  MFDouble []       uKnot            []   (-&#8734;,&#8734;)
+  SFInt32  []       uOrder           3    [2,&#8734;)
+  SFInt32  []       vDimension       0    [0,&#8734;)
+  MFDouble []       vKnot            []   (-&#8734;,&#8734;)
+  SFInt32  []       vOrder           3    [2,&#8734;)
+}
+</pre>
+<p>NurbsSurfaceInterpolator describes a 3D NURBS surface as specified in
+<a href="#NurbsPatchSurface">27.4.7 NurbsPatchSurface</a>.</p>
+<p>Sending a <em>set_fraction</em> input computes a 3D position and normal on 
+the surface for the given u and v coordinates. The computed position on the 
+surface shall be sent by <em>position_changed</em>, and the computed normal 
+shall be sent by <em>normal_changed</em>.</p>
+<p>Normals generated by <em>normal_changed</em> events shall point from the ccw 
+(counter-clockwise) side of the surface, assuming the order of surface quads is 
+as specified for <em>X3DNurbsSurfaceGeometryNode</em>.</p>
+
+<h2><a name="NurbsSweptSurface"></a>27.4.11 NurbsSweptSurface</h2>
+
+<pre class="node">NurbsSweptSurface : X3DParametricGeometryNode { 
+  SFNode [in,out] crossSectionCurve NULL [X3DNurbsControlCurveNode]
+  SFNode [in,out] metadata          NULL [X3DMetadataObject]
+  SFNode [in,out] trajectoryCurve   NULL [NurbsCurve]
+  SFBool []       ccw               TRUE
+  SFBool []       solid             TRUE
+}</pre>
+<p>NurbsSweptSurface describes a generalized surface that defines a path in 2D 
+space and constant cross section that may be 2D or 3D of the path as illustrated 
+in <a href="#f-NurbsSweptSurface">Figure 27.3</a>. Conceptually it is the NURBS equivalent of the 
+<a href="geometry3D.html#Extrusion">Extrusion</a> node 
+(see <a href="geometry3D.html#Extrusion">13.3.5 Extrusion</a>) but permits the use of non-closed cross sections.</p>
+
+<div class=CenterDiv>
+<p align="center"><a name="f-NurbsSweptSurface"></a>
+<img src="../../Images/NurbsSweptSurface.png" width="522" height="423" alt="NurbsSweptSurface"></p>
+
+<p class="FigureCaption">Figure 27.3 &#8212; NurbsSweptSurface</p>
+</div>
+<p>The <i>solid</i> and <i>ccw</i> fields are defined as specified in
+<a href="rendering.html#Commongeometryfields">11.2.3 Common 
+geometry fields</a>. To have the polygons&#39; normals facing away from the axis, the 
+trajectory curve should be oriented so that it is moving counterclockwise when 
+looking down the &minus;Y axis, thus defining a concept of &quot;inside&quot; and &quot;outside&quot;.</p>
+<p>With <i>solid</i> <span class="code">TRUE</span> and <i>ccw</i>
+<span class="code">TRUE</span>, the cylinder is visible from the outside. 
+Changing <i>ccw</i> to <span class="code">FALSE</span> makes it visible from the inside.</p>
+
+<h2><a name="NurbsSwungSurface"></a>27.4.12 NurbsSwungSurface</h2>
+
+<pre class="node">NurbsSwungSurface : X3DParametricGeometryNode { 
+  SFNode [in,out] metadata          NULL [X3DMetadataObject]
+  SFNode [in,out] profileCurve      NULL [X3DNurbsControlCurveNode]
+  SFNode [in,out] trajectoryCurve   NULL [X3DNurbsControlCurveNode]
+  SFBool []       ccw               TRUE
+  SFBool []       solid             TRUE
+}
+</pre>
+<p>NurbsSwungSurface describes a generalized surface that defines a path and 
+constant cross section of the path as illustrated in 
+<a href="#f-NurbsSwungSurface">Figure 27.4</a>.</p>
+
+<div class=CenterDiv>
+<p align="center"><a name="f-NurbsSwungSurface"></a>
+<img src="../../Images/NurbsSwungSurface.png" width="602" height="581" alt="NurbsSwungSurface"></p>
+<p class="FigureCaption" align="center">Figure 27.4 &#8212; NurbsSwungSurface</p>
+</div>
+
+<p>The profile curve is a 2D curve in the yz-plane that describes the 
+cross-sectional shape of the object.</p>
+<p>The trajectory curve is a 2d curve in the xz-plane that describes the path 
+over which to trace the cross-section.</p>
+<p>The <i>solid</i> and <i>ccw</i> fields are defined in
+<a href="rendering.html#Commongeometryfields">11.2.3 Common 
+geometry fields</a>. To have the normals of the polygons facing away from the axis, 
+the trajectory curve should be oriented so that it is moving counterclockwise 
+when looking down the &minus;Y axis, thus defining a concept of &quot;inside&quot; and &quot;outside&quot;.</p>
+<p>With <i>solid</i> <span class="code">TRUE</span> and <i>ccw</i>
+<span class="code">TRUE</span>, the cylinder is visible from the outside. 
+Changing <i>ccw</i> to <span class="code">FALSE</span> specifies that the 
+cylinder is visible from the inside.</p>
+
+<h2><a name="NurbsTextureCoordinate"></a>27.4.13 NurbsTextureCoordinate</h2>
+
+<pre class="node">NurbsTextureCoordinate : X3DNode { 
+  MFVec2f  [in,out] controlPoint []   (-&#8734;,&#8734;)
+  SFNode   [in,out] metadata     NULL [X3DMetadataObject]
+  MFFloat  [in,out] weight       []   (0,&#8734;)
+  SFInt32  []       uDimension   0    [0,&#8734;)
+  MFDouble []       uKnot        []   (-&#8734;,&#8734;)
+  SFInt32  []       uOrder       3    [2,&#8734;)
+  SFInt32  []       vDimension   0    [0,&#8734;)
+  MFDouble []       vKnot        []   (-&#8734;,&#8734;)
+  SFInt32  []       vOrder       3    [2,&#8734;)
+}</pre>
+<p>The NurbsTextureCoordinate node is a NURBS surface existing in the parametric 
+domain of its surface host specifying the mapping of the texture onto the 
+surface.</p>
+<p>The parameters are as specified in <a href="#X3DNurbsSurfaceGeometryNode">X3DNurbsSurfaceGeometryNode</a> with the exception that the control 
+points are specified in (u, v) coordinates.</p>
+<p>The tessellation process generates 2D texture coordinates. If a 
+NurbsTextureCoordinate is undefined, texture coordinates are computed by the 
+client on the basis of parametric step size. Conventional vertex parameters do 
+not apply on NURBS surfaces because triangles are only available after 
+polygonalization. However, the conventional texture transform may be used.</p>
+<p>NurbsTextureCoordinate nodes are accessed through the <i>texCoord</i> field 
+of a node derived from
+<i><a href="#X3DNurbsSurfaceGeometryNode">X3DNurbsSurfaceGeometryNode</a></i>. A NurbsTextureCoordinate node separately 
+encountered is ignored.</p>
+
+<h2><a name="NurbsTrimmedSurface"></a>27.4.14 NurbsTrimmedSurface</h2>
+
+<pre class="node">NurbsTrimmedSurface : X3DNurbsSurfaceGeometryNode { 
+  MFNode   [in]     addTrimmingContour          [Contour2D]
+  MFNode   [in]     removeTrimmingContour       [Contour2D]
+  SFNode   [in,out] controlPoint          NULL  [X3DCoordinateNode]
+  SFNode   [in,out] metadata              NULL  [X3DMetadataObject]
+  SFNode   [in,out] texCoord              NULL  [X3DTextureCoordinateNode|NurbsTextureCoordinate]
+  MFNode   [in,out] trimmingContour       []    [Contour2D]
+  SFInt32  [in,out] uTessellation         0     (-&#8734;,&#8734;)
+  SFInt32  [in,out] vTessellation         0     (-&#8734;,&#8734;)
+  MFDouble [in,out] weight                []    (0,&#8734;)
+  SFBool   []       solid                 TRUE
+  SFBool   []       uClosed               FALSE 
+  SFInt32  []       uDimension            0     [0,&#8734;)
+  MFDouble []       uKnot                 []    (-&#8734;,&#8734;)
+  SFInt32  []       uOrder                3     [2,&#8734;)
+  SFBool   []       vClosed               FALSE 
+  SFInt32  []       vDimension            0     [0,&#8734;)
+  MFDouble []       vKnot                 []    (-&#8734;,&#8734;)
+  SFInt32  []       vOrder                3     [2,&#8734;)
+}</pre>
+<p>The NurbsTrimmedSurface node defines a NURBS surface (see
+<a href="#NurbsPatchSurface">27.4.7 NurbsPatchSurface</a>) that is trimmed by a set 
+of trimming loops. The outermost trimming loop shall be defined in a 
+counterclockwise direction. An example of a NurbsTrimmedSurface node is shown in 
+<a href="#f-NurbsTrimmedSurface">Figure 27.5</a>.</p>
+
+<div class=CenterDiv>
+<p align="center"><a name="f-NurbsTrimmedSurface"></a>
+<img src="../../Images/NurbsTrimmedSurface.png" width="580" height="534" alt="NurbsTrimmedSurface"></p>
+<p class="FigureCaption">Figure 27.5 &#8212; NurbsTrimmedSurface</p>
+</div>
+
+<p>The <i>trimmingContour</i> field, if specified, shall contain a set of 
+<a href="#Contour2D">Contour2D</a> (see <a href="#Contour2D">27.4.1 Contour2D</a>) nodes. Trimming loops shall be processed as described for 
+the Contour2D node. If no trimming contours are defined, The NurbsTrimmedSurface 
+node shall have the same semantics as the <a href="#NurbsPatchSurface">NurbsPatchSurface</a> node.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>27.5 Support levels</h1>
+
+<p>The Non-uniform Rational B-spline (NURBS) component provides four levels of 
+support as specified in <a href="#t-supportlevels">Table 27.2</a>. Level 1 
+provides basic NURBS support. Level 2 adds the ability to ensure controlled 
+tessellation along the boundaries between two NURBS surfaces. Level 3 adds 
+specialized NURBS nodes. Level 4 adds trimmed NURBS surfaces.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+<b>Table 27.2 &#8212; NURBS component support levels</b></p>
+
+   <table>
+      <tr>
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td align="center"><b>1</b></td>
+        <td>Core 1<br>
+            Grouping 1<br>
+            Shape 1<br>
+            Interpolator 1<br>
+            Texturing 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DNurbsControlCurveNode</i> 
+          (abstract) </td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DNurbsSurfaceGeometryNode</i> 
+          (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DParametricGeometryNode</i> 
+          (abstract) </td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>CoordinateDouble</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>NurbsCurve</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>NurbsOrientationInterpolator</td>
+        <td>All fields fully supported.</td>
+      </tr>
+        <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>NurbsPatchSurface</td>
+        <td>All fields fully supported.</td>
+        </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>NurbsPositionInterpolator</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>NurbsSurfaceInterpolator</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>NurbsTextureCoordinate</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>2</b></td>
+        <td>Core 1<br>
+          Grouping 1<br>
+          Shape 1<br>
+          Interpolator 1<br>
+          Texturing 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 1 NURBS nodes</td>
+        <td>As supported in Level 1.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>NurbsSet</td>
+        <td>All fields fully supported.</td>
+      </tr>
+        <tr>
+        <td align="center"><b>3</b></td>
+        <td>Core 1<br>
+          Grouping 1<br>
+          Shape 1<br>
+          Interpolator 1<br>
+          Texturing 1</td>
+        <td></td>
+        <td></td>
+        </tr>
+        <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 2 NURBS nodes</td>
+        <td>As supported in Level 2.</td>
+        </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>NurbsCurve2D</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>ContourPolyline2D</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>NurbsSweptSurface</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>NurbsSwungSurface</td>
+        <td>All fields fully supported.</td>
+      </tr>
+        <tr>
+        <td align="center"><b>4</b></td>
+        <td>Core 1<br>
+          Grouping 1<br>
+          Shape 1<br>
+          Interpolator 1<br>
+          Texturing 1</td>
+        <td></td>
+        <td></td>
+        </tr>
+        <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 3 NURBS nodes</td>
+        <td>As supported in Level 3.</td>
+        </tr>
+        <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>Contour2D</td>
+        <td>All fields fully supported.</td>
+        </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>NurbsTrimmedSurface</td>
+        <td>All fields fully supported.</td>
+      </tr>
+    </table>
+ </div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</BODY>
+</HTML>

@@ -1,0 +1,50 @@
+//tolua++ package
+
+        class l3d_mesh
+        {
+
+            public:
+                l3d_mesh();
+
+                l3d_uint size();
+                void init_material(pl3d_mesh_struct);
+                void create_null();
+                void create_line(l3d_float*);
+                void create_circle(l3d_float*);
+                void create_disck(l3d_float*);
+                void create_plane(l3d_float*);
+                void create_cube(l3d_float*);
+                void create_cone(l3d_float*);
+                static void create_cone(l3d_float *,pl3d_mesh_struct );
+                void create_cylinder(l3d_float*);
+                void create_cylindern(l3d_float*);
+                static void create_sphereuv(l3d_float*,pl3d_mesh_struct);
+                void create_sphereuv(l3d_float*);
+                void create_torus(l3d_float*);
+                void create_logo(l3d_float *);
+                void create_vbo(l3d_uint _e);
+                void delete_vbo(l3d_uint _e);
+                void delete_vbo(pl3d_mesh_struct _e);
+                void create_vbo(pl3d_mesh_struct _e);
+                void matmult(GLfloat M[], GLfloat v[]);
+                l3d_bool isfirst();
+                l3d_bool vertex_alone(int);
+                void add(pl3d_mesh_struct _e);
+                void del(l3d_uint _index);
+                void del(pl3d_mesh_struct _m );
+
+                pl3d_mesh_struct find(l3d_uint _index);
+                l3d_uint find(pl3d_mesh_struct _m);
+                pl3d_mesh_struct first();
+                void clear();
+                void draw_vbo(l3d_uint);
+
+                void draw_vbo(l3d_vertexbufferobject *);
+                void draw_vbo(pl3d_mesh_struct  m,SCENE::ModeDraw md);
+                void draw_edit(pl3d_mesh_struct );
+                void draw_edit(l3d_uint );
+                void create(l3d_mesh_type _typem,l3d_float*);
+
+
+
+        };

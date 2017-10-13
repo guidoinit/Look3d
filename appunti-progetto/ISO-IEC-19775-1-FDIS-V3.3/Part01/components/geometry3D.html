@@ -1,0 +1,1079 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 13 Geometry3D component</title>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+
+</head>
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">13 Geometry3D component</p>
+
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube"> 
+13.1 Introduction</h1>
+<h2><a name="Name"></a>13.1.1 Name</h2>
+<p>The name of this component is &quot;Geometry3D&quot;. This name shall be used when 
+referring to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>13.1.2 Overview</h2>
+
+<p>This clause describes the Geometry3D component of this part of ISO/IEC 19775. 
+  This includes how 3D geometry is specified and what shapes are available.
+<a href="#t-Topics">Table 
+  13.1</a> provides links to the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 13.1 &#8212; Topics</p>
+
+<table class="topics">
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">13.1 Introduction</a>
+            <ul>
+              <li><a href="#Name">13.1.1 Name</a></li>
+              <li><a href="#Overview">13.1.2 Overview</a></li>
+            </ul></li>
+          <li><a href="#Concepts">13.2 Concepts</a> 
+            <ul>
+              <li><a href="#OverviewOfGeometry">13.2.1 Overview of geometry</a></li> 
+              <li><a href="#Shapeandgeometry">13.2.2 Shape and geometry nodes</a></li> 
+              <li><a href="#Geometricproperty">13.2.3 Geometric property nodes</a></li> 
+              <li><a href="#Appearancenodes">13.2.4 Appearance nodes</a></li> 
+              <li><a href="#CommonGeometryFields">13.2.5 Common geometry fields</a></li>
+            </ul></li>
+          <li><a href="#Nodereference">13.3 Node reference</a>  
+            <ul>
+              <li><a href="#Box">13.3.1 Box</a></li> 
+              <li><a href="#Cone">13.3.2 Cone</a></li> 
+              <li><a href="#Cylinder">13.3.3 Cylinder</a></li> 
+              <li><a href="#ElevationGrid">13.3.4 ElevationGrid</a></li> 
+              <li><a href="#Extrusion">13.3.5 Extrusion</a> 
+                <ul>
+                  <li><a href="#Syntax">13.3.5.1 Syntax</a></li>
+                  <li><a href="#ExtrusionOverview">13.3.5.2 Overview</a></li>
+                  <li><a href="#Algorithmicdescription">13.3.5.3 Algorithmic description</a></li>
+                  <li><a href="#Specialcases">13.3.5.4 Special cases</a></li>
+                  <li><a href="#Commoncases">13.3.5.5 Common cases</a></li>
+                  <li><a href="#Otherfields">13.3.5.6 Other fields</a></li>
+                </ul></li>
+              <li><a href="#IndexedFaceSet">13.3.6 IndexedFaceSet</a></li>
+              <li><a href="#Sphere">13.3.7 Sphere</a></li>
+            </ul></li>
+          <li><a href="#SupportLevels">13.4 Support levels</a></li>  
+        </ul>
+<ul>
+<li><a href="#f-Boxnode">Figure 13.1 &#8212; Box node</a></li> 
+<li><a href="#f-Conenode">Figure 13.2 &#8212; Cone node</a></li> 
+<li><a href="#f-Cylindernode">Figure 13.3 &#8212; Cylinder node</a></li> 
+<li><a href="#f-ElevationGridnode">Figure 13.4 &#8212; ElevationGrid node</a></li> 
+<li><a href="#f-Spine-alignedcross-section">Figure 13.5 &#8212; Spine-aligned cross-section plane at a spine point</a></li>
+<li><a href="#f-IndexedFaceSettextureDefaultMapping">Figure 13.6 &#8212; IndexedFaceSet texture default mapping</a></li>
+<li><a href="#f-ImageTextureforIndexedFaceSet">Figure 13.7 &#8212; ImageTexture for IndexedFaceSet in Figure 
+13.6</a></li>
+<li><a href="#f-Spherenode">Figure 13.8 &#8212; Sphere node</a></li> 
+</ul>
+
+<ul>
+<li><a href="#t-Topics">Table 13.1 &#8212; Topics</a></li>
+<li><a href="#t-supportlevels">Table 13.2 &#8212; Geometry3D component support levels</a></li>
+</ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="Concepts"></a>
+13.2 Concepts</h1>
+
+<h2><a name="OverviewOfGeometry"></a>13.2.1 Overview of geometry</h2>
+
+<p>The geometry component consists of four types of nodes:&nbsp; shape, geometry, 
+  geometry property, and appearance. Together, these node types are used to describe 
+  the visual elements of a X3D world.</p>
+
+<h2><a name="Shapeandgeometry"></a>
+13.2.2 Shape and geometry nodes</h2>
+
+<p>The <a href="shape.html#Shape">Shape</a> node associates a geometry node 
+with nodes that define that geometry's appearance. Shape nodes must be part of 
+the transformation hierarchy to have any visible result, and the transformation 
+hierarchy must contain Shape nodes for any geometry to be visible (the only nodes 
+that render visible results are Shape nodes and the background nodes in 
+<a href="enveffects.html">24 Environmental effects</a>). 
+A Shape node contains exactly one geometry node in 
+its <i>geometry</i> field, which is of type <i>
+<a href="rendering.html#X3DGeometryNode">X3DGeometryNode</a></i>. For more 
+on the Shape node, see <a href="shape.html">12 Shape component</a>.</p> 
+
+<p>Other components may define additional geometry node types.</p>
+
+<h2><a name="Geometricproperty"></a>
+13.2.3 Geometric property nodes</h2>
+
+<p>Several geometry nodes contain geometric property nodes such as
+<a href="rendering.html#Coordinate">Coordinate</a>, 
+<a href="rendering.html#Color">Color</a>, <a href="rendering.html#ColorRGBA">
+ColorRGBA</a>, and/or <a href="rendering.html#Normal">Normal</a>. These nodes are 
+specified in <a href="rendering.html">11 
+  Rendering component.</a> The <i>
+<a href="texturing.html#X3DTextureCoordinateNode">X3DTextureCoordinate</a></i> 
+nodes specified in <a href="texturing.html">18 Texturing component</a> are also 
+geometry property nodes.</p>
+
+<h2><a name="Appearancenodes"></a>
+13.2.4 Appearance nodes</h2>
+
+<p> <a href="shape.html#Shape">Shape</a> nodes may specify an 
+<a href="shape.html#Appearance">Appearance</a> node that describes the appearance properties 
+  (material and texture) to be applied to the Shape's geometry. Appearance is 
+  described in <a href="shape.html">12 Shape component</a>.</p>
+
+<h2><a name="CommonGeometryFields"></a>13.2.5 Common geometry fields</h2>
+
+<p>Several 3D geometry nodes share common fields to describe attributes. These 
+  fields specify the vertex ordering, if the shape is solid, if the shape contains 
+  convex faces, and at what angle a crease appears between faces, and are named 
+  <i>ccw</i>, <i>solid</i>, <i>convex</i> and <i>creaseAngle</i>, respectively. 
+  Common 3D geometry fields are described in <a href="rendering.html">11 
+  Rendering component.</a><font color="#FF0000"></font></p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="Nodereference"></a>
+13.3 Node reference</h1>
+
+<h2><a name="Box"></a>
+13.3.1 Box</h2>
+
+<pre class="node">Box : X3DGeometryNode { 
+  SFNode  [in,out] metadata NULL  [X3DMetadataObject]
+  SFVec3f []       size     2 2 2 (0,&#8734;)
+  SFBool  []       solid    TRUE
+}
+</pre>
+
+<p>The Box node specifies a rectangular parallelepiped box centred at (0,&nbsp;0,&nbsp;0) 
+  in the local coordinate system and aligned with the local coordinate axes. By 
+  default, the box measures 2 units in each dimension, from -1 to +1. The <i>size</i> 
+  field specifies the extents of the box along the X-, Y-, and Z-axes respectively 
+  and each component value shall be greater than zero. <a href="#f-Boxnode">Figure 
+  13.1</a> illustrates the Box node.</p>
+
+<div class="CenterDiv">
+
+<a name="f-Boxnode"></a>
+<img src="../../Images/box.gif" alt="Box node" width="353" height="326"> 
+
+<p class="FigureCaption">
+Figure 13.1 &#8212; Box node</p> 
+
+</div>
+
+<p>Textures are applied individually to each face of the box. On the front (+Z), 
+  back (-Z), right (+X), and left (-X) faces of the box, when viewed from the 
+  outside with the +Y-axis up, the texture is mapped onto each face with the same 
+  orientation as if the image were displayed normally in 2D. On the top face of 
+  the box (+Y), when viewed from above and looking down the Y-axis toward the 
+  origin with the -Z-axis as the view up direction, the texture is mapped onto 
+  the face with the same orientation as if the image were displayed normally in 
+  2D. On the bottom face of the box (-Y), when viewed from below looking up the 
+  Y-axis toward the origin with the +Z-axis as the view up direction, the texture 
+  is mapped onto the face with the same orientation as if the image were displayed 
+  normally in 2D. <a href="texturing.html#TextureTransform">TextureTransform</a> affects the texture coordinates of the Box 
+(see <a href="texturing.html#TextureTransform">18.4.8 TextureTransform</a>).</p>
+
+<p>The <i>solid</i> field determines whether the box is visible when viewed from 
+the inside. <a href="rendering.html#CommonGeometryFields">11.2.3 Common geometry 
+fields</a> provides a complete description of the <i>solid</i> field.</p>
+
+<p>&nbsp;</p>
+
+<h2><a name="Cone"></a>
+13.3.2 Cone</h2>
+
+<pre class="node">Cone : X3DGeometryNode { 
+  SFNode  [in,out] metadata     NULL [X3DMetadataObject]
+  SFBool  []       bottom       TRUE
+  SFFloat []       bottomRadius 1    (0,&#8734;)
+  SFFloat []       height       2    (0,&#8734;)
+  SFBool  []       side         TRUE
+  SFBool  []       solid        TRUE
+}
+</pre>
+
+<p>The Cone node specifies a cone which is centred in the local coordinate system 
+  and whose central axis is aligned with the local Y-axis. The <i>bottomRadius</i> 
+  field specifies the radius of the cone's base, and the <i>height</i> field specifies 
+  the height of the cone from the centre of the base to the apex. By default, 
+  the cone has a radius of 1.0 at the bottom and a height of 2.0, with its apex 
+  at y = <i>height</i>/2 and its bottom at y = -<i>height</i>/2. Both <i>bottomRadius</i> 
+  and <i>height</i> shall be greater than zero. <a href="#f-Conenode">Figure 13.2</a> illustrates the Cone node.</p>
+
+<div class="CenterDiv">
+
+<a name="f-Conenode"></a>
+<img src="../../Images/cone.gif" alt="Cone node" width="356" height="386"> 
+
+<p class="FigureCaption">
+Figure 13.2 &#8212; Cone node</p>
+
+</div>
+
+<p>The <i>side</i> field specifies whether sides of the cone are created and the 
+  <i>bottom</i> field specifies whether the bottom cap of the cone is created. 
+  A value of <code>TRUE</code> specifies that this part of 
+  the cone exists, while a value of <code>FALSE</code> specifies 
+  that this part does not exist (not rendered or eligible for collision or sensor 
+  intersection tests).</p>
+
+<p>When a texture is applied to the sides of the cone, the texture wraps counterclockwise 
+  (from above) starting at the back of the cone. The texture has a vertical seam 
+  at the back in the X=0 plane, from the apex (0,&nbsp;<i>height</i>/2,&nbsp;0) 
+  to the point (0,&nbsp;-<i>height</i>/2,&nbsp;-<i>bottomRadius</i>). For the 
+  bottom cap, a circle is cut out of the texture square centred at (0,&nbsp;-<i>height</i>/2,&nbsp;0) 
+  with dimensions (2&nbsp;&times;&nbsp;<i>bottomRadius)</i> by 
+(2&nbsp;&times;&nbsp;<i>bottomRadius)</i>. 
+  The bottom cap texture appears right side up when the top of the cone is rotated 
+  towards the -Z-axis. <a href="texturing.html#TextureTransform">TextureTransform</a> affects the texture coordinates of the 
+  Cone (see <a href="texturing.html#TextureTransform">18.4.8 TextureTransform</a>).</p>
+
+<p>The <i>solid</i> field determines whether the cone is visible when viewed 
+from the inside. <a href="rendering.html#CommonGeometryFields">11.2.3 Common 
+geometry fields</a> provides a complete description of the <i>solid</i> field.</p>
+
+<h2><a name="Cylinder"></a>
+13.3.3 Cylinder</h2>
+
+<pre class="node">Cylinder : X3DGeometryNode { 
+  SFNode  [in,out] metadata NULL [X3DMetadataObject]
+  SFBool  []       bottom   TRUE
+  SFFloat []       height   2    (0,&#8734;)
+  SFFloat []       radius   1    (0,&#8734;)
+  SFBool  []       side     TRUE
+  SFBool  []       solid    TRUE
+  SFBool  []       top      TRUE
+}
+</pre>
+
+<p>The Cylinder node specifies a capped cylinder centred at (0,0,0) in the local 
+  coordinate system and with a central axis oriented along the local Y-axis. By 
+  default, the cylinder is sized at &quot;-1&quot; to &quot;+1&quot; in all three 
+  dimensions. The <i>radius</i> field specifies the radius of the cylinder and 
+  the <i>height</i> field specifies the height of the cylinder along the central 
+  axis. Both <i>radius</i> and <i>height</i> shall be greater than zero. 
+<a href="#f-Cylindernode">Figure 13.3</a> illustrates the Cylinder node.</p>
+
+<p>The cylinder has three <i>parts</i>: the <i>side</i>, the 
+<i>top</i> (Y&nbsp;=&nbsp;+height/2) 
+  and the <i>bottom</i> (Y&nbsp;=&nbsp;&minus;height/2). Each part has an associated SFBool field that indicates whether the part exists (<code>TRUE</code>) 
+  or does not exist (<code>FALSE</code>). Parts which do not 
+  exist are not rendered and not eligible for intersection tests (<span class="example">EXAMPLE</span> &nbsp;collision 
+  detection or sensor activation).</p>
+
+<div class="CenterDiv">
+
+<a name="f-Cylindernode"></a>
+<img src="../../Images/cylinder.gif" alt="Cylinder node" width="452" height="392"> 
+
+<p class="FigureCaption">Figure 13.3 &#8212; Cylinder node</p>
+
+</div>
+
+<p>When a texture is applied to a cylinder, it is applied differently to the sides, 
+  top, and bottom. On the sides, the texture wraps counterclockwise (from above) 
+  starting at the back of the cylinder. The texture has a vertical seam at the 
+  back, intersecting the X=0 plane. For the top and bottom caps, a circle is cut 
+  out of the unit texture squares centred at (0, &plusmn;height/2, 0) with 
+  dimensions 2&nbsp;&times;&nbsp;<i>radius</i> by 2&nbsp;&times;&nbsp;<i>radius</i>. 
+  The top texture appears right side up when the top of the cylinder is tilted 
+  toward the +Z-axis, and the bottom texture appears right side up when the top 
+  of the cylinder is tilted toward the &minus;Z-axis. 
+<a href="texturing.html#TextureTransform">TextureTransform</a> affects the 
+texture coordinates of the Cylinder node (see <a href="texturing.html#TextureTransform">18.4.8 TextureTransform</a>).</p>
+
+<p>The <i>solid</i> field determines whether the cylinder is visible when viewed 
+from the inside. <a href="rendering.html#CommonGeometryFields">11.2.3 Common 
+geometry fields</a> provides a complete description of the <i>solid</i> field.</p>
+
+<h2><a name="ElevationGrid"></a>
+13.3.4 ElevationGrid</h2>
+
+<pre class="node">ElevationGrid : X3DGeometryNode {
+  MFFloat [in]     set_height
+  MFNode  [in,out] attrib          []   [X3DVertexAttributeNode]
+  SFNode  [in,out] color           NULL [X3DColorNode]
+  SFNode  [in,out] fogCoord        NULL [FogCoordinate]
+  SFNode  [in,out] metadata        NULL [X3DMetadataObject]
+  SFNode  [in,out] normal          NULL [X3DNormalNode]
+  SFNode  [in,out] texCoord        NULL [X3DTextureCoordinateNode]
+  SFBool  []       ccw             TRUE  
+  SFBool  []       colorPerVertex  TRUE
+  SFFloat []       creaseAngle     0    [0,&#8734;)
+  MFFloat []       height          []   (-&#8734;,&#8734;)
+  SFBool  []       normalPerVertex TRUE
+  SFBool  []       solid           TRUE
+  SFInt32 []       xDimension      0    [0,&#8734;)
+  SFFloat []       xSpacing        1.0  (0,&#8734;)
+  SFInt32 []       zDimension      0    [0,&#8734;)
+  SFFloat []       zSpacing        1.0  (0,&#8734;)
+}
+</pre>
+
+<p>The ElevationGrid node specifies a uniform rectangular grid of varying height 
+  in the Y=0 plane of the local coordinate system. The geometry is described by 
+  a scalar array of height values that specify the height of a surface above each 
+  point of the grid.</p>
+
+<p>The <i>xDimension</i> and <i>zDimension</i> fields indicate the number of elements 
+  of the grid <i>height</i> array in the X and Z directions. Both <i>xDimension</i> 
+  and <i>zDimension</i> shall be greater than or equal to zero. If either the 
+  <i>xDimension</i> or the <i>zDimension</i> is less than two, the ElevationGrid 
+  contains no quadrilaterals. The vertex locations for the rectangles are defined 
+  by the <i>height</i> field and the <i>xSpacing</i> and <i>zSpacing</i> fields:</p>
+
+<ul>
+  <li>The <i>height</i> field is an <i>xDimension</i> by <i>zDimension</i> array 
+    of scalar values representing the height above the grid for each vertex.</li> 
+  <li>The <i>xSpacing</i> and <i>zSpacing</i> fields indicate the distance between 
+    vertices in the X and Z directions respectively, and shall be greater than 
+    zero.</li> 
+</ul>
+
+<p>Thus, the vertex corresponding to the point P[i, j] on the grid is placed at:</p>
+
+<pre class="node">  P[i,j].x = xSpacing &times; i
+
+  P[i,j].y = height[ i + j &times; xDimension]
+
+  P[i,j].z = zSpacing &times; j
+
+    where 0 &le; i &lt; xDimension and 0 &le; j &lt; zDimension,
+    and P[0,0] is height[0] units above/below the origin of the local
+    coordinate system
+</pre>
+
+<p>If the rendering algorithm being used requires tessellation, the 
+quadrilaterals are split into triangles along the seam starting at the initial 
+vertex of the quadrilateral and proceeding to the opposite vertex. The positive 
+direction for the normal of each triangle shall be on the same side of the 
+quadrilateral. The triangles are defined either counterclockwise or clockwise 
+depending on the value of the <em>ccw</em> field.</p>
+<p class="Example">EXAMPLE&nbsp; In <a href="#f-ElevationGridnode">Figure 13.4</a> 
+with the <em>ccw</em> field set to <span class="code">TRUE</span>, the first 
+polygon is split into triangles with vertices [0, 5, 6] and vertices [0, 6, 1].</p>
+<p>The <i>set_height</i> inputOnly field allows the height MFFloat field to be changed 
+  to support animated ElevationGrid nodes.</p>
+
+<p>The <i>color</i> field specifies per-vertex or per-quadrilateral colours for 
+  the ElevationGrid node depending on the value of <i>colorPerVertex</i>. If the 
+  <i>color</i> field is <code>NULL</code>, the ElevationGrid 
+  node is rendered with the overall attributes of the <a href="shape.html#Shape">Shape</a> node enclosing the ElevationGrid node (see <a href="shape.html">12 Shape component</a>).</p>
+
+<p>The <i>colorPerVertex</i> field determines whether colours specified in the 
+  <i>color</i> field are applied to each vertex or each quadrilateral of the ElevationGrid 
+  node. If <i>colorPerVertex</i> is <code>FALSE</code> and 
+  the <i>color</i> field is not <code>NULL</code>, the <i>color</i> 
+  field shall specify a node derived from <i>
+<a href="rendering.html#X3DColorNode">X3DColorNode</a></i> containing at least (<i>xDimension-1)</i>&times;(<i>zDimension-1)</i> 
+  colours; one for each quadrilateral, ordered as follows:</p>
+
+<pre>    QuadColor[i,j] = Color[ i + j &times; (xDimension-1)]
+
+    where 0 &le; i &lt; xDimension-1 and 0 &le; j &lt; zDimension-1,
+    and QuadColor[i,j] is the colour for the quadrilateral defined
+    by height[i+j &times; xDimension], height[(i+1)+j &times; xDimension],
+    height[(i+1)+(j+1) &times; xDimension] and height[i+(j+1) &times; xDimension]
+</pre>
+
+<p>If <i>colorPerVertex</i> is <code>TRUE</code> and the <i>color</i> 
+  field is not <code>NULL</code>, the <i>color</i> field shall 
+  specify a node derived from <i>X3DColorNode</i> containing at least <i>xDimension&nbsp;</i>&times;&nbsp;<i>zDimension</i> 
+  colours, one for each vertex, ordered as follows:</p>
+
+<pre>    VertexColor[i,j] = Color[ i + j &times; xDimension ]
+
+    where 0 &le; i &lt; xDimension and 0 &le; j &lt; zDimension,
+    and VertexColor[i,j] is the colour for the vertex defined by
+    height[ i+j &times; xDimension ]
+</pre>
+
+<p>The <i>normal</i> field specifies per-vertex or per-quadrilateral normals for 
+  the ElevationGrid node. If the <i>normal</i> field is <code>NULL</code>, 
+  the browser shall automatically generate normals, using the <i>creaseAngle</i> 
+  field to determine if and how normals are smoothed across the surface 
+(see <a href="rendering.html#CommonGeometryFields">11.2.3 Common 
+geometry fields</a>).</p>
+
+<p>The <i>normalPerVertex</i> field determines whether normals are applied to 
+  each vertex or each quadrilateral of the ElevationGrid node depending on the 
+  value of <i>normalPerVertex</i>. If <i>normalPerVertex</i> is <code>FALSE</code> 
+  and the <i>normal</i> node is not <code>NULL</code>, the 
+  <i>normal</i> field shall specify a node derived from <i>
+<a href="rendering.html#Normal">X3DNormalNode</a></i> containing at least (<i>xDimension&minus;1)</i>&times;(<i>zDimension&minus;1) 
+  </i>normals; one for each quadrilateral, ordered as follows:</p>
+
+<pre>    QuadNormal[i,j] = Normal[ i + j &times; (xDimension-1)]
+
+    where 0 &le; i &lt; xDimension-1 and 0 &le; j &lt; zDimension-1,
+    and QuadNormal[i,j] is the normal for the quadrilateral defined
+    by height[i+j &times; xDimension], height[(i+1)+j &times; xDimension],
+    height[(i+1)+(j+1) &times; xDimension] and height[i+(j+1) &times; xDimension]
+</pre>
+
+<p>If <i>normalPerVertex</i> is <code>TRUE</code> and the <i>normal 
+  </i>field is not <code>NULL</code>, the <i>normal </i>field 
+  shall specify a node derived from <i>X3DNormalNode</i> containing at least 
+<i>xDimension&nbsp;</i>&times;&nbsp;<i>zDimension</i> 
+  normals; one for each vertex, ordered as follows:</p>
+
+<pre>    VertexNormal[i,j] = Normal[ i + j &times; xDimension]
+
+    where 0 &le; i &lt; xDimension and 0 &le; j &lt; zDimension,
+    and VertexNormal[i,j] is the normal for the vertex defined
+    by height[i+j &times; xDimension]
+</pre>
+
+<p>The <i>texCoord</i> field specifies per-vertex texture coordinates for the 
+  ElevationGrid node. If <i>texCoord</i> is <code>NULL</code>, 
+  default texture coordinates are applied to the geometry. The default texture 
+  coordinates range from (0,0) at the first vertex to (1,1) at the last vertex. 
+  The S texture coordinate is aligned with the positive X-axis, and the T texture 
+  coordinate with positive Z-axis. If <i>texCoord</i> is not <span class="code">NULL</span>, it shall specify 
+  a node derived from <i><a href="texturing.html#X3DTextureCoordinateNode">
+X3DTextureCoordinateNode</a></i> containing at least (<i>xDimension)</i>&times;(<i>zDimension)</i> 
+  texture coordinates; one for each vertex, ordered as follows:</p>
+
+<pre>    VertexTexCoord[i,j] = TextureCoordinate[ i + j &times; xDimension]
+
+    where 0 &le; i &lt; xDimension and 0 &le; j &lt; zDimension,
+    and VertexTexCoord[i,j] is the texture coordinate for the vertex
+    defined by height[i+j &times; xDimension]</pre>
+
+<p>The <i>ccw</i>, <i>solid</i>, and <i>creaseAngle</i> fields are described in <a href="rendering.html#CommonGeometryFields">11.2.3 Common 
+geometry fields</a>.</p>
+
+<p>By default, the quadrilaterals are defined with a counterclockwise ordering. 
+  Hence, the Y-component of the normal is positive. Setting the <i>ccw</i> field 
+  to <code>FALSE</code> reverses the normal direction. Backface 
+  culling is enabled when the <i>solid</i> field is <code>TRUE</code>.</p>
+
+<p>See <a href="#f-ElevationGridnode">Figure 13.4</a> for a depiction of the 
+  ElevationGrid node.</p>
+
+<div class="CenterDiv">
+
+<a name="f-ElevationGridnode"></a>
+<img src="../../Images/ElevationGrid.gif" alt="ElevationGrid node" width="527" height="335"> 
+
+<p class="FigureCaption">
+Figure 13.4 &#8212; ElevationGrid node</p>
+
+</div>
+
+<h2><a name="Extrusion"></a>
+13.3.5 Extrusion</h2>
+
+<h3><a name="Syntax"></a>
+13.3.5.1 Syntax</h3>
+
+<pre class="node">Extrusion : X3DGeometryNode {
+  MFVec2f    [in]     set_crossSection
+  MFRotation [in]     set_orientation
+  MFVec2f    [in]     set_scale
+  MFVec3f    [in]     set_spine
+  SFNode     [in,out] metadata         NULL                      [X3DMetadataObject]
+  SFBool     []       beginCap         TRUE
+  SFBool     []       ccw              TRUE
+  SFBool     []       convex           TRUE
+  SFFloat    []       creaseAngle      0                         [0,&#8734;)
+  MFVec2f    []       crossSection     [1 1 1 -1 -1 -1 -1 1 1 1] (-&#8734;,&#8734;)
+  SFBool     []       endCap           TRUE
+  MFRotation []       orientation      0 0 1 0                   [-1,1] or (-&#8734;,&#8734;)
+  MFVec2f    []       scale            1 1                       (0,&#8734;)
+  SFBool     []       solid            TRUE
+  MFVec3f    []       spine            [0 0 0 0 1 0]             (-&#8734;,&#8734;)
+}   
+</pre>
+
+<h3><a name="ExtrusionOverview"></a>13.3.5.2 Overview</h3>
+
+<p>The Extrusion node specifies geometric shapes based on a two dimensional cross-section 
+  extruded along a three dimensional spine in the local coordinate system. The 
+  cross-section can be scaled and rotated at each spine point to produce a wide 
+  variety of shapes.</p>
+
+<p>An Extrusion node is defined by:</p>
+
+<ol start="1" type="a">
+  <li>a 2D <i>crossSection</i> piecewise linear curve (described as a series of 
+    connected vertices);</li> 
+  <li>a 3D <i>spine</i> piecewise linear curve (also described as a series of 
+    connected vertices);</li> 
+  <li>a list of 2D <i>scale</i> parameters;</li> 
+  <li>a list of 3D <i>orientation</i> parameters.</li> 
+</ol>
+
+<!--/NOEDIT--> 
+
+<h3><a name="Algorithmicdescription"></a>
+13.3.5.3 Algorithmic description</h3>
+
+<p>Shapes are constructed as follows. The cross-section curve, which starts as 
+  a curve in the Y=0 plane, is first scaled about the origin by the first <i>scale</i> 
+  parameter (first value scales in X, second value scales in Z). It is then translated 
+  by the first spine point and oriented using the first <i>orientation</i> parameter 
+  (as explained later). The same procedure is followed to place a cross-section 
+  at the second spine point, using the second scale and orientation values. Corresponding 
+  vertices of the first and second cross-sections are then connected, forming 
+  a quadrilateral polygon between each pair of vertices. This same procedure is 
+  then repeated for the rest of the spine points, resulting in a surface extrusion 
+  along the spine.</p>
+
+<p>The final orientation of each cross-section is computed by first orienting 
+  it relative to the spine segments on either side of point at which the cross-section 
+  is placed. This is known as the <i>spine-aligned cross-section plane</i> (SCP), 
+  and is designed to provide a smooth transition from one spine segment to the 
+  next (see <a href="#f-Spine-alignedcross-section">Figure 13.5</a>). The SCP is 
+  then rotated by the corresponding <i>orientation</i> value. This rotation is 
+  performed relative to the SCP. For example, to impart twist in the cross-section, 
+  a rotation about the Y-axis (0 1 0) would be used. Other orientations are valid 
+  and rotate the cross-section out of the SCP.</p>
+
+<div class="CenterDiv">
+
+<a name="f-Spine-alignedcross-section"></a>
+<img src="../../Images/Extrusion.gif" alt="Spine-aligned cross-section plane at a spine point" width="538" height="455"> 
+
+
+<p class="FigureCaption">
+Figure 13.5 &#8212; Spine-aligned cross-section plane at a spine point.</p>
+
+</div>
+
+<p>The SCP is computed by first computing its Y-axis and Z-axis, then taking the 
+  cross product of these to determine the X-axis. These three axes are then used 
+  to determine the rotation value needed to rotate the Y=0 plane to the SCP. This 
+  results in a plane that is the approximate tangent of the spine at each point, 
+  as shown in <a href="#f-Spine-alignedcross-section">Figure 13.5.</a> First the Y-axis 
+  is determined, as follows:</p>
+
+<p>Let n be the number of spines and let i be the index variable 
+  satisfying<br>0 &le; i &lt; n:</p>
+
+<ol start="1" type="a">
+  <li><i>For all points other than the first or last:</i> The Y-axis for <i>spine</i>[i] 
+    is found by normalizing the vector defined by<br>
+(<i>spine</i>[i+1] &minus; <i>spine</i>[i&minus;1]).</li> 
+  <li><i>If the spine curve is closed:</i> The SCP for the first and last points 
+    is the same and is found using (<i>spine</i>[1] &minus; <i>spine</i>[n&minus;2]) to compute 
+    the Y-axis.</li> 
+  <li><i>If the spine curve is not closed:</i> The Y-axis used for the first point 
+    is the vector from <i>spine</i>[0] to <i>spine</i>[1], and for the last it 
+    is the vector from <i>spine</i>[<i>n&minus;2</i>] to <i>spine</i>[<i>n&minus;1</i>]. 
+</ol>
+
+<p>The Z-axis is determined as follows:</p>
+
+<ol start="4" type="a">
+  <li><i>For all points other than the first or last:</i> Take the following cross-product: <br>
+<pre>	Z = (spine[i+1] &minus; spine[i]) &times; (spine[i-1] &minus; spine[i])
+</pre></li>
+
+  <li><i>If the spine curve is closed:</i> The SCP for the first and last points 
+    is the same and is found by taking the following cross-product: 
+<pre>	Z = (spine[1] &minus; spine[0]) &times; (spine[n-2] &minus; spine[0])
+</pre></li>
+
+  <li><i>If the spine curve is not closed:</i> The Z-axis used for the first spine 
+    point is the same as the Z-axis for <i>spine</i>[<i>1</i>]. The Z-axis used for the last 
+    spine point is the same as the Z-axis for <i>spine</i>[<i>n&minus;2</i>].</li>
+
+  <li>After determining the Z-axis, its dot product with the Z-axis of the previous 
+    spine point is computed. If this value is negative, the Z-axis is flipped 
+    (multiplied by &minus;1). In most cases, this prevents small changes in the spine 
+    segment angles from flipping the cross-section 180 degrees. 
+</ol>
+
+<p>Once the Y- and Z-axes have been computed, the X-axis can be calculated as 
+  their cross-product.</p>
+
+<h3><a name="Specialcases"></a>
+13.3.5.4 Special cases</h3>
+
+<p>If the number of <i>scale</i> or <i>orientation</i> values is greater than 
+  the number of spine points, the excess values are ignored. If they contain one 
+  value, it is applied at all spine points. The results are undefined if the number 
+  of scale or orientation values is greater than one but less than the number 
+  of spine points. The <i>scale</i> values shall be positive.</p>
+
+<p>If the three points used in computing the Z-axis are collinear, the cross-product 
+  is zero so the value from the previous point is used instead.</p>
+
+<p>If the Z-axis of the first point is undefined (because the spine is not closed 
+  and the first two spine segments are collinear) then the Z-axis for the first 
+  spine point with a defined Z-axis is used.</p>
+
+<p>If the entire spine is collinear, the SCP is computed by finding the rotation 
+  of a vector along the positive Y-axis (<tt>v1</tt>) to the vector formed by 
+  the spine points (<tt>v2</tt>). The Y=0 plane is then rotated by this value.</p>
+
+<p>If two points are coincident, they both have the same SCP. If each point has 
+  a different orientation value, then the surface is constructed by connecting 
+  edges of the cross-sections as normal. This is useful in creating revolved surfaces.</p>
+
+<p><span class="note">Note:&nbsp; combining coincident and non-coincident spine segments, as well as 
+  other combinations, can lead to interpenetrating surfaces which the extrusion 
+  algorithm makes no attempt to avoid. </span></p>
+
+<h3><a name="Commoncases"></a>
+13.3.5.5 Common cases</h3>
+
+<p>The following common cases are among the effects which are supported by the 
+  Extrusion node:</p>
+
+<dl> 
+  <dt><i>Surfaces of revolution:</i></dt> 
+  <dd>If the cross-section is an approximation of a circle and the spine is straight, 
+    the Extrusion is equivalent to a surface of revolution, where the <i>scale</i> 
+    parameters define the size of the cross-section along the spine.</dd> 
+  <dt><i>Uniform extrusions:</i></dt> 
+  <dd>If the <i>scale</i> is (1, 1) and the spine is straight, the cross-section 
+    is extruded uniformly without twisting or scaling along the spine. The result 
+    is a cylindrical shape with a uniform cross section.</dd> 
+  <dt><i>Bend/twist/taper objects:</i></dt> 
+  <dd>These shapes are the result of using all fields. The spine curve bends the 
+    extruded shape defined by the cross-section, the orientation parameters (given 
+    as rotations about the Y-axis) twist it around the spine, and the scale parameters 
+    taper it (by scaling about the spine).</dd> 
+</dl>
+
+<h3><a name="Otherfields"></a>
+13.3.5.6 Other fields</h3>
+
+<p>Extrusion has three <i>parts</i>: the sides, the <i>beginCap</i> (the surface 
+  at the initial end of the spine) and the <i>endCap</i> (the surface at the final 
+  end of the spine). The caps have an associated SFBool field that indicates whether 
+  each exists (<code>TRUE</code>) or doesn't exist (<code>FALSE</code>).</p>
+
+<p>When the <i>beginCap</i> or <i>endCap</i> fields are specified as <code>TRUE</code>, 
+  planar cap surfaces will be generated regardless of whether the <i>crossSection</i> 
+  is a closed curve. If <i>crossSection</i> is not a closed curve, the caps are 
+  generated by adding a final point to <i>crossSection</i> that is equal to the 
+  initial point. An open surface can still have a cap, resulting (for a simple 
+  case) in a shape analogous to a soda can sliced in half vertically. These surfaces 
+  are generated even if <i>spine</i> is also a closed curve. If a field value 
+  is <code>FALSE</code>, the corresponding cap is not generated.</p>
+
+<p>Texture coordinates are automatically generated by Extrusion nodes. Textures 
+  are mapped so that the coordinates range in the U direction from 0 to 1 along 
+  the <i>crossSection</i> curve (with 0 corresponding to the first point in <i>crossSection</i> 
+  and 1 to the last) and in the V direction from 0 to 1 along the <i>spine</i> 
+  curve (with 0 corresponding to the first listed <i>spine</i> point and 1 to 
+  the last). If either the <i>endCap</i> or <i>beginCap</i> exists, the <i>crossSection</i> 
+  curve is uniformly scaled and translated so that the larger dimension of the 
+  cross-section (X or Z) produces texture coordinates that range from 0.0 to 1.0. 
+  The <i>beginCap</i> and <i>endCap</i> textures' S and T directions correspond 
+  to the X and Z directions in which the <i>crossSection</i> coordinates are defined.</p>
+
+<p>The browser shall automatically generate normals for the Extrusion node, using 
+  the <i>creaseAngle</i> field to determine if and how normals are smoothed across 
+  the surface. Normals for the caps are generated along the Y-axis of the SCP, 
+  with the ordering determined by viewing the cross-section from above (looking 
+  along the negative Y-axis of the SCP). By default, a <i>beginCap</i> with a 
+  counterclockwise ordering shall have a normal along the negative Y-axis. An 
+  <i>endCap</i> with a counterclockwise ordering shall have a normal along the 
+  positive Y-axis.</p>
+
+<p>Each quadrilateral making up the sides of the extrusion are ordered from the 
+  bottom cross-section (the one at the earlier spine point) to the top. So, one 
+  quadrilateral has the points:</p>
+
+<pre>    spine[0](crossSection[0], crossSection[1])
+    spine[1](crossSection[1], crossSection[0])
+</pre>
+
+<p>in that order. By default, normals for the sides are generated as described 
+  in <a href="#Shapeandgeometry">13.2.2 Shape and geometry nodes</a>.</p>
+
+<p>For instance, a circular crossSection with counter-clockwise ordering and the 
+  default spine form a cylinder. With <i>solid</i> <font face="Courier New">TRUE</font> 
+  and <i>ccw</i> <code>TRUE</code>, the cylinder is visible 
+  from the outside. Changing <i>ccw</i> to <code>FALSE</code> 
+  makes it visible from the inside.</p>
+
+<p>The <i>ccw</i>, <i>solid</i>, <i>convex</i>, and <i>creaseAngle</i> fields 
+  are described in <a href="rendering.html#CommonGeometryFields">11.2.3 Common 
+geometry fields</a>.</p>
+
+<h2><a name="IndexedFaceSet"></a>
+13.3.6 IndexedFaceSet</h2>
+
+<pre class="node">IndexedFaceSet : X3DComposedGeometryNode {
+  MFInt32 [in]     set_colorIndex
+  MFInt32 [in]     set_coordIndex
+  MFInt32 [in]     set_normalIndex
+  MFInt32 [in]     set_texCoordIndex
+  MFNode  [in,out] attrib            []   [X3DVertexAttributeNode]
+  SFNode  [in,out] color             NULL [X3DColorNode]
+  SFNode  [in,out] coord             NULL [X3DCoordinateNode]
+  SFNode  [in,out] fogCoord          NULL [FogCoordinate]
+  SFNode  [in,out] metadata          NULL [X3DMetadataObject]
+  SFNode  [in,out] normal            NULL [X3DNormalNode]
+  SFNode  [in,out] texCoord          NULL [X3DTextureCoordinateNode]
+  SFBool  []       ccw               TRUE
+  MFInt32 []       colorIndex        []   [0,&#8734;) or -1
+  SFBool  []       colorPerVertex    TRUE
+  SFBool  []       convex            TRUE
+  MFInt32 []       coordIndex        []   [0,&#8734;) or -1
+  SFFloat []       creaseAngle       0    [0,&#8734;)
+  MFInt32 []       normalIndex       []   [0,&#8734;) or -1
+  SFBool  []       normalPerVertex   TRUE
+  SFBool  []       solid             TRUE
+  MFInt32 []       texCoordIndex     []   [-1,&#8734;)
+}
+</pre>
+
+<p>The IndexedFaceSet node represents a 3D shape formed by constructing faces 
+  (polygons) from vertices listed in the <i>coord</i> field. The <i>coord</i> 
+  field contains a Coordinate node that defines the 3D vertices referenced by 
+  the <i>coordIndex</i> field. IndexedFaceSet uses the indices in its <i>coordIndex</i> 
+  field to specify the polygonal faces by indexing into the coordinates in the 
+  <a href="rendering.html#Coordinate">Coordinate</a> node. An index of &quot;&minus;1&quot; indicates that the current face 
+  has ended and the next one begins. The last face may be (but does not have to 
+  be) followed by a &quot;&minus;1&quot; index. If the greatest index in the <i>coordIndex</i> 
+  field is N, the Coordinate node shall contain N+1 coordinates (indexed as 0 
+  to N). Each face of the IndexedFaceSet shall have:</p>
+
+<ol start="1" type="a">
+  <li>at least three non-coincident vertices;</li> 
+  <li>vertices that define a planar polygon;</li> 
+  <li>vertices that define a non-self-intersecting polygon.</li> 
+</ol>
+
+<!--/NOEDIT--> 
+
+<p>Otherwise, The results are undefined.</p>
+
+<p>The IndexedFaceSet node is specified in the local coordinate system and is 
+  affected by the transformations of its ancestors.</p>
+
+<p>Descriptions of the <i>coord</i>, <i>normal</i>, and <i>texCoord</i> fields 
+  are provided in Coordinate, <i><a href="rendering.html#X3DNormalNode">X3DNormalNode</a></i>, and
+<a href="texturing.html#X3DTextureCoordinateNode">X3DTextureCoordinateNode</a>, respectively.</p>
+
+<p>Details on lighting equations and the interaction between <i>color</i> field, 
+  <i>normal</i> field, textures, materials, and geometries are provided in 
+<a href="rendering.html">11 Rendering component</a> and 
+<a href="shape.html">12 Shape component.</a></p>
+
+<p>If the <i>color </i>field is not <code>NULL</code>, it shall 
+  contain a node derived from <i><a href="rendering.html#X3DColorNode">
+X3DColorNode</a></i> whose colours are applied to the vertices or faces of the 
+  IndexedFaceSet as follows:</p>
+
+<ol start="4" type="a">
+  <li>If <i>colorPerVertex</i> is <font face="Courier New">FALSE</font>, colours 
+    are applied to each face, as follows:
+    <ol start="1" type="1">
+      <li>If the <i>colorIndex</i> field is not empty,  one colour is used 
+        for each face of the IndexedFaceSet. There shall be at least as many indices 
+        in the <i>colorIndex</i> field as there are faces in the IndexedFaceSet. 
+        If the greatest index in the <i>colorIndex</i> field is N, there 
+        shall be N+1 colours in the <i>X3DColorNode</i>. The <i>colorIndex</i> field shall 
+        not contain any negative entries.</li> 
+      <li>If the <i>colorIndex</i> field is empty,  the colours in the <i>X3DColorNode</i> 
+        node are applied to each face of the IndexedFaceSet in order. There shall 
+        be at least as many colours in the <i>X3DColorNode</i> node as there are faces.</li> 
+    </ol></li> 
+  <li>If <i>colorPerVertex</i> is <font face="Courier New">TRUE</font>, colours 
+    are applied to each vertex, as follows: 
+    <ol start="1" type="1">
+      <li>If the <i>colorIndex</i> field is not empty, colours are applied 
+        to each vertex of the IndexedFaceSet in exactly the same manner that the 
+        <i>coordIndex</i> field is used to choose coordinates for each vertex 
+        from the Coordinate node. The <i>colorIndex</i> field shall contain at 
+        least as many indices as the <i>coordIndex</i> field, and shall contain 
+        end-of-face markers (&minus;1) in exactly the same places as the <i>coordIndex</i> 
+        field. If the greatest index in the <i>colorIndex</i> field is N, then 
+        there shall be N+1 colours in the <i>X3DColorNode</i> node.</li> 
+      <li>If the <i>colorIndex</i> field is empty,  the <i>coordIndex</i> 
+        field is used to choose colours from the <i>X3DColorNode</i> node. If the greatest index 
+        in the <i>coordIndex</i> field is N, then there shall be N+1 colours in 
+        the <i>X3DColorNode</i> node.</li> 
+    </ol></li>
+</ol>
+
+<p>If the <i>color</i> field is <code>NULL</code>, the geometry 
+  shall be rendered normally using the Material and texture defined in the Appearance 
+  node (see <a href="shape.html">12 Shape component</a> for details).</p>
+
+<p>If the <i>normal</i> field is not <code>NULL</code>, it 
+  shall contain a node derived from <i>X3DNormalNode</i> whose normals are applied to the vertices or faces 
+  of the IndexedFaceSet in a manner exactly equivalent to that described above 
+  for applying colours to vertices/faces (where <i>normalPerVertex</i> corresponds 
+  to <i>colorPerVertex</i> and <i>normalIndex</i> corresponds to <i>colorIndex</i>). 
+  If the <i>normal</i> field is <code>NULL</code>, the browser 
+  shall automatically generate normals, using <i>creaseAngle</i> to determine 
+  if and how normals are smoothed across shared vertices (see <a href="rendering.html#CommonGeometryFields">11.2.3 Common 
+geometry fields</a>).</p>
+
+<p>If the <i>texCoord</i> field is not <code>NULL</code>, it 
+  shall contain a node derived from <i>X3DTextureCoordinateNode</i>. The texture coordinates in that node 
+  are applied to the vertices of the IndexedFaceSet as follows:</p>
+
+<ol start="6" type="a">
+  <li>If the <i>texCoordIndex</i> field is not empty, then it is used to choose 
+    texture coordinates for each vertex of the IndexedFaceSet in exactly the same 
+    manner that the <i>coordIndex</i> field is used to choose coordinates for 
+    each vertex from the Coordinate node. The <i>texCoordIndex</i> field shall 
+    contain at least as many indices as the <i>coordIndex</i> field, and shall 
+    contain end-of-face markers (&minus;1) in exactly the same places as the <i>coordIndex</i> 
+    field. If the greatest index in the <i>texCoordIndex</i> field is N, then 
+    there shall be N+1 texture coordinates in the <i>X3DTextureCoordinateNode</i>.</li> 
+  <li>If the <i>texCoordIndex</i> field is empty, then the <i>coordIndex</i> array 
+    is used to choose texture coordinates from the <i>X3DTextureCoordinateNode</i> node. If 
+    the greatest index in the <i>coordIndex</i> field is N, then there shall be 
+    N+1 texture coordinates in the <i>X3DTextureCoordinateNode</i> node.</li> 
+</ol>
+
+<!--/NOEDIT--> 
+
+<p>If the <i>texCoord</i> field is <code>NULL</code>, a default 
+  texture coordinate mapping is calculated using the local coordinate system bounding 
+  box of the shape. The longest dimension of the bounding box defines the S coordinates, 
+  and the next longest defines the T coordinates. If two or all three dimensions 
+  of the bounding box are equal, ties shall be broken by choosing the X, Y, or 
+  Z dimension in that order of preference. The value of the S coordinate ranges 
+  from 0 to 1, from one end of the bounding box to the other. The T coordinate 
+  ranges between 0 and the ratio of the second greatest dimension of the bounding 
+  box to the greatest dimension.
+<a href="#f-IndexedFaceSettextureDefaultMapping">Figure 
+  13.6</a> illustrates the default texture coordinates for a simple box shaped 
+  IndexedFaceSet with an X dimension twice as large as the Z dimension and four 
+  times as large as the Y dimension. 
+<a href="#f-ImageTextureforIndexedFaceSet"> Figure&nbsp;13.7</a> 
+illustrates the original texture image used on the IndexedFaceSet 
+  used in <a href="#f-IndexedFaceSettextureDefaultMapping">Figure 
+  13.6</a>.</p>
+
+<div class="CenterDiv">
+
+<a name="f-IndexedFaceSettextureDefaultMapping"></a>
+<img src="../../Images/IFStexture.gif" alt="IndexedFaceSet node texture mapping" width="488" height="352">
+
+<p class="FigureCaption">
+Figure 13.6 &#8212; IndexedFaceSet texture default mapping</p>
+
+<a name="f-ImageTextureforIndexedFaceSet">
+</a><img src="../../Images/IFStexture2.gif" alt="ImageTexture for IndexedFaceSet in Figure 6.10" width="362" height="171">
+
+<p class="FigureCaption">
+Figure 13.7 &#8212; ImageTexture for IndexedFaceSet in 
+Figure 13.6</p>
+
+</div>
+
+<p> <a href="rendering.html#CommonGeometryFields">11.2.3 Common 
+geometry fields</a>, provides 
+  a description of the ccw, solid, convex, and creaseAngle fields.</p>
+
+<h2><a name="Sphere"></a>
+13.3.7 Sphere</h2>
+
+<pre class="node">Sphere : X3DGeometryNode { 
+  SFNode  [in,out] metadata NULL [X3DMetadataObject]
+  SFFloat []       radius   1    (0,&#8734;)
+  SFBool  []       solid    TRUE
+}
+</pre>
+
+<p>The Sphere node specifies a sphere centred at (0, 0, 0) in the local coordinate 
+  system. The <i>radius</i> field specifies the radius of the sphere and shall 
+  be greater than zero. <a href="#f-Spherenode">Figure 13.8</a> depicts the fields 
+  of the Sphere node.</p>
+
+<div class="CenterDiv">
+
+<a name="f-Spherenode">
+</a><img src="../../Images/sphere.gif" alt="Sphere node" width="342" height="334"> 
+
+<p class="FigureCaption">
+Figure 13.8 &#8212; Sphere node</p>
+
+</div>
+
+<p>When a texture is applied to a sphere, the texture covers the entire surface, 
+  wrapping counterclockwise from the back of the sphere (<i>i.e.</i>, longitudinal arc 
+  intersecting the -Z-axis) when viewed from the top of the sphere. The texture 
+  has a seam at the back where the X=0 plane intersects the sphere and Z values 
+  are negative. <a href="texturing.html#TextureTransform">TextureTransform</a> affects the texture coordinates of the Sphere 
+(see <a href="texturing.html#TextureTransform">18.4.8 TextureTransform</a>).</p>
+
+<p>The <i>solid</i> field determines whether the sphere is visible when viewed 
+from the inside. <a href="rendering.html#CommonGeometryFields">11.2.3 Common 
+geometry fields</a> provides a complete description of the <i>solid</i> field.</p>
+
+<h1><img src="../../Images/cube.gif" width="20" height="19" alt="cube">
+<a name="SupportLevels"></a>13.4 Geometry3D component support levels.</h1>
+
+<p>The Geometry3D component provides three levels of support as specified in 
+<a href="#t-supportlevels">Table 13.2</a>. 
+Level 1 provides the basic indexed geometry types with limited support 
+  for some fields, as well as the geometric primitives and the 
+<a href="shape.html#Shape">Shape</a> node. Level 
+  2 adds support for the <a href="#IndexedFaceSet">IndexedFaceSet</a> node. 
+  Level 3 adds support for the <a href="#ElevationGrid">ElevationGrid</a> node to enable lightweight terrain 
+and data visualization and supports all fields in all  nodes supported at Level 3. 
+Level 4 adds support for the <a href="#Extrusion">Extrusion</a> node.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption"><a name="t-supportlevels"></a>
+Table 13.2 &#8212; Geometry3D component support levels</p>
+
+    <table>
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td align="center"><b>1</b></td>
+        <td>Core 1<br>
+        Grouping 1<br>
+        Rendering 1<br>
+        Shape 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>Box</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>Cone</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>Cylinder</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>Sphere</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>2</b></td>
+        <td>Core 1<br>
+        Grouping 1<br>
+        Rendering 1<br>
+        Shape 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>All Level 1 geometry nodes</td>
+        <td>All fields as supported in Level 1.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>IndexedFaceSet</td>
+        <td><i>ccw </i>optionally supported<i>. set_colorIndex</i> optionally 
+        supported. <i>set_normalIndex</i> optionally supported. <i>normal</i> 
+        optionally supported. Only convex indexed face sets supported. Hence, <i>convex</i> 
+        optionally supported. For <i>creaseAngle</i>, only 0 and 
+        <font face="Times New Roman">&#960;</font>  
+          radians supported (or the equivalent if a different angle base unit 
+		has been specified). <i>normalIndex</i> optionally supported.<p>Face list shall be well-defined as follows: </p>
+      <ol>
+        <li>Each face is terminated with -1, including the last face in the array.</li>
+        <li>Each face contains at least three non-coincident vertices.</li>
+        <li>A given <i>coordIndex</i> is not repeated in a face.</li>
+        <li>The vertices of a face shall define a planar polygon.</li>
+        <li>The vertices of a face shall not define a self-intersecting polygon.</li>
+      </ol>
+        </td>
+      </tr>
+      <tr> 
+        <td align="center"><b>3</b></td>
+        <td>Core 1<br>
+        Grouping 1<br>
+        Rendering 1<br>
+        Shape 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>All Level 2 geometry nodes</td>
+        <td>All fields as supported in Level 2.</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>ElevationGrid</td>
+        <td><i>ccw </i>optionally supported<i>.</i></td>
+      </tr>
+      <tr>
+        <td align="center"><b>4</b></td>
+        <td>Core 1<br>
+        Grouping 1<br>
+        Rendering 1<br>
+        Shape 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>All Level 3 geometry nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>Extrusion</td>
+        <td>All fields fully supported.</td>
+      </tr>
+    </table>
+</div>
+
+<p>
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23"></p>
+
+</body>
+</html>

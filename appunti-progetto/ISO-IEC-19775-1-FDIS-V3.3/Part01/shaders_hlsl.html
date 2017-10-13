@@ -1,0 +1,595 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2012, Annex J Microsoft high level shading language (HLSL) binding</TITLE>
+<link href="X3D.css" type="text/css" rel=stylesheet>
+</head>
+
+<body>
+
+<div class="CenterDiv">
+<a href="X3D.html">
+<img class="x3dlogo" src="../Images/x3d.png" alt="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="AnnexHeadingBottom">
+    Annex J</p>
+
+<p class="AnnexType">
+        (normative)
+<p class="AnnexHeadingBottom">
+Microsoft High Level Shading Language (HLSL) binding</p></div>
+
+<img class="x3dbar" src="../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="General"></a>
+<img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+J.1 General</h1>
+
+<p>This annex defines the mapping of concepts of the programmable shaders 
+component to the Microsoft High Level Shading Language (HLSL) (see
+<a href="bibliography.html#[HLSL]">[HLSL]</a>). It applies to the ProgramShader, 
+ShaderProgram and PackagedShader nodes with the <i>language</i> field set to 
+&quot;HLSL&quot;.
+</p>
+
+<h1><a name="Topics"></a>
+<img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+J.2 Topics</h1>
+
+
+<p><a href="#t-Topics">Table 1</a> provides links to the major topics in this 
+annex.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table J.1 &#8212; Topics</p>
+
+<table class="topics">
+<tr> 
+  <td> 
+	<ul>
+	  <li><a href="#General">J.1 General</a></li>
+	  <li><a href="#Topics">J.2 Topics</a></li> 
+	  <li><a href="#Interaction">J.3 Interaction with other nodes and components</a>
+	    <ul>
+		  <li><a href="#Vertexshader">J.3.1 Vertex shader</a></li> 
+		  <li><a href="#Fragmentshader">J.3.2 Fragment shader</a></li> 
+		  <li><a href="#Loadsensor">J.3.3 LoadSensor</a></li> 
+		  <li><a href="#Vertexattributes">J.3.4 Vertex attributes</a></li> 
+		</ul>
+	  </li> 
+	  <li><a href="#Datatypemapping">J.4 Data type and parameter mappings</a>
+	    <ul>
+		  <li><a href="#Nodefields">J.4.1 Node fields</a></li> 
+		  <li><a href="#Otherfields">J.4.2 X3D field types to HLSL data types</a></li> 
+		  <li><a href="#Worldstate">J.4.3 X3D world state to HLSL parameter 
+			names</a></li> 
+		</ul>
+	  </li> 
+	  <li><a href="#Eventmodel">J.5 Event Model</a>
+	    <ul>
+		  <li><a href="#Changingurlfield">J.5.1 Changing URL fields</a></li>
+		  <li><a href="#Changingattribfield">J.5.2 Changing the <i>attrib</i> 
+			field</a></li>
+		  <li><a href="#activatingprograms">J.5.3 Activating programs</a></li>
+		</ul>
+      <li><a href="#t-Topics">Table J.1 &#8212; Topics</a></li>
+	  <li><a href="#t-Direct3DVertexDeclarationUsage">Table J.2 &#8212; Supported 
+		Direct3D vertex declaration usage types</a></li>
+	  <li><a href="#t-X3DTextureTypeToHLSL">Table J.3 &#8212; Mapping of X3D texture 
+		node types to HLSLsampler types</a></li>
+	  <li><a href="#t-X3DNodeTypeToHLSL">Table J.4 &#8212; Mapping of X3D material and 
+		light node types to HLSL structure declarations</a></li>
+      <li><a href="#t-X3DFieldTypeToHLSL">Table J.5 &#8212; Mapping of X3D field types 
+		to HLSL data types</a></li>
+      <li><a href="#t-X3DWorldStateToHLSL">Table J.6 &#8212; Mapping of X3D world 
+		State to HLSL parameter names</a></li>
+	</ul>
+  </tr>
+</table>
+</div>
+
+<h1><a name="Interaction"></a>
+<img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+J.3 Interaction with other nodes and components</h1>
+
+<h2><a name="Vertexshader"></a>J.3.1 Vertex shader</h2>
+
+<p>The vertex shader replaces the vertex processing done by the Microsoft 
+Direct3D graphics pipeline. While using a vertex shader, state information 
+regarding transformation and lighting operations is ignored by the 
+fixed-function pipeline. The HLSL specification states that the following 
+functionality is disabled if a vertex shader is supplied:</p>
+
+<ol type="a">
+	<li>The model view matrix is not applied to vertex coordinates.</li>
+	<li>The projection matrix is not applied to vertex coordinates.</li>
+	<li>The texture matrices are not applied to texture coordinates.</li>
+	<li>The normals are not transformed to eye coordinates.</li>
+	<li>The normals are not rescaled or normalized.</li>
+	<li>Texture coordinates are not generated automatically.</li>
+	<li>Per vertex lighting is not performed.</li>
+	<li>Color material lighting is not performed.</li>
+	<li>Point size distance attenuation is not performed.</li>
+</ol>
+
+The fixed-function pipeline Direct3D graphics state is not available for use 
+within an HLSL shader program. Shaders that wish to make use of this data, such 
+as material, lighting, texture and transformation matrix state, shall declare 
+parameters of the appropriate type and pass values into them via declared fields 
+of the containing ShaderProgram node in the X3D scene graph. The parameter types 
+and mappings to those types from built-in X3D values are defined in
+<a href="#Datatypemapping">
+J.4 Data type and parameter mappings</a>.
+
+<h2><a name="Fragmentshader"></a>J.3.2 Fragment Shader</h2>
+
+<p>The fragment shader, also know as a <i>pixel</i> shader in HLSL, replaces the 
+fixed functionality of the Direct3D fragment processor. The HLSL specification 
+states that “textures are not applied” if a fragment shader is supplied.</p>
+
+The fixed function pipeline Direct3D graphics state is not available for use 
+within an HLSL pixel shader program. Shaders that wish to make use of this data, 
+such as material, lighting, texture and transformation matrix state, shall 
+declare parameters of the appropriate type and pass values into them via 
+declared fields of the containing ShaderProgram node in the X3D scene graph. The 
+parameter types and mappings to those types from built-in X3D values are defined 
+in
+<a href="#Datatypemapping">
+J.4 Data type and parameter mappings</a>.
+
+<h2><a name="Loadsensor"></a>J.3.3 LoadSensor</h2>
+
+<p>The LoadSensor node (See <a href="components/networking.html#LoadSensor">9.4.3 
+LoadSensor</a>) has two output fields 
+<i>isActive</i> and <i>isLoaded</i>. The <i>isLoaded</i> field behaviour is 
+unchanged.</p>
+
+<p>The <i>isActive</i> field is defined to issue a <span class="code">TRUE</span> 
+event when all the following conditions have been satisfied:</p>
+
+<ol type="a">
+	<li>The content identified by the <i>url</i> field has been successfully 
+	loaded.</li>
+	<li>The shader program has been successfully compiled without error.</li>
+</ol>
+
+<h2><a name="Vertexattributes"></a>J.3.4 Vertex attributes</h2>
+
+<p>Each vertex attribute node directly maps the <i>name</i> field to a Direct3D 
+usage type for use within a Direct3D vertex declaration (with the prefix &quot;<span class="code">D3DDECLUSAGE_</span>&quot; 
+prepended to the name), as well as an HLSL binding semantic of the same name 
+defined on the varying inputs to a shader program. This language binding allows 
+the use of the predefined Direct3D vertex declaration usage types and HLSL 
+binding semantics listed in
+<a href="#t-Direct3DVertexDeclarationUsage">Table J.2</a>.
+<div class=CenterDiv>
+<p class="TableCaption"><a name="t-Direct3DVertexDeclarationUsage"></a>
+Table J.2 &#8212; Supported Direct3D vertex declaration usage types</p>
+
+<table>
+<tr>
+<th>Direct3D usage type</th>
+</tr>
+<tr>
+  <td><i>POSITION</i></td>
+</tr>
+<tr>
+  <td><i>NORMAL</i></td>
+</tr>
+<tr>
+  <td><i>TEXCOORD</i></td>
+</tr>
+<tr>
+  <td><i>TANGENT</i></td>
+</tr>
+<tr>
+  <td><i>BINORMAL</i></td>
+</tr>
+<tr>
+  <td><i>COLOR</i></td>
+</tr>
+<tr>
+  <td><i>FOG</i></td>
+</tr>
+</table>
+</div>
+
+<p>The browser implementation shall automatically assign appropriate internal 
+index values for each attribute in the case where multiple nodes have the same 
+value in the <i>name</i> field.</p>
+
+<h1><a name="Datatypemapping"></a>
+<img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+J.4 Data Type and Parameter Mappings</h1>
+
+<h2><a name="Nodefields"></a>J.4.1 Node fields</h2>
+
+<p>Fields that are of type SFNode/MFNode are ignored unless the value is of type
+<i>X3DTextureNode</i>, <i>X3DMaterialNode</i>, or <i>X3DLightNode</i>. Field 
+instances of type <i>X3DTextureNode</i> are mapped according to the appropriate 
+Direct3D sampler data type. The mapping from texture nodes to built-in sampler 
+types is defined in 
+<a href="#t-X3DTextureTypeToHLSL">Table J.3</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-X3DTextureTypeToHLSL"></a>
+Table J.3 &#8212; Mapping of X3D texture node types to HLSL sampler types</p>
+
+<table>
+<tr>
+<th>X3D&nbsp;Texture type</th>
+<th>HLSL variable type</th>
+</tr>
+<tr>
+  <td><i>X3DTexture2DNode</i></td>
+  <td>sampler2D</td>
+</tr>
+<tr>
+  <td><i>X3DTexture3DNode</i></td>
+  <td>sampler3D</td>
+</tr>
+<tr>
+  <td><i>X3DEnvironmentTextureNode</i></td>
+  <td>samplerCube</td>
+</tr>
+</table>
+</div>
+
+<p>X3D does not define mappings to the HLSL types sampler1D, sampler1DShadow and 
+sampler2DShadow.</p>
+
+<p>Field instances of type <i>X3DMaterialNode</i> and <i>X3DLightNode</i> are 
+mapped to structures that shall be declared in the shader program as defined in 
+<a href="#t-X3DNodeTypeToHLSL">Table J.4</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-X3DNodeTypeToHLSL"></a>
+Table J.4 &#8212; Mapping of X3D material and light node types to HLSL structure 
+declarations
+</p>
+
+<table>
+<tr>
+<th>X3D&nbsp;node type</th>
+<th>HLSL structure declaration</th>
+<th>Additional information</th>
+</tr>
+<tr>
+  <td><i>X3DMaterialNode</i></td>
+  <td>
+
+<pre>
+struct X3DMaterial {
+    float4 diffuseColor;
+    float4 ambientColor;
+    float4 specularColor;
+    float4 emissiveColor;
+    float power;
+};
+</pre>
+
+  </td>
+  <td>
+All color values are 4-component with alpha value = 1.0.</td>
+</tr>
+<tr>
+  <td><i>X3DLightNode</i></td>
+  <td>
+<pre>
+struct X3DLight {
+    int type;
+    float4 diffuseColor;
+    float4 specularColor;
+    float4 ambientColor;
+    point3 position;
+    point3 direction;
+    float range;
+    float falloff;
+    float attenuation0;
+    float attenuation1;
+    float attenuation2;
+    float theta;
+    float phi;
+    bool on;
+};
+</pre>
+  </td>
+  <td>
+Valid <i>type</i> member values are 1 for Point light, 2 for Spot light and 3 
+for Direction light.<br>
+All color values are 4-component with alpha value = 1.0.<br>
+All position, direction and scalar values are assumed to be in world space.<br>
+The <i>on</i> member specifies whether the light is enabled.<br>
+  </td>
+</tr>
+</table>
+</div>
+
+<h2><a name="Otherfields"></a>J.4.2 X3D field types to HLSL data types</h2>
+
+<p><a href="#t-X3DFieldTypeToHLSL">Table J.5</a> specifies the mapping of X3D 
+field types to data types used in the HLSL Language.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-X3DFieldTypeToHLSL"></a>
+Table J.5 &#8212; Mapping of X3D Field Types to HLSL Data Types</p>
+
+<table>
+<tr>
+<th>X3D&nbsp;Field type</th>
+<th>HLSL Data Type</th>
+</tr>
+<tr>
+  <td>SFBool</td>
+  <td>bool</td>
+</tr>
+<tr>
+  <td>MFBool</td>
+  <td>bool[]</td>
+</tr>
+<tr>
+  <td>MFInt32</td>
+  <td>int[]</td>
+</tr>
+<tr>
+  <td>SFInt32</td>
+  <td>int</td>
+</tr>
+<tr>
+  <td>SFFloat</td>
+  <td>float</td>
+</tr>
+<tr>
+  <td>MFFloat</td>
+  <td>float[]</td>
+</tr>
+<tr>
+  <td>SFDouble</td>
+  <td>double</td>
+</tr>
+<tr>
+  <td>MFDouble</td>
+  <td>double[]</td>
+</tr>
+<tr>
+  <td>SFTime</td>
+  <td>double</td>
+</tr>
+<tr>
+  <td>MFTime</td>
+  <td>double[]</td>
+</tr>
+<tr>
+  <td>SFNode</td>
+  <td>See <a href="#Nodefields">J.4.1 Node fields</a></td>
+</tr>
+<tr>
+  <td>MFNode</td>
+  <td>See <a href="#Nodefields">J.4.1 Node fields</a></td>
+</tr>
+<tr>
+  <td>SFVec2f</td>
+  <td>float2</td>
+</tr>
+<tr>
+  <td>MFVec2f</td>
+  <td>float2[]</td>
+</tr>
+<tr>
+  <td>SFVec3f</td>
+  <td>float3</td>
+</tr>
+<tr>
+  <td>MFVec3f</td>
+  <td>float3[]</td>
+</tr>
+<tr>
+  <td>SFVec4f</td>
+  <td>float4</td>
+</tr>
+<tr>
+  <td>MFVec4f</td>
+  <td>float4[]</td>
+</tr>
+<tr>
+  <td>SFVec3d</td>
+  <td>float3</td>
+</tr>
+<tr>
+  <td>MFVec3d</td>
+  <td>float3[]</td>
+</tr>
+<tr>
+  <td>SFVec4d</td>
+  <td>float4</td>
+</tr>
+<tr>
+  <td>MFVec4d</td>
+  <td>float4[]</td>
+</tr>
+<tr>
+  <td>SFRotation</td>
+  <td>float4</td>
+</tr>
+<tr>
+  <td>MFRotation</td>
+  <td>float4[]</td>
+</tr>
+<tr>
+  <td>MFColor</td>
+  <td>float4[]</td>
+</tr>
+<tr>
+  <td>SFColor</td>
+  <td>float4</td>
+</tr>
+<tr>
+  <td>SFImage</td>
+  <td>int[]</td>
+</tr>
+<tr>
+  <td>MFImage</td>
+  <td>int[]</td>
+</tr>
+<tr>
+  <td>SFString</td>
+  <td>Not supported</td>
+</tr>
+<tr>
+  <td>MFString</td>
+  <td>Not supported</td>
+</tr>
+<tr>
+  <td>SFMatrix3f</td>
+  <td>float3x3</td>
+</tr>
+<tr>
+  <td>MFMatrix3f</td>
+  <td>float3x3[]</td>
+</tr>
+<tr>
+  <td>SFMatrix4f</td>
+  <td>float4x4</td>
+</tr>
+<tr>
+  <td>MFMatrix4f</td>
+  <td>float4x4[]</td>
+</tr>
+</table>
+</div>
+
+<p>HLSL defines maximum supported lengths of each array data type, which may 
+conflict with the minimum support requirements for X3D.</p>
+
+<h2><a name="Worldstate"></a>J4.3 X3D world state to HLSL parameter names</h2>
+
+<p>Certain internal states of the X3D world, such as transformation matrices, or 
+the viewer&#39;s position in world space, are neither readily available via the HLSL 
+shader program nor directly accessible from the X3D scene graph. Thus, if used, 
+these state values shall be explicitly passed in to the shader program as named 
+parameters. This binding defines an automatic mapping of these states to 
+predefined shader program parameter names. <a href="#t-X3DWorldStateToHLSL">
+Table J.6</a> 
+defines the mapping of internal states of the X3D world to parameter names used 
+in HLSL programs.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-X3DWorldStateToHLSL"></a>
+Table J.6 &#8212; Mapping of X3D world state to HLSL parameter names</p>
+<table>
+<tr>
+<th>Parameter name</th>
+<th>Description</th>
+</tr>
+<tr>
+  <td><b>model</b></td>
+  <td>
+This name refers to the matrix transforming from local to global coordinates. 
+The model matrix transforms vertices from their model position to their position 
+in world space (<i>i.e.</i>, after the effects of all Transform nodes have been 
+applied).  
+  </td>
+</tr>
+<tr>
+  <td><b>view</b></td>
+  <td>
+This name refers to the viewing matrix transforming from world to view relative 
+coordinates.
+  </td>
+</tr>
+<tr>
+  <td><b>projection</b></td>
+  <td>
+This name refers to the projection matrix transforming from viewing relative 
+coordinates to clip space, including the projective part.
+  </td>
+</tr>
+<tr>
+  <td><b>modelView</b></td>
+  <td>
+This name refers to the matrix that represents the concatenation of model and 
+view matrices. This matrix transforms vertices from their model position to 
+their position in view space (<i>i.e.</i>, after the effects of all Transform 
+nodes and the current viewpoint have been applied).  </td>
+</tr>
+<tr>
+  <td><b>modelViewProjection</b></td>
+  <td>
+This name refers to the matrix that represents the concatenation of model, view 
+and projection matrices. This matrix transforms vertices from their model 
+position to their final position in clip space.  </td>
+</tr>
+<tr>
+  <td><b>viewPosition</b></td>
+  <td>
+This name refers to the current viewer position in world space coordinates.</td>
+</tr>
+</table>
+</div>
+<p>
+The following suffixes can be applied to the matrix built-in values. A suffix of <i>
+I</i> signifies the inverse of the matrix. <i>T</i> signifies the transpose of 
+the matrix. <i>IT</i> signifies the inverse transpose of the matrix.
+</p>
+
+<h1><a name="Eventmodel"></a>
+<img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+J.5 Event model</h1>
+
+<h2><a name="Changingurlfield"></a>J.5.1 Changing URL fields</h2>
+
+<p>When the <i>url</i> receives an event changing the value, the browser shall 
+immediately attempt to download the new source. Upon successful download, the 
+browser shall attempt to compile the new source and issue the appropriate 
+LoadSensor events. It shall not automatically activate the shader program, nor 
+disable the currently running shader.</p>
+
+<p>Values defined at load time of the file do not require an explicit request to 
+activate the shader program. The browser shall be assumed to automatically 
+activate the program once all the objects have successfully downloaded. If some 
+of the shader source files are not downloaded or compiled (<i>e.g.</i>, due to 
+errors) no activation will occur for the shader program.
+</p>
+
+<h2><a name="Changingattribfield"></a>J.5.2 Changing the <i>attrib</i> field</h2>
+
+<p>Per-vertex attributes may be defined as one of the fields of 
+<i>X3DComposedGeometryNode</i>. These may be changed at runtime by adding or 
+removing node instances. Adding new node instances to the field shall require 
+that the user request an explicit activate in order to make them visible to the 
+shader.</p>
+
+<h2><a name="activatingprograms"></a>J.5.3 Activating programs</h2>
+
+<p>The user may, at any time, request that the browser activate the composing 
+shader objects by sending a <span class="code">TRUE</span> value to the <i>
+activate</i> inputOnly field of the ProgramShader or PackagedShader node. Users 
+may need to force a re-activation of the node under various circumstances, such 
+as changing the <i>url</i> field of one or more ShaderProgram or PackagedShader 
+nodes, or adding or removing ShaderProgram nodes from the <i>programs </i>field 
+of the ProgramShader node. Reactivating the shader shall replace the existing 
+shader with the new compiled shader for subsequent rendering.</p>
+
+<img class="x3dbar" src="../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

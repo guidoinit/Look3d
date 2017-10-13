@@ -1,0 +1,711 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 20 Pointing device sensor component</TITLE>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</HEAD>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+<p class="HeadingClause">20 Pointing device sensor component</p>
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+20.1 Introduction</h1>
+<h2><a name="Name"></a>20.1.1 Name</h2>
+<p>The name of this component is &quot;PointingDeviceSensor&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>20.1.2 Overview</h2>
+
+<p>This clause describes the Pointing Device Sensor component of this part of 
+ISO/IEC 19775. This includes how pointing device sensors operate conceptually as 
+  well as which varieties of pointing device sensors are provided.
+<a href="#t-Topics">Table 
+  20.1</a> provides links to the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a><b>
+Table 20.1 &#8212; Topics</b></p>
+
+  <table>
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">20.1 Introduction</a>
+            <ul>
+              <li><a href="#Name">20.1.1 Name</a></li>
+              <li><a href="#Overview">20.1.2 Overview</a> </li>
+            </ul></li>
+          <li><a href="#Concepts">20.2 Concepts</a> 
+            <ul>
+              <li><a href="#OverviewOfPointingDeviceSensors">20.2.1 Overview of pointing device sensors</a> 
+              <li><a href="#DragSensors">20.2.2 Drag sensors</a> 
+              <li><a href="#Activatingandmanipulating">20.2.3 Activating and manipulating pointing device sensors</a> 
+            </ul></li>
+          <li><a href="#Abstracttypes">20.3 Abstract types</a>  
+            <ul>
+              <li><a href="#X3DDragSensorNode">20.3.1 <i>X3DDragSensorNode</i></a></li>
+              <li><a href="#X3DPointingDeviceSensorNode">20.3.2 <i>X3DPointingDeviceSensorNode</i></a></li>
+              <li><a href="#X3DTouchSensorNode">20.3.3 <i>X3DTouchSensorNode</i></a></li>
+            </ul></li>
+          <li><a href="#Nodereference">20.4 Node reference</a>  
+            <ul>
+              <li><a href="#CylinderSensor">20.4.1 CylinderSensor</a></li>
+              <li><a href="#PlaneSensor">20.4.2 PlaneSensor</a></li>
+              <li><a href="#SphereSensor">20.4.3 SphereSensor</a></li>
+              <li><a href="#TouchSensor">20.4.4 TouchSensor</a></li>
+            </ul></li>
+          <li><a href="#SupportLevels">20.5 Support levels</a></li>
+        </ul>
+        <ul>
+          <li><a href="#t-Topics">Table 20.1 &#8212; Topics</a></li>
+          <li><a href="#t-supportlevels">Table 20.2 &#8212; Pointing device sensor component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>20.2 Concepts</h1>
+
+<h2><a name="OverviewOfPointingDeviceSensors"></a>20.2.1 Overview of pointing device sensors</h2>
+
+<p>pointing device sensors detect user pointing events such as the user clicking 
+  on a piece of geometry (<i>i.e.</i>,&nbsp;<a href="#TouchSensor">TouchSensor</a>). The following node types are 
+  pointing device sensors:</p>
+
+<ul>
+<li><a href="#CylinderSensor">CylinderSensor</a> 
+<li><a href="#PlaneSensor">PlaneSensor</a>
+<li><a href="#SphereSensor">SphereSensor</a></li>
+<li>TouchSensor</li>
+</ul>
+
+<p>The <a href="networking.html#Anchor">Anchor</a> node is also considered a pointing device sensor for
+the purpose of detecting user picking. However, it does not extend from the 
+<i><a href="#X3DPointingDeviceSensorNode">X3DPointingDeviceSensorNode</a></i> interface.</p>
+
+<p>Other components may add additional pointing device sensors.</p>
+
+<p>A pointing device sensor is activated when the user locates the pointing device 
+  over geometry that is influenced by that specific pointing device sensor. Pointing device 
+  sensors have influence over all geometry that is descended from the sensor's 
+  parent groups. In the case of the Anchor node, the Anchor node itself is considered 
+  to be the parent group. Typically, the pointing device sensor is a sibling to 
+  the geometry that it influences. In other cases, the sensor is a sibling to 
+  groups which contain geometry (<i>i.e.</i>,&nbsp;are influenced by the pointing device 
+  sensor).</p>
+
+<p>The appearance properties of the geometry do not affect activation of the sensor. 
+  In particular, transparent materials or textures shall be treated as opaque 
+  with respect to activation of pointing device sensors.</p>
+
+<p>For a given user activation, the lowest enabled pointing device sensor in the 
+  hierarchy is activated. All other pointing device sensors above the lowest enabled 
+  pointing device sensor are ignored. The hierarchy is defined by the geometry 
+  node over which the pointing device sensor is located and the entire hierarchy 
+  upward. If there are multiple pointing device sensors tied for lowest, each 
+  of these is activated simultaneously and independently, possibly resulting in 
+  multiple sensors activating and generating output simultaneously. This feature 
+  allows combinations of pointing device sensors (<i>e.g.</i>,&nbsp;TouchSensor and PlaneSensor). 
+  If a pointing device sensor appears in the transformation hierarchy multiple 
+  times (DEF/USE), it shall be tested for activation in all of the coordinate 
+  systems in which it appears.</p>
+
+<p>If a pointing device sensor is not enabled when the pointing device button 
+  is activated, it will not generate events related to the pointing device until 
+  after the pointing device is deactivated and the sensor is enabled (<i>i.e.</i>,&nbsp;enabling 
+  a sensor in the middle of dragging does not result in the sensor activating 
+  immediately).</p>
+
+<h2><a name="DragSensors"></a>20.2.2 Drag sensors</h2>
+
+<p><i>Drag sensors</i> are a subset of pointing device sensors. There are three 
+  types of drag sensors: 
+<a href="#CylinderSensor">CylinderSensor</a>, 
+<a href="#PlaneSensor">PlaneSensor</a>, 
+  and 
+<a href="#SphereSensor">SphereSensor</a>. Drag sensors have two outputOnly 
+fields 
+  in common, <i>trackPoint_changed</i> and <i>&lt;value&gt;_changed</i>. These 
+  outputOnly fields send events for each movement of the activated pointing device according 
+  to their &quot;virtual geometry&quot; (<i>e.g.</i>, cylinder for CylinderSensor). The 
+  <i>trackPoint_changed</i> outputOnly field sends the intersection point of the <i>bearing</i> 
+  with the drag sensor's virtual geometry. The <i>&lt;value&gt;_changed</i> 
+outputOnly field 
+  sends the sum of the relative change since activation plus the sensor's <i>offset</i> 
+  field. The type and name of <i>&lt;value&gt;_changed</i> depends on the drag 
+  sensor type: <i>rotation_changed</i> for CylinderSensor, <i>translation_changed</i> 
+  for PlaneSensor, and <i>rotation_changed</i> for SphereSensor.</p>
+
+<p>To simplify the application of these sensors, each node has an <i>offset</i> 
+  and an <i>autoOffset</i> exposed field. When the sensor generates events as 
+  a response to the activated pointing device motion, <i>&lt;value&gt;_changed</i> 
+  sends the sum of the relative change since the initial activation plus the <i>offset</i> 
+  field value. If <i>autoOffset</i> is <font face="Courier New">TRUE</font> when 
+  the pointing device is deactivated, the <i>offset</i> field is set to the sensor's 
+  last <i>&lt;value&gt;_changed</i> value and <i>offset</i> sends an <i>offset_changed</i> 
+output event. This enables subsequent grabbing operations to accumulate the changes. 
+  If <i>autoOffset</i> is <code>FALSE</code>, the sensor does 
+  not set the <i>offset</i> field value at deactivation (or any other time).</p>
+
+<h2><a name="Activatingandmanipulating"></a>
+20.2.3 Activating and manipulating pointing device sensors</h2>
+
+<p>The pointing device controls a pointer in the virtual world. While activated by 
+the pointing device, a sensor will generate events as the pointer moves. Typically 
+the pointing device may be categorized as either 2D (<i>e.g.</i>, conventional mouse) 
+or 3D (<i>e.g.</i>, wand). It is suggested that the pointer controlled by a 2D device 
+is mapped onto a plane a fixed distance from the viewer and perpendicular to the 
+line of sight. The mapping of a 3D device may describe a 1:1 relationship between 
+movement of the pointing device and movement of the pointer.</p> 
+
+<p>The position of the pointer defines a bearing which is used to determine which 
+  geometry is being indicated. When implementing a 2D pointing device it is suggested 
+  that the bearing is defined by the vector from the viewer position through the 
+  location of the pointer. When implementing a 3D pointing device it is suggested 
+  that the bearing is defined by extending a vector from the current position 
+  of the pointer in the direction indicated by the pointer. 
+
+<p>In all cases the pointer is considered to be indicating a specific geometry 
+  when that geometry is intersected by the bearing. If the bearing intersects 
+  multiple sensors' geometries, only the sensor nearest to the pointer will be 
+  eligible for activation.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Abstracttypes"></a>
+20.3 Abstract types</h1>
+<h2><a name="X3DDragSensorNode"></a>
+20.3.1 <i>X3DDragSensorNode</i></h2>
+
+<pre class="node">X3DDragSensorNode : X3DPointingDeviceSensorNode { 
+  SFBool   [in,out] autoOffset         TRUE
+  SFString [in,out] description        &quot;&quot;
+  SFBool   [in,out] enabled            TRUE
+  SFNode   [in,out] metadata           NULL [X3DMetadataObject]
+  SFBool   [out]    isActive
+  SFBool   [out]    isOver
+  SFVec3f  [out]    trackPoint_changed
+}
+</pre>
+
+<p>This abstract node type is the base type for all drag-style pointing device&nbsp; 
+  sensors.</p>
+
+<h2><a name="X3DPointingDeviceSensorNode"></a>
+20.3.2 <i>X3DPointingDeviceSensorNode</i></h2>
+
+<pre class="node">X3DPointingDeviceSensorNode : X3DSensorNode {
+  SFString [in,out] description &quot;&quot;
+  SFBool   [in,out] enabled     TRUE
+  SFNode   [in,out] metadata    NULL [X3DMetadataObject]
+  SFBool   [out]    isActive
+  SFBool   [out]    isOver
+}
+</pre>
+
+<p>This abstract node type is the base type for all pointing device sensors.</p>
+
+<h2><a name="X3DTouchSensorNode"></a>
+20.3.3 <i>X3DTouchSensorNode</i></h2>
+
+<pre class="node">X3DTouchSensorNode : X3DPointingDeviceSensorNode { 
+  SFString [in,out] description &quot;&quot;
+  SFBool   [in,out] enabled     TRUE
+  SFNode   [in,out] metadata    NULL [X3DMetadataObject]
+  SFBool   [out]    isActive
+  SFBool   [out]    isOver
+  SFTime   [out]    touchTime
+}
+</pre>
+
+<p>This abstract node type is the base type for all touch-style pointing device 
+  sensors.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Nodereference"></a>
+20.4 Node reference</h1>
+ 
+<h2><a name="CylinderSensor"></a>
+20.4.1 CylinderSensor</h2>
+
+<pre class="node">CylinderSensor : X3DDragSensorNode { 
+  SFBool     [in,out] autoOffset         TRUE
+  SFRotation [in,out] axisRotation       0 1 0 0
+  SFString   [in,out] description        &quot;&quot;
+  SFFloat    [in,out] diskAngle          &#960;/12    [0,&#960;/2]
+  SFBool     [in,out] enabled            TRUE
+  SFFloat    [in,out] maxAngle           -1      [-2&#960;,2&#960;]
+  SFNode     [in,out] metadata           NULL    [X3DMetadataObject]
+  SFFloat    [in,out] minAngle           0       [-2&#960;,2&#960;]
+  SFFloat    [in,out] offset             0       (-&#8734;,&#8734;)
+  SFBool     [out]    isActive
+  SFBool     [out]    isOver
+  SFRotation [out]    rotation_changed
+  SFVec3f    [out]    trackPoint_changed
+}
+</pre>
+
+<p>The CylinderSensor node maps pointer motion (<i>e.g.</i>,&nbsp;a mouse or wand) into 
+  a rotation on an invisible cylinder that is aligned with the Y-axis of the local 
+  sensor coordinate system. The local sensor coordinate system is created by 
+applying the <i>axisRotation</i> field value to the local coordinate system. The CylinderSensor uses the descendent geometry of its parent 
+  node to determine whether it is liable to generate events.</p>
+<p>The <i>description</i> field in the CylinderSensor node specifies a textual 
+description of the CylinderSensor node. This may be used by browser-specific 
+user interfaces that wish to present users with more detailed information about 
+the CylinderSensor.</p>
+
+<p>The <i>enabled</i> field enables and disables the CylinderSensor node. 
+If <code>TRUE</code>, 
+  the sensor reacts appropriately to user events. If <code>FALSE</code>, 
+  the sensor does not track user input or send events. If <i>enabled</i> receives 
+  a <code>FALSE</code> event and <i>isActive</i> is <code>TRUE</code>, 
+  the sensor becomes disabled and deactivated, and outputs an <i>isActive</i> 
+  <code>FALSE</code> event. 
+If <i>enabled</i> receives a <code>TRUE</code> 
+  event the sensor is enabled and ready for user activation.</p>
+
+<p>A CylinderSensor node generates events when the pointing device is activated 
+  while the pointer is indicating any descendent geometry nodes of the sensor's 
+  parent group. See 
+<a href="#Activatingandmanipulating">20.2.3 Activating and manipulating pointing 
+  device sensors</a>, for more details on using the pointing device to activate 
+  the CylinderSensor.</p>
+
+<p>Upon activation of the pointing device while indicating the sensor's geometry, 
+  an <i>isActive</i> <code>TRUE</code> event is sent. The initial 
+  acute angle between the bearing vector and the local sensor coordinate system Y-axis of the CylinderSensor 
+  node determines whether the sides of the invisible cylinder or the caps (disks) 
+  are used for manipulation. If the initial angle is less than the <i>diskAngle</i>, 
+the geometry is treated as an infinitely large disk lying in the Y=0 plane 
+of the local sensor coordinate system 
+  and coincident with the initial intersection point. Dragging motion is mapped 
+  into a rotation around the +Y-axis vector of the local sensor coordinate system. 
+  The perpendicular vector from the initial intersection point to this Y-axis defines 
+  zero rotation about the Y-axis of the local sensor coordinate system. For each subsequent position of the bearing, 
+  a <i>rotation_changed</i> event is sent that equals the sum of the rotation 
+  about the +Y-axis vector of the local sensor coordinate system (from the initial intersection to the new intersection) 
+  plus the <i>offset</i> value. <i>trackPoint_changed</i> events reflect the unclamped 
+  drag position on the surface of this disk. When the pointing device is deactivated 
+  and <i>autoOffset</i> is <code>TRUE</code>, <i>offset</i> 
+  is set to the last rotation angle and an <i>offset_changed</i> 
+  event is generated. See <a href="#DragSensors">20.2.2 Drag sensors</a>, for 
+  a more general description of <i>autoOffset</i> and <i>offset</i> fields.</p>
+
+<p>If the initial acute angle between the bearing vector and the local sensor 
+coordinate system Y-axis 
+  of the CylinderSensor node is greater than or equal to <i>diskAngle</i>, the sensor behaves like a cylinder. The shortest distance between the point 
+  of intersection (between the bearing and the sensor's geometry) and the Y-axis 
+  of the parent group's local coordinate system determines the radius of an invisible 
+  cylinder used to map pointing device motion and marks the zero rotation value. 
+  For each subsequent position of the bearing, a <i>rotation_changed</i> event 
+  is sent that equals the sum of the right-handed rotation from the original intersection 
+  about the +Y-axis vector plus the <i>offset</i> value. <i>trackPoint_changed</i> 
+  events reflect the unclamped drag position on the surface of the invisible cylinder. 
+  When the pointing device is deactivated and <i>autoOffset</i> is <code>TRUE</code>, 
+  <i>offset</i> is set to the last rotation angle and an <i>offset_changed</i> 
+  event is generated. More details are available in <a href="#DragSensors">20.2.2 
+  Drag sensors</a>.</p>
+
+<p>When the sensor generates an <i>isActive</i> <code>TRUE</code> 
+  event, it grabs all further motion events from the pointing device until it 
+  is released and generates an <i>isActive</i> <code>FALSE</code> 
+  event (other pointing device sensors shall not generate events during this time). 
+  Motion of the pointing device while <i>isActive</i> is <code>TRUE</code> 
+  is referred to as a &quot;drag&quot; operation. If a 2D pointing device is in use, <i>isActive</i> 
+  events will typically reflect the state of the primary button associated with 
+  the device (<i>i.e.</i>,&nbsp;<i>isActive</i> is <code>TRUE</code> 
+  when the primary button is pressed and <code>FALSE</code> 
+  when it is released). If a 3D pointing device (<i>e.g.</i>,&nbsp;a wand) is in use, 
+  <i>isActive</i> events will typically reflect whether the pointer is within 
+  or in contact with the sensor's geometry.</p>
+
+<p>While the pointing device is activated,<i> trackPoint_changed</i> 
+and <i>rotation_changed</i> 
+  events are output and are interpreted from pointing device motion based on the 
+  sensor's local coordinate system at the time of activation. <i>trackPoint_changed</i> 
+  events represent the unclamped intersection points on the surface of the invisible 
+  cylinder or disk. If the initial angle results in cylinder rotation (as opposed 
+  to disk behaviour) and if the pointing device is dragged off the cylinder while 
+  activated, browsers may interpret this in a variety of ways (<i>e.g.</i>, clamp all 
+  values to the cylinder and continuing to rotate as the point is dragged away 
+  from the cylinder). Each movement of the pointing device while <i>isActive</i> 
+  is <code>TRUE</code> generates <i>trackPoint_changed</i> 
+  and <i>rotation_changed</i> events.</p>
+
+<p>The <i>minAngle</i> and <i>maxAngle</i> fields clamp <i>rotation_changed</i> 
+  events to a range of values. If <i>minAngle</i> is greater than <i>maxAngle</i>, 
+  <i>rotation_changed</i> events are not clamped. The <i>minAngle</i> and <i>maxAngle</i> 
+  fields are restricted to the range [-2<font face="Times New Roman">&#960;</font>, 2<font face="Times New Roman">&#960;</font>].</p>
+
+<p>More information about this behaviour is described in 
+<a href="#Concepts">20.2 Concepts</a>.</p>
+
+<h2><a name="PlaneSensor"></a>
+20.4.2 PlaneSensor</h2>
+
+<pre class="node">PlaneSensor : X3DDragSensorNode { 
+  SFBool     [in,out] autoOffset          TRUE
+  SFRotation [in,out] axisRotation        0 0 1 0
+  SFString   [in,out] description         &quot;&quot;
+  SFBool     [in,out] enabled             TRUE
+  SFVec2f    [in,out] maxPosition         -1 -1 (-&#8734;,&#8734;)
+  SFNode     [in,out] metadata            NULL  [X3DMetadataObject]
+  SFVec2f    [in,out] minPosition         0 0   (-&#8734;,&#8734;)
+  SFVec3f    [in,out] offset              0 0 0 (-&#8734;,&#8734;)
+  SFBool     [out]    isActive
+  SFBool     [out]    isOver
+  SFVec3f    [out]    trackPoint_changed
+  SFVec3f    [out]    translation_changed
+}
+</pre>
+
+<p>The PlaneSensor node maps pointing device motion into two-dimensional translation 
+  in a plane parallel to the Z=0 plane of the local sensor coordinate system. 
+The local sensor coordinate system is created by applying the <i>axisRotation</i> 
+field value to the local coordinate system. The PlaneSensor 
+  node uses the descendent geometry of its parent node to determine whether it 
+  is liable to generate events.</p>
+<p>The <i>description</i> field in the PlaneSensor node specifies a textual 
+description of the PlaneSensor node. This may be used by browser-specific user 
+interfaces that wish to present users with more detailed information about the 
+PlaneSensor.</p>
+
+<p>The <i>enabled</i> field enables and disables the PlaneSensor. If <i>enabled</i> 
+  is <code>TRUE</code>, the sensor reacts appropriately to 
+  user events. If <i>enabled</i> is <code>FALSE</code>, the 
+  sensor does not track user input or send events. If <i>enabled</i> receives 
+  a <code>FALSE</code> event and <i>isActive</i> is <code>TRUE</code>, 
+  the sensor becomes disabled and deactivated, and outputs an <i>isActive</i> 
+  <code>FALSE</code> event. 
+If <i>enabled</i> receives a <code>TRUE</code> 
+  event, the sensor is enabled and made ready for user activation.</p>
+
+<p>The PlaneSensor node generates events when the pointing device is activated 
+  while the pointer is indicating any descendent geometry nodes of the sensor's 
+  parent group. See 
+<a href="#Activatingandmanipulating">20.2.3 Activating and manipulating pointing 
+  device sensors</a>, for details on using the pointing device to activate the 
+  PlaneSensor.</p>
+
+<p>Upon activation of the pointing device (<i>e.g.</i>, mouse button down) while 
+  indicating the sensor's geometry, an <i>isActive</i> <code>TRUE</code> 
+  event is sent. Pointer motion is mapped into relative translation in the <i>tracking 
+  plane</i>, (a plane parallel to the local sensor coordinate system Z=0 plane and coincident 
+  with the initial point of intersection). For each subsequent movement of the 
+  bearing, a <i>translation_changed</i> event is output which corresponds to the 
+  sum of the relative translation from the original intersection point to the 
+  intersection point of the new bearing in the plane plus the <i>offset</i> value. 
+  The sign of the translation is defined by the Z=0 plane of the local sensor coordinate 
+  system. <i>trackPoint_changed</i> events reflect the unclamped drag position 
+on the surface of this plane. When the pointing device is deactivated and <i>autoOffset</i> 
+  is <code>TRUE</code>, <i>offset</i> is set to the last <i>translation_changed</i> 
+  value and an <i>offset_changed</i> event is generated. More details are provided 
+  in <a href="#DragSensors">20.2.2 Drag sensors</a>.</p>
+
+<p>When the sensor generates an <i>isActive</i> <code>TRUE</code> 
+  event, it grabs all further motion events from the pointing device until it 
+  is deactivated and generates an <i>isActive</i> <code>FALSE</code> 
+  event. Other pointing device sensors shall not generate events during this time. 
+  Motion of the pointing device while <i>isActive</i> is <code>TRUE</code> 
+  is referred to as a &quot;drag&quot; operation. If a 2D pointing device is in use, <i>isActive</i> 
+  events typically reflect the state of the primary button associated with the 
+  device (<i>i.e.</i>,&nbsp;<i>isActive</i> is <code>TRUE</code> when 
+  the primary button is pressed, and is <code>FALSE</code> 
+  when it is released). If a 3D pointing device (<i>e.g.</i>,&nbsp;wand) is in use, <i>isActive</i> 
+  events typically reflect whether the pointer is within or in contact with the 
+  sensor's geometry.</p>
+
+<p><i>minPosition</i> and <i>maxPosition</i> may be set to clamp <i>translation_changed</i> 
+  events to a range of values as measured from the origin of the Z=0 plane of 
+the local sensor coordinate system. If 
+  the X or Y component of <i>minPosition</i> is greater than the corresponding 
+  component of <i>maxPosition</i>, <i>translation_changed</i> events are not clamped 
+  in that dimension. If the X or Y component of <i>minPosition</i> is equal to 
+  the corresponding component of <i>maxPosition</i>, that component is constrained 
+  to the given value. This technique provides a way to implement a line sensor 
+  that maps dragging motion into a translation in one dimension.</p>
+
+<p>While the pointing device is activated and moved,<i> trackPoint_changed</i> 
+  and <i>translation_changed</i> events are sent. <i>trackPoint_changed</i> events 
+  represent the unclamped intersection points on the surface of the tracking plane. 
+  If the pointing device is dragged off of the tracking plane while activated 
+  (<i>e.g.</i>,&nbsp;above horizon line), browsers may interpret this in a variety ways 
+  (<i>e.g.</i>, clamp all values to the horizon). Each movement of the pointing device, 
+  while <i>isActive</i> is <code>TRUE</code>, generates <i>trackPoint_changed</i> 
+  and <i>translation_changed</i> events.</p>
+
+<p>Further information about this behaviour can be found in <a href="#Concepts">
+20.2 
+  Concepts</a>.</p>
+
+<h2><a name="SphereSensor"></a>
+20.4.3 SphereSensor</h2>
+
+<pre class="node">SphereSensor : X3DDragSensorNode { 
+  SFBool     [in,out] autoOffset         TRUE
+  SFString   [in,out] description        &quot;&quot;
+  SFBool     [in,out] enabled            TRUE
+  SFNode     [in,out] metadata           NULL    [X3DMetadataObject]
+  SFRotation [in,out] offset             0 1 0 0 [-1,1],(-&#8734;,&#8734;)
+  SFBool     [out]    isActive
+  SFBool     [out]    isOver
+  SFRotation [out]    rotation_changed
+  SFVec3f    [out]    trackPoint_changed
+}
+</pre>
+
+<p>The SphereSensor node maps pointing device motion into spherical rotation about 
+  the origin of the local coordinate system. The SphereSensor node uses the descendent 
+  geometry of its parent node to determine whether it is liable to generate events.</p>
+<p>The <i>description</i> field in the SphereSensor node specifies a textual 
+description of the SphereSensor node. This may be used by browser-specific user 
+interfaces that wish to present users with more detailed information about the 
+SphereSensor.</p>
+
+<p>The <i>enabled</i> field enables and disables the SphereSensor node. If <i>enabled</i> 
+  is <code>TRUE</code>, the sensor reacts appropriately to 
+  user events. If <i>enabled</i> is <code>FALSE</code>, the 
+  sensor does not track user input or send events. If <i>enabled</i> receives 
+  a <code>FALSE</code> event and <i>isActive</i> is <code>TRUE</code>, 
+  the sensor becomes disabled and deactivated, and outputs an <i>isActive</i> 
+  <code>FALSE</code> event. If <i>enabled</i> receives a <code>TRUE</code> 
+  event the sensor is enabled and ready for user activation.</p>
+
+<p>The SphereSensor node generates events when the pointing device is activated 
+  while the pointer is indicating any descendent geometry nodes of the sensor's 
+  parent group. See 
+<a href="#Activatingandmanipulating">20.2.3 Activating and manipulating pointing 
+  device sensors</a>, for details on using the pointing device to activate the 
+  SphereSensor.</p>
+
+<p>Upon activation of the pointing device (<i>e.g.</i>, mouse button down) over 
+  the sensor's geometry, an <i>isActive</i> <font face="Courier New">TRUE</font> 
+  event is sent. The vector defined by the initial point of intersection on the 
+  SphereSensor's geometry and the local origin determines the radius of the sphere 
+  that is used to map subsequent pointing device motion while dragging. The virtual 
+  sphere defined by this radius and the local origin at the time of activation 
+  is used to interpret subsequent pointing device motion and is not affected by 
+  any changes to the sensor's coordinate system while the sensor is active. For 
+  each position of the bearing, a <i>rotation_changed</i> event is sent which 
+  corresponds to the sum of the relative rotation from the original intersection 
+  point plus the <i>offset</i> value. <i>trackPoint_changed</i> events reflect 
+  the unclamped drag position on the surface of this sphere. When the pointing 
+  device is deactivated and <i>autoOffset</i> is <font face="Courier New">TRUE</font>, 
+  <i>offset</i> is set to the last <i>rotation_changed</i> value and an <i>offset_changed</i> 
+  event is generated. See <a href="#Concepts">20.2 Concepts</a>, for more 
+  details.</p>
+
+<p>When the sensor generates an <i>isActive</i> <code>TRUE</code> 
+  event, it grabs all further motion events from the pointing device until it 
+  is released and generates an <i>isActive</i> <code>FALSE</code> 
+  event (other pointing device sensors shall not generate events during this time). 
+  Motion of the pointing device while <i>isActive</i> is <code>TRUE</code> 
+  is termed a &quot;drag&quot; operation. If a 2D pointing device is in use, <i>isActive</i> 
+  events will typically reflect the state of the primary button associated with 
+  the device (<i>i.e.</i>,&nbsp;<i>isActive</i> is <code>TRUE</code> 
+  when the primary button is pressed and <code>FALSE</code> 
+  when it is released). If a 3D pointing device (<i>e.g.</i>, wand) is in use, <i>isActive</i> 
+  events will typically reflect whether the pointer is within (or in contact with) 
+  the sensor's geometry.</p>
+
+<p>While the pointing device is activated,<i> trackPoint_changed</i> and <i>rotation_changed</i> 
+  events are output. <i>trackPoint_changed</i> events represent the unclamped 
+  intersection points on the surface of the invisible sphere. If the pointing 
+  device is dragged off the sphere while activated, browsers may interpret this 
+  in a variety of ways (<i>e.g.</i>, clamp all values to the sphere or continue to rotate 
+  as the point is dragged away from the sphere). Each movement of the pointing 
+  device while <i>isActive</i> is <code>TRUE</code> generates 
+  <i>trackPoint_changed</i> and <i>rotation_changed</i> events.</p>
+
+<p>Further information about this behaviour can be found in <a href="#Concepts">
+20.2 
+  Concepts</a>.</p>
+
+<h2><a name="TouchSensor"></a>
+20.4.4 TouchSensor</h2>
+
+<pre class="node">TouchSensor : X3DTouchSensorNode { 
+  SFString [in,out] description         &quot;&quot;
+  SFBool   [in,out] enabled             TRUE
+  SFNode   [in,out] metadata            NULL [X3DMetadataObject]
+  SFVec3f  [out]    hitNormal_changed
+  SFVec3f  [out]    hitPoint_changed
+  SFVec2f  [out]    hitTexCoord_changed
+  SFBool   [out]    isActive
+  SFBool   [out]    isOver
+  SFTime   [out]    touchTime
+}
+</pre>
+
+<p>A TouchSensor node tracks the location and state of the pointing device and 
+  detects when the user points at geometry contained by the TouchSensor node's 
+  parent group. </p>
+<p>The <i>description</i> field in the TouchSensor node specifies a textual 
+description of the TouchSensor node. This may be used by browser-specific user 
+interfaces that wish to present users with more detailed information about the 
+TouchSensor.</p>
+
+<p>A TouchSensor node can be enabled or disabled by sending it an 
+  <i>enabled</i> event with a value of <code>TRUE</code> or 
+  <code>FALSE</code>. If the TouchSensor node is disabled, 
+  it does not track user input or send events.</p>
+
+<p>The TouchSensor generates events when the pointing device points toward any 
+  geometry nodes that are descendants of the TouchSensor's parent group. 
+See <a href="#Activatingandmanipulating">20.2.3 Activating and manipulating
+pointing device sensors</a>, for more details on using the pointing device to activate 
+  the TouchSensor.</p>
+
+<p>The <i>isOver</i> field reflects the state of the pointing device with regard 
+  to whether it is pointing towards the TouchSensor node's geometry or not. When 
+  the pointing device changes state from a position such that its bearing does 
+  not intersect any of the TouchSensor node's geometry to one in which it does 
+  intersect geometry, an <i>isOver</i> <code>TRUE</code> event 
+  is generated. When the pointing device moves from a position such that its bearing 
+  intersects geometry to one in which it no longer intersects the geometry, or 
+  some other geometry is obstructing the TouchSensor node's geometry, an <i>isOver</i> 
+  <code>FALSE</code> event is generated. These events are generated 
+  only when the pointing device has moved and changed `over' state. Events are 
+  not generated if the geometry itself is animating and moving underneath the 
+  pointing device.</p>
+
+<p>As the user moves the bearing over the TouchSensor node's geometry, the point 
+  of intersection (if any) between the bearing and the geometry is determined. 
+  Each movement of the pointing device, while <i>isOver</i> is <code>TRUE</code>, 
+  generates <i>hitPoint_changed</i>, <i>hitNormal_changed</i> and <i>hitTexCoord_changed 
+  </i>events. <i>hitPoint_changed</i> events contain the 3D point on the surface 
+  of the underlying geometry, given in the TouchSensor node's coordinate system. 
+  <i>hitNormal_changed</i> events contain the surface normal vector at the <i>hitPoint</i>. 
+  <i>hitTexCoord_changed</i> events contain the texture coordinates of that surface 
+  at the <i>hitPoint</i>. The values of <i>hitTexCoord_changed</i> and <i>hitNormal_changed</i> 
+  events are computed as appropriate for the associated shape. </p>
+
+<p>If <i>isOver</i> is <code>TRUE</code>, the user may activate 
+  the pointing device to cause the TouchSensor node to 
+generate <i>isActive</i> 
+  events (<i>e.g.</i>,&nbsp;by pressing the primary mouse button). When the TouchSensor 
+  node generates an <i>isActive</i> <code>TRUE</code> event, 
+  it grabs all further motion events from the pointing device until it is released 
+  and generates an <i>isActive</i> <code>FALSE</code> event 
+  (other pointing device sensors will not generate events during this time). Motion 
+  of the pointing device while <i>isActive</i> is <code>TRUE</code> 
+  is termed a &quot;drag&quot; operation. If a 2D pointing device is in use, <i>isActive</i> 
+  events reflect the state of the primary button 
+associated with the device (<i>i.e.</i>, <i>isActive</i> 
+  is <code>TRUE</code> when the primary button is pressed and 
+  <code>FALSE</code> when it is released). If a 3D pointing 
+  device is in use, <i>isActive</i> events will typically reflect whether the 
+  pointing device is within (or in contact with) the TouchSensor node's geometry.</p>
+
+<p>The field <i>touchTime </i>is generated when all three of the following conditions 
+  are true:</p>
+
+<ol start="1" type="a">
+  <li>The pointing device <u>was</u> pointing towards the geometry when it was 
+    <u>initially</u> <u>activated</u> (<i>isActive</i> is <code>TRUE</code>).</li> 
+  <li>The pointing device <u>is</u> currently pointing towards the <u>geometry</u> 
+    (<i>isOver</i> is <code>TRUE</code>).</li>
+  <li>The pointing device is <u>deactivated</u> (<i>isActive</i> <code>FALSE</code> 
+    event is also generated).</li> 
+</ol>
+
+<p>More information about this behaviour is described in <a href="#Concepts">20.2 
+  Concepts</a>.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>20.5 Support levels</h1>
+
+<p>The Pointing Device Sensor component provides one level of support as specified 
+  in <a href="#t-supportlevels">Table 20.2</a>. </p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+Table 20.2<b>
+&#8212; Pointing device sensor</b> component support levels</p>
+  
+<table>
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td align="center"><b>1</b></td>
+        <td>Core 1<br>
+        Grouping 1<br>
+        Shape 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td><i>DragSensorNodeType</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td><i>PointingDeviceSensorNodeType </i>(abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td><i>TouchSensorNodeType</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>CylinderSensor</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>PlaneSensor</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>SphereSensor</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>TouchSensor</td>
+        <td>All fields fully supported.</td>
+      </tr>
+    </table>
+</div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

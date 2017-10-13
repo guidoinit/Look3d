@@ -1,0 +1,1535 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013 &mdash; 41 Volume rendering component</TITLE>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</HEAD>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+<p class="HeadingClause">41 Volume rendering component</p>
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+41.1 Introduction</h1>
+<h2><a name="Name"></a>41.1.1 Name</h2>
+<p>The name of this component is &quot;VolumeRendering&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>41.1.2 Overview</h2>
+
+<p>This component provides the ability to specify and render volumetric data 
+sets.
+<a href="#t-Topics">Table 41.1</a> provides links to the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a><b>
+Table 41.1 &mdash; Topics</b></p>
+
+  <table class="topics">
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">41.1 Introduction</a>
+          <ul>
+            <li><a href="#Name">41.1.1 Name</a></li>
+            <li><a href="#Overview">41.1.2 Overview</a></li>
+          </ul>
+			<li><a href="#Concepts">41.2 Concepts</a> 
+            <ul>
+              <li><a href="#ConceptsOverview">41.2.1 Overview</a><li>
+				<a href="#RepresentingVolumetricData">41.2.2 Representing volumetric data</a>
+				<ul>
+                  <li><a href="#RegistrationAndScaling">41.2.2.1 Registration and scaling</a></li>
+				  <li><a href="#DataRepresentation">41.2.2.2 Data representation</a>
+				    <ul>
+				      <li><a href="#3DTextureDefinition">41.2.2.2.1 3D texture definition</a></li>
+				      <li><a href="#VectorAndNormalRepresentation">41.2.2.2.2 Vector and normal representation</a></li>
+				      <li><a href="#DataOptimization">41.2.2.2.3 Data optimization</a></li>
+				    </ul>
+				  </li>
+				  <li><a href="#SegmentationInformation">41.2.2.3 Segmentation information</a></li>
+				  <li><a href="#TensorRepresentation">41.2.2.4 Tensor representation</a></li>
+				  <li><a href="#VisualRepresentation">41.2.2.5 Visual representation</a></li>
+			    </ul>
+			  <li><a href="#InteractionWithOtherNodesAndComponents">41.2.3 Interaction with other nodes and components</a>
+			    <ul>
+				  <li><a href="#InteractionOverview">41.2.3.1 Overview</a></li>
+				  <li><a href="#Lighting">41.2.3.2 Lighting</a></li>
+				  <li><a href="#Geometry">41.2.3.3 Geometry</a></li>
+			    </ul>
+			  </li>
+			  <li><a href="#Conformance">41.2.4 Conformance</a>
+			      <ul>
+				    <li><a href="#Dimensionality">41.2.4.1 Dimensionality</a></li>
+				    <li><a href="#HardwareRequirements">41.2.4.2 Hardware requirements</a></li>
+				    <li><a href="#SceneGraphInteraction">41.2.4.3 Scene graph interaction</a></li>
+			      </ul>
+			  </li>
+			</ul>
+	      </li>
+	      <li><a href="#AbstractTypes">41.3 Abstract types</a>
+			<ul>
+				<li><a href="#X3DComposableVolumeRenderStyleNode">41.3.1 X3DComposableVolumeRenderStyleNode</a></li>
+				<li><a href="#X3DVolumeDataNode">41.3.2 <i>X3DVolum</i>e<em>DataNode</em></a></li>
+				<li><a href="#X3DVolumeRenderStyleNode">41.3.3 <i>X3DVolumeRenderStyleNode</i></a></li>
+			</ul>
+		  <li><a href="#NodeReference">41.4 Node reference</a>
+			<ul>
+				<li><a href="#BlendedVolumeStyle">41.4.1 BlendedVolumeStyle</a></li>
+				<li><a href="#BoundaryEnhancementVolumeStyle">41.4.2 BoundaryEnhancementVolumeStyle</a></li>
+				<li><a href="#CartoonVolumeStyle">41.4.3 CartoonVolumeStyle</a></li>
+				<li><a href="#ComposedVolumeStyle">41.4.4 ComposedVolumeStyle</a></li>
+				<li><a href="#EdgeEnhancementVolumeStyle">41.4.5 EdgeEnhancementVolumeStyle</a></li>
+				<li><a href="#IsoSurfaceVolumeData">41.4.6 IsoSurfaceVolumeData</a></li>
+				<li><a href="#OpacityMapVolumeStyle">41.4.7 OpacityMapVolumeStyle</a></li>
+				<li><a href="#ProjectionVolumeStyle">41.4.8 ProjectionVolumeStyle</a></li>
+				<li><a href="#SegmentedVolumeData">41.4.9 SegmentedVolumeData</a></li>
+				<li><a href="#ShadedVolumeStyle">41.4.10 ShadedVolumeStyle</a></li>
+				<li><a href="#SilhouetteEnhancementVolumeStyle">41.4.11 SilhouetteEnhancementVolumeStyle</a></li>
+				<li><a href="#ToneMappedVolumeStyle">41.4.12 ToneMappedVolumeStyle</a></li>
+				<li><a href="#VolumeData">41.4.13 VolumeData</a></li>
+			</ul>
+		  <li><a href="#SupportLevels">41.5 Support levels</a>  
+        </ul>
+<ul>
+<li><a href="#t-Topics">Table 41.1 &mdash; Topics</a></li>
+<li><a href="#t-MappingOfTextureColourComponentsTo3DCoordinates">Table 41.2 &mdash; 
+	Mapping of texture colour components to 3D coordinates</a></li>
+<li><a href="#t-WeightFunctionTypes">Table 41.3 — Weight function types</a></li>
+<li><a href="#t-transferFunctionToWeightMapping">Table 41.4 &mdash; Transfer 
+function to weight mapping</a></li>
+<li><a href="#t-transferFunctionTextureCoordinateMapping">Table 41.5 — Transfer 
+function mapping from texture type to texture coordinate</a></li>
+<li><a href="#t-transferFunctionTextureOutputMapping">Table 41.6 — Transfer 
+function mapping from texture type to output colour</a></li>
+<li><a href="#t-supportlevels">Table 41.7 &mdash; Volume rendering component support levels</a></li>
+</ul>
+<ul>
+      	<li><a href="#f-BlendedVolumeStyle">Figure 41.1 — Torso in 
+		BlendedVolumeStyle</a></li>
+		<li><a href="#f-BoundaryEnhancementVolumeStyle">Figure 41.2 — Default 
+		volume style on left and BoundaryEnhancementVolumeStyle on right</a> </li>
+		<li><a href="#f-CartoonVolumeStyle">Figure 41.3 — Default volume style 
+		on left and CartoonVolumeStyle on right</a></li>
+		<li><a href="#f-ComposedVolumeStyle">Figure 41.4 — Default volume style 
+		on left and ComposedVolumeStyle on right</a></li>
+		<li><a href="#f-EdgeEnhancementVolumeStyle">Figure 41.5 — Default volume 
+		style on left and EdgeEnhancementVolumeStyle on right</a></li>
+		<li><a href="#f-IsoSurfaceVolumeData">Figure 41.6 — IsoSurface volume 
+		data using CartoonVolumeStyle</a></li>
+		<li><a href="#f-OpacityMapVolumeStyle">Figure 41.7 — Default volume 
+		style on left and OpacityMapVolumeStyle on right</a></li>
+		<li><a href="#f-LMIPThreshold">Figure 41.8 — Illustration of values selected when using MIP or LMIP 
+		volume rendering styles</a></li>
+		<li><a href="#f-ProjectionVolumeStyle">Figure 41.9 — Default volume 
+		style on left and MIP ProjectionVolumeStyle on right</a></li>
+		<li><a href="#f-SegmentedVolumeData">Figure 41.10 — Segmented volume 
+		data using OpacityMapVolumeStyle and ToneMappedVolumeStyle</a></li>
+		<li><a href="#f-ShadedVolumeStyle">Figure 41.11 — Default volume style 
+		on left and ShadedVolumeStyle on right</a></li>
+		<li><a href="#f-SilhouetteEnhancementVolumeStyle">Figure 41.12 — Default 
+		volume style on left and SilhouetteEnhancementVolumeStyle on right</a></li>
+		<li><a href="#f-ToneMappedVolumeStyle">Figure 41.13 — Default volume 
+		style on left and ToneMappedVolumeStyle on right</a></li>
+		<li><a href="#f-VolumeData">Figure 41.14 — Volume data using default 
+		volume style</a></li>
+</ul>    
+      </td>
+	</tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>41.2 Concepts</h1>
+
+<h2><a name="ConceptsOverview"></a>41.2.1 Overview</h2>
+
+<p>Volume rendering is an alternate form of visual data representation compared 
+to the traditional polygonal form used in the rest of this part of ISO/IEC 
+19775. Whereas polygons represent a portion of an infinitely thin plane, volume data represents 
+a three-dimensional portion of space. When polygonal data representing a volume in 
+space is sliced, such as with a clipping plane, there is empty space. In the 
+same situation, volumetric data shows the internals of that volume.</p>
+<p>There are many different techniques for implementing rendering of volumetric 
+data. This component does not define the technique used to render the data, only 
+the type of visual output to be produced. In addition, it defines several 
+different types of data representations for which the renderings may be applied. 
+To implement some of the higher-complexity representations, the implementer may 
+need to use a more complex rendering technique than the simpler representations 
+(though this is not required). Each of the rendering nodes represents the visual 
+output required, not the technique used to implement that visual output. Most of 
+the rendering styles defined in this component are formally defined in
+<a href="../bibliography.html#%5BFOLEY%5D">[FOLEY]</a>.</p>
+<h2><a name="RepresentingVolumetricData"></a>41.2.2 Representing volumetric data</h2>
+<h3><a name="RegistrationAndScaling"></a>41.2.2.1 Coordinate system</h3>
+<p>Volumetric data consists of a set of aligned 2D textures. The coordinate 
+system places the 2D textures in the volume such that each 2D texture lies in 
+the XY-plane, with the depth increasing away from the viewer along the +Z axis.</p>
+<p class="Example">NOTE&nbsp; This, effectively, inverts the 3D texture 
+coordinates for the R axis direction, which defines them to have depth 
+increasing along the -Z axis (see <a href="texture3D.html#f-3DTexture">Figure 33.1</a>).</p>
+<p>The volume is centered around the local origin and is subject to the parent 
+transformation hierarchy, including scales, shears and rotations.</p>
+<h3>41.2.2.1 Registration and scaling</h3>
+<p>Volumetric data represents volume information that often comes from the 
+real world or is computationally generated. </p>
+<p class="Example">EXAMPLE&nbsp; Human body scans are from the real world while 
+simulated stress analysis of 
+an engine part is computationally generated. </p>
+<p>The volumetric data is typically part of a larger environment space and thus 
+needs to be located within that space so that volumes for different parts (<i>e.g.</i>, 
+an arm and leg of a single human) may be presented in a spatially correct 
+manner. Typically, volumes are not a unit cube in size. Thus, additional dimensional 
+information accompanies the volume to indicate its true size in the local 
+coordinate system.</p>
+<h3><a name="DataRepresentation"></a>41.2.2.2 Data representation</h3>
+<h4><a name="3DTextureDefinition"></a>41.2.2.2.1 3D texture definition</h4>
+<p>Volume rendering requires the data be provided in a volumetric form. This 
+component uses the 3D texturing component (see <a href="texture3D.html">33 Texturing3D 
+component</a>) to represent the raw volume data, but without rendering that data 
+directly onto polygonal surfaces. Volumetric rendering may make use of multiple 
+3D textures to generate a final visual form.</p>
+<p>Data may be represented using between one and four colour components. How 
+each colour component is to be interpreted as part of the rendering is defined 
+for each node. Some nodes may require a specific minimum number of components or 
+define that anything more than a specific number are to be ignored. Providing 
+extra data may not be helpful to the implementation. In cases where not enough 
+components are provided (<em>e.g.</em>, a surface normal texture only being 
+defined with a one or two component colour image), the entire data source is ignored.</p>
+<h4><a name="VectorAndNormalRepresentation"></a>41.2.2.2.2 Vector and normal 
+representation</h4>
+<p>Some nodes make use of 3D textures to convey data other than colour.</p>
+<p class="Example">EXAMPLE&nbsp; Normal or other vector information may be 
+included.</p>
+<p>For the purposes of representing 3D information, the 3D texture components 
+shall be interpreted as defined by
+<a href="#t-MappingOfTextureColourComponentsTo3DCoordinates">Table 41.2</a>.</p>
+<div class="CenterDiv">
+	<p class="TableCaption">
+	<a name="t-MappingOfTextureColourComponentsTo3DCoordinates"></a>Table 41.2 — 
+	Mapping of texture colour components to 3D coordinates</p>
+	<table align="center">
+		<tr>
+			<th>Color Component</th>
+			<th>3D Coordinate</th>
+		</tr>
+		<tr>
+			<td>Red</td>
+			<td>X</td>
+		</tr>
+		<tr>
+			<td>Green</td>
+			<td>Y</td>
+		</tr>
+		<tr>
+			<td>Blue</td>
+			<td>Z</td>
+		</tr>
+		<tr>
+			<td>Alpha</td>
+			<td>Ignored</td>
+		</tr>
+	</table>
+</div>
+<p>If the texture provided for the field does not contain enough colour 
+components for the data to be represented, it shall be ignored and the node&#39;s 
+default behaviour used.</p>
+<p>If a rendering style requires a surface normal value and is required 
+to implicitly calculate one, the normal at a given voxel is the normalized gradient 
+of the scalar field at that voxel location.</p>
+<h4></h4>
+<h4><a name="DataOptimization"></a>41.2.2.2.3 Data optimization</h4>
+<p>An implementation is free to provide whatever data reduction techniques are 
+appropriate during pre-processing prior to rendering. Within a specific volume 
+data representation, the implementation may also perform its own optimization 
+techniques.</p>
+<p class="Example">EXAMPLE&nbsp; Automatic mipmapping may occur.</p>
+<p>Volume visualization data sets are not required to be represented in sizes 
+that are powers of two. Implementations may need to internally pad the texture 
+sizes for passing to the underlying rendering engine, but user-provided content 
+is not required to do this.</p>
+<h3><a name="SegmentationInformation"></a>41.2.2.3 Segmentation information</h3>
+<p>The volume data may optionally represent segmented data sets. Doing so 
+requires representing the data in a slightly different manner than a standard 
+volume data set. Therefore, a separate node is provided. Segmentation data takes 
+the form of an additional volume of data where each voxel represents a segment 
+ID value in addition to other values represented in each voxel. The segmentation 
+information is used by the rendering process to control how each voxel is to be 
+rendered. It is not unusual to use segmentation information to render each 
+segment identifier with a different style.</p>
+<p class="Example">EXAMPLE&nbsp; Bone may be rendered using isosurfaces while 
+skin may be rendered using tone shading.</p>
+<h3><a name="TensorRepresentation"></a>41.2.2.4 Tensor representation</h3>
+<p>This part of ISO/IEC 19775 does not explicitly handle or represent tensor 
+data (<em>i.e.</em>, higher-order products of functions that are each applied to 
+a set of variables). Nevertheless, tensor information may be rendered using the techniques in this 
+International Standard 
+even though no direct data is being transmitted. It is recommended that, if an 
+application needs to know about the existence of tensor data, the metadata 
+capabilities of this part of ISO/IEC 19775 also be used.</p>
+<h3><a name="VisualRepresentation"></a>41.2.2.5 Visual representation</h3>
+<p>Volumetric data is typically given as a 3D rectangular block of information. 
+Turning that densely packed information into something meaningful where internal structures may be discernable is 
+the job of the rendering process. However, there is not a single uniform 
+approach to volume rendering. A technique that is good for exposing structures 
+for medical visualization may be poor for fluid simulation visualization.</p>
+<p>To allow for the production of different visual outputs, the Volume rendering component separates 
+the scenegraph into two sets of responsibilities:</p>
+<ol type="a">
+	<li>nodes for representing the volume data, and</li>
+	<li>nodes for rendering that volume data in different ways.</li>
+</ol>
+<p>In this way, the same rendering process may be used for different sets of 
+volume data where varying rendering styles may be used to highlight different 
+structures within the one volume.</p>
+<p>Many rendering techniques map volume data to a visual representation 
+through the use of another texture known as a Transfer function. This secondary 
+texture defines the colours to use, acting as a form of lookup table. Transfer 
+functions can be defined in one, two, or three dimensions. A one-dimensional texture capability can 
+be achieved through the use of a 2D texture that is only one pixel wide.</p>
+<h2><a name="InteractionWithOtherNodesAndComponents"></a>41.2.3 Interaction with 
+other nodes and components</h2>
+<h3><a name="InteractionOverview"></a>41.2.3.1 Overview</h3>
+<p>Volumetric rendering requires a completely different implementation path from 
+traditional polygonal rendering. The data represents not only surface 
+information, but also colour and potentially lighting information as well. As 
+such, volume rendering occupies the role in the renderable scenegraph of an X3DShapeNode rather than as individual geometry or appearance information.</p>
+<h3><a name="Lighting"></a>41.2.3.2 Lighting</h3>
+<p>Volumetric rendering is not required to follow the standard lighting 
+equations specified in <a href="lighting.html">17 Lighting component</a>. Many 
+techniques include the ability to self-light and self-shadow using information 
+from the parent scene graph (<i>e.g.</i>, light scoping). </p>
+<p>The volume data is rendered using one or more rendering styles. Each 
+rendering style 
+defines its own lighting equation that takes the colour and opacity value from 
+the previously evaluated style, modifies the lighting equation according to the local style rules, 
+and generates an output colour and opacity value. The first rendering style that 
+is applied to the 
+voxel obtains the source values directly from the voxel data using the colour and/or 
+opacity channels as needed. Typically, the first rendering style the used to 
+render the volume data are 
+transfer functions and the <a href="#OpacityMapVolumeStyle">
+OpacityMapVolumeStyle</a>.</p>
+<p>Many of these rendering styles involve non-photorealistic 
+rendering effects. Each style presents its own lighting equation specifying how to get 
+from the underlying voxel representation to the contributed output colour. The 
+following are some common terms that are found in the lighting equations:</p>
+<ul>
+	<li>O<sub>v</sub>: The initial opacity of the object prior to the use of 
+	this rendering style. If this is the first rendering style applied to the object, this is the 
+	value of the alpha component of the voxel being evaluated.</li>
+	<li>O<sub>g</sub>: The output opacity of the object resulting from evaluating 
+	this rendering style.</li>
+	<li>C<sub>v</sub>: The initial colour of the object prior to the use of this 
+	rendering style. If this is the first rendering style applied to the object, this is the value 
+	of the colour components of the voxel being applied.</li>
+	<li>C<sub>g</sub> The output colour of the object resulting from evaluating 
+	this rendering style.</li>
+	<li>Δf: The normalized value gradient of the voxel. This is the rate of 
+	change of the value relative to the values in neighbouring voxels.</li>
+	<li><b>V</b>: The vector from the viewer&#39;s position to the voxel being 
+	evaluated, in the local coordinate space of the volume data.</li>
+	<li><b>n</b>: The local surface normal. This may be provided by the user 
+	through another 3D texture that contains a surface normal for each voxel or 
+	else is 
+	internally calculated through algorithmic means.</li>
+	<li><b>L</b><sub>i</sub>: Light direction vector from light source <i>i</i>. 
+	Typically, this is part of a summation over all light sources affecting the volume.</li>
+</ul>
+<p>When determining the view direction for any lighting or rendering 
+calculations, the view direction is calculated from the user&#39;s current location 
+in the world to the current voxel being processed. Lighting and rendering style 
+calculations are assumed to be individually calculated for each voxel.</p>
+<h3><a name="Geometry"></a>41.2.3.3 Geometry</h3>
+<p>The volumetric rendering nodes representing geometry are leaf nodes in the renderable tree. 
+Volumetric nodes may exist as part of a shared scene graph with DEF/USE.</p>
+<h2><a name="Conformance"></a>41.2.4 Conformance</h2>
+<h3><a name="Dimensionality"></a>41.2.4.1 Dimensionality</h3>
+<p>The minimum required voxel dimensions that shall be supported are 
+256x256x256.</p>
+<h3><a name="HardwareRequirements"></a>41.2.4.2 Hardware requirements</h3>
+<p>There are no specific requirements for hardware acceleration of this 
+component. In addition, this component does not define the specific 
+implementation strategy to be used by a given rendering style. It is as equally 
+valid to implement the code using simple multi-pass rendering as it is to use 
+hardware shaders.</p>
+<h3><a name="SceneGraphInteraction"></a>41.2.4.3 Scene graph interaction</h3>
+<p>For minimum conformance, sensor nodes that require interaction with the geometry (<i>e.g.</i>, 
+TouchSensor) shall provide intersection information based on the volume&#39;s bounds. An implementation may optionally provide real 
+intersection information based on performing ray casting into the volume space 
+and reporting the first non-transparent voxel hit.</p>
+<p>Navigation and collision detection also require a minimal conformance 
+requirement of using the bounds of the volume. In addition, the implementation 
+may allow greater precision with non-opaque voxels in a similar manner to the 
+sensor interactions.</p>
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="AbstractTypes"></a>41.3 Abstract types</h1>
+
+<h2><a name="X3DComposableVolumeRenderStyleNode"></a>41.3.1 <em>
+X3DComposableVolumeRenderStyleNode</em></h2>
+
+<pre class="node">X3DComposableVolumeRenderStyleNode : X3DVolumeRenderStyleNode {
+  SFBool   [in,out] enabled  TRUE
+  SFNode   [in,out] metadata NULL [X3DMetadataObject]
+}</pre>
+
+<p>The <em>X3DComposableVolumeRenderStyleNode</em> abstract node type is the 
+base type for all node types that allow rendering styles to be sequentially 
+composed together to form a single renderable output. The output of one style 
+may be used as the input of the next style. Composition in this manner is 
+performed using the <a href="#ComposedVolumeStyle">ComposedVolumeStyle</a> node.</p>
+
+<h2><a name="X3DVolumeDataNode"></a>41.3.2 <i>X3DVolumeDataNode</i></h2>
+
+<pre class="node">X3DVolumeDataNode : X3DChildNode, X3DBoundedObject { 
+  SFVec3f [in,out] dimensions  1 1 1    (0,&infin;)
+  SFNode  [in,out] metadata    NULL     [X3DMetadataObject]
+  SFVec3f []       bboxCenter  0 0 0    (-&infin;,&infin;)
+  SFVec3f []       bboxSize    -1 -1 -1 [0,&infin;) or -1 -1 -1
+}
+</pre>
+
+<p>The <i>X3DVolumeDataNode</i> abstract node type is the base type for all node 
+types that describe volumetric data to be rendered. It sits at the same level as 
+the polygonal <i>X3DShapeNode</i> (see <a href="shape.html#X3DShapeNode">12.3.4
+<i>X3DShapeNode</i></a>) within the scene graph structure, but defines 
+volumetric data rather than polygonal data.</p>
+<p>The <i>dimensions</i> field specifies the dimensions of this geometry in the 
+local coordinate space using standard X3D length base units. It is assumed the volume is 
+centered around the local origin. If the <i>bboxSize</i> field is set, it typically has the same value as the <i>dimensions</i> field.</p>
+<p>If one of the dimension values is zero, the X3DVolumeData node shall be 
+rendered as a plane. If two of the dimension values are zero, the X3DVolumeData 
+node shall be rendered as a line. If all three dimension values are zero, the 
+X3DVolumeData node shall be rendered as a point.</p>
+
+<h2><a name="X3DVolumeRenderStyleNode"></a>41.3.3 <i>X3DVolumeRenderStyleNode</i></h2>
+
+<pre class="node">X3DVolumeRenderStyleNode : X3DNode {
+  SFBool   [in,out] enabled  TRUE
+  SFNode   [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>The <i>X3DVolumeRenderStyleNode</i> abstract node type is the base type for 
+all node types that specify a specific visual rendering style to be used when 
+rendering volume data.<br>
+<br>
+The <i>enabled</i> field defines whether this rendering style is 
+currently applied to the volume data. If the field is set to <span class="code">
+FALSE</span>, the rendering shall not be applied. The result of rendering with 
+the<i> enabled</i> field set to <span class="code">
+FALSE</span> shall act as though no volume data is provided. 
+Effectively, this allows turning on and off volume rendering of specific parts 
+of the volume without needing to add or remove style definitions from the volume 
+data node.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="NodeReference"></a>41.4 Node reference</h1>
+ 
+<h2><a name="BlendedVolumeStyle"></a>41.4.1 BlendedVolumeStyle</h2>
+<pre class="node">BlendedVolumeStyle : X3DComposableVolumeRenderStyleNode { 
+  SFBool   [in,out] enabled                 TRUE
+  SFNode   [in,out] metadata                NULL       [X3DMetadataObject]
+  SFNode   [in,out] renderStyle             NULL       [X3DComposableVolumeRenderStyleNode]
+  SFNode   [in,out] voxels                  NULL       [X3DTexture3DNode]         
+  SFFloat  [in,out] weightConstant1         0.5        [0,1]
+  SFFloat  [in,out] weightConstant2         0.5        [0,1]
+  SFString [in,out] weightFunction1         &quot;CONSTANT&quot; [&quot;CONSTANT&quot;, &quot;ALPHA0&quot;, &quot;ALPHA1&quot;, &quot;TABLE&quot;,
+                                                        &quot;ONE_MINUS_ALPHA0&quot;, &quot;ONE_MINUS_ALPHA1&quot; ] 
+  SFString [in,out] weightFunction2         &quot;CONSTANT&quot; [&quot;CONSTANT&quot;, &quot;ALPHA0&quot;, &quot;ALPHA1&quot;, &quot;TABLE&quot;,
+                                                        &quot;ONE_MINUS_ALPHA0&quot;, &quot;ONE_MINUS_ALPHA1&quot; ] 
+  SFNode   [in,out] weightTransferFunction1 NULL       [X3DTexture2DNode]
+  SFNode   [in,out] weightTransferFunction2 NULL       [X3DTexture2DNode]
+}
+</pre>
+<p>The BlendedVolumeStyle combines the rendering of the parent volume data set 
+and the rendering of a second specified volume data set into one by blending the 
+values according to a weight function. The first data set is the data set that 
+is specified by the parent VolumeData or SegmentedVolumeData node. The second 
+data set and its render style is defined by the <em>voxels</em> and <em>
+renderStyle</em> fields specified by this BlendedVolumeStyle node. For the 
+latter case, the value specified by the <em>renderStyle</em> field is applied to 
+the voxels specified by the <em>voxels</em> field. The result is blended with 
+the current state of voxels from the parent VolumeData or SegmentedVolumeData 
+node. Those voxels are either the original parent voxels with default 
+OpacityMapVolumeStyle applied or the result of any previous renderStyles having 
+been applied by a ComposedVolumeStyle node. </p>
+<p>The final colour is determined by:</p>
+<blockquote>
+				C<sub>g</sub> = clamp<sub>[0-1]</sub>( C<sub>v</sub> × w1 + C<sub>blend</sub> 
+				× w2 ) <br>
+				O<sub>g</sub> = clamp<sub>[0-1]</sub>( O<sub>v</sub> × w1 + O<sub>blend</sub> 
+				× w2 )
+</blockquote>
+<p>where C<sub>blend</sub> and O<sub>blend</sub> is the color and alpha value of 
+the second data set after the rendering style has been applied. The values of w1 
+and w2 depend on the <em>weightFunction1</em> and <em>weightFunction2</em> fields, respectively, as defined in
+<a href="#t-WeightFunctionTypes">
+Table 41.3</a>.</p>
+<div class="CenterDiv">
+				<p class="TableCaption"><a name="t-WeightFunctionTypes"></a>
+				Table 41.3 — Weight function types</p>
+				<table id="table1" align="center">
+								<tr>
+												<th>Value</th>
+												<th>Description of 
+												weightFunction1</th>
+												<th>Description of 
+												weightFunction2</th>
+								</tr>
+								<tr>
+												<td><span class="code">
+												&quot;CONSTANT&quot;</span></td>
+												<td>Use <em>weightConstant1</em>.</td>
+												<td>Use <em>weightConstant</em>2.</td>
+								</tr>
+								<tr>
+												<td><span class="code">&quot;ALPHA1&quot;</span></td>
+												<td>Use O<sub>v</sub>.</td>
+												<td>Use O<sub>v</sub>.</td>
+								</tr>
+								<tr>
+												<td><span class="code">&quot;ALPHA2&quot;</span></td>
+												<td>Use O<sub>blend</sub>.</td>
+												<td>Use O<sub>blend</sub>.</td>
+								</tr>
+								<tr>
+												<td><span class="code">
+												&quot;ONE_MINUS_ALPHA1&quot;</span></td>
+												<td>Use 1 - O<sub>v</sub>.</td>
+												<td>Use 1 - O<sub>v</sub>.</td>
+								</tr>
+								<tr>
+												<td><span class="code">
+												&quot;ONE_MINUS_ALPHA2&quot;</span></td>
+												<td>Use 1 - O<sub>blend</sub>.</td>
+												<td>Use 1 - O<sub>blend</sub>.</td>
+								</tr>
+								<tr>
+												<td><span class="code">&quot;TABLE&quot;</span></td>
+												<td>
+												<p>Use 
+												the lookup 
+												value for texture coordinate&nbsp; 
+												(O<sub>v</sub>, O<sub>blend</sub>) 
+												in <em>weightTransferFunction1</em> 
+												and map to weight value 
+												according to
+												<a href="#t-transferFunctionToWeightMapping">
+												Table 41.4</a> 
+												or use O<sub>v</sub> 
+												if  
+												<em>weightTransferFunction1</em> is <code>NULL</code>.</p>
+												</td>
+												<td>
+												Use 
+												the lookup 
+												value for texture coordinate&nbsp; 
+												(O<sub>v</sub>, O<sub>blend</sub>) 
+												in <em>weightTransferFunction</em>2 
+												and map to weight value 
+												according to
+												<a href="#t-transferFunctionToWeightMapping">
+												Table 41.4</a> 
+												or use O<sub>v</sub> 
+												if  
+												<em>weightTransferFunction</em>2 is <code>NULL</code>.</td>
+								</tr>
+				</table>
+</div>
+<p>The <em>weightTransferFunction1</em> and <em>weightTransferFunction2</em> 
+fields specify 
+two-dimensional textures that are used to determine the weight values when the 
+weight function is set to <code>&quot;TABLE&quot;</code>. The output weight value depends on the number 
+of components in the textures as specified in
+<a href="#t-transferFunctionToWeightMapping">Table 41.4</a>.</p>
+
+<div class="CenterDiv">
+	<p class="TableCaption">
+	<a name="t-transferFunctionToWeightMapping"></a>Table 41.4 — 
+	Transfer function to weight mapping</p>
+	<table align="center">
+		<tr>
+		    <th><strong>Number of Texture Components</strong></th>
+			<th><strong>Texel Components</strong></th>
+			<th>Weight</th>
+		</tr>
+		<tr>
+		    <td align="center">1</td>
+			<td>Luminance (L)</td>
+			<td>Luminance component (L)</td>
+		</tr>
+		<tr>
+		    <td align="center">2</td>
+			<td>Luminance Alpha (LA)</td>
+			<td>Luminance component (L)</td>
+		</tr>
+		<tr>
+		    <td align="center">3</td>
+			<td>RGB</td>
+			<td>Red component (R)</td>
+		</tr>
+		<tr>
+		    <td align="center">4</td>
+			<td>RGBA</td>
+			<td>Red component (R)</td>
+		</tr>
+	</table>
+</div>
+
+<p><a href="#f-BlendedVolumeStyle">Figure 41.1</a> depicts a human torso and 
+part of a skull (OpacityMapRenderStyle) blended with a blue/yellow tone-mapped 
+volume of the internal organs. The image shows how BlendedVolumeStyle allows two 
+different volumes to be combined, each with its own render style.</p>
+<div class="CenterDiv">
+<p><a name="f-BlendedVolumeStyle"></a>
+<img alt="Blended_Body_Internals.png" height="512" src="../../Images/Blended_Body_Internals.png" width="512"></p></div>
+<p class="FigureCaption">Figure 41.1 — Torso in BlendedVolumeStyle</p>
+<h2><a name="BoundaryEnhancementVolumeStyle"></a>41.4.2 BoundaryEnhancementVolumeStyle</h2>
+
+<pre class="node">BoundaryEnhancementVolumeStyle : X3DComposableVolumeRenderStyleNode { 
+  SFFloat     [in,out] boundaryOpacity  0.9     [0,1]
+  SFBool      [in,out] enabled          TRUE
+  SFNode      [in,out] metadata         NULL    [X3DMetadataObject]
+  SFFloat     [in,out] opacityFactor    2       [0,&infin;)
+  SFFloat     [in,out] retainedOpacity  0.2     [0,1]
+}</pre>
+<p>The BoundaryEnhancementVolumeStyle node provides boundary enhancement for the 
+volume rendering style. In this rendering style, the colour rendered is based on the 
+gradient magnitude. Faster-changing gradients (surface normals) are darker than 
+slower-changing gradients. Thus, regions of different density are made more visible 
+relative to parts that are of relatively constant density.<br>
+<br>
+The <i>surfaceNormals</i> field is used to provide pre-calculated surface normal 
+information for each voxel. If provided, this shall be used for all lighting 
+calculations. If not provided, the implementation shall automatically generate 
+surface normals using an implementation-specific method. If a value is provided, 
+it shall be exactly the same voxel dimensions as the base volume data that it 
+represents. If the dimensions are not identical, the browser shall generate a 
+warning and automatically generate its own internal normals as though no value 
+was provided for this field.<br>
+<br>
+The output opacity for this rendering style is obtained by combining a fraction of the 
+volume&#39;s original opacity with an enhancement based on the local boundary 
+strength (<em>i.e.</em>, magnitude of the gradient between adjacent voxels). Colour components 
+from the input are transferred unmodified to the output. The function used is:</p>
+<blockquote>
+	<p>O<sub>g</sub> = O<sub>v</sub> ( k<sub>gc</sub> + k<sub>gs</sub>(|Δf|)^k<sub>ge</sub>)</p>
+</blockquote>
+
+<p>where</p>
+<ul>
+	<li>the operator &quot;^&quot; means &quot;to the power&quot;</li>
+	<li>O<sub>g</sub> is the computed opacity of the voxel</li>
+	<li>O<sub>v</sub> is the original opacity of the voxel</li>
+	<li>k<sub>gc</sub> is the amount of initial opacity to mix into the output (<i>retainedOpacity</i>).</li>
+	<li>k<sub>gs</sub> is the factored amount of the gradient enhancement to use (<i>boundaryOpacity</i>).</li>
+	<li>k<sub>ge</sub> is the power function to control the slope of the opacity 
+	curve to highlight the set of data (<em>opacityFactor</em>).</li>
+	<li>|Δf| is the absolute value of the forward difference between the current 
+	and next voxel.</li>
+</ul>
+<p><a href="#f-BoundaryEnhancementVolumeStyle">Figure 41.2</a> shows a basic image of ventricles 
+of the brain on the left and an image of ventricles of the brain using 
+BoundaryEnhancementVolumeStyle on the right.</p>
+<div class="CenterDiv">
+<p><a name="f-BoundaryEnhancementVolumeStyle">
+<img alt="Ventricles_Basic_Boundary.png" height="404" src="../../Images/Ventricles_Basic_Boundary.png" width="800"></a></p></div>
+<p class="FigureCaption">Figure 41.2 — On the left, the ventricle with default 
+render style and default field values. On the right, the ventricle using 
+BoundaryEnhancementVolumeStyle with default values: boundaryOpacity=0.9, 
+opacityFactor=2, and retainedOpacity=0.2.</p>
+<h2><a name="CartoonVolumeStyle"></a>41.4.3 CartoonVolumeStyle</h2>
+
+<pre class="node">CartoonVolumeStyle : X3DComposableVolumeRenderStyleNode { 
+  SFInt32     [in,out] colorSteps       4       [1,64]
+  SFBool      [in,out] enabled          TRUE
+  SFNode      [in,out] metadata         NULL    [X3DMetadataObject]
+  SFColorRGBA [in,out] orthogonalColor  1 1 1 1 [0,1]
+  SFColorRGBA [in,out] parallelColor    0 0 0 1 [0,1]
+  SFNode      [in,out] surfaceNormals   NULL    [X3DTexture3DNode]
+}</pre>
+<p>The CartoonVolumeStyle generate a cartoon-style non-photorealistic rendering 
+of the associated volumetric data. Cartoon rendering uses two colours that are rendered in a series 
+of distinct flat-shaded sections based on the local surface normal&#39;s closeness 
+to the average normal with no gradients in between.<br>
+<br>
+The <i>surfaceNormals</i> field contains a 3D texture with at least three 
+component values. Each voxel in the texture represents the surface normal 
+direction for the corresponding voxel in the base data source. This texture 
+should be identical in dimensions to the source data. If not, the implementation 
+may interpolate or average between adjacent voxels to determine the average 
+normal at the voxel required. If this field is empty, the implementation shall 
+automatically determine the surface normal using algorithmic means.<br>
+<br>
+The <i>parallelColor</i> field specifies the colour to be used for surface 
+normals that are orthogonal to the viewer&#39;s current location (where the plane of 
+the surface itself is parallel to the user&#39;s view direction).<br>
+<br>
+The <i>orthogonalColor</i> field specifies the colour to be used for surface 
+normals that are parallel to the viewer&#39;s current location (the plane of the 
+surface itself is orthogonal to the user&#39;s view direction). Surfaces that are backfacing are not rendered and shall have no colour calculated for them.<br>
+<br>
+The <i>colorSteps</i> field indicates how many distinct colours are taken 
+from the interpolated colours and used to render the object. If the value is 1, 
+no colour interpolation takes place and only the orthogonal colour is used to 
+render the surface. For any other value, the colours are interpolated between <i>
+parallelColor</i> and <i>orthogonalColor</i> in HSV colour space for the RGB 
+components, and linearly for the alpha component.<br>
+<br>
+To determine the colours to be used, the angles for the surface normal relative 
+to the view position are used. The range [<font face="Times New Roman">0, &pi;</font>/2] is divided by
+<i>colourSteps</i>. (The two 
+ends of the spectrum are not interpolated in this way and shall use the specified 
+field values). For each of the interpolated ranges, other than the two ends, the 
+midpoint angle is determined and the interpolated colour value is computed using that point.</p>
+<p class="Example">EXAMPLE&nbsp; Using the default field values for 
+CartoonVolumeStyle, the following 
+RGBA colour are computed:</p>
+<ul>
+	<li>
+	<p class="Example">1,1,1,1 for angles [<font face="Times New Roman">0, π/8</font>)</li>
+	<li>
+	<p class="Example">0.625,0.625,0.625,1 for angles [<font face="Times New Roman">π/8, π/4</font>), </li>
+	<li>
+	<p class="Example">0.375,0.375,0.375,1 for angles [<font face="Times New Roman">π/4, 3π/8</font>), </li>
+	<li>
+	<p class="Example">0,0,0,1 for angles [<font face="Times New Roman">3π/8, 
+	π/2</font>]</li>
+</ul>
+<p><a href="#f-CartoonVolumeStyle">Figure 41.3</a> shows a basic image of a backpack on the left and an image of the 
+backpack using CartoonVolumeStyle on the right.</p>
+<div class="CenterDiv">
+<p><a name="f-CartoonVolumeStyle">
+<img align="middle" alt="Backpack_Basic_Cartoon.png" height="445" src="../../Images/Backpack_Basic_Cartoon.png" width="800"></a></p></div>
+<p class="FigureCaption">Figure 41.3 &mdash; Default volume style on left and 
+CartoonVolumeStyle on right</p>
+<h2><a name="ComposedVolumeStyle"></a>41.4.4 ComposedVolumeStyle</h2>
+
+<pre class="node">ComposedVolumeStyle : X3DComposableVolumeRenderStyleNode { 
+  SFBool [in,out] enabled     TRUE
+  SFNode [in,out] metadata    NULL  [X3DMetadataObject]
+  MFNode [in,out] renderStyle []    [X3DComposableVolumeRenderStyleNode]
+}</pre>The ComposedVolumeStyle node is a rendering style node that allows 
+compositing multiple rendering styles together into a single rendering pass.<br>
+<br>
+<p class="Example">EXAMPLE&nbsp; ComposedVolumeStyle is used to render a simple 
+volume with both edge
+and silhouette rendering styles.</p>
+<p>The <em>renderStyle</em> field contains a list of contributing rendering style nodes 
+or node references 
+that can be applied to the object. The implementation shall apply each rendering style 
+strictly in the order declared starting with the first rendering style in the <i>
+renderStyle</i> 
+field.</p>
+<p><a href="#f-ComposedVolumeStyle">Figure 41.4</a> shows a basic image of a backpack on the left and an image of the 
+backpack using ComposedVolumeStyle on the right that combines 
+EdgeEnhancementVolumeStyle with SilhouetteEnhancementVolumeStyle.</p>
+<div class="CenterDiv">
+<p><a name="f-ComposedVolumeStyle">
+<img alt="Backpack_Basic_Composed.png" src="../../Images/Backpack_Basic_Composed.png"></a></p></div>
+<p class="FigureCaption">Figure 41.4 &mdash; Default volume style on left and 
+ComposedVolumeStyle on right</p>
+
+<h2><a name="EdgeEnhancementVolumeStyle"></a>41.4.5 EdgeEnhancementVolumeStyle</h2>
+
+<pre class="node">EdgeEnhancementVolumeStyle : X3DComposableVolumeRenderStyleNode { 
+  SFColorRGBA [in,out] edgeColor         0 0 0 1 [0,1]
+  SFBool      [in,out] enabled           TRUE
+  SFFloat     [in,out] gradientThreshold 0.4     [0,<span class="times">&pi;</span>]
+  SFNode      [in,out] metadata          NULL    [X3DMetadataObject]
+  SFNode      [in,out] surfaceNormals    NULL    [X3DTexture3DNode]
+}
+</pre>
+
+<p>The EdgeEnhancementVolumeStyle node specifies edge enhancement for the volume 
+rendering style. Enhancement of the basic volume is provided by darkening voxels 
+based on their orientation relative to the view direction. Perpendicular voxels 
+are coloured according to the <i>edgeColor</i> while voxels parallel are not 
+changed at all. A threshold can be set where the proportion of how close to 
+parallel the direction needs to be before no colour changes are made.</p>
+<p>The <i>gradientThreshold</i> field defines the minimum angle (in radians) 
+away from the view direction vector for the surface normal before 
+any enhancement is applied.</p>
+<p>The <i>edgeColor</i> field defines the colour to be used to highlight the 
+edges.</p>
+<p>The <i>surfaceNormals</i> field contains a 3D texture with at least three 
+component values. Each voxel in the texture represents the surface normal 
+direction for the corresponding voxel in the base data source. This texture 
+should be identical in dimensions to the source data. If not, the implementation 
+may interpolate or average between adjacent voxels to determine the average 
+normal at the voxel required. If the <i>surfaceNormals</i> field is empty, the 
+implementation shall automatically determine the surface normal using 
+algorithmic means.</p>
+<p>The final colour is determined by:</p>
+<p>C<sub>g</sub> =&nbsp; C<sub>v</sub> if (|<b>n</b> . <b>V</b>|) &ge; 
+cos(gradientThreshold);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C<sub>v</sub> &times; (|<b>n</b> . <b>V</b>|) + edgeColor 
+&times; (1 - (|<b>n</b> . <b>V</b>|)) otherwise.</p>
+<p>O<sub>g</sub> = O<sub>v</sub></p>
+<p><a href="#f-EdgeEnhancementVolumeStyle">Figure 41.5</a> shows a basic image of a human brain on the left and an image of 
+the human brain using EdgeEnhancementVolumeStyle on the right.</p>
+<div class="CenterDiv">
+<p><a name="f-EdgeEnhancementVolumeStyle">
+<img alt="Brain_Basic_Edge.png" height="343" src="../../Images/Brain_Basic_Edge.png" width="798"></a></p></div>
+<p class="FigureCaption">Figure 41.5 &mdash; Default volume style on left and 
+EdgeEnhancementVolumeStyle on right</p>
+
+<h2><a name="IsoSurfaceVolumeData"></a>41.4.6 IsoSurfaceVolumeData</h2>
+
+<pre class="node">IsoSurfaceVolumeData : X3DVolumeDataNode {
+  SFFloat [in,out] contourStepSize  0        (-&infin;,&infin;)
+  SFVec3f [in,out] dimensions       1 1 1    (0,&infin;)
+  SFNode  [in,out] gradients        NULL     [X3DTexture3DNode]
+  SFNode  [in,out] metadata         NULL     [X3DMetadataObject]
+  MFNode  [in,out] renderStyle      []       [X3DVolumeRenderStyleNode]
+  SFFloat [in,out] surfaceTolerance 0        [0,&infin;)
+  MFFloat [in,out] surfaceValues    []       (-&infin;,&infin;)
+  SFNode  [in,out] voxels           NULL     [X3DTexture3DNode]
+  SFVec3f []       bboxCenter       0 0 0    (-&infin;,&infin;)
+  SFVec3f []       bboxSize         -1 -1 -1 [0,&infin;) or -1 -1 -1
+}</pre>
+
+<p>The IsoSurfaceVolumeData node specifies one or more surfaces extracted from a 
+voxel data set. A surface is defined as the boundary between regions in the 
+volume where the voxel values are larger than a given value (the iso value) on 
+one side of the boundary and smaller on the other side and the gradient magnitude is 
+larger than <em>surfaceTolerance</em>. The <i>gradien</i><em>ts</em> field may 
+be used to provide explicit per-voxel gradient direction information for 
+determining surface boundaries rather than having it implicitly calculated by 
+the implementation.</p>
+<p>This data representation has one of three possible modes of operation based 
+on the values of the two fields <i>surfaceValues</i> and <i>contourStepSize</i>. 
+</p>
+<ol>
+	<li>If <i>surfaceValues</i> has a single value defined, render the isosurface 
+that corresponds to that value. </li>
+	<li>If the <em>surfaceValues</em> field has a single defined <i>contourStepSize</i> that is non-zero, also 
+render all isosurfaces that are multiples of that step size from the initial 
+surface value.</li>
+</ol>
+<blockquote>
+  <p class="Example">EXAMPLE&nbsp; With a surface value of 0.25 and a step size of 
+  0.1, any additional isosurfaces at 0.05, 0.15, 0.35, 0.45, ... shall also be 
+  rendered. If <i>contourStepSize</i> is left at the default value of zero, only 
+  that single isovalue is rendered as a surface.</p>
+	<p class="Example">NOTE&nbsp; The <em>contourStepSize</em> is allowed to be 
+	negative so that steppping proceeds in a negative direction.</p>
+</blockquote>
+<ol>
+	<li value="3">If <i>surfaceValues</i> has more than a single value defined, the 
+	<i>contourStepSize</i> field is ignored and surfaces corresponding to the 
+	listed <em>surfaceValues</em> amounts are rendered.</li>
+</ol>
+<p>For each isosurface extracted from the data set, a separate render style may 
+be assigned using the <i>renderStyle</i> node. The rendering styles are taken 
+from the <i>renderStyles</i> field corresponding to the index of the surface 
+value defined. In the case where automatic contours are being extracted using 
+the step size, the explicit surface value shall use the first declared render 
+style. Then render styles are assigned starting from the smallest iso-value. In 
+all cases, if there are insufficient render styles defined for the number of 
+isosurfaces to be rendered, the last style shall be used for all surfaces that 
+do not have an explicit style assigned.</p>
+<p>O<sub>v</sub> is defined to be 1 for this volume data regardless of the 
+number of components in the provided volume data texture.</p>
+<p><a href="#f-IsoSurfaceVolumeData">Figure 41.6</a> shows an IsoSurfaceVolume image of a skull using 
+CartoonVolumeStyle.</p>
+<div class="CenterDiv">
+<p><a name="f-IsoSurfaceVolumeData">
+<img alt="Skull_IsoSurface_Cartoon" height="392" src="../../Images/isoSurface-cartoon-high_skull.png" width="400"></a></p></div>
+<p class="FigureCaption">Figure 41.6 &mdash; IsoSurface volume data using 
+CartoonVolumeStyle</p>
+
+<h2><a name="OpacityMapVolumeStyle"></a>41.4.7 OpacityMapVolumeStyle</h2>
+
+<pre class="node">OpacityMapVolumeStyle : X3DComposableVolumeRenderStyleNode { 
+  SFBool [in,out] enabled          TRUE
+  SFNode [in,out] metadata         NULL [X3DMetadataObject]
+  SFNode [in,out] transferFunction NULL [X3DTexture2DNode,X3DTexture3DNode]
+}
+</pre>
+
+<p>The OpacityMapVolumeStyle specifies that the associated volumetric data is to be rendered using 
+the opacity mapped to a transfer function texture. This is the default rendering 
+style if no other X3DComposableVolumeRenderStyleNode is defined for the volume data.</p>
+<p>The <i>transferFunction</i> field holds a single texture representation in 
+either two or three dimensions that maps the voxel data values to a specific 
+colour output. If no value is supplied for this field, the default 
+implementation shall generate a 256x1 alpha-only image that blends from 
+completely transparent at pixel 0 to fully opaque at pixel 255.The texture may 
+be any number of dimensions and any number of components. The voxel values are 
+used as a lookup coordinates into the transfer function texture, where the texel 
+value represents the output colour.</p>
+
+<p>Components are mapped from the voxel data to the transfer function in a 
+component-wise fashion. The first component of the voxel data is an index into 
+the first dimension of the <i>transferFunction</i> texture (S). Similarly, T, R, 
+and Q are indices into the second, third, and fourth dimensions of the <em>
+transferFunction</em> texture (see
+<a href="#t-transferFunctionTextureCoordinateMapping">Table 41.5</a>). If there 
+are more components defined in the voxel data than there dimensions in the 
+transfer function, the extra components are ignored. If there are more 
+dimensions in the transfer function texture than the voxel data, the extra 
+dimensions in the transfer function are ignored (effectively treating the voxel 
+component data as a value of zero for the extra dimension). This mapping locates 
+the texel value in the texture, which is then used as the output for this style.</p>
+<div class="CenterDiv">
+	<p class="TableCaption">
+	<a name="t-transferFunctionTextureCoordinateMapping"></a>Table 41.5 — 
+	Transfer function mapping from texture type to texture coordinate</p>
+	<table align="center">
+		<tr>
+		    <th>Number of Texture Components</th>
+			<th>Texture Components</th>
+			<th>Transfer Function Texture Coordinates</th>
+		</tr>
+		<tr>
+            <td align="center">1</td>
+			<td>Luminance</td>
+			<td>S &#8592; luminance (L)</td>
+		</tr>
+		<tr>
+            <td align="center">2</td>
+			<td>Luminance Alpha</td>
+			<td>S, T &#8592; luminance, alpha (LA)</td>
+		</tr>
+		<tr>
+            <td align="center">3</td>
+			<td>RGB</td>
+			<td>S, T, R &#8592; red, green, blue (RGB)</td>
+		</tr>
+		<tr>
+            <td align="center">4</td>
+			<td>RGBA</td>
+			<td>S, T, R, Q &#8592; red, green, blue, alpha (RGBA)</td>
+		</tr>
+	</table>
+</div>
+<p>&nbsp;The colour value is treated like a normal texture with the colour 
+mapping as defined in <a href="#t-transferFunctionTextureOutputMapping">Table 41.6</a>.</p>
+<div class="CenterDiv">
+	<p class="TableCaption"><a name="t-transferFunctionTextureOutputMapping">
+	</a>Table 41.6 — Transfer function mapping from texture type to output 
+	colour</p>
+	<table align="center">
+		<tr>
+			<th>Texture Components</th>
+			<th>Red</th>
+			<th>Green</th>
+			<th>Blue</th>
+			<th>Alpha</th>
+		</tr>
+		<tr>
+			<td>Luminance (L)</td>
+			<td align="center">L</td>
+			<td align="center">L</td>
+			<td align="center">L</td>
+			<td align="center">1</td>
+		</tr>
+		<tr>
+			<td>Luminance Alpha (LA)</td>
+			<td align="center">L</td>
+			<td align="center">L</td>
+			<td align="center">L</td>
+			<td align="center">A</td>
+		</tr>
+		<tr>
+			<td>RGB</td>
+			<td align="center">R</td>
+			<td align="center">G</td>
+			<td align="center">B</td>
+			<td align="center">1</td>
+		</tr>
+		<tr>
+			<td>RGBA</td>
+			<td align="center">R</td>
+			<td align="center">G</td>
+			<td align="center">B</td>
+			<td align="center">A</td>
+		</tr>
+	</table>
+</div>
+<p><a href="#f-OpacityMapVolumeStyle">Figure 41.7</a> shows a basic image of a backpack on the left and an image of the 
+backpack using OpacityMapVolumeStyle on the right.</p>
+<div class="CenterDiv">
+<p><a name="f-OpacityMapVolumeStyle">
+<img alt="Backpack_Basic_Opacity" height="400" src="../../Images/Backpack_Basic_Opacity.png" width="800"></a></p></div>
+<p class="FigureCaption">Figure 41.7 &mdash; Default volume style on left and 
+OpacityMapVolumeStyle on right</p>
+<h2><a name="ProjectionVolumeStyle"></a>41.4.8 ProjectionVolumeStyle</h2>
+<pre class="node">ProjectionVolumeStyle : X3DVolumeRenderStyleNode {
+  SFBool   [in,out] enabled            TRUE
+  SFNode   [in,out] metadata           NULL  [X3DMetadataObject]
+  SFFloat  [in,out] intensityThreshold 0     [0,1]
+  SFString [in,put] type               &quot;MAX&quot; [&quot;MAX&quot;, &quot;MIN&quot;, &quot;AVERAGE&quot;]
+}</pre>
+<p>The ProjectionVolumeStyle volume style node uses the voxel data directly to 
+generate output colour based on the values of voxel data along the viewing rays 
+from the eye point. </p>
+<p>If the value of type is <code>&quot;MAX&quot;</code>, The Maximum Intensity Projection (MIP) 
+algorithm is used 
+to generate the output colour. This rendering style also includes the option to 
+use the extended form of Local Maximum Intensity Projection (LMIP, see
+<a href="../bibliography.html#[LMIP]">[LMIP]</a>). The output colour is determined by projecting rays into the voxel 
+data from the viewer location and finding the maximum voxel value found along 
+that ray. If the <i>intensityThreshold</i> value is non-zero, rendering will use 
+the first maximum value encountered that exceeds the threshold rather than the 
+maximum found along the entire ray.
+<a href="#f-LMIPThreshold">
+Figure 41.8</a> illustrates the difference in rendered value between LMIP and 
+MIP.</p>
+<div class="CenterDiv">
+				<a name="f-LMIPThreshold">
+				<img src="../../Images/LMIP_threshold.png" alt="Illustration of LMIP versus MIP values"></a>
+				<p class="FigureCaption">Figure 41.8 — Illustration of values 
+				selected when using MIP or LMIP volume rendering styles</p>
+</div>
+<p>If the value of <em>type</em> is <span class="code">&quot;MIN&quot;</span>, Minimum Intensity Projection is used. This 
+works similar to Maximum Intensity Projection with the difference that the 
+minimum voxel value along the ray is used. </p>
+<p>If the value of <em>type</em> is <span class="code">&quot;AVERAGE&quot;</span>, Average Intensity Projection is used. In 
+this case the average value of all voxels along the ray is used as the output 
+colour. The <em>intensityThreshold</em> field is ignored. This is a simple approximation 
+of X-Ray. </p>
+<p>Since the output of this node is a set of intensity values, all colour 
+components have the same value. The intensity is derived from the average of all 
+colour components of the voxel data (though typical usage will only use single 
+component textures). The Alpha channel is passed through as-is from the 
+underlying data. If there is no alpha channel provided, a default alpha value of 1 is used. </p>
+<p><a href="#f-ProjectionVolumeStyle">Figure 41.9</a> shows a basic image of ventricles 
+of the brain on the left and an image 
+of the ventricles of the brain using MIP ProjectionVolumeStyle on the right.</p>
+<div class="CenterDiv">
+<p><a name="f-ProjectionVolumeStyle">
+<img alt="Ventricles_Basic_Projection.png" height="400" src="../../Images/Ventricles_Basic_Projection.png" width="800"></a></p></div>
+<p class="FigureCaption">Figure 41.9 &mdash; Default volume style on left and 
+MIP ProjectionVolumeStyle on right</p>
+
+<h2><a name="SegmentedVolumeData"></a>41.4.9 SegmentedVolumeData</h2>
+
+<pre class="node">SegmentedVolumeData : X3DVolumeDataNode { 
+  SFVec3f [in,out] dimensions         1 1 1    (0,&infin;)
+  SFNode  [in,out] metadata           NULL     [X3DMetadataObject]
+  MFNode  [in,out] renderStyle        []       [X3DVolumeRenderStyleNode]
+  MFBool  [in,out] segmentEnabled     []
+  SFNode  [in,out] segmentIdentifiers NULL     [X3DTexture3DNode]
+  SFNode  [in,out] voxels             NULL     [X3DTexture3DNode]
+  SFVec3f []       bboxCenter         0 0 0    (-&infin;,&infin;)
+  SFVec3f []       bboxSize           -1 -1 -1 [0,&infin;) or -1 -1 -1
+}
+</pre>
+
+<p>The SegmentedVolumeData node specifies a segmented volume data set that 
+allows for representation of different rendering styles for each segment 
+identifier.</p>
+<p>The <i>renderStyle</i> field optionally describes a particular rendering 
+style to be used. If this field has a non-zero number of values, the defined 
+rendering style is to be applied to the object. If the object is segmented, the 
+index of the segment shall look up the rendering style at the given index in 
+this array of values and apply that style to data described by that segment 
+identifier. 
+If the <i>renderStyle</i> field is not specified, the implementation shall use 
+an OpacityMapVolumeStyle node (see <a href="#OpacityMapVolumeStyle">41.4.7 OpacityMapVolumeStyle</a>) with default values.</p>
+<p>The <i>voxels</i> field holds a 3D texture with the data for each 
+voxel. For each voxel, there is a corresponding segment identifier supplied in 
+the <em>segmentIdentifiers</em> field, which contains a single component 
+texture. If the <em>segmentIdentifiers</em> texture is not identical in size to 
+the main voxels, it shall be ignored. If it contains more than one colour 
+component, only the initial component of the colour shall be used to define the 
+segment identifier.</p>
+<p>The <i>segmentEnabled</i> field specifies whether a segment is 
+rendered or not. The indices of this array corresponds to the segment identifier. A 
+value at index <i>i</i> of <span class="code">FALSE</span> marks any data with 
+the corresponding segment identifier to not be rendered. If a segment identifier is used that is 
+greater than the length of the array, the value is assumed to be
+<span class="code">TRUE</span>.</p>
+<p><a href="#f-SegmentedVolumeData">Figure 41.10</a>&nbsp; shows a segmented volume image of ventricles 
+of the brain using 
+both OpacityMapVolumeStyle for some segments ToneMappedVolumeStyle for the 
+highlighted segments.</p>
+<div class="CenterDiv">
+<p><a name="f-SegmentedVolumeData">
+<img alt="Ventricles_Segmented_Opacity_Tone" height="400" src="../../Images/segmented-opacTone_ventricles.png" width="400"></a></p></div>
+<p class="FigureCaption">Figure 41.10 &mdash; Segmented volume data using 
+OpacityMapVolumeStyle and ToneMappedVolumeStyle</p>
+
+<h2><a name="ShadedVolumeStyle"></a>41.4.10 ShadedVolumeStyle</h2>
+<pre class="node">ShadedVolumeStyle : X3DComposableVolumeRenderStyleNode {
+  SFBool   [in,out] enabled        TRUE
+  SFBool   [in,out] lighting       FALSE
+  SFNode   [in,out] material       NULL                [X3DMaterialNode]
+  SFNode   [in,out] metadata       NULL                [X3DMetadataObject]
+  SFBool   [in,out] shadows        FALSE
+  SFNode   [in,out] surfaceNormals NULL                [X3DTexture3DNode]
+  SFString []       phaseFunction  &quot;Henyey-Greenstein&quot; [&quot;Henyey-Greenstein&quot;,"NONE",...]
+}</pre>
+<p>The ShadedVolumeStyle node applies the Blinn-Phong illumination model (<a href="../bibliography.html#[BLINN]">[BLINN]</a>,
+<a href="../bibliography.html#[PHONG]">[PHONG]</a>) to 
+volume rendering. This is similar to the model used for polygonal surfaces. </p>
+<p>Colour and opacity is determined based on whether a value has been specified 
+for the <i>material</i> field. If a <em>material</em> field value is provided, 
+this voxel is considered to be lit using the lighting equations below. If no <em>
+material</em> field value is provided, O<sub>c</sub> is used as diffuse color in 
+the same lighting equations and the specular and ambient parts are ignored. </p>
+<p class="style2">The <i>lighting</i> field controls whether the rendering 
+should calculate and apply shading effects to the visual output. If lighting is 
+enabled the lighting equation is defined as: </p>
+<blockquote><p>C<sub>g</sub> = I<sub><font size="-1">F</font><font size="-2">rgb</font></sub> 
+× (1 -f<sub><font size="-1">0</font></sub>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
++ f<sub><font size="-1">0</font></sub> × (C<sub><font size="-1">E</font>
+<font size="-2">rgb</font></sub> + SUM( on<sub><font size="-1">i</font></sub> ×<font size="-2">
+</font>attenuation<sub><font size="-1">i</font></sub> × spot<sub><font size="-1">i</font></sub> 
+× I<sub><font size="-1">L</font><font size="-2">rgb</font></sub><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× (ambient<sub><font size="-1">i</font></sub> + diffuse<sub><font size="-1">i</font></sub> 
++ specular<sub> <font size="-1">i</font></sub>)))</p>
+<p>O<sub>g</sub> = O<sub>v</sub> × O<sub>m</sub></p></blockquote>
+<p>where:</p>
+<blockquote><p>attenuation<sub><font size="-1">i</font></sub> = 1 / max(a<sub><font size="-2">1</font></sub> 
++ a<sub><font size="-2">2 </font></sub>× d<sub><font size="-2">L</font></sub> + 
+a<sub><font size="-2">3 </font></sub>× d<sub><font size="-2">L</font></sub><sup>²</sup> 
+,&nbsp;1 )<br>ambient<sub><font size="-1">i</font></sub> = I<sub><font size="-1">ia</font></sub> 
+× C<sub><font size="-1">D</font><font size="-2">rgb</font></sub> × C<sub><font size="-1">a</font><br>
+</sub><br>diffuse<sub><font size="-1">i</font></sub> = I<sub><font size="-1">i</font></sub> 
+× C<sub><font size="-1">D</font><font size="-2">rgb</font></sub> × ( <b><tt>
+<font size="+1">N</font></tt></b> · <b><tt><font size="+1">L</font></tt></b> )<br>
+specular<sub> <font size="-1">i</font></sub> = I<sub><font size="-1">i</font></sub> 
+× C<sub><font size="-1">S</font><font size="-2">rgb</font></sub> × ( <b><tt>
+<font size="+1">N</font></tt></b> · ((<b><tt><font size="+1">L</font></tt></b> +
+<b><tt>V</tt></b>) / |<b><tt><font size="+1">L</font></tt></b> + <b><tt>V</tt></b>|))<sup>shininess 
+× 128</sup></p></blockquote>
+<p>and:</p>
+<blockquote><p>· = modified vector dot product:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if dot 
+product &lt; 0, then 0.0, otherwise, dot product<br>a<sub><font size="-2">1</font></sub> , a<sub><font size="-2">2</font></sub>, a<sub><font size="-2">3</font></sub> 
+= light i <i>attenuation</i><br>d<sub><font size="-2">V</font></sub> = distance 
+from this voxel to viewer's position, in coordinate system of current fog node<br>
+d<sub><font size="-2">L</font></sub> = distance from light to voxel, in light's 
+coordinate system<br>f<sub><font size="-1">0</font></sub> = fog interpolant, see
+<a href="lighting.html#t-foginterpolant">
+Table 17.5</a> for calculation<br>I<sub><font size="-1">F</font><font size="-2">rgb</font></sub> 
+= currently bound fog's <i>color<br></i>I<sub> <font size="-1">L</font><font size="-2">rgb</font></sub> = light i <i>
+color</i><br>I<sub><font size="-1">i</font></sub> = light i <i>intensity</i><br>I<sub><font size="-1">ia</font></sub> 
+= light i <i>ambientIntensity<br></i><b><tt><font size="+1">L</font></tt></b> = 
+(<a href="lighting.html#PointLight">PointLight</a>/<a href="lighting.html#SpotLight">SpotLight</a>) 
+normalized vector from this voxel to light source i position<br><b><tt>
+<font size="+1">L</font></tt></b> = (<a href="lighting.html#DirectionalLight">DirectionalLight</a>) 
+-direction of light source i<br><b><tt><font size="+1">N</font></tt></b> = 
+normalized normal vector at this voxel (interpolated from vertex normals 
+specified by the <i>surfaceNormals</i> field or automatically calculated.<br>O<sub><font size="-1">m</font></sub> 
+= (1 - <i>X3DMaterialNode</i> transparency) if material specified, 1 otherwise<br>
+C<sub><font size="-1">a</font></sub> = <i>
+<a href="shape.html#X3DMaterialNode">
+X3DMaterialNode</a></i> <i>ambientIntensity</i> if material specified, 0 
+otherwise<br>C<sub><font size="-1">D</font><font size="-2">rgb</font></sub> = 
+diffuse colour, from a node derived from <i>X3DMaterialNode</i> if specified, O<sub>c</sub> 
+otherwise <br>C<sub><font size="-1">E</font><font size="-2">rgb</font></sub> =
+<i>X3DMaterialNode</i> <i>emissiveColor</i> if material specified, RGB(0,0,0) 
+otherwise <br>C<sub><font size="-1">S</font><font size="-2">rgb</font></sub> =
+<i>X3DMaterialNode</i> <i>specularColor</i> if material specified, RGB(0,0,0) 
+otherwise<br>on<sub> <font size="-1">i</font></sub> = 1, if light source i 
+affects this voxel,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0, if light source i does not affect this voxel.</p>
+<blockquote><p>The 
+following conditions indicate that light source i does not affect this voxel:</p>
+<ol>
+	<li>if the voxel is farther away than <i>radius</i> for PointLight or 
+SpotLight;</li>
+	<li>if the volume is outside the enclosing 
+<i><a href="group.html#X3DGroupingNode">X3DGroupingNode</a></i> and/or if the 
+	<i>on</i> field is
+<span class="code">FALSE;</span></li>
+	<li>if the 
+<i>lighting</i> field 
+of this volume is <span class="code">FALSE</span>.</li>
+</ol>
+</blockquote>
+<p>shininess = <i>X3DMaterialNode</i> <i>shininess</i> if 
+material specified, 0 otherwise<br>spotAngle = arccosine(<b><tt><font size="+1">-L</font></tt></b><font size="+1">
+</font>· <b><tt>spotDir</tt></b><sub>i</sub>)<br>spot<sub> BW</sub> = SpotLight 
+i beamWidth<br>spot<sub> CO</sub> = SpotLight i <i>cutOffAngle</i><br>spot<sub> 
+i</sub> = spotlight factor, see
+<a href="lighting.html#t-spotlightfactor">
+Table 17.4</a> for calculation<br><b><tt>spotDir</tt></b><sub>i</sub> = 
+normalized SpotLight i <i>direction</i><br>SUM: sum over all light sources i<br>
+<b><tt>V</tt></b> = normalized vector from the voxel to viewer's position</p></blockquote>
+<p> If 
+the <i>lighting</i> field is <span class="code">FALSE</span>, the diffuse color 
+is used without any shading effects. </p>
+<blockquote><p>C<sub>g</sub> = C<sub><font size="-1">D</font> <font size="-2">
+rgb</font></sub></p>
+<p>O<sub>g</sub> = O<sub>v</sub> × O<sub>m</sub></p></blockquote>
+<p class="style2">The <i>surfaceNormals</i> field contains a 3D texture with at 
+least three component values. Each voxel in the texture represents the surface 
+normal direction for the corresponding voxel in the base data source to be used 
+in the lighting equation. This texture should be identical in dimensions to the 
+source data. If not, the implementation may interpolate or average between 
+adjacent voxels to determine the average normal at the voxel required. If this 
+field is empty, the implementation shall automatically determine the surface 
+normal using algorithmic means.</p>
+<p class="style2">The <i>shadows</i> field controls whether the rendering should 
+calculate and apply shadows to the visual output (using global illumination 
+model). A value of <span class="code">FALSE</span> requires that no shadowing be 
+applied. A value of <span class="code">TRUE</span> requires that shadows be 
+applied to the object. If the <i>lighting</i> field is set to <span class="code">
+FALSE</span>, this field shall be ignored and no shadows generated.</p>
+<p class="style2">The <i>phaseFunction</i> field is used to define the 
+scattering model for use in an implementation using global illumination. The 
+name defines the model type, based on standard algorithms externally defined to 
+this specification. The valid values are "NONE"(which means no scattering) and 
+"Henyey-Greenstein" which is the Henyey-Greenstein phase function defined in [<a href="../bibliography.html#%5BHENYEY%5D">HENYEY</a>].
+Browsers may choose to support other values. If a value is specified that is not 
+supported by the browser, "Henyey-Greenstein" shall be used.
+</p>
+<p><a href="#f-ShadedVolumeStyle">Figure 41.11</a> shows a basic image of a human brain on the left and an image of 
+the human brain using ShadedVolumeStyle on the right.</p>
+<div class="CenterDiv">
+<p><a name="f-ShadedVolumeStyle">
+<img alt="Brain_Basic_Shaded.png" height="352" src="../../Images/Brain_Basic_Shaded.png" width="800"></a></p></div>
+<p class="FigureCaption">Figure 41.11 &mdash; Default volume style on left and 
+ShadedVolumeStyle on right</p>
+
+<h2><a name="SilhouetteEnhancementVolumeStyle"></a>41.4.11 SilhouetteEnhancementVolumeStyle</h2>
+
+<pre class="node">SilhouetteEnhancementVolumeStyle : X3DComposableVolumeRenderStyleNode { 
+  SFBool  [in,out] enabled                   TRUE
+  SFNode  [in,out] metadata                  NULL [X3DMetadataObject]
+  SFFloat [in,out] silhouetteBoundaryOpacity 0    [0,1]
+  SFFloat [in,out] silhouetteRetainedOpacity 1    [0,1]
+  SFFloat [in,out] silhouetteSharpness       0.5  [0,&infin;)
+  SFNode  [in,out] surfaceNormals            NULL [X3DTexture3DNode]
+}
+</pre>
+
+<p>The SilhouetteEnhancementVolumeStyle specifies that the associated volumetric data shall 
+be rendered with silhouette enhancement. Enhancement of the basic volume is 
+provided by darkening voxels based on their orientation relative to the view 
+direction. This orientation is determined by the <em>surfaceNormals</em> value 
+corresponding to each voxel. Perpendicular voxels are coloured according to the <i>edgeColor</i> 
+while parallel voxels are not changed at all. A threshold can be set where the 
+proportion of how close to perpendicular the direction shall be before the 
+values are made more opaque:</p>
+<blockquote>
+	O<sub>g</sub> = O<sub>v</sub> × (k<sub>sc</sub> + k<sub>ss</sub>(1 - |<b>n</b> 
+	. <b>V</b>|) ^ k<sub>se</sub>)</blockquote>
+<p>where</p>
+<ul>
+	<li>O<sub>g</sub> is the computed opacity of the voxel</li>
+	<li>O<sub>v</sub> is the original opacity of the voxel</li>
+	<li><b>n</b> is the surface normal</li>
+	<li><b>V</b> is the view vector</li>
+	<li>k<sub>sc</sub> controls the scaling of non-silhouette regions (<i>silhouetteRetainedOpacity</i>)</li>
+	<li>k<sub>ss</sub> is the amount of the silhouette enhancement to use (<i>silhouetteBoundaryOpacity</i>)</li>
+	<li>k<sub>se</sub> is a power function to control the sharpness of the 
+	silhouette. (<i>silhouetteSharpness</i>)</li>
+</ul>
+<p>The <i>surfaceNormals</i> field contains a 3D texture with at least three 
+component values. Each voxel in the texture represents the surface normal 
+direction for the corresponding voxel in the base data source. This texture 
+should be identical in dimensions to the source data. If not, the implementation 
+may interpolate or average between adjacent voxels to determine the average 
+normal at the voxel required. If the <i>surfaceNormals</i> field is empty, the 
+implementation shall automatically determine the surface normal using 
+algorithmic means.</p>
+<p><a href="#f-SilhouetteEnhancementVolumeStyle">Figure 41.12</a> shows a basic image of a skull on the left and an image of the 
+skull using SilhouetteEnhancementVolumeStyle on the right.</p>
+<div class="CenterDiv">
+<p><a name="f-SilhouetteEnhancementVolumeStyle">
+<img alt="Skull_Basic_Silhouette" height="400" src="../../Images/Skull_Basic_Silhouette.png" width="797"></a></p></div>
+<p class="FigureCaption">Figure 41.12 &mdash; Default volume style on left and 
+SilhouetteEnhancementVolumeStyle on right</p>
+
+<h2><a name="ToneMappedVolumeStyle"></a>41.4.12 ToneMappedVolumeStyle</h2>
+
+<pre class="node">ToneMappedVolumeStyle : X3DComposableVolumeRenderStyleNode { 
+  SFColorRGBA [in,out] coolColor      0 0 1 0 [0,1]
+  SFBool      [in,out] enabled        TRUE
+  SFNode      [in,out] metadata       NULL    [X3DMetadataObject]
+  SFNode      [in,out] surfaceNormals NULL    [X3DTexture3DNode]
+  SFColorRGBA [in,out] warmColor      1 1 0 0 [0,1]
+}
+</pre>
+
+<p>The ToneMappedVolumeStyle node specifies that the associated volumetric data is to be rendered 
+using the Gooch shading model of two-toned warm/cool colouring (see
+<a href="../bibliography.html#[GOOCH1]">[GOOCH1]</a>,
+<a href="../bibliography.html#[GOOCH2]">[GOOCH2]</a>). Two colours are 
+defined, a warm colour and a cool colour. The renderer shades between them based 
+on the orientation of the voxel relative to the user. This is not the same as 
+the basic isosurface shading and lighting. The following colour formula is used:</p>
+<blockquote>
+	<p>cc = (1 + <b>L</b><sub>i</sub> . <b>n</b>) &times; 0.5<br>
+	C<sub>g</sub> = &Sigma;<sub>(all i)</sub> (cc &times; warmColor + (1 - cc) &times; coolColor)</p>
+</blockquote>
+<p>where</p>
+<ul>
+	<li><b>L</b><sub>i</sub> is the vector to light source i</li>
+	<li><b>n</b> is the surface normal</li>
+	<li>C<sub>g</sub> is the resulting colour that is to be used to represent 
+	the voxel</li>
+</ul>
+<p>The <i>warmColor</i> and <i>coolColor</i> fields specify the two colours to 
+be used at the limits of the spectrum. The <i>warmColor</i> field is used for 
+surfaces facing towards the light, while the <i>coolColor</i> is used for 
+surfaces facing away from the light direction.</p>
+<p>The <i>surfaceNormals</i> field contains a 3D texture with at least three 
+component values. Each voxel in the texture represents the surface normal 
+direction for the corresponding voxel in the base data source. This texture 
+should be identical in dimensions to the source data. If not, the implementation 
+may interpolate or average between adjacent voxels to determine the average 
+normal at the voxel required. If the <i>surfaceNormals</i> field is empty, the 
+implementation shall automatically determine the surface normal using 
+algorithmic means.</p>
+<p>The final output colour is determined by combining the interpolated colour 
+value C<sub>g</sub> with the opacity of the corresponding voxel. Colour 
+components of the voxel are ignored.</p>
+<p><a href="#f-ToneMappedVolumeStyle">Figure 41.13</a> shows a basic image of ventricles 
+of the brain on the left and an 
+image of the ventricles of the brain using ToneMappedVolumeStyle on the right.</p>
+<div class="CenterDiv">
+<p><a name="f-ToneMappedVolumeStyle">
+<img alt="Ventricles_Basic_Tonemapped.png" height="400" src="../../Images/Ventricles_Basic_Tonemapped.png" width="800"></a></p></div>
+<p class="FigureCaption">Figure 41.13 &mdash; Default volume style on left and 
+ToneMappedVolumeStyle on right</p>
+
+<h2><a name="VolumeData"></a>41.4.13 VolumeData</h2>
+
+<pre class="node">VolumeData : X3DVolumeDataNode { 
+  SFVec3f [in,out] dimensions      1 1 1    (0,&infin;)
+  SFNode  [in,out] metadata        NULL     [X3DMetadataObject]
+  SFNode  [in,out] renderStyle     NULL     [X3DVolumeRenderStyleNode]
+  SFNode  [in,out] voxels          NULL     [X3DTexture3DNode]
+  SFVec3f []       bboxCenter      0 0 0    (-&infin;,&infin;)
+  SFVec3f []       bboxSize        -1 -1 -1 [0,&infin;) or -1 -1 -1
+}
+</pre>
+
+<p>The VolumeData node specifies a simple non-segmented volume data set that 
+uses a single rendering style node for the complete volume.</p>
+<p>The <i>renderStyle</i> field allows the user to specify a single specific 
+rendering technique to be used on this volumetric object. If the <i>renderStyle</i> field is not specified, the implementation shall use 
+an OpacityMapVolumeStyle node (see <a href="#OpacityMapVolumeStyle">41.4.7 OpacityMapVolumeStyle</a>) with default values.</p>
+<p>The <i>voxels</i> field provides the raw voxel information to be used by the 
+corresponding rendering styles. The value is any <i>X3DTexture3DNode</i> type and may 
+have any number of colour components defined. The specific interpretation for 
+the values at each voxel shall be defined by the value of the <i>renderStyle</i> 
+field.</p>
+<p><a href="#f-VolumeData">Figure 41.14</a>&nbsp; shows a basic volume image of a backpack using the default 
+rendering style.</p>
+<div class="CenterDiv">
+<p><a name="f-VolumeData">
+<img alt="Backpack_Default.png" height="397" src="../../Images/Backpack_Default.png" width="400"></a>&nbsp;</p></div>
+<p class="FigureCaption">Figure 41.14 &mdash; Volume data using default volume 
+style</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>41.5 Support levels</h1>
+
+<p>The Volume Rendering component provides three levels of support as specified 
+  in <a href="#t-supportlevels">Table 41.7</a>. </p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption"><a name="t-supportlevels"></a>Table 41.7<b>
+&mdash; Volume rendering</b> component support levels</p>
+  
+<table align="center">
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td align="center"><b>1</b></td>
+        <td>Core 1<br>
+		Grouping 1<br>
+		Shape 1<br>
+		Rendering 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><em>X3DComposableVolumeRenderStyleNode</em></td>
+        <td>n/a</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DVolumeRenderStyleNode</i></td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DVolumeNode</i></td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>OpacityMapVolumeStyle</td>
+        <td>Only 2D texture transfer functions need be supported. All other 
+		fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>VolumeData</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"><b>2</b></td>
+        <td>Core 1<br>
+		Grouping 1<br>
+		Shape 1<br>
+		Rendering 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>All Level 1 nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>BoundaryEnhancementVolumeStyle</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ComposedVolumeStyle</td>
+        <td><i>ordered</i> field is always treated as <span class="code">FALSE</span>. 
+		All other fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>EdgeEnhancementVolumeStyle</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>IsoSurfaceVolumeData</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>OpacityMapVolumeStyle</td>
+        <td>All fields fully supported. 3D transfer functions shall be 
+		supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ProjectionVolumeStyle</td>
+        <td>All fields fully supported</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>SegmentedVolumeData</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>SilhouetteEnhancementVolumeStyle</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ToneMappedVolumeStyle</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"><b>3</b></td>
+        <td>Core 1<br>
+		Grouping 1<br>
+		Shape 1<br>
+		Rendering 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>All Level 2 nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>BlendedVolumeStyle</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>CartoonVolumeStyle</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>CompositeVolumeStyle</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ShadedVolumeStyle</td>
+        <td>All fields fully supported except shadows. Shadows supported with at least Phong 
+		shading.</td>
+      </tr>
+      <tr>
+        <td align="center"><strong>4</strong></td>
+        <td>Core 1<br>
+		Grouping 1<br>
+		Shape 1<br>
+		Rendering 1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>All Level 3 nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>ShadedVolumeStyle</td>
+        <td>All fields fully supported with at least Phong shading and&nbsp; Henyey-Greenstein phase 
+		function. Shadows fully supported.</td>
+      </tr>
+    </table>
+</div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

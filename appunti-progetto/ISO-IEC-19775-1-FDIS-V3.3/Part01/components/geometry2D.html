@@ -1,0 +1,548 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 14 Geometry2D component</title>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+
+</head>
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">14 Geometry2D component</p>
+
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+14.1 Introduction</h1>
+<h2><a name="Name"></a>14.1.1 Name</h2>
+<p>The name of this component is &quot;Geometry2D&quot;. This name shall be used when 
+referring to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>14.1.2 Overview</h2>
+
+<p>This clause describes the Geometry2D component of this part of ISO/IEC 19775. 
+  This includes how two-dimensional geometry is specified and what shapes are 
+  available. <a href="#t-Topics">Table 14.1</a> provides links to the major 
+  topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>Table 14.1 &#8212; Topics</p>
+
+<table class="topics">
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">14.1 Introduction</a>
+          <ul>
+            <li><a href="#Name">14.1.1 Name</a></li>
+            <li><a href="#Overview">14.1.2 Overview</a> </li>
+          </ul></li>
+          <li><a href="#Concepts">14.2 Concepts</a> 
+            <ul>
+              <li><a href="#OverviewOfGeometry">14.2.1 Overview of geometry</a></li> 
+              <li><a href="#ShapeAndGeometryNodes">14.2.2 Shape and geometry nodes</a></li> 
+              <li><a href="#GeometryPropertyNodes">14.2.3 Geometric property nodes</a></li> 
+              <li><a href="#AppearanceNodes">14.2.4 Appearance nodes</a></li>
+            </ul></li>
+          <li><a href="#NodeReference">14.3 Node Reference</a>
+            <ul>
+              <li><a href="#Arc2D">14.3.1 Arc2D</a></li> 
+              <li><a href="#ArcClose2D">14.3.2 ArcClose2D</a></li> 
+              <li><a href="#Circle2D">14.3.3 Circle2D</a></li> 
+              <li><a href="#Disk2D">14.3.4 Disk2D</a></li> 
+              <li><a href="#Polyline2D">14.3.5 Polyline2D</a></li> 
+              <li><a href="#Polypoint2D">14.3.6 Polypoint2D</a></li> 
+              <li><a href="#Rectangle2D">14.3.7 Rectangle2D</a></li> 
+              <li><a href="#TriangleSet2D">14.3.8 TriangleSet2D</a></li> 
+            </ul></li>
+          <li><a href="#SupportLevels">14.4 Support levels</a></li>
+        </ul>
+<ul>
+<li><a href="#f-Arc2Dnode">Figure 14.1 &#8212; Arc2D node</a></li> 
+<li><a href="#f-ArcClose2DNodePIE">Figure 14.2 &#8212; ArcClose2D node ("PIE" closure)</a></li> 
+<li><a href="#f-ArcClose2DnodeCHORD">Figure 14.2 &#8212; ArcClose2D node ("CHORD" closure)</a></li> 
+<li><a href="#f-Circle2Dnode">Figure 13.4 &#8212; Circle2D node</a></li>
+<li><a href="#f-Disk2Dnode">Figure 14.5 &#8212; Disk2D node</a></li>
+<li><a href="#f-Polyline2Dnode">Figure 14.6 &#8212; Polyline2D node</a></li>
+<li><a href="#f-Polypoint2Dnode">Figure 14.7 &#8212; Polypoint2D node</a></li>
+<li><a href="#f-Rectangle2Dnode">Figure 14.8 &#8212; Rectangle2D node</a></li> 
+<li><a href="#f-TriangleSet2Dnode">Figure 14.9 &#8212; TriangleSet2D node</a></li>
+</ul>
+<ul>
+<li><a href="#t-Topics">Table 14.1 &#8212; Topics</a></li>
+<li><a href="#t-supportlevels">Table 14.2 &#8212; Geometry2D component support levels</a></li>
+</ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>14.2 Concepts</h1>
+
+<h2><a name="OverviewOfGeometry" href="#ShapeAndGeometryNodes"></a>14.2.1 Overview of geometry</h2>
+
+<p>The geometry2D component consists of only geometry nodes since it uses the 
+shape, geometry property, and appearance nodes defined in the Shape component. 
+The geometry2D nodes may be considered to be planar objects. </p>
+
+<p>The two-dimensional coordinate system in which all 2D nodes are specified is 
+defined to be the z=0 plane of the current 3D coordinate system with x- and 
+y-axes coincident with those of the current 3D coordinate system. The origin of 
+the 2D coordinate system is defined to be the origin of the 3D coordinate system.&nbsp; 
+The unspecified z-component of a 2D coordinate is defined to always have value 
+zero. The position and orientation of 2D nodes are affected by all 
+transformations whether 2D or 3D.</p>
+
+<p>Each face in a 2D node is coplanar with the z=0 plane of the coordinate 
+system in which it is defined. Faces have both a front and a back face. The 
+front face is defined to be that on the positive side of the z=0 plane. Faces 
+are subject to culling as defined elsewhere in this standard for 3D geometry.</p>
+
+<p>When 2D nodes are viewed edge-on, they disappear as they have no depth.</p>
+
+<h2><a name="ShapeAndGeometryNodes"></a>14.2.2 Shape and geometry nodes</h2> 
+
+<p>The <a href="shape.html#Shape">Shape</a> node is defined in <a href="shape.html">12 Shape component</a>.</p>
+
+<h2><a name="GeometryPropertyNodes"></a>14.2.3 Geometric property nodes</h2>
+
+<p>Several geometry nodes contain geometric property nodes such as
+<a href="rendering.html#Coordinate">Coordinate</a>, 
+<a href="rendering.html#Color">Color</a>, <a href="rendering.html#ColorRGBA">
+ColorRGBA</a>, and/or <a href="rendering.html#Normal">Normal</a>. These nodes are 
+specified in <a href="rendering.html">11 
+  Rendering component.</a> The <i>
+<a href="texturing.html#X3DTextureCoordinateNode">X3DTextureCoordinate</a></i> 
+nodes specified in <a href="texturing.html">18 Texturing component</a> are also 
+geometry property nodes.</p>
+
+<h2><a name="AppearanceNodes"></a>14.2.4 Appearance nodes</h2>
+
+<p><a href="shape.html#Shape">Shape</a> nodes may specify an 
+<a href="shape.html#Appearance">Appearance</a> node that describes the appearance properties 
+  (material and texture) to be applied to the Shape's geometry. Appearance is 
+  described in<font color="#FF0000"> <a href="shape.html">12 Shape component</a></font></p>
+
+<p>The interaction between the appearance properties and properties specific to 
+  geometry nodes&nbsp; is described in <a href="shape.html">12 Shape 
+  component</a>.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="NodeReference"></a>14.3 Node reference</h1>
+
+<h2><a name="Arc2D"></a>14.3.1 Arc2D</h2>
+
+<pre class="node">Arc2D : X3DGeometryNode { 
+  SFNode  [in,out] metadata   NULL  [X3DMetadataObject]
+  SFFloat []       endAngle   &#960;/2   [-2&#960;,2&#960;]
+  SFFloat []       radius     1     (0,&#8734;)
+  SFFloat []       startAngle 0     [-2&#960;,2&#960;]
+}
+</pre>
+
+<p>The Arc node specifies a linear circular arc whose center is at (0,0) and 
+whose angles are measured starting at the positive x-axis and sweeping towards 
+the positive y-axis. The <i>radius</i> field specifies the radius of the circle 
+of which the arc is a portion. The arc extends from the <i>startAngle</i> 
+counterclockwise to the <i>endAngle</i>. The values of <em>startAngle</em> and
+<em>endAngle</em> shall be in the range [-2<font face="Times New Roman">π</font>, 
+2<font face="Times New Roman">π</font>] radians (or the equivalent if a 
+different angle base unit has been specified). 
+If <i>startAngle</i> <code>and</code> <i>endAngle</i>
+have the same value, a circle is specified.</p>
+
+<p>See <a href="#f-Arc2Dnode">Figure 14.1</a> for a depiction of the Arc node.</p>
+
+<div class="CenterDiv">
+
+<a name="f-Arc2Dnode"></a>
+
+<img src="../../Images/Arc2DNode.gif" alt="Arc2D node" width="104" height="98"> 
+
+<p class="FigureCaption">
+
+Figure 14.1 &#8212; Arc2D node</p>
+
+</div>
+
+<h2><a name="ArcClose2D"></a>14.3.2 ArcClose2D</h2>
+
+<pre class="node">ArcClose2D : X3DGeometryNode { 
+  SFNode   [in,out] metadata    NULL  [X3DMetadataObject]
+  SFString []       closureType "PIE" ["PIE"|"CHORD"]
+  SFFloat  []       endAngle    &#960;/2   [-2&#960;,2&#960;]
+  SFFloat  []       radius      1     (0,&#8734;)
+  SFBool   []       solid       FALSE
+  SFFloat  []       startAngle  0     [-2&#960;,2&#960;]
+}
+</pre>
+
+<p>The ArcClose node specifies a portion of a circle whose center is at (0,0) 
+  and whose angles are measured starting at the positive x-axis and sweeping towards 
+  the positive y-axis. The end points of the arc specified are connected as defined 
+  by the <i>closureType</i> field. The <i>radius</i> field specifies the radius 
+  of the circle of which the arc is a portion. The arc extends from the <i>startAngle</i> 
+  counterclockwise to the <i>endAngle</i>. The value of <i>radius</i> shall be 
+greater than zero. The values of <em>startAngle</em> and <em>endAngle</em> shall 
+be in the range [-2<font face="Times New Roman">π</font>, 2<font face="Times New Roman">π</font>] 
+radians (or the equivalent if a different default angle base unit has been 
+specified). If 
+<i>startAngle</i> and <i>endAngle</i> have 
+  the same value, a circle is specified and <i>closureType</i> is ignored.&nbsp; 
+If the absolute difference between startAngle and endAngle is greater than or 
+equal to 2<font face="Times New Roman">&#960;</font>, a complete circle is 
+produced with no chord or radial line(s) drawn from the center.</p>
+
+<p>A closureType of <span class="code">&quot;PIE&quot;</span> 
+  connects the end point to the start point by defining two straight line segments 
+  first from the end point to the center and then the center to the start point. 
+  This forms a pie wedge as shown in <a href="#f-ArcClose2DNodePIE">Figure 14.2</a>.</p>
+
+<div class="CenterDiv">
+
+<a name="f-ArcClose2DNodePIE"></a>
+
+<img src="../../Images/ArcClose2DPie.gif" alt="ArcClose2D node pie closure" width="152" height="146">  
+
+<p class="FigureCaption">
+
+Figure 14.2 &#8212; ArcClose2D node (&quot;PIE&quot; closure)</p>
+
+</div>
+
+<p>A closureType of <span class="code">&quot;CHORD&quot;</span> 
+  connects the end point to the start point by defining a straight line segment 
+  from the end point to the start point. This forms an arc segment as shown in 
+  <a href="#f-ArcClose2DnodeCHORD">Figure 14.3</a>.</p>
+
+<div class="CenterDiv">
+
+<a name="f-ArcClose2DnodeCHORD"></a>
+<img src="../../Images/ArcClose2DChord.gif" alt="ArcClose2D node CHORD closure) " width="104" height="98">  
+
+<p class="FigureCaption">
+Figure 14.3 &#8212; ArcClose2D node (&quot;CHORD&quot; closure)</p>
+
+</div>
+
+<p>Textures are applied individually to each face of the ArcClose2D. On the front 
+  (+Z) and back (-Z) faces of the ArcClose2D, when viewed from the +Z-axis, the 
+  texture is mapped onto each face with the same orientation as if the image were 
+  displayed normally in 2D. TextureTransform 
+affects the texture coordinates of the ArcClose2D (see
+<a href="texturing.html#TextureTransform">18.4.9 TextureTransform</a>).</p>
+
+<p><a href="rendering.html#CommonGeometryFields">11.2.3 Common geometry fields</a> provides a 
+complete description of the <i>solid</i> field.</p>
+
+<h2><a name="Circle2D"></a>14.3.3 Circle2D</h2>
+
+<pre class="node">Circle2D : X3DGeometryNode { 
+  SFNode  [in,out] metadata NULL  [X3DMetadataObject]
+  SFFloat []       radius   1     (0,&#8734;)
+}
+</pre>
+
+<p>The Circle2D node specifies a circle centred at (0,0) in the local 2D 
+  coordinate system.&nbsp; The <i>radius</i> field specifies the radius of the 
+  Circle2D. The value of <i>radius</i> shall be greater than zero. 
+<a href="#f-Circle2Dnode">Figure 14.4</a> illustrates the Circle2D node with a 
+dashed linetype applied.</p>
+
+<div class="CenterDiv">
+
+<a name="f-Circle2Dnode"></a>
+
+<img src="../../Images/Circle2D.gif" alt="circle2D node" width="112" height="112">  
+
+<p class="FigureCaption">
+
+Figure 14.4 &#8212; Circle2D node</p>
+
+</div>
+
+<h2><a name="Disk2D"></a>14.3.4 Disk2D</h2>
+
+<pre class="node">Disk2D : X3DGeometryNode { 
+ SFNode  [in,out] metadata    NULL  [X3DMetadataObject]
+ SFFloat []       innerRadius 0     [0,&#8734;)
+ SFFloat []       outerRadius 1     (0,&#8734;)
+ SFBool  []       solid       FALSE
+}
+</pre>
+
+<p>The Disk2D node specifies a circular disk which is centred at (0, 0) in the 
+  local coordinate system. The <i>outerRadius</i> field specifies the radius of 
+  the outer dimension of the Disk2D. The <i> innerRadius</i> field specifies the 
+  inner dimension of the Disk2D. The value of <i> outerRadius</i> shall be greater 
+  than zero. The value of <i>innerRadius</i> shall be greater than or equal to 
+  zero and less than or equal to <i>outerRadius</i>. If <i>innerRadius</i> is zero, the Disk2D is completely filled. Otherwise, 
+  the area within the <i>innerRadius</i> forms a hole in the Disk2D. If <i>
+innerRadius</i> is equal to <i>outerRadius</i>, a solid circular line shall be drawn 
+using the current line properties. 
+<a href="#f-Disk2Dnode">Figure 14.5</a> illustrates the Disk2D node containing a 
+non-zero <i>innerRadius</i>.</p>
+
+<div class="CenterDiv">
+<a name="f-Disk2Dnode"></a>
+<img src="../../Images/Disk2D.gif" alt="Disk2D node" width="108" height="108">  
+<p class="FigureCaption">
+Figure 14.5 &#8212; Disk2D node</p>
+</div>
+
+<p>Textures are applied individually to each face of the Disk2D. On the front 
+  (+Z) and back (-Z) faces of the Disk2D, when viewed from the +Z-axis, the texture 
+  is mapped onto each face with the same orientation as if the image were displayed 
+  normally in 2D. <a href="texturing.html#TextureTransform">TextureTransform</a> 
+affects the texture coordinates of  Disk2D nodes (see
+<a href="texturing.html#TextureTransform">18.4.9 TextureTransform</a>).</p>
+
+<p><a href="rendering.html#CommonGeometryFields">11.2.3 Common geometry fields</a> provides a 
+complete description of the <i>solid</i> field.</p>
+
+<h2><a name="Polyline2D"></a>14.3.5 Polyline2D</h2>
+
+<pre class="node">Polyline2D : X3DGeometryNode { 
+  SFNode  [in,out] metadata     NULL  [X3DMetadataObject]
+  MFVec2f []       lineSegments []    (-&#8734;,&#8734;)
+}
+</pre>
+
+<p>The Polyline2D node specifies a series of contiguous line segments in the local 2D coordinate 
+  system connecting the specified vertices.&nbsp; The <i>lineSegments</i> field 
+  specifies the vertices to be connected. <a href="#f-Polyline2Dnode">Figure 14.6</a> illustrates the Polyline2D node.</p>
+
+<div class="CenterDiv">
+
+<a name="f-Polyline2Dnode"></a>
+
+<img src="../../Images/Polyline2D.gif" alt="Polyline2D" width="316" height="136">  
+
+<p class="FigureCaption">
+
+Figure 14.6 &#8212; Polyline2D node</p>
+
+</div>
+
+<h2><a name="Polypoint2D"></a>14.3.6 Polypoint2D</h2>
+
+<pre class="node">Polypoint2D : X3DGeometryNode { 
+  SFNode  [in,out] metadata NULL [X3DMetadataObject]
+  MFVec2f [in,out] point    []    (-&#8734;,&#8734;)
+}
+</pre>
+
+<p>The Polyline2D node specifies a set of vertices in the local 2D coordinate 
+  system at each of which is displayed a point.&nbsp; The <i>points</i> field 
+  specifies the vertices to be displayed.
+<a href="#f-Polypoint2Dnode">Figure 14.7</a> illustrates the Polypoint2D node by 
+depicting the line in <a href="#f-Polyline2Dnode">Figure 14.6</a> (with points 
+augmented for 
+illustrative purposes).</p>
+
+<div class="CenterDiv">
+
+<a name="f-Polypoint2Dnode"></a>
+
+<img src="../../Images/Polypoint2D.gif" alt="Polypoint2D node" width="333" height="147">  
+
+<p class="FigureCaption">
+
+Figure 14.7 &#8212; Polypoint2D node</p>
+
+</div>
+
+<h2><a name="Rectangle2D"></a>14.3.7 Rectangle2D</h2>
+
+<pre class="node">Rectangle2D : X3DGeometryNode { 
+  SFNode  [in,out] metadata NULL  [X3DMetadataObject]
+  SFVec2f []       size     2 2   (0,&#8734;)
+  SFBool  []       solid    FALSE
+}
+</pre>
+
+<p>The Rectangle2D node specifies a rectangle centred at (0,&nbsp;0) in the current 
+  local 2D coordinate system and aligned with the local coordinate axes. By default, 
+  the box measures 2 units in each dimension, from -1 to +1. The <i>size</i> field 
+  specifies the extents of the box along the X-, and Y-axes respectively and each 
+  component value shall be greater than zero. 
+<a href="#f-Rectangle2Dnode"> Figure 14.8</a> illustrates the Rectangle2D node 
+with 
+a <a href="shape.html#FillProperties">FillProperties</a> node defining a hatch 
+style.</p>
+
+<div class="CenterDiv">
+
+<a name="f-Rectangle2Dnode"></a>
+
+<img src="../../Images/Rectangle2D.gif" alt="Rectangle2D node" width="221" height="201">  
+
+<p class="FigureCaption">Figure 14.8 &#8212; Rectangle2D node</p>
+
+</div>
+
+<p>Textures are applied individually to each face of the Rectangle2D. On the front 
+  (+Z) and back (-Z) faces of the Rectangle2D, when viewed from the +Z-axis, the 
+  texture is mapped onto each face with the same orientation as if the image were 
+  displayed normally in 2D. <a href="texturing.html#TextureTransform">TextureTransform</a> 
+affects the texture coordinates of the Rectangle2D (see
+<a href="texturing.html#TextureTransform">18.4.9 TextureTransform</a>).</p>
+
+<p><a href="rendering.html#CommonGeometryFields">11.2.3 Common geometry fields</a> provides a 
+complete description of the <i>solid</i> field.</p>
+
+<h2><a name="TriangleSet2D"></a>14.3.8 TriangleSet2D</h2>
+
+<pre class="node">TriangleSet2D : X3DGeometryNode { 
+  SFNode  [in,out] metadata NULL  [X3DMetadataObject]
+  MFVec2f [in,out] vertices []    (-&#8734;,&#8734;)
+  SFBool  []       solid    FALSE
+}
+</pre>
+
+<p>The TriangleSet2D node specifies a set of triangles in the local 2D coordinate 
+  system.&nbsp; The <i>vertices</i> field specifies the triangles to be displayed. 
+  The number of vertices provided shall be evenly divisible by three.&nbsp; Excess 
+  vertices shall be ignored. 
+<a href="#f-TriangleSet2Dnode">Figure 14.9</a> illustrates 
+  the TriangleSet2D node.</p>
+
+<div class="CenterDiv">
+
+<a name="f-TriangleSet2Dnode"></a>
+
+<img src="../../Images/TriangleSet2D.gif" alt="TriangleSet2D node" width="211" height="292">  
+
+<p class="FigureCaption">
+
+Figure 14.9 &#8212; TriangleSet2D node</p>
+
+</div>
+
+<p><a href="rendering.html#CommonGeometryFields">11.2.3 Common geometry fields</a> provides a 
+complete description of the <i>solid</i> field.</p>
+
+<p>Textures are applied individually to each face of the TriangleSet2D. On the front 
+  (+Z) and back (-Z) faces of the TriangleSet2D, when viewed from the +Z-axis, the 
+  texture is mapped onto each face with the same orientation as if the image were 
+  displayed normally in 2D. <a href="texturing.html#TextureTransform">TextureTransform</a> 
+affects the texture coordinates of the TriangleSet2D (see
+<a href="texturing.html#TextureTransform">18.4.9 TextureTransform</a>).</p>
+
+<h1><img src="../../Images/cube.gif" width="20" height="19" alt="cube">
+<a name="SupportLevels"></a>14.4 Support levels</h1>
+
+<p>The Geometry2D component provides two levels of support as specified in
+<a href="#t-supportlevels">Table 14.2</a>. Level 1 provides the 
+basic support for two-dimensional geometry with straight sides. Level 2 
+adds support for two-dimensional geometry with non-straight sides.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+Table 14.2 &#8212; Geometry2D component support levels</p>
+
+   <table>
+       <tr> 
+         <th>Level</th>
+         <th>Prerequisites</th>
+         <th>Nodes/Features</th>
+         <th>Support</th>
+         </tr>
+         <tr> 
+         <td align="center"><b>1</b></td>
+         <td>Core 1<br>
+         Grouping 1<br>
+                     Shape 1<br>
+         Rendering 1</td>
+         <td></td>
+         <td></td>
+         </tr>
+         <tr> 
+         <td align="center"></td>
+         <td></td>
+         <td>Polyline2D</td>
+         <td>All fields fully supported.</td>
+         </tr><tr> 
+         <td align="center"></td>
+         <td></td>
+          <td>Polypoint2D</td>
+          <td>All fields fully supported.</td>
+          </tr>
+          <tr> 
+          <td align="center"></td>
+          <td></td>
+          <td>Rectangle2D</td>
+          <td>All fields fully supported.</td>
+          </tr>
+          <tr> 
+          <td align="center"></td>
+          <td></td>
+          <td>TriangleSet2D</td>
+          <td>All fields fully supported.</td>
+          </tr><tr> 
+          <td align="center"><b>2</b></td>
+          <td>Core 1<br>
+          Grouping 1<br>
+                     Shape 1<br>
+          Rendering 1</td>
+           <td></td>
+           <td></td>
+           </tr>
+           <tr> 
+           <td></td>
+           <td></td>
+           <td>All Level 1 Geometry2D nodes</td>
+           <td>All fields fully supported.</td>
+           </tr>
+           <tr> 
+           <td></td>
+           <td></td>
+           <td>Arc2D</td>
+           <td>All fields fully supported.</td>
+           </tr>
+           <tr> 
+           <td></td>
+            <td></td>
+            <td>ArcClose2D</td>
+            <td>All fields fully supported.</td>
+            </tr>
+            <tr> 
+            <td></td>
+            <td></td>
+            <td>Circle2D</td>
+            <td>All fields fully supported.</td>
+            </tr>
+            <tr> 
+            <td></td>
+            <td></td>
+            <td>Disk2D</td>
+            <td>All fields fully supported.</td>
+            </tr>
+          </table>
+        </div>
+
+<p>
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23"></p>
+
+</BODY>
+</HTML>

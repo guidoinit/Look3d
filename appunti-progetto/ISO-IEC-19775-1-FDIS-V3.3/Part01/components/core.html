@@ -1,0 +1,886 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 7 Core component</TITLE>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+
+</head>
+<body>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<img class="x3dlogo" src="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">7 Core component</p>
+</div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="Introduction"></a>7.1 Introduction</h1>
+
+<h2><a name="Name"></a>7.1.1 Name</h2>
+
+<p>The name of this component is &quot;Core&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see <a href="#COMPONENTStatement">
+7.2.5.4 Component statement</a>).</p>
+
+<h2><a name="Overview"></a>7.1.2 Overview</h2>
+
+<p>This clause describes the Core component of this part of ISO/IEC 19775. The 
+  Core component supplies the base functionality for the X3D run-time system, including 
+  the abstract base node type, field types, the event model, and routing. 
+<a href="#t-Topics">Table 7.1</a> lists the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 7.1 &#8212; Topics</p>
+
+  <table class="topics">
+    <tr> 
+      <td>
+        <ul>
+          <li><a href="#Introduction">7.1 Introduction</a>
+            <ul>
+              <li><a href="#Name">7.1.1 Name </a></li>
+              <li><a href="#Overview">7.1.2 Overview</a></li>
+            </ul></li>
+          <li><a href="#Concepts">7.2 Concepts</a>
+            <ul>
+              <li><a href="#Overviewofthecore">7.2.1 Overview of the core</a></li>
+              <li><a href="#BindableChildrenNodes">7.2.2 Bindable children nodes</a></li>
+              <li><a href="#Sensors">7.2.3 Sensors</a></li>
+              <li><a href="#Metadata">7.2.4 Metadata</a>
+                <ul>
+                  <li><a href="#MetadataOverview">7.2.4.1 Overview</a></li>
+                  <li><a href="#DataTypesForMetadata">7.2.4.2 Data types for 
+					metadata</a></li>
+                  <li><a href="#AssigningMetadataToEntireX3DWorld">7.2.4.3 
+					Integration with X3D worlds</a></li>
+                  <li><a href="#AssigningMetadataToEntireX3DWorld">7.2.4.4 
+					Assigning metadata to an entire X3D world</a></li>
+                </ul></li>
+              <li><a href="#AbstractX3DStructure">7.2.5 Abstract X3D structure</a>
+                <ul>
+                  <li><a href="#Organization">7.2.5.1 Organization</a></li>
+                  <li><a href="#HeaderStatement">7.2.5.2 Header statement</a></li>
+                  <li><a href="#PROFILEStatement">7.2.5.3 PROFILE statement</a></li>
+                  <li><a href="#COMPONENTStatement">7.2.5.4 COMPONENT statement</a></li>
+					<li><a href="#UNITStatement">7.2.5.5 UNIT statement</a></li>
+                  <li><a href="#METAStatement">7.2.5.6 META statement</a></li>
+					<li><a href="#ROUTEStatement">7.2.5.7 ROUTE statement</a></li>
+					<li><a href="#PROTOStatement">7.2.5.8 PROTO statement</a></li>
+					<li><a href="#EXTERNPROTOStatement">7.2.5.9 EXTERNPROTO 
+					statement</a></li>
+                </ul></li>
+            </ul></li>
+          <li><a href="#Abstracttypes">7.3 Abstract types</a>
+            <ul>
+              <li><a href="#X3DBindableNode">7.3.1 <i>X3DBindableNode</i></a></li>
+              <li><a href="#X3DChildNode">7.3.2 <i>X3DChildNode</i></a></li>
+				<li><a href="#X3DInfoNode">7.3.3 <i>X3DInfoNode</i></a></li>
+              <li><a href="#X3DMetadataObject">7.3.4 <i>X3DMetadataObject</i></a></li>
+              <li><a href="#X3DNode">7.3.5 <i>X3DNode</i></a></li>
+              <li><a href="#X3DPrototypeInstance">7.3.6 <i>X3DPrototypeInstance</i></a></li>
+              <li><a href="#X3DSensorNode">7.3.7 <i>X3DSensorNode</i></a></li>
+            </ul></li>
+          <li><a href="#Nodereference">7.4 Node reference</a>
+            <ul>
+              <li><a href="#MetadataBoolean">7.4.1 MetadataBoolean</a></li>
+				<li><a href="#MetadataDouble">7.4.2 MetadataDouble</a></li>
+              <li><a href="#MetadataFloat">7.4.3 MetadataFloat</a></li>
+              <li><a href="#MetadataInteger">7.4.4 MetadataInteger</a></li>
+              <li><a href="#MetadataSet">7.4.5 MetadataSet</a></li>
+              <li><a href="#MetadataString">7.4.6 MetadataString</a></li>
+				<li><a href="#WorldInfo">7.4.7 WorldInfo</a></li>
+            </ul></li>
+          <li><a href="#SupportLevels">7.5 Support levels</a>
+        </ul>
+        <ul>
+          <li><a href="#t-Topics">Table 7.1 — Topics</a></li>
+          <li><a href="#t-Coresupportlevels">Table 7.2 — Core component support 
+			levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="Concepts"></a>
+7.2 Concepts </h1>
+
+<h2><a name="Overviewofthecore"></a>
+7.2.1 Overview of the core</h2>
+
+<p>The Core component provides the minimum functionality required by all X3D-compliant 
+  implementations. The Core component supplies the following abstract 
+constructs:</p>
+
+<ol type="a">
+  <li>X3D field types descended from the abstract type <i>
+	<a href="../fieldsDef.html#X3DField">X3DField</a></i>;</li>
+  <li>the base abstract node types <i><a href="#X3DNode">X3DNode</a></i> and <i>
+	<a href="#X3DPrototypeInstance">X3DPrototypeInstance</a></i>;</li>
+  <li>commonly used interfaces such as <i><a href="#X3DBindableNode">X3DBindableNode</a></i> and <i>
+  <a href="networking.html#X3DUrlObject">X3DUrlObject</a></i>;</li>
+  <li>the X3D event model and routing; </li>
+  <li>abstract file structure; and </li>
+  <li>prototyping.</li>
+</ol>
+
+<p>The Core component is a prerequisite component for all other X3D components.</p>
+
+<p>The Core component may be supported at a variety of <a href="#SupportLevels">levels</a>, 
+  allowing for a range of implementations that are conformant to the X3D architecture, 
+  object model and event model. For more information on these topics, 
+see <a href="../concepts.html">4. Concepts</a>.</p>
+
+<h2><a name="BindableChildrenNodes"></a>7.2.2 Bindable children nodes</h2>
+
+<p>Several X3D nodes, such as <a href="enveffects.html#Background">Background</a>, 
+<a href="enveffects.html#TextureBackground">TextureBackground</a>, 
+<a href="enveffects.html#Fog">Fog</a>, 
+<a href="navigation.html#NavigationInfo">NavigationInfo</a>, and 
+<a href="navigation.html#Viewpoint">Viewpoint</a> are bindable children 
+  nodes, inheriting from the abstract node type 
+<a href="#X3DBindableNode">X3DBindableNode</a>. 
+  These nodes have the unique behaviour that only one of each type can be bound 
+per layer 
+  (<i>i.e.</i>, affect the user's experience) at any instant in time. The browser 
+  shall maintain an independent, separate stack for each type of bindable node 
+in each layer. 
+  If there is no <a href="layering.html#LayerSet">LayerSet</a> node defined, there shall be only one set of binding 
+stacks that apply to all nodes in the scene graph. Each of these nodes includes a <i>set_bind</i> inputOnly field and an <i>isBound</i> 
+outputOnly field. The <i>set_bind</i> inputOnly field is used to move a given node to and from 
+  its respective top of stack. A <span class="code">TRUE</span> value sent to the <i>set_bind </i>
+inputOnly field 
+  moves the node to the top of the stack; sending a <span class="code">FALSE</span> value removes it from 
+  the stack. The <i>isBound</i> event is output when a given node is:</p>
+
+<ol type=a>
+  <li>moved to the top of the stack;</li> 
+  <li>removed from the top of the stack;</li>
+  <li>pushed down from the top of the stack by another node being placed on top.</li> 
+</ol>
+
+<p>That is, <i>isBound</i> events are sent when a given node becomes, or ceases 
+  to be, the active node. The node at the top of the stack (the most recently bound 
+  node) is the active node for its type and is used by the browser to set the 
+  world state. If the stack is empty (<i>i.e.</i>,&nbsp;either the X3D file has no bindable 
+  nodes for a given type or the stack has been popped until empty), the default 
+  field values for that node type are used to set world state. The results are 
+  undefined if a multiply instanced (DEF/USE) bindable node is bound.</p>
+<p>Bindable nodes only affect the binding stacks of the layer in which they are 
+defined.</p>
+
+<p>The following rules describe the behaviour of the binding stack for a node 
+  of type <i>&lt;bindable node&gt;, </i>
+(Background, TextureBackground, Fog, NavigationInfo, or Viewpoint):</p>
+
+<ol type=a start=4>
+  <li>During read, the first encountered <i>&lt;bindable node&gt;</i> in each 
+	layer is bound 
+    by pushing it to the top of the <i>&lt;bindable node&gt;</i> stack for that 
+	layer. Nodes 
+    contained within files referenced by <a href="networking.html#Inline">Inline</a> 
+  nodes, within the strings passed to 
+    the Browser.createX3DFromString() method, or within X3D files passed to 
+    the Browser.createX3DFromURL() method (see
+  <a href="../references.html#[I19775_2]">Part 2 of ISO/IEC 19775</a>) 
+are not candidates for the first encountered <i>&lt;bindable 
+    node&gt;</i>. The first node within a locally defined prototype instance is a valid candidate 
+    for the first encountered <i>&lt;bindable node&gt;</i>. The first encountered 
+    <i>&lt;bindable node&gt;</i> sends an <i>isBound </i><span class="code">TRUE</span><i> </i>event.</li> 
+  <li>When a <i>set_bind</i> <span class="code">TRUE</span> event is received by a <i>&lt;bindable node&gt;</i>,<ol type=1>
+      <li>If it is <u>not</u> on the top of the stack: the current top of stack 
+        node sends an <i>isBound</i> <span class="code">FALSE</span> event. The new node is <u>moved</u> 
+        to the top of the stack and becomes the currently bound <i>&lt;bindable 
+        node&gt;</i>. The new <i>&lt;bindable node&gt;</i> (top of stack) sends 
+        an <i>isBound </i><span class="code">TRUE</span><i> </i>event.</li> 
+      <li>If the node is already at the top of the stack, this event has no effect.</li>
+    </ol>
+  <li>When a <i>set_bind</i> <span class="code">FALSE</span> event is received by a <i>&lt;bindable node&gt;</i> 
+    in the stack, it is removed from the stack. If it was on the top of the stack,<ol type=1>
+      <li>it sends an <i>isBound</i> <span class="code">FALSE</span> event;</li> 
+      <li>the next node in the stack becomes the currently bound <i>&lt;bindable 
+        node&gt; </i>(<i>i.e.</i>,&nbsp;pop)<i> </i>and issues an<i> isBound </i>
+		<span class="code">TRUE</span><i> 
+        </i>event. </li>
+    </ol>
+  <li>If a <i>set_bind</i> <span class="code">FALSE</span> event is received by a node not in the stack, 
+    the event is ignored and <i>isBound</i> events are not sent.</li> 
+  <li>When a node replaces another node at the top of the stack, the <i>isBound</i>
+  <span class="code">TRUE</span> and <span class="code">FALSE</span> output 
+  events from the two nodes are sent simultaneously (<i>i.e.</i>, with 
+    identical timestamps).</li> 
+  <li>If a bound node is deleted, it behaves as if it received a <i>set_bind </i>
+  <span class="code">FALSE</span> 
+    event (see f above). </li>
+</ol>
+
+        <p>The results are undefined if a bindable node is bound 
+          and is the child of an <a href="navigation.html#LOD">LOD</a>, 
+		<a href="group.html#Switch">Switch</a>, or any node or prototype that disables 
+          its children. If a bindable node is bound that results in collision 
+          with geometry, the browser shall perform its self-defined navigation 
+          adjustments as if the user navigated to this 
+point (see <a href="navigation.html#Collision">23.3.2 Collision</a>).</p>
+
+<h2><a name="Sensors"></a>7.2.3 Sensors</h2>
+
+<p>Sensors are nodes that generate events based on external inputs to the scene 
+graph, such as user input, changes to the viewing environment, messages from the 
+network or ticks of the system clock. X3D defines the following types of<br>
+sensors:</p>
+<ol type="a">
+  <li>Pointing device sensors (see <a href="pointingsensor.html">20 Point 
+  device sensor component</a>),</li>
+  <li>Environmental sensors (see <a href="envsensor.html">22 Environmental 
+  sensor component</a>),</li>
+  <li>Key device sensors (see <a href="keyboard.html">21 Key device sensor 
+  component</a>),</li>
+  <li>Load sensors (see <a href="networking.html">9 Networking component</a>),</li>
+  <li>Time sensors (see <a href="time.html">8 Time component</a>), and</li>
+	<li>Picking sensors (see <a href="picking.html">38 Picking sensor component</a>).</li>
+</ol>
+
+<p>Sensors are children nodes in the hierarchy and therefore may be parented by 
+grouping nodes as described in <a href="group.html#Groupingandchildrennodes">
+10.2.1 Grouping and children node types</a>.</p>
+
+<p>Each type of sensor defines when an event is generated. The state of the 
+scene graph after several sensors have generated events shall be as if each 
+event is processed separately, in order. If sensors generate events at the same 
+time, the state of the scene graph will be undefined if the results depend on 
+the ordering of the events.</p>
+
+<p>It is possible to create dependencies between various types of sensors.</p>
+<p class="Example">EXAMPLE&nbsp; A TouchSensor may result in a change to a VisibilitySensor node&#39;s 
+transformation, which in turn may cause the VisibilitySensor node&#39;s visibility 
+status to change.</p>
+<p>For a detailed description of how dependencies among sensors 
+are handled during execution, see <a href="../concepts.html#Executionmodel">
+4.4.8.3 Execution model</a>.</p>
+
+<h2><a name="Metadata"></a>7.2.4 Metadata</h2>
+<h3><a name="MetadataOverview"></a>7.2.4<i>.</i>1 Overview</h3>
+<p>Metadata is information that is associated with the objects of the X3D world 
+but is not a direct part of the world representation. This part of ISO/IEC 19775 
+defines an abstract interface <i><a href="#X3DMetadataObject">X3DMetadataObject</a></i> that identifies a node as 
+containing metadata and metadata nodes that specify metadata values in various 
+data types.</p>
+<h3><a name="DataTypesForMetadata"></a>7.2.4.2 Data types for metadata</h3>
+<p>This part of ISO/IEC 19775 specifies four basic representation types:&nbsp; 
+strings, single-precision and double-precision floating point values, booleans, and 
+integers. Each piece of metadata has two additional strings that describe:</p>
+<ol type="a">
+  <li>the metadata standard (if any) from which the metadata specification 
+  emanates, and </li>
+  <li>the identification for the particular piece of metadata being provided.
+  </li>
+</ol>
+<p>The <a href="#MetadataSet">MetadataSet</a> node is provided to support cases when a specific set of 
+metadata requires more than a single data type.</p>
+<p class="Example">NOTE&nbsp; Since a metadata node is derived from <i>
+<a href="#X3DNode">X3DNode</a></i>, 
+the metadata node may itself have metadata.</p>
+<h3><a name="IntegrationWithX3DWorlds"></a>7.2.4.3 Integration with X3D worlds</h3>
+<p>The <i><a href="#X3DNode">X3DNode</a></i> abstract node type specifies an SFNode field <i>metadata</i> 
+that may only be populated with nodes derived from <i>
+<a href="#X3DMetadataObject">X3DMetadataObject</a></i>. If 
+the <i>metadata</i> field is empty, no metadata is associated with the node. 
+Since all nodes in X3D are derived from <i>X3DNode</i>, metadata may be placed anywhere 
+in an X3D world.</p>
+<p>Metadata is not included as part of the depiction of an X3D world. However, 
+metadata nodes may have a DEF name and the values of the fields of a metadata 
+node may be accessed by SAI services and can be accessed using routing.</p>
+<p>The content of the value field of a metadata node is not interpreted by the 
+X3D browser.</p>
+<p>Metadata may also be attached to other X3D nodes by setting the metadata 
+field of that node to a node derived from the X3DMetadataNode abstract node 
+type.</p>
+<h3><a name="AssigningMetadataToEntireX3DWorld"></a>7.2.4.4 Assigning metadata 
+to an entire X3D world</h3>
+<p>The META statement (see <a href="#METAStatement">7.2.5.5 META statement</a>) 
+may be used to assign metadata to the entire world. The content of the META 
+statement is accessible using the SAI. If it is desired that metadata 
+information that applies to the entire world be provided for access through 
+routing, a <a href="group.html#WorldInfo">WorldInfo</a> node containing the 
+metadata in its metadata field may be inserted as a root node.</p>
+
+<h2><a name="AbstractX3DStructure"></a>7.2.5 Abstract X3D structure</h2>
+<h3><a name="Organization"></a>7.2.5.1 Organization</h3>
+<p>An X3D world is conceptually defined as a sequence of statements organized 
+conceptually as a file. The first item in the file is the Header statement. The 
+second item in the file is the PROFILE statement. The PROFILE statement may be 
+optionally followed by one or more COMPONENT, UNIT and/or META statements in 
+that order. There may be multiple of each of the COMPONENT, UNIT, and/or META 
+statements. The remainder of the file consists of the other elements defined in 
+this part of ISO/IEC 19775.</p>
+<p>ROUTE statements are used to specify the pathways for allowed transmission of 
+events. These statements link a field in one node to a field of the same field 
+type in another node.</p>
+<p>PROTO statements are used to specify new node types. Such statements assign a 
+name to the new node type along with a declaration of the interface for the new 
+node type. This is followed by a definition for the node type functionality.</p>
+<p>EXTERNPROTO statements are used to specify an interface to PROTO or 
+EXTERNPROTO statements located externally to the local file. </p>
+<p>Any additional X3D content loaded into the scene via 
+<a href="networking.html#Inline">Inline</a> nodes or scenes 
+loaded using createX3DFromStream, createX3DFromString, or createX3DFromUrl, 
+shall be declared as having a profile that has an equal or smaller set of 
+required functionality; <i>i.e.</i>, there can be no components explicitly declared, or 
+implied by the profile in that content, that requires functionality not declared 
+in the original profile and component declarations for the containing scene. Any 
+UNIT statements within the additional contained external X3D content are ignored 
+and the units specified in the root file are used.</p>
+<p>Although an X3D world is described as being contained in a file, the file may 
+be conceptual and created dynamically during run-time as described in
+<a href="../references.html#[I19775_2]">Part 2 of ISO/IEC 19775</a>.</p>
+<h3><a name="HeaderStatement"></a>7.2.5.2 Header statement</h3>
+<p>The Header statement is an encoding-dependent statement containing the 
+following elements:</p>
+<ol type="a">
+  <li>identification of the standard being supported (for this standard, this is 
+  &quot;X3D&quot;);</li>
+	<li>version of the standard being supported (for this version of this part 
+	of ISO/IEC 19775, the version number is &quot;3.2&quot;);</li>
+  <li>identification of the character encoding being supported (for this 
+  standard, this shall be &quot;UTF-8&quot;), and</li>
+  <li>optional comments that may apply to the file.</li>
+</ol>
+<p>While the exact representation of this information is dependent on the 
+encoding, this information shall always be stored as human-readable text.</p>
+<h3><a name="PROFILEStatement"></a>7.2.5.3 PROFILE statement</h3>
+<p>Every X3D application shall declare a profile at the beginning of execution. 
+This declaration tells the browser the exact set of components and their support 
+levels that are required for the application to run, allowing for a browser to 
+dynamically load the appropriate components if it so desires, and providing a 
+mechanism for strict conformance should the browser choose to enforce it. If a 
+browser supports the combination of declared profile and components (see
+<a href="#COMPONENTStatement">7.2.5.4 COMPONENT statement</a>), it may proceed 
+with presenting the world; otherwise, it shall fail.</p>
+<p>The profile is declared via a PROFILE statement immediately following the 
+Header statement at the top of the file. The form of the PROFILE statement is:</p>
+<blockquote>
+  <p><span class="code">PROFILE &lt;name&gt;</span></p>
+</blockquote>
+<p>where name is a string that does not contain whitespace.</p>
+<p>The following profiles are defined in this standard:</p>
+<ol type="a">
+  <li>Core (see <a href="../coreprofile.html">A Core profile</a>),</li>
+  <li>Interchange (see <a href="../interchange.html">B Interchange profile</a>),</li>
+  <li>Interactive (see <a href="../interactive.html">C Interactive profile</a>),</li>
+  <li>MPEG-4 interactive (see <a href="../MPEG4interactive.html">D MPEG-4 
+  interactive profile</a>),</li>
+  <li type="a" value="5">Immersive (see <a href="../immersive.html">E Immersive 
+	profile</a>),</li>
+	<li type="a">Full (see <a href="../fullProfile.html">F Full profile</a>), 
+	and </li>
+	<li type="a">CADInterchange (see <a href="../CADInterchange.html">H CAD 
+	interchange profile</a>).</li>
+</ol>
+<p>The profile name is implicitly qualified by the version number of the 
+standard (see <a href="#HeaderStatement">7.2.5.2 Header statement</a>). Browsers 
+shall use both the profile name and the version number to determine the specific 
+characteristics of the profile.</p>
+<h3><a name="COMPONENTStatement"></a>7.2.5.4 COMPONENT statement</h3>
+<p>X3D applications may explicitly declare additional components required for 
+the application to run. This is useful for combining features that do not appear 
+together in a predefined profile, such as adding humanoid animation support to 
+the Immersive profile. If a browser supports the combination of declared profile 
+and components, it may proceed with presenting the world; otherwise, it shall 
+fail.</p>
+<p>Declaring a component in a file shall only add support for nodes and 
+functionality defined in that component at the requested support level. Nodes 
+that are defined as part of the prerequisite components (see
+<a href="../concepts.html#Basecomponents">4.5.3 Base Components</a>) shall not 
+be automatically included. A user shall declare all components and levels for 
+the nodes and/or functionality being used either explicitly through the use of 
+the COMPONENT statement or implicitly through the PROFILE statement.</p>
+<p>Components are declared by COMPONENT statements at the top of the file, 
+immediately following the PROFILE statement but preceding any other content. The 
+form of the component statement is:</p>
+<blockquote>
+  <p><span class="code">COMPONENT &lt;name&gt; &lt;level&gt;</span></p>
+</blockquote>
+<p>where &lt;name&gt; is a string that does not contain whitespace, and &lt;level&gt; is a 
+positive integer.</p>
+<p>If support for a component at the desired level is implied by the 
+application&#39;s declared profile, the declaration for that component is 
+unnecessary but may be included.</p>
+
+<h3><a name="UNITStatement"></a>7.2.5.5 UNIT statement</h3>
+<p>X3D applications may explicitly alter the initial base units within an X3D 
+world by inserting UNIT statements defining the characteristics of the new 
+default base units. At most one UNIT statement shall be provided for each base 
+unit type. Only the UNIT statements in the root file apply to an X3D world. If 
+no UNIT statements are provided, the initial base units as specified in
+<a href="../concepts.html#Standardunitscoordinates">4.3.6 Standard units and 
+coordinate system</a> shall apply.</p>
+<p>UNIT statements contained in X3D files referenced by Inline nodes or 
+contained in X3D files consisting of EXTERNPROTO bodies shall be used to align 
+effected units to the base units of the root file before the referenced X3D file 
+content is incorporated in the X3D world.</p>
+<p>UNIT statements may only be contained in X3D worlds created for X3D version 
+3.3 or later (as specified in the Header statement). If a version of 3.2 or 
+earlier is specified in conjunction with UNIT statements, the browser shall 
+fail.</p>
+<p>A change in a base unit is specified by UNIT statements at the top of the 
+file preceding any element content but in the statement order specified in
+<a href="#Organization">7.2.5.1 Organization</a>. The form of the UNIT statement 
+is:</p>
+<blockquote>
+				<p><span class="code">UNIT &lt;category&gt; &lt;name&gt; &lt;conversionFactor&gt;</span></p>
+</blockquote>
+<p>where &lt;category&gt; is a string specifying one of the categories in
+<a href="../concepts.html#t-Standardunits">Table 4.2</a>, &lt;name&gt; is a string 
+that does not contain whitespace that provides a name for the new default base 
+unit, and &lt;conversion_factor&gt; is a positive double precision value that converts 
+the new default base unit to the initial base unit specified in
+<a href="../concepts.html#t-Standardunits">Table 4.2</a>. Direct modification of 
+conversion factors for derived units is not allowed.</p>
+<h3><a name="METAStatement"></a>7.2.5.6 META statement</h3>
+<p>X3D applications may explicitly declare metadata about the world being 
+defined. This is done by adding one or more META statements that contain such 
+information. Such statements do not affect the scene graph but simply provide 
+additional information in the world.</p>
+<p>Metadata that applies to the entire file may be specified by META statements 
+at the top of the file preceding any element content but in the statement order 
+specified in <a href="#Organization">7.2.5.1 Organization</a>. The 
+form of the META statement is:</p>
+<blockquote>
+  <p><span class="code">META &lt;key&gt; &lt;data&gt;</span></p>
+</blockquote>
+<p>where &lt;key&gt; is a string that identifies the metadata and &lt;data&gt; is a 
+string that defines the value for the  metadata identified by &lt;key&gt;.</p>
+
+<h3><a name="ROUTEStatement"></a>7.2.5.7 ROUTE statement</h3>
+<p>X3D applications specify connections between fields of one node to fields of 
+other nodes using the ROUTE statement. See <a href="../concepts.html#Routes">4.4.8.2 Routes</a> 
+for a general discussion of routes.</p>
+<p>ROUTE statements may appear anywhere in the file and have the following form:</p>
+<blockquote>
+  <p><span class="code">ROUTE &lt;fromNodeName&gt; &lt;fromFieldName&gt; &lt;toNodeName&gt; &lt;toFieldName&gt;</span></p>
+</blockquote>
+<p>where &lt;fromNodeName&gt; identifies the node that will generate an event, &lt;fromFieldName&gt; 
+is the name of the field in the generating node from which the event will 
+eminate, &lt;toNodeName&gt; identifies the node that will receive an event, and &lt;toFieldName&gt; 
+identifies the field in the destination node that will receive the event.</p>
+
+<h3><a name="PROTOStatement"></a>7.2.5.8 PROTO statement</h3>
+<p>New node types may be defined by X3D applications through use of the PROTO 
+statement as specified in <a href="../concepts.html#PROTOdefinitionsemantics">
+4.4.4 Prototype semantics</a>.</p>
+<p>PROTO statements may appear anywhere in the file and have the following form:</p>
+<blockquote>
+  <p><span class="code">PROTO &lt;protoName&gt; &lt;protoInterfaceDeclaration&gt; &lt;protoDefinition&gt;</span></p>
+</blockquote>
+<p>The &lt;protoName&gt; specifies the name for the new node type.</p>
+<p>The &lt;protoInterfaceDeclaration&gt; specifies a list of field definitions. Each 
+field definition specifies the data type, access type, and name for the field. 
+For initializeOnly and inputOutput fields, the default value is also specified. 
+See <a href="../concepts.html#PROTOinterfacedeclsemantics">4.4.4.2 PROTO interface declaration semantics</a> 
+for details.</p>
+<p>The &lt;protoDefinition&gt; consists of a list of nodes the first of which is used 
+to specify the node type for the prototype. This list may instantiate other 
+prototypes provided that the definitions of the referenced prototypes precede 
+this PROTO statement. See <a href="../concepts.html#PROTOdefinitionsemantics">4.4.4.3 PROTO definition semantics</a> 
+for details.</p>
+
+<h3><a name="EXTERNPROTOStatement"></a>7.2.5.9 EXTERNPROTO statement</h3>
+<p>Externally defined new node types may be used by X3D applications by 
+referencing their definition using the EXTERNPROTO statement as specified in
+<a href="../concepts.html#EXTERNPROTOsemantics">4.4.5 External prototype 
+semantics</a>.</p>
+<p>EXTERNPROTO statements may appear anywhere in the file and have the following 
+form:</p>
+<blockquote>
+  <p><span class="code">EXTERNPROTO &lt;externprotoName&gt; &lt;externprotoInterfaceDeclaration&gt; 
+	&lt;externprotoURL&gt;</span></p>
+</blockquote>
+<p>The &lt;externprotoName&gt; specifies the name for the new node type.</p>
+<p>The &lt;externprotoInterfaceDeclaration&gt; specifies a list of field definitions. 
+Each field definition specifies the data type, access type, and name for the 
+field. The default value for intializeOnly and inputOutput field is derived as 
+specified in <a href="../concepts.html#EXTERNPROTOInterfaceSemantics">4.4.5.2 
+EXTERNPROTO interface semantics</a>.</p>
+<p>The &lt;externprotoURL&gt; specifies the location of the definition for the 
+externally defined prototype. See
+<a href="../concepts.html#EXTERNPROTOURLSemantics">4.4.5.3 EXTERNPROTO URL 
+semantics</a> for details.</p>
+
+<h1><a name="Abstracttypes"></a>
+7.3 Abstract types</h1>
+
+<h2><a name="X3DBindableNode"></a>7.3.1 <i>X3DBindableNode</i></h2>
+
+<pre class="node">X3DBindableNode : X3DChildNode {
+  SFBool [in]     set_bind
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+  SFTime [out]    bindTime
+  SFBool [out]    isBound
+}
+</pre>
+
+  <p> X3DBindableNode is the abstract base type for all bindable 
+    children nodes, including <a href="enveffects.html#Background">Background</a>,
+	<a href="enveffects.html#TextureBackground">TextureBackground</a>, 
+	<a href="enveffects.html#Fog">Fog</a>,
+	<a href="navigation.html#NavigationInfo">NavigationInfo</a> 
+    and <a href="navigation.html#Viewpoint">Viewpoint</a>. For complete discussion of bindable behaviors, see <a href="#BindableChildrenNodes">
+  7.2.2 Bindable children nodes</a>.</p>
+
+
+<h2><a name="X3DChildNode"></a>
+7.3.2 <i>X3DChildNode</i></h2>
+
+<pre  class="node">X3DChildNode : X3DNode { 
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This abstract node type indicates that the concrete nodes that are instantiated 
+  based on it may be used in <i>children, addChildren, and removeChildren</i> 
+  fields.</p>
+
+<p>More details on the <i>children</i>, <i>addChildren</i>, and <i>removeChildren</i> 
+  fields can be found in <a href="group.html#Groupingandchildrennodes">10.2.1 Grouping 
+  and children node types</a>.</p>
+
+
+<h2><a name="X3DInfoNode"></a>7.3.3 <i>X3DInfoNode</i></h2>
+
+<pre class="node">X3DInfoNode : X3DChildNode { 
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This is the base node type for all  nodes that contain only information 
+without visual semantics.</p>
+
+
+<h2><a name="X3DMetadataObject"></a>7.3.4 <i>X3DMetadataObject</i></h2>
+
+<pre class="node">X3DMetadataObject { 
+  SFString [in,out] name      &quot;&quot;  (Required)
+  SFString [in,out] reference &quot;&quot; 
+}</pre>
+<p>This abstract interface is the basis for all metadata nodes. The interface is 
+inherited by all metadata nodes.</p>
+<p>The specification of a non-empty value for the <em>name</em> field is 
+required.</p>
+<p>The specification of the <i>reference</i> field is optional. If provided, it 
+identifies the metadata standard or other specification that defines the <i>name</i> 
+field. If the <i>reference</i> field is not provided or is empty, the meaning of 
+the <i>name</i> field is considered implicit to the characters in the string.</p>
+
+
+<h2><a name="X3DNode"></a>7.3.5 <i>X3DNode</i></h2>
+
+<pre class="node">X3DNode {
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This abstract node type is the base type for all nodes in the X3D system.</p>
+
+
+<h2><a name="X3DPrototypeInstance"></a>7.3.6 <i>X3DPrototypeInstance</i></h2>
+
+<pre class="node">X3DPrototypeInstance : X3DNode {
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+
+<p>This abstract node type is the base type for all prototype instances in the 
+  X3D system. Any user-defined nodes declared with PROTO or EXTERNPROTO are instantiated 
+  using this base type. An <i>X3DPrototypeInstance</i> may be place anywhere in the scene 
+  graph where it is legal to place the first node declared within the prototype 
+  instance. For example, if the base type of first node is <i>X3DAppearanceNode</i>, 
+  that prototype may be instantiated anywhere in the scene graph that allows for 
+  an appearance node (<span class="example">EXAMPLE&nbsp; Shape</span>).</p>
+
+
+<h2><a name="X3DSensorNode"></a>
+7.3.7 <i>X3DSensorNode</i></h2>
+
+
+<pre class="node">X3DSensorNode  : X3DChildNode {
+  SFBool [in,out] enabled  TRUE
+  SFNode [in,out] metadata NULL [X3DMetadataObject]
+  SFBool [out]    isActive
+}
+</pre>
+
+<p>This abstract node type is the base type for all sensors.</p>
+
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="Nodereference"></a>
+7.4 Node reference</h1>
+
+<h2><a name="MetadataBoolean"></a>7.4.1 MetadataBoolean</h2>
+<pre class="node">MetadataBoolean : X3DNode, X3DMetadataObject {
+  SFNode   [in,out] metadata  NULL [X3DMetadataObject]
+  SFString [in,out] name      &quot;&quot;
+  SFString [in,out] reference &quot;&quot;
+  MFBool   [in,out] value     []
+}</pre>
+<p>The metadata provided by this node is contained in the Boolean values of the
+<i>value</i> field.</p>
+<h2><a name="MetadataDouble"></a>7.4.2 MetadataDouble</h2>
+<pre class="node">MetadataDouble : X3DNode, X3DMetadataObject {
+  SFNode   [in,out] metadata  NULL [X3DMetadataObject]
+  SFString [in,out] name      &quot;&quot;
+  SFString [in,out] reference &quot;&quot;
+  MFDouble [in,out] value     []
+}</pre>
+<p>The metadata provided by this node is contained in the double-precision 
+floating point numbers of the <i>value</i> field.</p>
+<h2><a name="MetadataFloat"></a>7.4.3 MetadataFloat</h2>
+<pre class="node">MetadataFloat : X3DNode, X3DMetadataObject { 
+  SFNode   [in,out] metadata  NULL [X3DMetadataObject]
+  SFString [in,out] name      &quot;&quot;
+  SFString [in,out] reference &quot;&quot;
+  MFFloat  [in,out] value     []
+}</pre>
+<p>The metadata provided by this node is contained in the single-precision 
+floating point numbers of the <i>value</i> field.</p>
+<h2><a name="MetadataInteger"></a>7.4.4 MetadataInteger</h2>
+<pre class="node">MetadataInteger : X3DNode, X3DMetadataObject { 
+  SFNode   [in,out] metadata  NULL [X3DMetadataObject]
+  SFString [in,out] name      &quot;&quot;
+  SFString [in,out] reference &quot;&quot;
+  MFInt32  [in,out] value     []
+}</pre>
+<p>The metadata provided by this node is contained in the integers of the <i>
+value</i> field.</p>
+<h2><a name="MetadataSet"></a>7.4.5 MetadataSet</h2>
+<pre class="node">MetadataSet : X3DNode, X3DMetadataObject { 
+  SFNode   [in,out] metadata  NULL [X3DMetadataObject]
+  SFString [in,out] name      &quot;&quot;
+  SFString [in,out] reference &quot;&quot;
+  MFNode   [in,out] value     [] [X3DMetadataObject]
+}</pre>
+<p>The metadata provided by this node is contained in the metadata nodes of the
+<i>value</i> field.</p>
+<h2><a name="MetadataString"></a>7.4.6 MetadataString</h2>
+<pre class="node">MetadataString : X3DNode, X3DMetadataObject { 
+  SFNode   [in,out] metadata  NULL [X3DMetadataObject]
+  SFString [in,out] name      &quot;&quot;
+  SFString [in,out] reference &quot;&quot;
+  MFString [in,out] value     []
+}</pre>
+<p>The metadata provided by this node is contained in the strings of the <i>
+value</i> field.</p>
+
+<h2><a name="WorldInfo"></a>7.4.7 WorldInfo</h2>
+
+<pre class="node">WorldInfo : X3DInfoNode { 
+  SFNode   [in,out] metadata NULL [X3DMetadataObject]
+  MFString []       info     []
+  SFString []       title    ""
+}
+</pre>
+
+<p>The WorldInfo node contains information about the world. This node is strictly 
+  for documentation purposes and has no effect on the visual appearance or behaviour 
+  of the world. The <i>title</i> field is intended to store the name or title 
+  of the world so that browsers can present this to the user (perhaps in the window 
+  border). Any other information about the world can be stored in the <i>info</i> 
+  field, such as author information, copyright, and usage instructions.</p>
+
+
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="SupportLevels"></a>7.5 Support levels</h1>
+
+<p>The Core component provides two levels of support as specified in
+<a href="#t-Coresupportlevels">Table 7.2</a>. Level 1 provides the minimum basis for 
+all profiles and components. Level 2 adds support for prototypes.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Coresupportlevels"></a>
+Table 7.2 &#8212; Core component support levels</p>
+
+    <table>
+      <tr> 
+        <th><b>Level</b></th>
+        <th>Prerequisites</th>
+        <th><b>Nodes/Features</b></th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td align="center"><b>1</b></td>
+        <td>None</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DBindableNode</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DChildNode</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DField</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DInfoNode</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><i>X3DMetadataObject</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DNode</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DPrototypeInstance</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3D</i><em>SensorNode</em> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DUrlObject</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>MetadataDouble</td>
+        <td>All fields are fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>MetadataFloat</td>
+        <td>All fields are fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>MetadataInteger</td>
+        <td>All fields are fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>MetadataSet</td>
+        <td>All fields are fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>MetadataString</td>
+        <td>All fields are fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>WorldInfo</td>
+        <td>All fields are fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td> Statements:<br>
+&nbsp; Header<br>
+&nbsp; PROFILE<br>
+&nbsp; COMPONENT<br>
+&nbsp; UNIT<br>
+&nbsp; META</td>
+        <td>Full support.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>Field types</td>
+        <td>All field types.<br>
+        </td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>Event model</td>
+        <td>As specified in 
+<a href="../concepts.html#EventModel">4.4.8 Event Model</a>.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>Routing</td>
+        <td> 
+          <p>Full support.</p>
+          </td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>Prototyping</td>
+        <td>Optionally supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>2</b></td>
+        <td>None</td>
+        <td> </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 1 Core objects</td>
+        <td>As supported in Level 1.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>Prototyping</td>
+        <td>Full support.</td>
+      </tr>
+    </table>
+</div>
+
+<img class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

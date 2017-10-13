@@ -1,0 +1,434 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 29 Scripting component</TITLE>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</HEAD>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+<p class="HeadingClause">29 Scripting component</p>
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+29.1 Introduction</h1>
+<h2><a name="Name"></a>29.1.1 Name</h2>
+<p>The name of this component is &quot;Scripting&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>29.1.2 Overview</h2>
+
+<p>This clause describes the scripting component of this part of ISO/IEC 19775. 
+  This includes how <a href="#Script">Script</a> nodes are used to effect changes in X3D worlds. 
+<a href="#t-Topics">Table 29.1</a> provides links to the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a><b>
+Table 29.1 &#8212; </b>Topics</p>
+
+   <table>
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">29.1 Introduction</a>
+            <ul>
+              <li><a href="#Name">29.1.1 Name</a></li>
+              <li><a href="#Overview">29.1.2 Overview</a> </li>
+            </ul></li>
+          <li><a href="#Concepts">29.2 Concepts</a> 
+            <ul>
+              <li><a href="#ScriptingOverview">29.2.1 Overview</a></li>
+              <li><a href="#Scriptexecution">29.2.2 Script execution</a></li>
+              <li><a href="#InitializeAndShutdown">29.2.3 Initialize() and shutdown()</a></li>
+              <li><a href="#EventsProcessed">29.2.4 EventsProcessed()</a></li>
+              <li><a href="#PrepareEvents">29.2.5 PrepareEvents()</a></li>
+              <li><a href="#directoutputs">29.2.6 Scripts with direct outputs</a></li>
+              <li><a href="#Asynchronousscripts">29.2.7 Asynchronous scripts</a></li>
+              <li><a href="#Scriptlanguages">29.2.8 Script languages</a></li>
+              <li><a href="#Eventhandling">29.2.9 Event handling</a></li>
+              <li><a href="#Accessingfieldsandevents">29.2.10 Accessing fields and events</a></li>
+            </ul></li>
+          <li><a href="#Abstracttypes">29.3 Abstract types</a>  
+            <ul>
+              <li><a href="#X3DScriptNode">29.3.1 <i>X3DScriptNode</i></a> 
+            </ul></li>
+          <li><a href="#Nodereference">29.4 Node reference</a>  
+            <ul>
+              <li><a href="#Script">29.4.1 Script</a> 
+            </ul></li>
+          <li><a href="#SupportLevels">29.5 Support levels</a></li>
+        </ul>
+        <ul>
+          <li><a href="#t-Topics">Table 29.1 &#8212; Topics</a></li>
+          <li><a href="#t-supportlevels">Table 29.2 &#8212; Script component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>
+29.2 Concepts</h1>
+
+<h2><a name="ScriptingOverview"></a>29.2.1 Overview</h2>
+
+<p>Authors often require that X3D worlds change dynamically in response to user inputs, 
+external events, and the current state of the world. The proposition &quot;if 
+the vault is currently closed AND the correct combination is entered, open the 
+vault&quot; illustrates the type of problem which may need addressing. These kinds 
+of decisions are expressed programmatically using the Scene Access Interface (SAI) 
+specified in Part 2 of ISO/IEC 19775. The programmatic elements are provided 
+internally from <a href="#Script">Script</a> nodes (see <a href="#Script">29.4.1 Script</a>) or externally 
+from other application programs. These application programs are called <i>scripting 
+environments</i>. In both cases, the scripting environment can receive events, 
+process them, and send new events. Scripting environments can keep track of information 
+between subsequent executions (<i>i.e.</i>, retaining internal state over time).</p> 
+
+<p>This clause describes the general mechanisms and semantics of all scripting 
+  access. <a href="../references.html#[I19775_2]">2.[I19775-2]</a> defines a set of abstract scripting services and specific 
+  languages bound to those services. For internal scripting, event processing 
+  is performed by a program or script contained in (or referenced by) the Script 
+  node's <i>url</i> field. This program or script may be written in any programming 
+  language that the browser supports.</p> 
+
+<h2><a name="Scriptexecution"></a>
+29.2.2 Script execution</h2>
+
+<p>A <a href="#Script">Script</a> node is activated when it receives an event. The browser shall then execute 
+the program in the Script node's <i>url</i> field (passing the program to an external 
+interpreter if necessary). The program can perform a wide variety of actions including 
+sending out events (and thereby changing the scene), performing calculations, 
+and communicating with servers elsewhere on the Internet. A detailed description 
+of the ordering of event processing is contained
+<a href="../Concepts.html#Eventmodel">4.4.8 Event model</a>.</p> 
+
+<p>Script nodes may also be executed at initialization and shutdown as specified 
+  in 
+<a href="#InitializeAndShutdown">29.2.3 <i>initialize()</i> and <i>shutdown()</i></a>. 
+  Some scripting languages may allow the creation of separate processes from scripts, 
+  resulting in continuous execution (see 
+<a href="#Asynchronousscripts">29.2.7 Asynchronous scripts</a>).</p> 
+
+<p>Script nodes receive events in timestamp order. Any events generated as a result 
+  of processing an event are given timestamps corresponding to the event that 
+  generated them. Conceptually, it takes no time for a Script node to receive 
+  and process an event, even though in practice it does take some amount of time 
+  to execute a Script.</p>
+
+<p>When a <i>set_url</i> event is received by a Script node that contains a script 
+  that has been previously initialized for a different URL, the <i>shutdown()</i> 
+  service of the current script is called 
+(see <a href="#InitializeAndShutdown">29.2.3 
+  <i>initialize()</i> and <i>shutdown()</i></a>. Until the new script becomes 
+  available, the script shall behave as though it has no executable content. When 
+  the new script becomes available, the <i>Initialize()</i> service is invoked. 
+  The limiting case is when the URL contains inline code that can be immediately 
+  executed upon receipt of the <i>set_url</i> event (<span class="example">EXAMPLE 
+&nbsp;ecmascript: protocol</span>). 
+  In this case, it can be assumed that the old code is unloaded and the new code 
+  loaded instantaneously, after any dynamic route requests have been performed.</p>
+
+<h2><a name="InitializeAndShutdown"></a>29.2.3 <i>initialize()</i> and <i>shutdown()</i></h2>
+
+<p>The scripting language binding may define an <i>initialize()</i> method. This 
+  method shall be invoked before the browser presents the world to the user and 
+  before any events are processed by any nodes in the same X3D file as the 
+<a href="#Script">Script</a> 
+  node containing this script. Events generated by the <i>initialize()</i> method 
+  shall have timestamps less than any other events generated by the Script node. 
+  This allows script initialization tasks to be performed prior to the user interacting 
+  with the world.</p>
+
+<p>Likewise, the scripting language binding may define a <i>shutdown()</i> method. 
+  This method shall be invoked when the corresponding Script node is deleted or 
+  the world containing the Script node is unloaded or replaced by another world. 
+  This method may be used as a clean-up operation, such as informing external 
+  mechanisms to remove temporary files. No other methods of the script may be 
+  invoked after the <i>shutdown()</i> method has completed, though the <i>shutdown()</i> 
+  method may invoke methods or send events while shutting down. Events generated 
+  by the <i>shutdown()</i> method that are routed to nodes that are being deleted 
+  by the same action that caused the <i>shutdown()</i> method to execute will 
+  not be delivered. The deletion of the Script node containing the <i>shutdown()</i> 
+  method is not complete until the execution of its <i>shutdown()</i> method is 
+  complete.</p>
+
+<h2><a name="EventsProcessed"></a>29.2.4 <i>eventsProcessed()</i></h2>
+<P>The scripting language binding may define an <I>eventsProcessed()</I> method 
+that is called after one or more events are received. This method allows scripts 
+that do not rely on the order of events received to generate fewer events than 
+an equivalent script that generates events whenever events are received. If it 
+is used in some other time-dependent way, <I>eventsProcessed()</I> may be 
+nondeterministic, since different browser implementations may call 
+<I>eventsProcessed()</I> at different times.</P>
+<P>For a single event cascade, a given <a href="#Script">Script</a> node's <I>eventsProcessed()</I> 
+method 
+shall be called at most once. Events generated from an <I>eventsProcessed()</I> 
+method are given the timestamp of the last event processed.</P>
+
+<h2><a name="PrepareEvents"></a>29.2.5 <i>prepareEvents()</i></h2>
+<P>The scripting language binding may define a <I>prepareEvents()</I> method 
+that is called only once per timestamp. <i>prepareEvents()</i> is called before
+any ROUTE processing and allows a <a href="#Script">Script</a> to collect any asynchronously generated
+data, such as input from a network queue or the results of calling field listeners, and
+generate events to be handled by the browser's normal event processing sequence
+as if it were a built-in sensor node.<p>
+
+<h2><a name="directoutputs"></a>
+29.2.6 Scripts with direct outputs</h2>
+
+<p><a href="#Script">Script</a> nodes that have access to other nodes (via SFNode and MFNode fields) and that 
+have their <i>directOutput</i> field set to <code>TRUE</code> 
+may directly post events to those nodes. They may also read the last value sent 
+from any of the node's fields.</p> 
+
+<p>When setting a value in another node, implementations shall  
+set values in other nodes by sending input events to 
+  the corresponding fields. These events shall be part of the current event cascade 
+  (see <a href="../concepts.html#ExecutionModel">4.4.8.3 Execution model</a>).<h2><a name="Asynchronousscripts"></a>
+29.2.7 Asynchronous scripts</h2>
+
+<p>Some languages supported by X3D browsers may allow <a href="#Script">Script</a> nodes to spontaneously 
+  generate events, allowing users to create Script nodes that function like new 
+  <i><a href="core.html#X3DSensorNode">X3DSensorNode</a></i> nodes. In these cases, the Script is generating the initial events that 
+  causes the event cascade, and the scripting language and/or the browser shall 
+  determine an appropriate timestamp for that initial event. Such events are then 
+  sorted into the event stream and processed like any other event, following all 
+  of the same rules including those for looping.</p>
+
+<h2><a name="Scriptlanguages"></a>
+29.2.8 Script languages</h2>
+
+<p>The Script node's <i>url</i> field shall allow for both inline scripting and script reference 
+via a URL. The MIME-type of the returned data defines the language type. Additionally, 
+instructions can be included in-line using scripting language protocols as defined 
+in <a href="networking.html#Scriptinglanguageprotocols">9.2.3 Scripting 
+language protocols</a> for the specific language (from which the language type 
+is inferred).</p> 
+
+<p class="Example">EXAMPLE&nbsp; The following <a href="#Script">Script</a> node has one field named <i>start</i> and 
+  three different URL values specified in the <i>url</i> field: Java, ECMAScript, 
+  and inline ECMAScript: 
+
+<pre class="listing">Script {
+ field SFBool start
+ url [ &quot;http://foo.com/fooBar.class&quot;,
+ &quot;http://foo.com/fooBar.js&quot;,
+ &quot;ecmascript:function start(value, timestamp) { ... }&quot;
+ ]
+}
+</pre>
+
+<p class="Example">When a <i>start</i> event is received by the Script node, 
+one of the scripts found in the <i>url</i> field is executed. The Java platform 
+bytecode is the first choice, the ECMAScript code is the second choice, and the 
+inline ECMAScript code the third choice.</p>
+<p>A description of order of preference 
+for multiple valued URL fields may be found in
+<a href="networking.html#X3DUrlObject">9.3.2 <i>X3DUrlObject</i></a>.</p> 
+
+<h2><a name="Eventhandling"></a>
+29.2.9 Event handling</h2>
+
+<p>Events received by the <a href="#Script">Script</a> node are passed to the appropriate scripting 
+  language method in the script. The method's name depends on the language type 
+  used. In some cases, it is identical to the name of the field; in others, it 
+  is a general callback method for all events (see the scripting language annexes 
+  for details). The method is passed two arguments: the event value and the event 
+  timestamp.</p>
+
+<h2><a name="Accessingfieldsandevents"></a>
+29.2.10 Accessing fields and events</h2>
+
+<p>The fields of a <a href="#Script">Script</a> node are accessible from scripting language methods. Events 
+can be routed to fields of Script nodes and the fields of Script nodes can be 
+routed to fields of other nodes. Another Script node with access to this node 
+can access the fields just like any other node (see 
+<a href="#directoutputs">29.2.6 Scripts with direct outputs</a>).</p> 
+
+<p>It is recommended that user-defined field names defined in Script 
+  nodes follow the naming conventions described 
+in <a href="../references.html#[I19775_2]">2.[I19775-2]</a></p>
+
+<p>The field values can be read or written and are persistent across method call, 
+  and changes to a field can notify the node through its update method.&nbsp; 
+  See
+<a href="../fieldsDef.html">5 Field type reference</a> 
+for more information on field types.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Abstracttypes"></a>
+29.3 Abstract types</h1>
+<h2><a name="X3DScriptNode"></a>
+29.3.1 <i>X3DScriptNode</i> (abstract)</h2>
+
+<pre class="node">X3DScriptNode : X3DChildNode,X3DURLObject { 
+  SFNode   [in,out] metadata NULL [X3DMetadataObject]
+  MFString [in,out] url      []   [URI]
+}
+</pre>
+
+<p>This abstract node type is the base type for all scripting nodes.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Nodereference"></a>
+29.4 Node reference</h1>
+
+<h2><a name="Script"></a>
+29.4.1 Script</h2>
+
+<pre class="node">Script : X3DScriptNode {
+  SFNode    [in,out] metadata     NULL  [X3DMetadataObject]
+  MFString  [in,out] url          []    [URI]
+  SFBool    []       directOutput FALSE
+  SFBool    []       mustEvaluate FALSE
+  # And any number of:
+  fieldType [in]     fieldName
+  fieldType [in,out] fieldName    initialValue
+  fieldType [out]    fieldName
+  fieldType []       fieldName    initialValue
+}
+</pre>
+
+<p>The Script node is used to program behaviour in a scene. Script 
+    nodes typically:</p>
+
+    <ol start="1" type="a">
+      <li>signify a change or user action; 
+      <li>receive events from other nodes; 
+      <li>contain a program module that performs some computation; 
+      <li>effect change somewhere else in the scene by sending events. 
+    </ol>
+
+<p>Each Script node has associated programming language code, referenced 
+    by the <i>url</i> field, that is executed to carry out the Script node's function. 
+    That code is referred to as the &quot;script&quot; in the rest of this description. 
+    Details on the <i>url</i> field can be found in
+<a href="networking.html#URLs">9.2.1 URLs</a>.</p>
+
+<p>Browsers are not required to support any specific language. 
+    Detailed information on scripting languages is described in 
+<a href="#Concepts">29.2 Concepts</a>. 
+Browsers supporting a scripting language for which a language 
+    binding is specified shall adhere to that language binding (see
+<a href="../references.html#[I19777]">ISO/IEC 19777</a>).</p>
+
+<p>Sometime before a script receives the first event it shall be 
+    initialized (any language-dependent or user-defined <code>initialize()</code> 
+    is performed). The script is able to receive and process events that are sent 
+    to it. Each event that can be received shall be declared in the Script node 
+    using the same syntax as is used in a prototype definition:</p>
+
+<pre class="listing">    inputOnly <i>type name</i>
+</pre>
+
+<p>The <i>type</i> can be any of the standard X3D fields (as defined 
+    in 
+<a href="../fieldsDef.html">5 Field type reference</a>).
+<i>Name</i> shall be an identifier that is unique for this Script node.</p>
+
+<p>The Script node is able to generate events in response to the 
+    incoming events. Each event that may be generated shall be declared in the 
+    Script node using the following syntax:</p>
+
+<pre class="listing">    outputOnly <i>type name</i>
+</pre>
+
+<p>If the Script node's <i>mustEvaluate</i> field is <font face="Courier New">FALSE</font>, 
+    the browser may delay sending input events to the script until its outputs 
+    are needed by the browser. If the <i>mustEvaluate</i> field is 
+    <code>TRUE</code>, 
+    the browser shall send input events to the script as soon as possible, regardless 
+    of whether the outputs are needed. The <i>mustEvaluate</i> field shall be 
+    set to <code>TRUE</code> only if the Script node has effects 
+    that are not known to the browser (such as sending information across the 
+    network). Otherwise, poor performance may result.</p>
+
+<p>Once the script has access to a X3D node (via an SFNode or MFNode 
+    value either in one of the Script node's fields or passed in as an attribute), 
+    the script is able to read the contents of that node's fields. If the 
+    Script node's <i>directOutput</i> field is <code>TRUE</code>, 
+    the script may also send events directly to any node to which it has access, 
+    and may dynamically establish or break routes. 
+If <i>directOutput</i> is <code>FALSE</code> 
+    (the default), the script may only affect the rest of the world via events 
+    sent through its fields. The results are undefined if <i>directOutput</i> 
+    is <code>FALSE</code> and the script sends events directly 
+    to a node to which it has access.</p>
+
+<p>A script is able to communicate directly with the X3D browser 
+    to get information such as the current time and the current world URL. This 
+    is strictly defined generally by the SAI services (see
+<a href="../references.html#[I19775_2]">Part 2 of ISO/IEC 19775</a>) and by the language 
+bindings of the SAI (see <a href="../references.html#[I19777]">ISO/IEC 19777</a>) for the specific scripting language being used.</p>
+
+<p>The location of the Script node in the scene graph has no affect 
+    on its operation.</p>
+<p class="Example">EXAMPLE&nbsp; If a parent of a Script node is a 
+<a href="group.html#Switch">Switch</a> node 
+    with <i>whichChoice</i> set to &quot;&minus;1&quot; (<i>i.e.</i>,&nbsp;ignore its children), 
+    the Script node continues to operate as specified (<i>i.e.</i>,&nbsp;it receives 
+    and sends events).</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>29.5 Support levels</h1>
+
+<p>The Scripting component provides one level of support as specified in 
+<a href="#t-supportlevels">Table 29.2</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+Table 29.2<b>
+&#8212; </b>Scripting component support levels</p>
+
+    <table>
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td>
+        <p align="center"><b>1</b></td>
+        <td>Core 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td><i>X3ScriptNode</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Script node</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      </table>
+</div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</BODY>
+</HTML>

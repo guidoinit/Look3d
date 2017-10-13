@@ -1,0 +1,600 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 24 Environmental effects componenent</TITLE>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</HEAD>
+
+<BODY>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<IMG class="x3dlogo" SRC="../../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+<p class="HeadingClause">24 Environmental effects component</p>
+</div>
+
+<IMG class="x3dbar" SRC="../../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19"> 
+24.1 Introduction</h1>
+<h2><a name="Name"></a>24.1.1 Name</h2>
+<p>The name of this component is &quot;EnvironmentalEffects&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>24.1.2 Overview</h2>
+
+<p>This clause describes the Environmental Effects component of this part of 
+ISO/IEC 19775. Nodes in this component support the creation of realistic environmental 
+  effects such as panoramic backgrounds and fog. <a href="#t-Topics">Table 
+  24.1</a> provides links to the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a><b>
+Table 24.1 &#8212; Topics</b></p>
+
+<table id="table1">
+    <tr> 
+      <td> 
+        <ul>
+          <li><a href="#Introduction">24.1 Introduction</a>
+          <ul>
+            <li><a href="#Name">24.1.1 Name</a></li>
+            <li><a href="#Overview">24.1.2 Overview</a> </li>
+          </ul>
+          </li>
+          <li><a href="#Concepts">24.2 Concepts</a><ul>
+          <li><a href="#Backgrounds">24.2.1 Backgrounds</a></li>
+			<li><a href="#FogSemantics">24.2.2 Fog semantics</a><ul>
+          <li><a href="#FogSemanticsOverview">24.2.2.1 Overview</a></li>
+			<li><a href="#GlobalFogSemantics">24.2.2.2 Global fog semantics</a></li>
+			<li><a href="#LocalFogSemantics">24.2.2.3 Local fog semantics</a></li>
+			<li><a href="#LocalAndBindableFogInteraction">24.2.2.4 Local and 
+			bindable fog interaction</a></li>
+			<li><a href="#FogColourCalculation">24.2.2.5 Fog colour calculation</a></li>
+        </ul>
+        	</li>
+        </ul>
+        	</li>
+            <li><a href="#Abstracttypes">24.3 Abstract types</a>  
+            <ul>
+              <li><a href="#X3DBackgroundNode">24.3.1 <i>X3DBackgroundNode</i></a></li>
+				<li><a href="#X3DFogObject">24.3.2 <i>X3DFogObject</i></a></li>
+            </ul></li>
+          <li><a href="#NodeReference">24.4 Node reference</a>  
+            <ul>
+              <li><a href="#Background">24.4.1 Background</a></li> 
+              <li><a href="#Fog">24.4.2 Fog</a></li>
+				<li><a href="#FogCoordinate">24.4.3 FogCoordinate</a></li>
+				<li><a href="#LocalFog">24.4.4 LocalFog</a></li> 
+              <li><a href="#TextureBackground">24.4.5 TextureBackground</a></li> 
+            </ul></li>
+          <li><a href="#SupportLevels">24.5 Support levels</a></li>  
+        </ul>
+        <ul>
+          <li><a href="#f-BackgroundNode">Figure 24.1 — <em>X3DBackgroundNode</em> 
+			field relationships</a></li>
+        </ul>
+        <ul>
+          <li><a href="#t-Topics">Table 24.1 &#8212; Topics</a></li>
+          <li><a href="#t-supportlevels">Table 24.2 &#8212; Environmental effects component support levels</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table></div>
+
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Concepts"></a>24.2 Concepts</h1>
+<h2><a name="Backgrounds"></a>24.2.1 Backgrounds</h2>
+
+<p>Background nodes are used to specify a colour backdrop that simulates ground 
+and sky, as well as a background texture, or <i>panorama</i>, that is placed 
+behind all geometry in the scene and in front of the ground and sky. Background 
+nodes are specified in the local coordinate system and are affected by the 
+accumulated rotation of their ancestors as described below. X3D supports two 
+kinds of background nodes: a simple background node that contains a set of <em>url</em> 
+fields for specifying static image files that compose the backdrop (see
+<a href="#Background">24.4.1 Background</a>), and a complex background node 
+containing arbitrary X3DTexture nodes that compose the backdrop (see
+<a href="#TextureBackground">24.4.3 TextureBackground</a>). Both types of 
+background node descend from the base type <i> <a href="#X3DBackgroundNode">
+X3DBackgroundNode</a></i>. Applications should use the <a href="#Background">Background</a> node for 
+simplicity, and the <a href="#TextureBackground">TextureBackground</a> node for more flexibility and additional 
+features.</p>
+<p>Background nodes are bindable nodes as described in
+<a href="core.html#Bindablechildrennodes">7.2.2 Bindable children nodes</a>. 
+There exists a Background stack, in which the top-most <i>
+<a href="#X3DBackgroundNode">X3DBackgroundNode</a></i> node on the stack 
+is the currently active <i>X3DBackgroundNode</i>. To move an <i>
+X3DBackgroundNode</i> node to the top of the 
+stack, a <code>TRUE</code> value is sent to the <i>set_bind</i> field. Once 
+active, the <i>X3DBackgroundNode</i> node is then bound to the browser&#39;s view. A <code>FALSE</code> 
+value sent to <i>set_bind</i> removes the <i>X3DBackgroundNode</i> from the stack and unbinds 
+it from the browser&#39;s view. .</p>
+<p>The backdrop is conceptually a partial sphere (the ground) enclosed inside of 
+a full sphere (the sky) in the local coordinate system with the viewer placed at 
+the centre of the spheres. Both spheres have infinite radius and each is painted 
+with concentric circles of interpolated colour perpendicular to the local Y-axis 
+of the sphere. The <i>X3DBackgroundNode</i> node is subject to the accumulated rotations of 
+its ancestors&#39; transformations. Scaling and translation transformations are 
+ignored. The sky sphere is always slightly farther away from the viewer than the 
+ground partial sphere causing the ground to appear in front of the sky where 
+they overlap.</p>
+<p>The <i>skyColor</i> field specifies the colour of the sky at various angles 
+on the sky sphere. Angles for skyColor are specified in angle base units. The 
+following assumes that the angle base units are radians. The equivalent values 
+apply if an angle base unit other than radians is specified.The first value of the <i>skyColor</i> field specifies the 
+colour of the sky at 0.0 radians representing the zenith (<i>i.e.</i>,&nbsp;straight up from 
+the viewer). The <i>skyAngle</i> field specifies the angles from the zenith in 
+which concentric circles of colour appear. The zenith of the sphere is 
+implicitly defined to be 0.0 radians, the natural horizon is at 
+<font face="Times New Roman">&pi;</font>/2 radians, and 
+the nadir (<i>i.e.</i>, straight down from the viewer) is at 
+<font face="Times New Roman">&pi;</font> radians. <i>skyAngle</i> 
+is restricted to non-decreasing values in the range [0.0, 
+<font face="Times New Roman">&pi;</font>]. There shall be one 
+more <i>skyColor</i> value than there are <i>skyAngle</i> values. The first 
+colour value is the colour at the zenith, which is not specified in the <i>
+skyAngle</i> field. If the last <i>skyAngle</i> is less than  
+<font face="Times New Roman">&pi;</font>, then the 
+colour band between the last <i>skyAngle</i> and the nadir is clamped to the 
+last <i>skyColor</i>. The sky colour is linearly interpolated between the 
+specified <i>skyColor </i>values.</p>
+<p>The <i>groundColor</i> field specifies the colour of the ground at the 
+various angles on the ground partial sphere. Angles for groundColor are 
+specified in angle base units. The following assumes that the angle base units 
+are radians. The equivalent values apply if an angle base unit other than 
+radians is specified. The first value of the <i>
+groundColor</i> field specifies the colour of the ground at 0.0 radians 
+representing the nadir (<i>i.e.</i>,&nbsp;straight down from the user). The <i>groundAngle</i> 
+field specifies the angles from the nadir that the concentric circles of colour 
+appear. The nadir of the sphere is implicitly defined at 0.0 radians. <i>
+groundAngle</i> is restricted to non-decreasing values in the range [0.0, 
+<font face="Times New Roman">&pi;</font>/2]. 
+There shall be one more <i>groundColor</i> value than there are <i>groundAngle</i> 
+values. The first colour value is for the nadir which is not specified in the <i>
+groundAngle</i> field. If the last <i>groundAngle</i> is less than 
+<font face="Times New Roman">&pi;</font>/2, the 
+region between the last <i>groundAngle</i> and the equator is non-existant. The 
+ground colour is linearly interpolated between the specified <i>groundColor </i>
+values.</p>
+<p>The <i>back</i>, <i>bottom</i>, <i>front</i>, <i>left</i>, <i>right</i>, and
+<i>top</i> fields specify a set of images that define a background panorama 
+between the ground/sky backdrop and the scene&#39;s geometry. The panorama consists 
+of six images, each of which is mapped onto a face of an infinitely large cube 
+contained within the backdrop spheres and centred in the local coordinate 
+system. The images are applied individually to each face of the cube. On the 
+front, back, right, and left faces of the cube, when viewed from the origin 
+looking down the negative Z-axis with the Y-axis as the view up direction, each 
+image is mapped onto the corresponding face with the same orientation as if the 
+image were displayed normally in 2D (<i>back</i> to back face, <i>front</i> to 
+front face, <i>left</i> to left face, and <i>right</i> to right face<i>)</i>. On 
+the top face of the cube, when viewed from the origin looking along the +Y-axis 
+with the +Z-axis as the view up direction, the <i>top</i> image is mapped onto 
+the face with the same orientation as if the image were displayed normally in 
+2D. On the bottom face of the box, when viewed from the origin along the 
+negative Y-axis with the negative Z-axis as the view up direction, the <i>bottom</i> 
+image is mapped onto the face with the same orientation as if the image were 
+displayed normally in 2D.</p>
+<p><a href="#f-BackgroundNode">Figure 24.1</a> illustrates the <i>
+X3DBackgroundNode</i> node 
+backdrop and background textures.</p>
+<p>Alpha values in the panorama images (<i>i.e.</i>,&nbsp;two or four component images) 
+specify that the panorama is semi-transparent or transparent in regions, 
+allowing earlier rendered layers or the <i>groundColor</i> and <i>skyColor</i> to be visible.</p>
+<p>See <a href="texturing.html">18 Texturing component</a> for a general 
+description of texture maps.</p>
+<p>Often, the <i>bottom</i> and <i>top</i> images will not be specified, to 
+allow sky and ground to show. The other four images may depict surrounding 
+mountains or other distant scenery.</p>
+<div class="CenterDiv">
+  <a name="f-BackgroundNode"></a>
+  <img alt="Background node" src="../../Images/background.gif" width="615" height="312">
+  <p class="FigureCaption">Figure 24.1<b>
+  &#8212; </b><em>X3DBackgroundNode field</em> relationships</div>
+<p>Panorama images may be one component (greyscale), two component (greyscale 
+plus alpha), three component (full RGB colour), or four-component (full RGB 
+colour plus alpha).</p>
+<p>Ground colours, sky colours, and panoramic images do not translate with 
+respect to the viewer, though they do rotate with respect to the viewer. That 
+is, the viewer can never get any closer to the background, but can turn to 
+examine all sides of the panorama cube, and can look up and down to see the 
+concentric rings of ground and sky (if visible).</p>
+<p><i>X3DBackgroundNode</i> nodes are not affected by <i>
+<a href="#X3DFogObject">X3DFogObject</a></i> nodes. Therefore, 
+if a <i>X3DBackgroundNode</i> node is active (<i>i.e.</i>,&nbsp;bound) while an
+<i>X3DFogObject</i> node is active, the <i>X3DBackgroundNode</i> node will be displayed with no fogging effects. It is the 
+author&#39;s responsibility to set the <i>X3DBackgroundNode</i> values to match the 
+<i>X3DFogObject</i> node values 
+(<span class="code">EXAMPLE</span> &nbsp;ground colours fade to fog colour with distance and panorama images 
+tinted with fog colour). <i>X3DBackgroundNode</i> nodes are not affected by light sources.</p>
+<h2><a name="FogSemantics"></a>24.2.2 Fog semantics</h2>
+<h3><a name="FogSemanticsOverview"></a>24.2.2.1 Overview</h3>
+<p>This part of ISO/IEC 19775 supports two types of fog:&nbsp; global and local.</p>
+<h3><a name="GlobalFogSemantics"></a>24.2.2.2 Global fog semantics</h3>
+<p>Global fog applies to the entire world and is specified using a
+<a href="#Fog">Fog</a> node. 
+Global fog blends the colours of all objects with the fog colour based on 
+distance from the object to the camera. The further the distance the greater the 
+amount of fog colour.</p>
+<h3><a name="LocalFogSemantics"></a>24.2.2.3 Local fog semantics</h3>
+<p>Local fog applies only within the same transformation hierarchy that contains the 
+<a href="#LocalFog">LocalFog</a> node. This limits the effect of the fog to subsets of the world and 
+supports the creation of realistic effects such as a smoke-filled room inside a 
+larger building that is not smoke-filled. If a local fog and a global fog are 
+both defined and 
+active, the lighting contribution from the local fog shall be used instead of 
+the global effect.</p>
+<p>Local fog effects shall not affect nodes derived from <i>
+<a href="#X3DBackgroundNode">X3DBackgroundNode</a></i>.</p>
+<h3><a name="LocalAndBindableFogInteraction"></a>24.2.2.4 Local and bindable fog interaction</h3>
+<p>If a global <a href="#Fog">Fog</a> node is bound and a <a href="#LocalFog">LocalFog</a> node is enabled, the LocalFog 
+node shall have precedence over the globally bound Fog node in determining the fog colour contribution to the lighting equations defined in
+<a href="lighting.html">17 Lighting component</a>.</p>
+<h3><a name="FogColourCalculation"></a>24.2.2.5 Fog colour calculation</h3>
+<p>During the traversal of the scene graph, if more than one <a href="#LocalFog">LocalFog</a> node is 
+encountered in the path from the root to a given renderable leaf node, only the 
+contribution of the LocalFog instance closest to the leaf node shall be used. 
+All other fog values shall be ignored.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Abstracttypes"></a>
+24.3 Abstract types</h1>
+
+<h2><a name="X3DBackgroundNode"></a>
+24.3.1 <i>X3DBackgroundNode</i></h2>
+
+<pre class="node">X3DBackgroundNode : X3DBindableNode { 
+  SFBool  [in]     set_bind
+  MFFloat [in,out] groundAngle   []      [0,<span class="times">&pi;</span>/2]
+  MFColor [in,out] groundColor   []      [0,1]
+  SFNode  [in,out] metadata      NULL    [X3DMetadataObject]
+  MFFloat [in,out] skyAngle      []      [0,<span class="times">&pi;</span>]
+  MFColor [in,out] skyColor      0 0 0   [0,1]
+  SFFloat [in,out] transparency  0       [0,1]
+  SFTime  [out]    bindTime
+  SFBool  [out]    isBound
+}
+</pre>
+
+<p><i>X3DBackgroundNode</i> is the abstract type from which all backgrounds inherit. 
+<i>X3DBackgroundNode</i> is a bindable node that, when bound, defines the panoramic 
+background for the scene. For complete information on backgrounds, see
+<a href="#Backgrounds">24.2.1 Backgrounds</a>.</p>
+<h2><a name="X3DFogObject"></a>24.3.2 <i>X3DFogObject</i></h2>
+<pre class="node">X3DFogObject {
+  SFColor  [in,out] color           1 1 1    [0,1]
+  SFString [in,out] fogType         &quot;LINEAR&quot; [&quot;LINEAR&quot;|&quot;EXPONENTIAL&quot;]
+  SFFloat  [in,out] visibilityRange 0        [0,-&infin;)
+}</pre>
+<p><i>X3DFogObject</i> is the abstract type that describes a node that influences the 
+lighting equation through the use of fog semantics. It defines the basic colour 
+and rendering effects that influence the lighting equations as described in
+<a href="lighting.html">17 
+Lighting component</a>.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="NodeReference"></a>
+24.4 Node reference</h1>
+
+<h2><a name="Background"></a>
+24.4.1 Background</h2>
+
+<pre class="node">Background : X3DBackgroundNode {
+  SFBool   [in]     set_bind
+  MFFloat  [in,out] groundAngle  []    [0,<span class="times">&pi;</span>/2]
+  MFColor  [in,out] groundColor  []    [0,1]
+  MFString [in,out] backUrl      []    [URI]
+  MFString [in,out] bottomUrl    []    [URI]
+  MFString [in,out] frontUrl     []    [URI]
+  MFString [in,out] leftUrl      []    [URI]
+  SFNode   [in,out] metadata     NULL  [X3DMetadataObject]
+  MFString [in,out] rightUrl     []    [URI]
+  MFString [in,out] topUrl       []    [URI]
+  MFFloat  [in,out] skyAngle     []    [0,<span class="times">&pi;</span>]
+  MFColor  [in,out] skyColor     0 0 0 [0,1]
+  SFFloat  [in,out] transparency 0     [0,1]
+  SFTime   [out]    bindTime
+  SFBool   [out]    isBound
+}
+</pre>
+
+<p>A background node that uses six static images to compose the backdrop. The 
+common fields of the Background node are described in <a href="#Concepts">24.2 
+Concepts</a>. For the <i>backUrl</i>, <i>bottomUrl</i>,<i> frontUrl</i>,
+<i>leftUrl</i>, <i>rightUrl</i>, <i>topUrl</i> fields, browsers shall support 
+the JPEG (see <a href="../references.html#[JPEG]">2.[JPEG]</a>) and PNG (see
+<a href="../references.html#[I15948]">ISO/IEC 15948</a>) image file formats, and in 
+addition, may support any other image format (<span class="example">EXAMPLE</span>&nbsp; CGM) that can be rendered 
+into a 2D image. Support for the GIF (see <a href="../bibliography.html#[GIF]">
+[GIF]</a>) format is recommended (including transparency) . More detail on the
+<i>url</i> fields can be found in <a href="networking.html#URLs">9.2.1 URLs</a>.</p>
+
+<h2><a name="Fog"></a>
+24.4.2 Fog</h2>
+
+<pre class="node">Fog : X3DBindableNode, X3DFogObject {
+  SFBool   [in]     set_bind
+  SFColor  [in,out] color           1 1 1    [0,1]
+  SFString [in,out] fogType         "LINEAR" ["LINEAR"|"EXPONENTIAL"]
+  SFNode   [in,out] metadata        NULL     [X3DMetadataObject]
+  SFFloat  [in,out] visibilityRange 0        [0,&#8734;)
+  SFTime   [out]    bindTime
+  SFBool   [out]    isBound
+}
+</pre>
+
+<p>The Fog node provides a way to simulate atmospheric effects 
+    by blending objects with the colour specified by the <i>color</i> field based 
+    on the distances of the various objects from the viewer. The distances are 
+    calculated in the coordinate space of the Fog node. The <i>visibilityRange</i> 
+    specifies the distance in length base units (in the local coordinate system) at which 
+    objects are totally obscured by the fog. Objects located outside the <i>visibilityRange</i> 
+    from the viewer are drawn with a constant colour of <i>color</i>. Objects 
+    very close to the viewer are blended very little with the fog <i>color</i>. 
+    A <i>visibilityRange</i> of 0.0 disables the Fog node. The <i>visibilityRange</i> 
+    is affected by the scaling transformations of the Fog node's parents; translations 
+    and rotations have no affect on <i>visibilityRange</i>. Values of the <i>visibilityRange</i> 
+    field shall be in the range [0,&#8734;).</p>
+
+<p>Since Fog nodes are bindable children nodes (see
+<a href="core.html#Bindablechildrennodes">7.2.2 Bindable children nodes</a>), 
+    a Fog node stack exists, in which the top-most Fog node on the stack is currently 
+    active. To push a Fog node onto the top of the stack, a <code>TRUE</code> 
+    value is sent to the <i>set_bind</i> field. Once active, the Fog node is bound 
+    to the browser view. A <code>FALSE</code> value sent to 
+    <i>set_bind</i>, pops the Fog node from the stack and unbinds it from the 
+    browser viewer. More details on the Fog node stack can be found in
+<a href="core.html#Bindablechildrennodes">7.2.2 Bindable children nodes</a>.</p>
+
+<p>The <i>fogType</i> field controls how much of the fog colour 
+    is blended with the object as a function of distance. If <i>fogType</i> is 
+    &quot;<code>LINEAR</code>&quot;, the amount of blending 
+    is a linear function of the distance, resulting in a depth cueing effect. 
+    If <i>fogType</i> is &quot;<code>EXPONENTIAL</code>,&quot; 
+    an exponential increase in blending is used, resulting in a more natural fog 
+    appearance.</p>
+
+<p>The effect of fog on lighting calculations is described in 
+    <a href="lighting.html">17 Lighting component</a>.</p>
+
+<h2><a name="FogCoordinate"></a>24.4.3 FogCoordinate</h2>
+<pre>FogCoordinate : X3DGeometricPropertyNode {
+  MFFloat [in,out] depth    []   [0,1]
+  SFNode  [in,out] metadata NULL [X3DMetadataObject]
+}
+</pre>
+<p>This node defines a set of explicit fog depths on a per-vertex basis. This 
+depth value shall be applied per-vertex and used to replace the automatically 
+generated depth. Fog coordinates take precedence over implicitly generated 
+depths; specifying fog coordinates will result in the implicit depth (specified 
+by the <i>visibilityRange</i> field of a node derived from <i>
+<a href="#X3DFogObject">X3DFogObject</a></i>) 
+being ignored. Details on lighting equations can be found in
+<a href="lighting.html#LightingModel">17.2.2 Lighting 
+model</a>.</p>
+<p>One depth value per vertex shall be supplied. If the user does not provide 
+a&nbsp; sufficient number of depth values, the last value defined shall be replicated for any further vertices. 
+If too many depth values are supplied, the excess depth values shall be ignored.</p>
+<h2><a name="LocalFog"></a>24.4.4 LocalFog</h2>
+<pre>LocalFog : X3DChildNode, X3DFogObject {
+  SFColor  [in,out] color           1 1 1    [0,1]
+  SFBool   [in,out] enabled         TRUE
+  SFString [in,out] fogType         &quot;LINEAR&quot; [&quot;LINEAR&quot;|&quot;EXPONENTIAL&quot;]
+  SFNode   [in,out] metadata        NULL     [X3DMetadataObject]
+  SFFloat  [in,out] visibilityRange 0        [0,-&#8734;)
+}
+</pre>
+<p>The LocalFog node provides a way to simulate atmospheric effects by blending 
+objects with the colour specified by the color field based on the distances of 
+the various objects from the viewer. The distances are calculated in the 
+coordinate space of the LocalFog node. The <i>visibilityRange</i> field specifies the 
+distance in metres (in the local coordinate system) at which objects are totally 
+obscured by the fog. Objects located outside the <i>visibilityRange</i> from the viewer 
+are drawn with a constant colour of <i>color</i>. Objects very close to the viewer are 
+blended very little with the fog color. A <i>visibilityRange</i> of 0.0 disables the 
+LocalFog node. The <i>visibilityRange</i> is affected by the scaling transformations of 
+the LocalFog node&rsquo;s parents; translations and rotations have no affect on 
+<i>visibilityRange</i>.</p>
+<p>The <i>fogType</i> field controls how much of the fog colour is blended with the 
+object as a function of distance. If <i>fogType</i> is <span class="code">&quot;LINEAR&quot;</span>, the amount of blending 
+is a linear function of the distance, resulting in a depth cueing effect. If <i>fogType</i> is 
+<span class="code">&quot;EXPONENTIAL&quot;</span>, an exponential increase in blending is used, resulting 
+in a more natural fog appearance.</p>
+<p>The effect of fog on lighting calculations is described in 
+<a href="lighting.html">17 Lighting 
+component</a>.</p>
+
+<h2><a name="TextureBackground"></a>
+24.4.5 TextureBackground</h2>
+
+<pre class="node">TextureBackground : X3DBackgroundNode {
+  SFBool  [in]     set_bind
+  MFFloat [in,out] groundAngle   []    [0,<span class="times">&pi;</span>/2]
+  MFColor [in,out] groundColor   []    [0,1]
+  SFNode  [in,out] backTexture   NULL  [X3DTexture2DNode,MultiTexture]
+  SFNode  [in,out] bottomTexture NULL  [X3DTexture2DNode,MultiTexture]
+  SFNode  [in,out] frontTexture  NULL  [X3DTexture2DNode,MultiTexture]
+  SFNode  [in,out] leftTexture   NULL  [X3DTexture2DNode,MultiTexture]
+  SFNode  [in,out] metadata      NULL  [X3DMetadataObject]
+  SFNode  [in,out] rightTexture  NULL  [X3DTexture2DNode,MultiTexture]
+  SFNode  [in,out] topTexture    NULL  [X3DTexture2DNode,MultiTexture]
+  MFFloat [in,out] skyAngle      []    [0,<span class="times">&pi;</span>]
+  MFColor [in,out] skyColor      0 0 0 [0,1]
+  SFFloat [in,out] transparency  0     [0,1]
+  SFTime  [out]    bindTime
+  SFBool  [out]    isBound
+}
+</pre>
+
+<p>The TextureBackground node uses six individual texture nodes to compose the 
+backdrop. Unlike the <a href="#Background">Background</a> node, which only 
+supports static image formats referenced by URL fields, the contents of the TextureBackground node can be arbitrary texture types, including
+<a href="texturing.html#ImageTexture">ImageTexture</a>,
+<a href="texturing.html#PixelTexture">PixelTexture</a>,
+<a href="texturing.html#MovieTexture">MovieTexture</a> and
+<a href="texturing.html#MultiTexture">MultiTexture</a>. The common fields of the 
+TextureBackground node are described in <a href="#Concepts">24.2 Concepts</a>. </p>
+<p>TextureBackground supports the creation of rich backgrounds with animation. 
+It also allows the world author to attach load sensors (see
+<a href="networking.html#LoadSensor">9.4.3 LoadSensor</a>) to the node&#39;s texture fields to receive notification of when 
+elements of the background are loaded.</p>
+<p>TextureBackground supports a <i>transparency</i> value that allows the scene 
+to overlay other elements in an application. A <i>transparency</i> value of zero 
+specifies that the background is fully opaque obscuring all content in the 
+underlying window. A <i>transparency</i> value of one specifies that the 
+background specified by the TextureBackground node is fully transparent causing 
+the TextureBackground to not be visible so that all underlying content appears 
+as the background. The value of the <i>transparency</i> field is applied to the
+<i>skyColor</i> and <i>groundColor</i> by first converting the <i>transparency</i> 
+value to an alpha value using the formula:</p>
+<blockquote>
+	<p><span class="code">alpha = (1 - transparency)</span></p>
+</blockquote>
+<p>The alpha value is then multiplied against the components of the <i>skyColor</i> 
+and <i>groundColor</i> (including the alpha component, if provided) to obtain 
+the color that is applied to the underlying window content. The <i>transparency</i> 
+value is not applied to the six texture fields. Transparency of these fields can 
+be achieved by using alpha values within their images.</p>
+
+<p>For the <i>backTexture</i>, <i>bottomTexture</i>,<i> frontTexture</i>, <i>
+leftTexture</i>, <i>rightTexture</i>, <i>topTexture</i> fields, browsers shall 
+support any X3DTexture node types supported in the currently supported profile.
+</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>24.5 Support levels</h1>
+
+<p>The Environmental Effects component provides three levels of support as specified 
+  in <a href="#t-supportlevels">Table 24.2</a>. Level 1 is intended to 
+  support simple backgrounds for lightweight profiles. Level 2 provides additional 
+  environmental effects, including full background features, fog, and limited 
+texture backgrounds. Level 3 provides full support for texture backgrounds.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-supportlevels"></a>
+Table 24.2<b>
+&#8212; </b>Environmental effects component support levels</p>
+
+<table>
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td align="center"><b>1</b></td>
+        <td>Core 1<br>
+        Time 1<br>
+        Grouping 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td><i>X3DBackgroundNode</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>Background</td>
+        <td><i>groundAngle</i> and <i>groundColor</i> optionally supported. <i>backURL</i>, <i>frontURL</i>, <i>leftURL</i>, <i>rightURL</i>, 
+          <i>topURL</i> optionally supported. <i>skyAngle</i> optionally 
+        supported. One 
+          <i>skyColor</i>.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>2</b></td>
+        <td>Core 1<br>
+        Time 1<br>
+        Grouping 
+          1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 1 Environmental Effects nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>Fog</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>3</b></td>
+        <td>Core 1<br>
+        Time 1<br>
+        Grouping 
+          1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 2 Environmental Effects nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>TextureBackground</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td align="center"><b>4</b></td>
+        <td>Core 1<br>
+        Time 1<br>
+        Grouping 
+          1</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr> 
+        <td align="center"></td>
+        <td></td>
+        <td>All Level 3 Environmental Effects nodes</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>FogCoordinate</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>LocalFog</td>
+        <td>All fields fully supported.</td>
+      </tr>
+    </table>
+
+</div>
+
+<p> <img src="../../Images/x3dbar.png" width="430" height="23" alt="--- X3D separator bar ---"></p>
+
+
+</BODY>
+
+</HTML>

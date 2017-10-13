@@ -1,0 +1,2035 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 4 Concepts</title>
+<link rel="stylesheet" href="X3D.css" type="text/css">
+
+</head>
+<body>
+
+<div class="CenterDiv">
+<a href="X3D.html">
+<img class="x3dlogo" SRC="../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">4 Concepts</p>
+</div>
+
+<IMG class="x3dbar" SRC="../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube">
+<a name="General"></a>
+4.1 General</h1>
+
+<h2><a name="Topics"></a>4.1.1 Topics in this clause</h2> 
+
+<P>This clause describes the X3D core concepts, including how X3D scenes are authored 
+  and played back, the run-time semantics of the X3D scene, modularization through 
+  components and profiles, conformance via support levels, data encoding semantics, 
+  programmatic access, and networking considerations. 
+
+<p><a href="#t-Topics">Table 4.1</a> provides links to the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>
+Table 4.1<b> &#8212; </b>Topics</p>
+
+<table class="topics">
+ <tr> 
+  <td> 
+   <ul>
+    <li><a href="#General">4.1 General</a> 
+     <ul>
+      <li><a href="#Topics">4.1.1 Topics in this clause</a></li> 
+      <li><a href="#TopicsOverview">4.1.2 Overview</a></li> 
+      <li><a href="#Conventions">4.1.3 Conventions used</a></li> 
+     </ul></li>
+    <li><a href="#Authoring">4.2 Authoring and playback</a> 
+     <ul>
+      <li><a href="#X3Dbrowsers">4.2.1 X3D browsers</a></li> 
+      <li><a href="#X3Dgenerators">4.2.2 X3D generators</a></li> 
+      <li><a href="#X3DLoaders">4.2.3 X3D loaders</a></li> 
+     </ul></li>
+    <li><a href="#scenegraph">4.3 The scene graph</a> 
+     <ul>
+      <li><a href="#TheSceneGraphOverview">4.3.1 Overview</a></li> 
+      <li><a href="#Rootnodes">4.3.2 Root nodes</a></li> 
+      <li><a href="#Scenegraphhierarchy">4.3.3 Scene graph hierarchy</a></li> 
+      <li><a href="#Descendantandancestornodes">4.3.4 Descendant and ancestor nodes</a></li> 
+      <li><a href="#Transformationhierarchy">4.3.5 Transformation hierarchy</a></li> 
+      <li><a href="#Standardunitscoordinates">4.3.6 Standard units and coordinate system</a></li> 
+      <li><a href="#Behaviourgraph">4.3.7 Behaviour graph</a></li> 
+     </ul></li>
+    <li><a href="#Runtimeenvironment"> 4.4 Run-time environment</a> 
+     <ul>
+      <li><a href="#RuntimeOverview">4.4.1 Overview</a></li> 
+      <li><a href="#Objectmodel">4.4.2 Object model</a> 
+       <ul>
+        <li><a href="#ObjectmodelOverview">4.4.2.1 Overview</a></li> 
+        <li><a href="#FieldSemantics">4.4.2.2 Field semantics</a></li> 
+        <li><a href="#InterfaceHierarchy">4.4.2.3 Interface hierarchy</a></li> 
+        <li><a href="#Modifyingobjects">4.4.2.4 Modifying objects</a> 
+         <ul>
+          <li><a href="#ModifyingObjectsRoutes">4.4.2.4.1 Routes</a></li> 
+          <li><a href="#ModifyingObjectsViaProgrammaticAccess">4.4.2.4.2 Modifying objects via programmatic access</a></li> 
+         </ul></li>
+        <li><a href="#Objectlifecycle">4.4.2.5 Object life cycle</a></li> 
+       </ul></li>
+      <li><a href="#DEFL_USESemantics">4.4.3 DEF/USE semantics</a></li>
+      <li><a href="#PrototypeSemantics">4.4.4 Prototype semantics</a> 
+       <ul>
+        <li><a href="#PrototypeSemanticsIntro">4.4.4.1 Introduction</a></li> 
+        <li><a href="#PROTOinterfacedeclsemantics">4.4.4.2 PROTO interface declaration semantics</a></li> 
+        <li><a href="#PROTOdefinitionsemantics">4.4.4.3 PROTO definition semantics</a></li> 
+        <li><a href="#Prototypescopingrules">4.4.4.4 Prototype scoping rules</a></li>
+       </ul></li>
+      <li><a href="#Externalprototypesemantics">4.4.5 External prototype semantics</a>
+       <ul>
+        <li><a href="#ExternalprototypeIntro">4.4.5.1 Introduction</a></li>
+        <li><a href="#EXTERNPROTOInterfaceSemantics">4.4.5.2 EXTERNPROTO interface semantics</a></li> 
+        <li><a href="#EXTERNPROTOURLSemantics">4.4.5.3 EXTERNPROTO URL semantics</a></li>
+       </ul></li>
+      <li><a href="#ImportExportsemantics">4.4.6 Import/Export semantics</a></li> 
+      <li><a href="#Runtimenamescope">4.4.7 Run-time name scope</a></li> 
+      <li><a href="#Eventmodel">4.4.8 Event model</a> 
+       <ul>
+        <li><a href="#Events">4.4.8.1 Events</a></li>
+        <li><a href="#Routes">4.4.8.2 Routes</a></li>
+        <li><a href="#ExecutionModel">4.4.8.3 Execution model</a></li>
+        <li><a href="#Loops">4.4.8.4 Loops</a></li>
+        <li><a href="#Fan-infan-out">4.4.8.5 Fan-in and fan-out</a></li>
+       </ul></li>
+     </ul></li>
+    <li><a href="#Components">4.5 Components</a> 
+     <ul>
+      <li><a href="#ComponentsOverview">4.5.1 Overview</a></li>
+      <li><a href="#DefiningComponents">4.5.2 Defining components</a></li> 
+      <li><a href="#Basecomponents">4.5.3 Base components</a></li> 
+     </ul></li>
+    <li><a href="#Profiles">4.6 Profiles</a> 
+     <ul>
+      <li><a href="#ProfilesOverview">4.6.1 Overview</a></li>
+      <li><a href="#Definingprofiles">4.6.2 Defining profiles</a></li>
+	  <li><a href="#RelationshipBetweenProfilesAndComponents">4.6.3 Relationship between profiles and components</a></li> 
+     </ul></li>
+    <li><a href="#Supportlevels">4.7 Support levels</a></li> 
+    <li><a href="#Dataencodings">4.8 Data encodings</a></li> 
+    <li><a href="#SceneAccessInterface">4.9 Scene access interface</a></li> 
+    <li><a href="#Componentprofilereg">4.10 Component and profile registration</a></li> 
+   </ul>
+   <ul>
+    <li><a href="#f-X3DArchitecture">Figure 4.1 &#8212; X3D Architecture</a></li> 
+    <li><a href="#f-Objecthierarchy">Figure 4.2 &#8212; Interface hierarchy</a></li> 
+    <li><a href="#f-ConceptualExecutionModel">Figure 4.3 &#8212; Conceptual execution model</a></li> 
+   </ul>
+   <ul>
+    <li><a href="#t-Topics">Table 4.1 &#8212; Topics</a></li>
+    <li><a href="#t-Derivedunits">Table 4.2 &#8212; Standard units</a></li>
+	<li><a href="#t-Derivedunits">Table 4.3 — Derived units</a></li>
+    <li><a href="#t-RulesmappingPROTOTYPEdecl">Table 4.4 &#8212; Rules for mapping PROTOTYPE declarations 
+      to node instances</a></li>
+    <li><a href="#t-ExampleSupportLevelTable">Table 4.5 &#8212; Example support level 
+    table</a></li>
+   </ul>
+  </td>
+ </tr>
+</table>
+</div>
+
+<h2><a name="TopicsOverview"></a>
+4.1.2 Overview</h2>
+
+<P>Conceptually, each X3D application is a 3D time-based space that contains graphic 
+  and aural objects that can be loaded over a network and dynamically modified 
+  through a variety of mechanisms. The semantics of X3D describe an abstract functional 
+  behaviour of time-based, interactive 3D, multimedia information. X3D does not 
+  define physical devices or any other implementation-dependent concepts (<i>e.g.</i>, 
+  screen resolution and input devices). X3D is intended for a wide variety of 
+  devices and applications, and provides wide latitude in interpretation and implementation 
+  of the functionality. For example, X3D does not assume the existence of a mouse 
+  or 2D display device.</P>
+
+<P>Each X3D application:</P>
+
+<ol start="1" type="a">
+  <li>implicitly establishes a world coordinate space for all objects defined, 
+    as well as all objects included by the application;</li>
+  <li>explicitly defines and composes a set of 2D, 3D and multimedia objects;</li> 
+  <li>can specify hyperlinks to other files and applications;</li> 
+  <li>can define object behaviours;</li> 
+  <li>can connect to external modules or applications via programming and scripting 
+    languages.</li> 
+</ol>
+
+<p>The X3D system architecture is shown in <a href="#f-X3DArchitecture">Figure 4.1</a>.</p>
+
+<p align="center">
+&nbsp;</p>
+<p class="FigureCaption" align="center">
+<a name="f-X3DArchitecture"></a>
+<img src="../Images/X3DArchitecture.png" alt="X3D Architecture"></p>
+<p class="FigureCaption" align="center">Figure 4.1 &#8212; X3D architecture</p>
+<p>The abstract structure of the sequence of statements that form an X3D world 
+is specified in 
+<a href="components/core.html#AbstractX3DStructure">7.2.5 
+Abstract X3D structure</a>.</p>
+
+<h2><a name="Conventions"></a>
+4.1.3 Conventions used</h2>
+
+<p>The following conventions are used throughout this part of ISO/IEC 19775:</p>
+
+<p><i>Italics</i> are used for field names, and are also used when new 
+  terms are introduced and equation variables are referenced.</p>
+
+<p>A <code>fixed-space</code> font is used for URL addresses and source code examples.</p>
+
+<p>Node type names are appropriately capitalized (<i>e.g.</i>, "The Billboard node is 
+  a grouping node..."). However, the concept of the node is often referred to 
+  in lower case in order to refer to the semantics of the node, not the node itself 
+  (<i>e.g.</i>, "To rotate the billboard...").</p>
+
+<p>The form "0xhh" expresses a byte as a hexadecimal number representing the bit 
+  configuration for that byte.</p>
+
+<p>Throughout this part of ISO/IEC 19775, references to International Standards 
+cite the number of the standard and hyperlinks to the reference in <a href="references.html">2 Normative 
+references</a>. References to portions of this International Standard consist of 
+the clause or subclause number followed by the title of the clause or subclause. 
+The text consisting of the number and title is hyperlinked to the referenced 
+material. References to external documents that are not International Standards are denoted using the &quot;x.[ABCD]" 
+  notation, where "x" denotes in which clause the reference is described and "[ABCD]" is an abbreviation of the reference title. 
+For the Bibliography, the &quot;x.&quot; is omitted.</p>
+<p>In addition, the first reference to a node or node type in a subclause will 
+be hyperlinked to the definition of that node or node type.</p>
+<p class="Example">EXAMPLE&nbsp; &quot;2.[ABCD]&quot; refers to a reference described in <a href="references.html">2 Normative 
+references</a> and [ABCD] refers to a reference 
+  described in the <a href="bibliography.html">Bibliography</a>.</p>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube">
+<a name="Authoring"></a>
+4.2 Authoring and playback</h1>
+
+<h2><a name="X3Dbrowsers"></a>
+4.2.1 X3D browsers</h2>
+
+<p>The interpretation, 
+  execution, and presentation of X3D files occurs using a mechanism known as a 
+  <i>browser</i>, which displays the shapes and sounds in the scene graph. This 
+  presentation is known as a <i>virtual world</i> and is navigated in the browser 
+  by a human or mechanical entity, known as a <i>user</i>. The world is displayed 
+  as if experienced from a particular location; that position and orientation 
+  in the world is known as the <i>viewer</i>. The browser may provide navigation 
+  paradigms (such as walking or flying) that enable the user to move the viewer 
+  through the virtual world.</p>
+
+<p>In addition to navigation, the browser provides 
+  a limited mechanism allowing the user to interact with the world through sensor 
+  nodes in the scene graph hierarchy. Sensors respond to user interaction with 
+  geometric objects in the world, the movement of the user through the world, 
+  or the passage of time. Additionally, the X3D Scene Access Interface (SAI) 
+  defined in <a href="references.html#[I19775_2]">Part 2 of this International Standard</a> provides mechanisms for 
+  getting user input, and for getting and setting the current viewpoint. To provide 
+  navigation capabilities, a viewer may use the SAI to provide the user with the 
+  ability to navigate. Additionally, authors may use scripting or programming 
+  languages with bindings to the SAI to implement their own navigation algorithms. 
+  Other profiles may specify navigation capabilities as a requirement of the viewer; 
+  implementations of such viewers will typically do so by making use of the SAI.</p> 
+
+<p>The visual presentation of geometric objects 
+  in an X3D world follows a conceptual model designed to resemble the physical 
+  characteristics of light. The X3D lighting model describes how appearance properties 
+  and lights in the world are combined to produce displayed colours (see <a href="components/lighting.html"> 
+  17 Lighting component</a> for details).</p>
+
+<h2><a name="X3Dgenerators"></a>
+4.2.2 X3D generators</h2>
+
+<p>A <i>generator</i> is a human or computerized 
+  creator of X3D files. It is the responsibility of the generator to ensure the 
+  correctness of the X3D file and the availability of supporting assets (<i>e.g.</i>, images, 
+  audio clips, other X3D files) referenced therein. It is also the responsibility 
+  of the generator to insure that the functionality represented in the X3D file 
+  is correctly stated in the profile, component and level information in the header 
+  statement of the file.</p>
+
+<h2><a name="X3DLoaders"></a>4.2.3 X3D loaders</h2>
+
+<p>A <i>loader </i>is a program responsible for loading X3D content but does not 
+  apply any run-time execution to the content. Geometry is presented as though 
+  time has not run, although the loader is free to load textures and other remotely 
+  defined content. A time zero loader is typically found in modelling tools that 
+  intend to construct or modify existing X3D content without evaluating the 
+run-time 
+  aspects of the specification.</p>
+
+<p>A second form of loader may load files and allow run-time execution of content, 
+  but it does so as part of a larger user interface and 3D graphics rendering 
+  engine. Such loaders might be used to load individual models such as trees in 
+  a game environment, but the run-time evaluation of the X3D content is dependent 
+  on the external application, and is not self contained in the same fashion as 
+  an X3D browser.</p>
+
+<h1><a name="scenegraph"></a>
+4.3 The scene graph</h1>
+
+<h2><a name="TheSceneGraphOverview"></a>4.3.1 Overview</h2>
+
+<p>The basic unit of the X3D run-time environment 
+  is the <i>scene graph</i>. This structure contains all the objects in the system 
+  and their relationships. Relationships are contained along several axes of the 
+  scene graph. The <i>transformation hierarchy</i> describes the spatial relationship 
+  of rendering objects. The <i>behavior graph</i> describes the connections between 
+  fields and the flow of events through the system.</p>
+
+<h2><a name="Rootnodes"></a>
+4.3.2 Root nodes</h2>
+
+<p>An X3D file contains zero or more root nodes. 
+  The root nodes for an X3D file are those nodes defined by the node statements 
+  or USE statements that are not contained in other node or PROTO statements. 
+  Root nodes shall be children nodes as specified in
+<a href="components/group.html">10 Grouping component</a> or the LayerSet node 
+as specified in <a href="components/layering.html#LayerSet">35.4.2 LayerSet</a>.</p>
+
+<h2><a name="Scenegraphhierarchy"></a>
+4.3.3 Scene graph hierarchy</h2>
+
+<p>An X3D scene graph is a directed acyclic graph. 
+  Nodes can contain specific fields with one or more children nodes which participate 
+  in the hierarchy. These may, in turn, contain nodes (or instances of nodes). 
+  This hierarchy of nodes is called the <i>scene graph</i>. Each arc in the graph 
+  from A to B means that node A has a field whose value directly contains node 
+  B. See <a href="bibliography.html#[FOLEY]">[FOLEY]</a> for details on hierarchical 
+  scene graphs.</p>
+
+<h2><a name="Descendantandancestornodes"></a>
+4.3.4 Descendant and ancestor nodes</h2>
+
+<p>The <i>descendants</i> of a node are all of 
+  the nodes in its fields, as well as all of those nodes' descendants. The <i>ancestors</i> 
+  of a node are all of the nodes that have the node as a descendant.</p>
+
+<h2><a name="Transformationhierarchy"></a>
+4.3.5 Transformation hierarchy</h2>
+
+<p>The transformation hierarchy includes all of 
+  the root nodes and root node descendants that are considered to have one or 
+  more particular locations in the virtual world. X3D includes the notion of <i>local 
+  coordinate systems</i>, defined in terms of transformations from ancestor coordinate 
+  systems. The coordinate system in which the root nodes are displayed is called 
+  the <i>world coordinate system</i>.</p>
+
+<p>An X3D browser's task is to present an X3D file 
+  to the user; it does this by presenting the transformation hierarchy to the 
+  user. The transformation hierarchy describes the directly perceptible parts 
+  of the virtual world.</p>
+
+<p align="left">Some nodes, such as sensors and environmental 
+  nodes, are in the scene graph but not affected by the transformation hierarchy. 
+  These include <a href="components/interp.html#CoordinateInterpolator">CoordinateInterpolator</a>, 
+<a href="components/scripting.html#Script">Script</a>,
+<a href="components/time.html#TimeSensor">TimeSensor</a>, and 
+<a href="components/core.html#WorldInfo">WorldInfo</a>.</p> 
+
+<p>Some nodes, such as <a href="components/group.html#Switch">Switch</a> or
+<a href="components/navigation.html#LOD">LOD</a>, contain a 
+  list of children, of which at most one is traversed during rendering. However, 
+  for the purposes of computing scene position, all children of these nodes are 
+  considered to be part of the transformation hierarchy, whether they are traversed 
+  during rendering or not. For instance, a 
+<a href="components/navigation.html#Viewpoint">Viewpoint</a> node which is a child of 
+  a Switch whose whichChoice field is set to -1 (indicating that none of its children 
+  should be traversed during rendering) still uses the local coordinate space 
+  of the Switch to determine its position in the scene.</p> 
+
+<p>The transformation hierarchy shall be a directed acyclic graph; a node in the 
+transformation hierarchy that is its own ancestor is considered invalid and 
+shall be ignored. The following is an example of a node in the scene graph that 
+is its own ancestor:</p>
+<pre class="listing">DEF T Transform {
+    children [
+       Shape { ... }
+          USE T
+    ]
+}     </pre>
+<h2><a name="Standardunitscoordinates"></a>
+4.3.6 Standard units and coordinate system</h2>
+
+<p>ISO/IEC 19775 defines the initial base unit of measure of the world 
+coordinate system to be metres. However, the world coordinate units may be 
+modified by specifying a different length unit using the UNIT statement. All 
+other coordinate systems are then built from transformations based upon the 
+specified world coordinate system. Other measurements used in this International 
+Standard have their own initial base units.</p>
+<p><a href="#t-Standardunits">Table 4.2</a> lists the 
+initial base units for ISO/IEC 19775.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Standardunits"></a>
+Table 4.2 &#8212; Standard units</p>
+
+  <table>
+   <tr> 
+      <th>Category</th>
+      <th>Initial base unit</th>
+    </tr>
+    <tr> 
+      <td>angle</td>
+      <td>radian</td>
+    </tr>
+    <tr> 
+      <td>force</td>
+      <td>newton</td>
+    </tr>
+    <tr> 
+      <td>length</td>
+      <td>metre</td>
+    </tr>
+    <tr> 
+      <td>mass</td>
+      <td>kilogram</td>
+    </tr>
+  </table>
+</div>
+
+<p>The initial base units for the entire hierarchy of an X3D world may be 
+changed to another default base unit by using one or more UNIT statements as 
+specified in
+<a href="components/core.html">
+7 Core component</a>. In this International Standard, the initial base units of 
+measure are assumed. Any ranges specified in initial base units apply to their 
+equivalent limits in the specified default base unit. The browser shall convert 
+the default base unit to initial base units as necessary for correct processing.</p>
+<p>The base unit of time is seconds and cannot be changed.</p>
+<p>Additional units, called <em>derived units</em> are used in this 
+International Standard. A derived unit depends on the current base units. The 
+value for a derived unit can be calculated using the appropriate formula from 
+Table 4.3:</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Derivedunits"></a>Table 4.3 — Derived units</p>
+
+  <table>
+   <tr> 
+      <th>Category</th>
+      <th>Initial base unit</th>
+    </tr>
+    <tr> 
+      <td>acceleration</td>
+      <td>length/second<sup>2</sup></td>
+    </tr>
+    <tr> 
+      <td>angular_rate</td>
+      <td>angle/second</td>
+    </tr>
+    <tr> 
+      <td>area</td>
+      <td>length<sup>2</sup></td>
+    </tr>
+    <tr> 
+      <td>speed</td>
+      <td>length/second</td>
+    </tr>
+    <tr> 
+      <td>volume</td>
+      <td>length<sup>3</sup></td>
+    </tr>
+  </table>
+</div>
+
+<p>The standard colour space used by this International Standard is RGB where 
+each colour component has the range [0.,1.].</p>
+<p>ISO/IEC 19775 uses a Cartesian, right-handed, 
+  three-dimensional coordinate system. By default, the viewer is on the Z-axis 
+  looking down the -Z-axis toward the origin with +X to the right and +Y straight 
+  up. A modelling transformation (see the 
+<a href="components/group.html#Transform">Transform</a> node definition 
+  in <a href="components/group.html">10 Grouping component</a> and the
+<a href="components/navigation.html#Billboard">Billboard</a> node definition in <a href="components/navigation.html">23 Navigation component</a>) 
+  or viewing transformation (see the 
+<a href="components/navigation.html#X3DViewpointNode">X3DViewpointNode</a> node type definition 
+  in <a href="components/navigation.html">23 Navigation component</a> 
+  can be used to alter this default projection.</p>
+
+<h2><a name="Behaviourgraph"></a>
+4.3.7 Behaviour graph</h2>
+
+<p>The event model 
+  of X3D allows the declaration of connections between fields (routes) and a model 
+  for the propagation of events along those connections. The behavior graph is 
+  the collection of these field connections. It can be changed dynamically by 
+  rerouting, adding or breaking connections. Events are injected into the system 
+  and propagate through the behavior graph in a well defined order.</p>
+
+<p>Fields can only be routed to other fields with 
+ the same data type, unless a component supports an extension to this rule.</p>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube">
+<a name="Runtimeenvironment"></a>
+4.4 Run-time environment</h1>
+
+<h2><a name="RuntimeOverview"></a>
+4.4.1 Overview</h2>
+
+<p>The X3D run-time environment maintains the current state of the scene graph, 
+  renders the scene as needed, receives input from a variety of sources (<i>Sensors</i>) 
+  and performs changes to the scene graph in response to instructions from the 
+  behavioral system. The X3D run-time environment manages the life cycle of objects, 
+  including built-in and user-defined objects and programmatic scripts. The 
+run-time 
+  environment coordinates the processing of <i>Events</i>, the primary means of 
+  generating behaviors in X3D. The run-time environment also manages interoperation 
+  between the X3D browser and host application for file delivery, hyperlinking, 
+  page integration and external programmatic access.</p>
+
+<p>The run-time environment manages objects. X3D supports several types of <i>built-in 
+  objects </i>that contain generally useful functionality in the run-time environment. 
+  There are built-in objects to represent data structures such as an <i>SFVec3f 
+  </i>3D vector value, nodes such as geometry (<i>e.g.,</i> 
+<a href="components/geometry3D.html#Cylinder">Cylinder</a>), and ROUTEs 
+  between nodes. Each node contains zero or more <i>fields</i> that define storage 
+  for data values, and/or zero or more <i>events</i> for sending messages to/from 
+  the object. Nodes are instantiated by declaring them in a file or by using procedural 
+  code at run-time. The author may create new node types using the prototyping 
+  mechanism<font color="#FF0000"> </font>(see <a href="#PrototypeSemantics">4.4.4 
+  Prototype semantics</a>). These nodes become part of the run-time environment 
+  and behave exactly like built-in nodes. New nodes can be created declaratively 
+  by including a prototype declaration in a file, by including an external prototype 
+  referencing a prototype declaration in a separate location, or by using a native 
+  prototype declaration provided by the run-time environment itself. PROTOs may 
+  only be used to create other nodes, not fields or routes.</p> 
+
+<p><i>Events</i> are the primary means of generating behaviors in the X3D 
+run-time 
+  environment. Events are used throughout X3D: driving time-based animations; 
+  handling object picking; detecting user movement and collision; changing the 
+  scene graph hierarchy. The run-time environment manages the propagation of events 
+  through the system and order of evaluation according to a well-defined set of 
+  rules.</p>
+
+<p>An author of X3D content can control the creation and management of scenes, 
+  rendering and behavior, and loading of media assets. The loading and incorporation 
+  of authored extensions, which can be written in X3D or an external language, can also be controlled. The ability 
+  to make content-defined extensions is provided in profiles that support the 
+  Prototyping mechanism.</p>
+
+<h2><a name="Objectmodel"></a>
+4.4.2 Object model</h2>
+
+<h3><a name="ObjectmodelOverview"></a>
+4.4.2.1 Overview</h3>
+
+<p>The X3D system is made up of abstract individual 
+  entities called <i>objects</i>. This part of ISO/IEC 19775 defines a functional specification 
+  for each object type but does not dictate implementation. A compliant implementation 
+  of an object shall behave according to its functional specification as provided 
+  in <a href="fieldsDef.html">5 Field type reference</a>, clauses 7 through 40 
+  describing components, <a href="references.html#[I19775_2]">Part 2 of ISO/IEC 
+19775</a> or additional 
+parts of this standard that define object, field 
+  or node types. An X3D author arranges 
+  objects in the scene graph using one of the declarative X3D encodings described 
+  in <a href="references.html#[I19776]">ISO/IEC 19776</a> or 
+other future encoding formats, or at run time 
+  using built-in scripting (if the supported profile provides it) or some other 
+  form of programmatic access to the scene graph (see
+<a href="references.html#[I19775_2]">Part 2 of ISO/IEC 19775</a>).</p>
+
+<p>Objects representing lightweight concepts such as data storage 
+  and operations on data of that type are called <i>fields</i> and are derived 
+  from the <i><a href="fieldsDef.html#X3DField">X3DField</a></i> object. Objects representing more complete spatial 
+  or temporal processing concepts are called <i>nodes</i> and are derived from 
+  the <i><a href="components/core.html#X3DNode">X3DNode</a></i> object. Nodes contain one or more fields that hold data
+  values or send or receive events for that node.  </p>
+
+<p>Some nodes implement 
+  additional functionality by inheritance of <i>interfaces</i> that represent 
+  common properties or functionality, such as bounding boxes for visual objects 
+  and grouping nodes or a specification that a particular object represents 
+metadata. In addition, X3D defines object types for accessing scene 
+  graph information not stored in fields or nodes, such as ROUTEs, PROTO declarations, 
+  Component/Profile information and world metadata.</p>
+
+<p>A field may contain either a single value of 
+  the given type or an array of such types. Throughout this document, a field 
+  type containing a single value is said to be of the given type and is prefixed by 
+  the characters <i>SF</i> (<i>e.g.</i>, field <i>a</i> is of type <i>SFVec3f</i>), while 
+  a field containing an array has its type prefixed by the characters <i>MF</i> 
+  (<i>e.g.</i>, field <i>b</i> is of type <i>MFVec3f</i>). A field may contain a reference 
+  to one or more nodes by using the <i>SFNode </i>and <i>MFNode </i>field types.</p>
+
+<p>Each object has the following common characteristics: 
+
+<ol type="a">
+  <li><b>A type name.</b> Examples include SFVec3f, 
+    MFColor, SFFloat, <a href="components/group.html#Group">Group</a>, 
+	<a href="components/enveffects.html#Background">Background</a>, or
+	<a href="components/lighting.html#SpotLight">SpotLight</a>.</li>  
+  <li><b>An implementation.</b> The implementation 
+    of each object defines how it reacts to changes in its property values, what 
+    other property values it alters as a result of these changes, and how it effects 
+    the state of the run-time environment. This part of ISO/IEC 19775 defines the functional 
+    semantics of built-in nodes (<i>i.e.</i>, nodes with implementations that are provided 
+    by the X3D browser).</li>
+</ol>
+
+<p>An object derived from <i>X3DNode </i>has the 
+  following additional characteristics:</p>
+
+<ol type="a" start="4">
+  <li><b>Zero or more field values.</b> Field values 
+    are stored in the X3D file along with the nodes or fields, and encode the 
+    state of the virtual world.</li>  
+  <li><b>Zero or more events that it can receive and 
+    send.</b> Each node may receive events to its fields which will result in 
+    some change to the node's state. Each node may also generate events from its 
+    fields to report changes in the node's state. Events generated from one node 
+    can be connected to fields of other nodes to propagate these changes. This 
+    is done using the ROUTE statement in the file or through an SAI service reference.</li> 
+  <li><b>A name.</b> Nodes can be named using either 
+    the DEF statement in the file or at run-time through an SAI service call. This 
+    is used by other statements to reference a specific instantiation of a node. 
+    It is also be used to locate a specific named node within the scene hierarchy.</li>
+</ol>
+
+<p>Node implementations can come from two sources, built-in nodes and 
+prototypes. Built-in nodes are nodes that are available to the author as 
+specified by the applicable profile and/or component declarations. Different 
+components define different sets of built-in nodes.</p>
+
+<p>Additionally, X3D supports content extensions using prototypes. Prototypes 
+are objects that the author creates using PROTO or EXTERNPROTO statements. These 
+objects are written in the same declarative notation used to describe nodes in 
+the scene graph. They add new object types to the system which are only 
+available for the lifetime of the session into which they are loaded. Some 
+profiles may not include support of these extension capabilities. The semantics 
+of prototypes are discussed in <a href="#PrototypeSemantics">4.4.4, 
+  Prototype semantics</a>, and <a href="#Externalprototypesemantics">4.4.5, External prototype semantics</a>.</p>
+
+<p>Both prototypes and built-in nodes are available for instantiation using 
+similar mechanisms. An object can be instantiated declaratively or at run-time 
+using the SAI services specified in <a href="references.html#[I19775_2]">Part 2 
+of ISO/IEC 19775</a>. All prototypes inherit from the base node type <i>
+<a href="components/core.html#X3DPrototypeInstance">X3DPrototypeInstance</a></i>.</p>
+
+<h3><a name="FieldSemantics"></a>
+4.4.2.2 Field semantics</h3>
+
+<P>Fields define the persistent state of nodes, and values which nodes may send or receive
+in the form of events. X3D supports four types of access to a node's fields:
+<ol type="a">
+  <li><i>initializeOnly</i> access, which allows content to supply an initial value
+  for the field but does not allow subsequent changes to its value;</li>
+  <li><i>inputOnly</i> access, which means that the node may receive an event to change
+  the value of its field, but does not allow the field's value to be read;</li>
+  <li><i>outputOnly</i> access, which means that the node may send an event when its
+  value changes, but does not allow the field's value to be written; and</li>
+  <li><i>inputOutput</i> access, which allows full access to the field: content may supply
+  an initial value for the field, the node may receive an event to change
+  the value of its field, and the node may send an event when its value changes.</li>
+</ol>
+<P>An inputOutput field can receive events like an inputOnly field, can generate 
+events like an outputOnly field, and can be stored in X3D files like an 
+initializeOnly field. An inputOutput field named <I>zzz</I> can be referred to as
+'<i>set_zzz</i>' and treated as an inputOnly, and can be referred to as '<i>zzz_changed</i>' and treated as an 
+outputOnly field. Within ISO/IEC 19775, fields with inputOutput access or inputOnly
+access are collectively referred to as <i>input</i> fields, fields with inputOutput access
+or outputOnly access are collectively referred to as <i>output</i> fields, and the events
+these fields receive and send are called <i>input events</i> and <i>output events</i>,
+respectively.</p>
+
+<p>The initial value of an inputOutput field is its value in the
+X3D file, or the default value for the node in which it is contained, if a value is not 
+specified. When an inputOutput field receives an event it shall generate an event 
+with the same value and timestamp. The following sources, in precedence order, 
+shall be used to determine the initial value of the inputOutput field:</P>
+<P><!--NOEDIT-->
+<OL type=a start="5">
+  <LI>the user-defined value in the instantiation (if one is specified); 
+  <LI>the default value for that field as specified in the node or prototype 
+  definition. </LI>
+  </OL><!--/NOEDIT-->
+<P></P>
+<P>The recommendations for naming initializeOnly fields, inputOutput fields,
+outputOnly fields, and inputOnly fields for built-in nodes are as follows:</P>
+<P><!--NOEDIT-->
+<OL type=a start=7>
+  <LI>All names containing multiple words start with a lower case letter, and 
+  the first letter of all subsequent words is capitalized 
+  (<i>e.g.</i>,&nbsp;<I>addChildren</I>), with the exception of <I>set_</I> and 
+  <I>_changed</I>, as described below. 
+  <LI>It is recommended that all inputOnly fields have the prefix “set_”, with the 
+exception of the <i>addChildren</i> and <i>removeChildren</i> fields. 
+  <LI>Certain inputOnly fields and outputOnly fields of type SFTime do not use
+  the "<I>set_</I>" prefix or "<I>_changed</I>" suffix. 
+  <LI>It is recommended that all other outputOnly fields have the suffix 
+“_changed” appended, with the exception of outputOnly fields of type SFBool.</LI></OL>
+
+<h3><a name="InterfaceHierarchy"></a>4.4.2.3 Interface hierarchy</h3> 
+
+<p>Most object types derive some of their interfaces and functionality 
+  from other object types in the system. These are known as its <i>supertypes</i>, 
+  and an object is said to be <i>derived</i> from these supertypes. Likewise, 
+  these supertypes may derive their capabilities from other object types, forming 
+  a chain all the way to a small number of base types from which all the others are
+  ultimately derived. The graph describing the relationship between all object types in the 
+  system is called the <i>interface hierarchy</i>. In 
+  this part of ISO/IEC 19775, the object hierarchy specifies conceptual relationships 
+  between objects but does not necessarily dictate actual implementation. 
+</p>
+
+<p><a href="#f-Objecthierarchy">Figure 4.2</a> depicts the object hierarchy for 
+object types defined in this part of ISO/IEC 19775 for all versions. A 
+specification of which object types are available for which versions may be 
+found in <a href="versionContent.html">Annex L Version content</a>.</p>
+<p class="Example">NOTE&nbsp; Not all object types are supported in certain 
+component levels, profiles or versions; refer to the individual component and 
+profile specifications in this part of ISO/IEC 19775 for details.</p>
+
+<pre class=diagram><a name="f-Objecthierarchy"></a></pre>
+
+<pre>X3DField -+------------- X3DArrayField -+
+                +- SFBool                     +- MFBool
+                +- SFColor                    +- MFColor
+                +- SFColorRGBA                +- MFColorRGBA
+                +- SFDouble                   +- MFDouble
+                +- SFFloat                    +- MFFloat
+                +- SFImage                    +- MFImage
+                +- SFInt32                    +- MFInt32
+                +- SFMatrix3d                 +- MFMatrix3d 
+                +- SFMatrix3f                 +- MFMatrix3f 
+                +- SFMatrix4d                 +- MFMatrix4d 
+                +- SFMatrix4f                 +- MFMatrix4f 
+                +- SFNode                     +- MFNode
+                +- SFRotation                 +- MFRotation
+                +- SFString                   +- MFString
+                +- SFTime                     +- MFTime
+                +- SFVec2d                    +- MFVec2d
+                +- SFVec2f                    +- MFVec2f
+                +- SFVec3d                    +- MFVec3d
+                +- SFVec3f                    +- MFVec3f
+                +- SFVec4d                    +- MFVec4d
+                +- SFVec4f                    +- MFVec4f
+
+      X3DBoundedObject
+
+      X3DFogObject
+
+      X3DPickableObject
+
+      X3DProgrammableShaderObject
+
+      X3DMetadataObject 
+
+      X3DUrlObject 
+
+      X3DNode
+        | 
+        +- Contact
+        +- Contour2D
+        +- EaseInEaseOut
+        +- GeoOrigin (deprecated)
+        +- LayerSet
+        +- MetadataBoolean (X3DMetadataObject)* 
+        +- MetadataDouble (X3DMetadataObject)*
+        +- MetadataFloat (X3DMetadataObject)*
+        +- MetadataInteger (X3DMetadataObject)*
+        +- MetadataSet (X3DMetadataObject)*
+        +- MetadataString (X3DMetadataObject)*
+        +- NurbsTextureCoordinate
+        +- RigidBody 
+        +- ShaderPart (X3DUrlObject)*
+        +- ShaderProgram (X3DUrlObject, X3DProgrammableShaderObject)*
+        +- TextureProperties
+        |
+        +- X3DAppearanceNode -+- Appearance
+        |
+        +- X3DAppearanceChildNode -+- FillProperties
+        |                          +- LineProperties
+        |                          |
+        |                          +- X3DMaterialNode -+- Material
+        |                          |                   +- TwoSidedMaterial
+        |                          |
+        |                          +- X3DShaderNode -+- ComposedShader (X3DProgrammableShaderObject)*
+        |                          |                 +- PackagedShader (X3DUrlObject, X3DProgrammableShaderObject)*
+        |                          |                 +- ProgramShader
+        |                          |
+        |                          +- X3DTextureNode -+- MultiTexture
+        |                          |                  |
+        |                          |                  +- X3DEnvironmentTextureNode -+- ComposedCubeMapTexture
+        |                          |                  |                             +- GeneratedCubeMapTexture
+        |                          |                  |                             +- ImageCubeMapTexture (X3DUrlObject)*
+        |                          |                  | 
+        |                          |                  +- X3DTexture2DNode -+- ImageTexture (X3DUrlObject)*
+        |                          |                  |                    +- MovieTexture (X3DSoundSourceNode, X3DUrlObject)*
+        |                          |                  |                    +- PixelTexture
+        |                          |                  |
+        |                          |                  +- X3DTexture3DNode -+- ComposedTexture3D
+        |                          |                                       +- ImageTexture3D (X3DUrlObject)*
+        |                          |                                       +- PixelTexture3D
+        |                          |   
+        |                          +- X3DTextureTransformNode  +- MultiTextureTransform
+        |                                                     -+- TextureTransform
+        |                                                      +- TextureTransformMatrix3D
+        |                                                      +- TextureTransform3D
+        |                                                     
+        |
+        +- X3DFontStyleNode -+- FontStyle
+        |                    +- ScreenFontStyle                              
+        |
+        +- X3DGeometryNode -+- Arc2D
+        |                   +- ArcClose2D
+        |                   +- Box
+        |                   +- Circle2D
+        |                   +- Cone
+        |                   +- Cylinder
+        |                   +- Disk2D
+        |                   +- ElevationGrid
+        |                   +- Extrusion
+        |                   +- GeoElevationGrid
+        |                   +- IndexedLineSet
+        |                   +- LineSet
+        |                   +- PointSet
+        |                   +- Polyline2D
+        |                   +- Polypoint2D
+        |                   +- Rectangle2D
+        |                   +- Sphere
+        |                   +- Text
+        |                   +- TriangleSet2D 
+        |                   |
+        |                   +- X3DComposedGeometryNode -+- IndexedFaceSet
+        |                   |                           +- IndexedTriangleFanSet
+        |                   |                           +- IndexedTriangleSet
+        |                   |                           +- IndexedTriangleStripSet
+        |                   |                           +- IndexedQuadSet
+        |                   |                           +- QuadSet
+        |                   |                           +- TriangleFanSet
+        |                   |                           +- TriangleSet
+        |                   |                           +- TriangleStripSet
+        |                   |
+        |                   +- X3DParametricGeometryNode -+- NurbsCurve
+        |                                                 +- NurbsSweptSurface
+        |                                                 +- NurbsSwungSurface
+        |                                                 |
+        |                                                 +- X3DNurbsSurfaceGeometryNode -+- NurbsPatchSurface
+        |                                                                                 +- NurbsTrimmedSurface
+        |
+        +- X3DGeometricPropertyNode -+- FogCoordinate
+        |                            +- HAnimDisplacer
+        |                            |
+        |                            |+- X3DColorNode -+- Color
+        |                            |                 +- ColorRGBA
+        |                            |
+        |                            +- X3DCoordinateNode -+- Coordinate
+        |                            |                     +- CoordinateDouble
+        |                            |                     +- GeoCoordinate
+        |                            |
+        |                            +- X3DNormalNode -+- Normal
+        |                            |
+        |                            +- X3DTextureCoordinateNode -+- MultiTextureCoordinate
+        |                            |                            +- TextureCoordinate
+        |                            |                            +- TextureCoordinate3D
+        |                            |                            +- TextureCoordinate4D
+        |                            |                            +- TextureCoordinateGenerator
+        |                            |
+        |                            +- X3DVertexAttributeNode -+- FloatVertexAttribute
+        |                                                       +- Matrix3VertexAttribute
+        |                                                       +- Matrix4VertexAttribute
+        |
+        +- X3DLayerNode -+- Layer
+        |                +- LayoutLayer
+        |
+        +- X3DNBodyCollisionSpaceNode (X3DBoundedObject)* -+- CollisionSpace
+        |
+        +- X3DNurbsControlCurveNode -+- ContourPolyline2D
+        |                            +- NurbsCurve2D
+        |
+        +- X3DParticleEmitterNode -+- ConeEmitter
+        |                          +- ExplosionEmitter
+        |                          +- PointEmitter
+        |                          +- PolylineEmitter
+        |                          +- SurfaceEmitter
+        |                          +- VolumeEmitter
+        |
+        +- X3DParticlePhysicsModelNode  -+- BoundedPhysicsModel
+        |                                +- ForcePhysicsModel
+        |                                +- WindPhysicsModel
+        |
+        +- X3DProtoInstance
+        |
+        +- X3DRigidJointNode -+- BallJoint
+        |                     +- DoubleAxisHingeJoint
+        |                     +- MotorJoint
+        |                     +- SingleAxisHingeJoint
+        |                     +- SliderJoint
+        |                     +- UniversalJoint
+        |
+        +- X3DVolumeRenderStyleNode -+- ProjectionVolumeStyle
+        |                            |
+        |                            +- X3DComposableVolumeRenderStyle -+- BlendedVolumeStyle
+        |                                                               +- BoundaryEnhancementVolumeStyle
+        |                                                               +- CartoonVolumeStyle
+        |                                                               +- ComposedVolumeStyle
+        |                                                               +- EdgeEnhancementVolumeStyle
+        |                                                               +- OpacityMapVolumeStyle
+        |                                                               +- ProjectionVolumeStyle
+        |                                                               +- ShadedVolumeStyle
+        |                                                               +- SilhouetteEnhancementVolumeStyle
+        |                                                               +- ToneMappedVolumeStyle
+        |
+        +- X3DChildNode -+- BooleanFilter
+                         +- BooleanToggle
+                         +- ClipPlane
+                         +- CollisionCollection
+                         +- DISEntityManager
+                         +- GeoLOD (X3DBoundedObject)*
+                         +- HAnimHumanoid (X3DBoundedObject)*
+                         +- Inline (X3DUrlObject, X3DBoundedObject)*
+                         +- LocalFog (X3DFogObject)*
+                         +- NurbsOrientationInterpolator
+                         +- NurbsPositionInterpolator
+                         +- NurbsSet (X3DBoundedObject)*
+                         +- NurbsSurfaceInterpolator
+                         +- RigidBodyCollection 
+                         +- StaticGroup (X3DBoundedObject)*
+                         |
+                         +- X3DBindableNode -+- Fog (X3DFogObject)*
+                         |                   +- GeoViewpoint
+                         |                   +- NavigationInfo
+                         |                   |
+                         |                   +- X3DBackgroundNode -+- Background 
+                         |                   |                     +- TextureBackground
+                         |                   |
+                         |                   +- X3DViewpointNode -+- OrthoViewpoint
+                         |                                        +- Viewpoint
+                         |                                        +- ViewpointGroup
+                         |
+                         +- X3DFollowerNode -+- X3DChaserNode -+- ColorChaser
+                         |                   |                 +- CoordinateChaser
+                         |                   |                 +- OrientationChaser
+                         |                   |                 +- PositionChaser
+                         |                   |                 +- PositionChaser2D
+                         |                   |                 +- ScalerChaser
+                         |                   |                 +- TexCoordChaser2D
+                         |                   |
+                         |                   +- X3DDamperNode -+- ColorDamper
+                         |                                     +- CoordinateDamper
+                         |                                     +- OrientationDamper
+                         |                                     +- PositionDamper
+                         |                                     +- PositionDamper2D
+                         |                                     +- ScalarDamper
+                         |                                     +- TexCoordDamper
+                         |
+                         +- X3DGroupingNode (X3DBoundedObject)* -+- Anchor
+                         |                                       +- Billboard
+                         |                                       +- CADAssembly (X3DProductStructureChildNode)*
+                         |                                       +- CADLayer
+                         |                                       +- CADPart (X3DProductStructureChildNode)*
+                         |                                       +- Collision (X3DSensorNode)*
+                         |                                       +- EspduTransform (X3DSensorNode)*
+                         |                                       +- GeoLocation
+                         |                                       +- GeoTransform
+                         |                                       +- Group
+                         |                                       +- HAnimJoint
+                         |                                       +- HAnimSegment
+                         |                                       +- HAnimSite
+                         |                                       +- LayoutGroup
+                         |                                       +- LOD
+                         |                                       +- PickableGroup (X3DPickableObject)*
+                         |                                       +- ScreenGroup
+                         |                                       +- Switch
+                         |                                       +- Transform
+                         |                                       |
+                         |                                       +- X3DViewportNode -+- Viewport
+                         |
+                         +- X3DInfoNode --+- DISEntityTypeMapping
+                         |                +- GeoMetadata
+                         |                +- WorldInfo
+                         |
+                         +- X3DInterpolatorNode -+- ColorInterpolator
+                         |                       +- CoordinateInterpolator
+                         |                       +- CoordinateInterpolator2D
+                         |                       +- GeoPositionInterpolator
+                         |                       +- NormalInterpolator
+                         |                       +- OrientationInterpolator
+                         |                       +- PositionInterpolator
+                         |                       +- PositionInterpolator2D
+                         |                       +- ScalarInterpolator
+                         |                       +- SplinePositionInterpolator
+                         |                       +- SplinePositionInterpolator2D
+                         |                       +- SplineScalarInterpolator
+                         |                       +- SquadOrientationInterpolator
+                         |
+                         +- X3DLayoutNode -+- Layout
+                         |                   
+                         +- X3DLightNode -+- DirectionalLight
+                         |                +- PointLight
+                         |                +- SpotLight 
+                         |
+                         +- X3DNBodyCollidableNode (X3DBoundedObject)* -+- CollidableOffset
+                         |                                              +- CollidableShape
+                         |
+                         +- X3DProductStructureChildNode -+- CADAssembly (X3DGroupingNode)*
+                         |                                +- CADFace (X3DBoundedObject)*
+                         |                                +- CADPart (X3DGroupingNode)*
+                         |
+                         +- X3DScriptNode (X3DUrlObject)* -+- Script
+                         |
+                         +- X3DSensorNode -+- Collision (X3DGroupingNode)* 
+                         |                 +- CollisionSensor
+                         |                 +- EspduTransform (X3DGroupingNode)*
+                         |                 +- ReceiverPdu (X3DBoundedObject)*
+                         |                 +- SignalPdu (X3DBoundedObject)*
+                         |                 +- TimeSensor (X3DTimeDependentNode)*
+                         |                 +- TransmitterPdu (X3DBoundedObject)*
+                         |                 |
+                         |                 +- X3DEnvironmentalSensorNode -+- GeoProximitySensor
+                         |                 |                              +- ProximitySensor
+                         |                 |                              +- TransformSensor
+                         |                 |                              +- VisibilitySensor
+                         |                 |
+                         |                 +- X3DKeyDeviceSensorNode -+- KeySensor
+                         |                 |                          +- StringSensor
+                         |                 |
+                         |                 +- X3DNetworkSensorNode +- LoadSensor
+                         |                 |
+                         |                 +- X3DPickSensorNode -+- LinePickSensor
+                         |                 |                     +- PointPickSensor
+                         |                 |                     +- PrimitivePickSensor
+                         |                 |                     +- VolumePickSensor
+                         |                 | 
+                         |                 +- X3DPointingDeviceSensorNode -+- X3DDragSensorNode -+- CylinderSensor
+                         |                                                 |                     +- PlaneSensor
+                         |                                                 |                     +- SphereSensor
+                         |                                                 |
+                         |                                                 +- X3DTouchSensorNode -+- GeoTouchSensor
+                         |                                                                        +- TouchSensor
+                         |
+                         +- X3DSequencerNode -+- BooleanSequencer
+                         |                    +- IntegerSequencer
+                         |
+                         +- X3DShapeNode (X3DBoundedObject)* -+- ParticleSystem
+                         |                                    +- Shape
+                         |
+                         +- X3DSoundNode -+- Sound 
+                         |
+                         +- X3DTimeDependentNode -+- TimeSensor (X3DSensorNode)*
+                         |                        |
+                         |                        +- X3DSoundSourceNode -+- AudioClip (X3DUrlObject)*
+                         |                                               +- MovieTexture (X3DTexture2DNode, X3DUrlObject)*
+                         |
+                         +- X3DTriggerNode -+- BooleanTrigger
+                         |                  +- IntegerTrigger
+                         |                  +- TimeTrigger
+                         |
+                         +- X3DVolumeDataNode (X3DBoundedObject)* -+- IsoSurfaceVolumeData
+                                                                   +- SegmentedVolumeData
+                                                                   +- VolumeData
+
+* = Derived from multiple interfaces</pre>
+
+<div class="CenterDiv">
+<p class="FigureCaption">
+Figure 4.2 &#8212; Interface hierarchy</p>
+
+</div>
+
+<p>The object hierarchy defines both <i>abstract</i> interfaces and <i>concrete</i> 
+node types. Abstract interfaces define functionality that is inherited by other 
+interfaces and/or nodes, but are never instantiated in the scene graph as 
+objects. Concrete node types derive from one or more abstract interfaces and may 
+be instantiated in the scene graph. Thus, the live scene graph consists only of 
+instances of concrete node types.&nbsp; Components defined in this part of 
+ISO/IEC 19775 are required to implement the functionality of abstract interfaces 
+only insofar as that functionality is made available via one of the derived 
+concrete node types. <a href="references.html#[I19775_2]">Part 2 of ISO/IEC 
+19775</a> defines the means by which applications may access the 
+functionality provided in both abstract interfaces and concrete nodes via 
+programmatic means.</p>
+
+<p>The two main types of object from which most 
+  others are derived are <i> <a href="components/core.html#X3DNode">X3DNode</a></i> and <i>
+<a href="fieldsDef.html#X3DField">X3DField</a></i>. Nodes are the objects 
+  used in the declarative language to form the scene graph, while fields are contained 
+  within nodes and hold the data items for nodes. Some field objects contain simple 
+  data values like integers or arrays of strings. Other field objects contain 
+  references to nodes. It is this ability of <i>X3DNode</i> to contain <i>X3DField</i>, 
+  and <i>X3DField </i>to contain references to <i>X3DNode</i>, that makes it possible 
+  for X3D to form scene graph hierarchies.</p>
+<p class="Example">EXAMPLE</p>
+
+<pre class="listing">Transform { translation 1 2 3
+  children [
+    Shape {
+      geometry Box { }
+    }
+    Group {
+      children [ ... ]
+    }
+  ]
+}
+</pre>
+
+<p class="Example">In the above example, the Transform contains a simple 
+  field, <tt>translation</tt>, which contains a vector of 3 numbers. It also 
+  contains a <tt>children</tt> field which may contain an array of other nodes. 
+  In this case it has two, a Shape and a Group. The Shape and the Group both contain 
+  fields which may have other objects as well.</p>
+
+<p>Derivation makes it possible to strongly type all objects. In the above example,
+  the children field is constrained to contain a list of objects 
+  derived from an object type called <i>
+<a href="components/core.html#X3DChildNode">X3DChildNode</a></i>. Both 
+<a href="components/shape.html#Shape">Shape</a> and 
+<a href="components/group.html#Group">Group</a> 
+  are derived (indirectly) from this object and can therefore be placed in the 
+  children field. The geometry field of Shape, on the other hand, can only contain 
+  a single node derived from <i>
+<a href="components/rendering.html#X3DGeometryNode">X3DGeometryNode</a></i>. 
+<a href="components/geometry3D.html#Box">Box</a> is derived from this 
+  object and can therefore be placed in the geometry field. But Box is not derived 
+  from <i>X3DChildNode</i>, so it cannot be placed in the children field. Likewise, 
+  Group is not derived from <i>X3DGeometryNode</i> and can therefore not be placed 
+  in the geometry field.</p>
+
+<p>The above example exhibits another quality of derivation. 
+<a href="components/group.html#Transform">Transform</a> is derived 
+  from <i><a href="components/group.html#X3DGroupingNode">X3DGroupingNode</a></i> and therefore inherits its children field. This 
+  makes the specification of Transform simpler because it does not need to describe 
+  the functionality of the children field. Because it is derived from <i>X3DGroupingNode</i>, 
+  the author knows it contains a children field which behaves like the one in 
+  Group which is also derived from <i>X3DGroupingNode</i>.</p>
+
+<h3><a name="Modifyingobjects"></a>
+4.4.2.4 Modifying objects</h3>
+
+<h4><a name="ModifyingObjectsRoutes"></a>4.4.2.4.1 Routes</h4>
+
+<p>There are several ways to modify the fields of an object. Using one of the 
+  X3D file formats, an author can declare a set of nodes, the initial state of 
+  their fields, and interconnections between the fields called <i>Routes</i>. 
+  X3D uses an event propagation, or <i>dataflow</i> model to change the values 
+of fields at run-time. As part of its abstract specification, the behavior of a 
+node in response to events sent to its fields, and the conditions under which 
+its fields send events out, is described. </p>
+<p class="Example">EXAMPLE&nbsp; It is possible to create a scene with run-time 
+behavior using only this event propagation model: </p>
+
+<blockquote>
+	<pre class="listing">DEF TS TimeSensor {
+  loop TRUE
+  cycleInterval 5
+}
+DEF I PositionInterpolator {
+  key [ 0 0.5 1 ]
+  keyValue [ 0 -1 0, 0 1 0, 0 -1 0 ]
+}
+DEF T Transform {
+  children [
+    Shape {
+      geometry Box { }
+    }
+  ]
+}
+ROUTE ts.fraction_changed TO I.set_fraction
+ROUTE I.value_changed TO T.set_translation
+</pre>
+</blockquote>
+
+<p class="Example">This example bounces a box up and down repeatedly 
+ over a five-second interval. The TimeSensor object is defined to send an event 
+  continuously out of its <tt>fraction</tt> field. This event sends a floating 
+  point value which varies from 0 to 1 over a 5 second interval, as specified 
+  by the <tt>cycleInterval</tt>. Its <tt>loop</tt> field tells it to do so repeatedly. 
+  This fraction value is sent to the <tt>fraction</tt> field of a PositionInterpolator. 
+  This object is defined to send an event out of its <tt>value</tt> field whenever 
+  it receives an event on its fraction field. The value is determined by the <tt>key</tt> 
+  and <tt>keyValue</tt> fields. In this case it sends a vector whose y value varies 
+  between -1 and +1 and back again over the interval. This value is sent to the 
+  <tt>translation</tt> field of the Transform node. This node is defined to set 
+  the position of its children according to the value of <tt>translation</tt>.
+<a href="#Routes">4.4.8.2 Routes</a> 
+contains more information on routing.</p>
+
+<h4><a name="ModifyingObjectsViaProgrammaticAccess"></a>4.4.2.4.2 Modifying objects via programmatic access</h4>
+
+<p>The routing mechanism is simple, but is limited to changing field values of nodes,
+  and only changes that are designed into a given node set. For greater 
+  flexibility, some profiles provide programmatic access to objects 
+  in the system. This allows field values to be set and read, and functions to 
+  be called. Mechanisms are also provided to allow PROTO objects to be found, 
+  which in turn allows objects of that type to be instantiated. </p>
+
+<p>There are two types of programmatic access in X3D: External access (<span class="example">EXAMPLE&nbsp; 
+access from a containing HTML page or embedding  native application</span>) and 
+Internal scripts using any of the supported scripting languages.<p>Programmatic access to objects is provided via 
+  <i>interfaces </i>to those objects. The interface of an object (its set of 
+data and function properties) is specified, and is also referred to as the <i>object type</i>. An object type 
+that 
+  represents a node is also referred to as a <i> node type</i>. Object types may 
+  be either abstract or concrete. Abstract object types are not instantiable. 
+  Instead, they are used to derive other object types or to indicate that a field 
+  may contain a node of any of the derivative node types. Concrete node types 
+are those derived from abstract node types and are instantiable. A 
+  compliant implementation of an object's interface shall support the interface 
+  specifications as defined in <a href="references.html#[I19775_2]">Part 2 of 
+ISO/IEC 197775</a>.</p>
+
+<p>See <a href="#SceneAccessInterface">4.9, Application programmer interfaces</a> for additional information.</p>
+
+<h3><a name="Objectlifecycle"></a>
+4.4.2.5 Object life cycle</h3>
+
+<p>Nodes have a life cycle: they are created, used and eventually destroyed. A 
+  node is considered live if one or more of the following is true:</p>
+
+<ol type="a">
+  <li>The node is a root node in the scene.</li>
+  <li>The node is referenced by a field of a live node.</li>
+  <li>There is a reference from a live script to the node.</li>
+  <li>There is an external programmatic reference to the node.</li>
+</ol>
+
+<p>Rules b and c are applied recursively to cover the entire live scene graph.</p>
+
+<p>Nodes instanced from a file are created implicitly by the browser upon encountering 
+  a node instance or upon instancing a prototype's scene graph. Nodes may also 
+  be instanced programmatically; in this case there are additional discrete steps 
+  in the node's life cycle. Refer to <a href="references.html#[I19775_2]">Part 2 
+of ISO/IEC 197775</a> for more details.</p>
+
+<h2><a name="DEFL_USESemantics"></a>4.4.3 DEF/USE semantics</h2>
+
+<p>Node names are limited in scope to a single X3D file, prototype definition, 
+or string submitted to either CreateX3DFromString, CreateX3DFromStream, or 
+CreateX3DFromURL browser service or a construction for SFNodes within a script. 
+The USE statement does not create a copy of the node. Instead, the same node is 
+inserted into the scene graph a second time, resulting in the node having 
+multiple parents (see <a href="#Transformationhierarchy">
+4.3.5 Transformation hierarchy</a>, for restrictions on self-referential nodes).<br>
+<br>
+Node names shall be unique in the context within which the associated DEF 
+keyword occurs.</p>
+
+<h2><a name="PrototypeSemantics"></a>4.4.4 Prototype semantics</h2>
+
+<h3><a name="PrototypeSemanticsIntro"></a>4.4.4.1 Introduction</h3>
+
+<p>The PROTO statement defines a new node type in terms of already defined (built-in 
+  or prototyped) node types. Once defined, prototyped node types may be instantiated 
+  in the scene graph exactly like the built-in node types.</p>
+
+<p>Node type names shall be unique in each X3D file. The results are undefined 
+  if a prototype is given the same name as a built-in node type or a previously 
+  defined prototype in the same scope.</p>
+
+<h3><a name="PROTOinterfacedeclsemantics"></a>
+4.4.4.2 PROTO interface declaration semantics</h3>
+
+<p>The prototype interface defines the fields and field access types for the 
+  new node type. The interface declaration includes the types, names and default 
+  values (for initializeOnly and inputOutput fields) for the prototype's fields.</p>
+
+<p>The interface declaration may contain inputOutput field declarations, which are 
+  a convenient way of defining an initializeOnly field, inputOnly field,
+  and outputOnly field at the same time. 
+  If an inputOutput field named <i>zzz</i> is declared, it is equivalent to
+  separately declaring an initializeOnly field named <i>zzz</i>, an inputOnly field named <i>set_zzz</i>,
+  and an outputOnly field named <i>zzz_changed</i>.</p>
+
+<p>Each prototype instance can be considered to be a complete copy of the prototype, 
+  with its own field values and copy of the prototype definition. A prototyped 
+  node type is instantiated using standard node syntax. For example, the following 
+  prototype (which has an empty interface declaration):</p>
+
+<pre class="listing">PROTO Cube [ ] { Box { } }
+</pre>
+
+<p>may be instantiated as follows:</p>
+
+<pre class="listing">Shape { geometry Cube { } }
+</pre>
+
+<p>It is recommended that user-defined field names defined in PROTO interface 
+  declarations statements follow the naming conventions described in <a href="#FieldSemantics">
+  4.4.2.2 Field semantics</a>.
+</p>
+
+<p>If an outputOnly field in the prototype declaration is associated with an
+  inputOutput field in the prototype definition, the initial value of the
+  associated outputOnly field shall be the 
+  initial value of the inputOutput field. If the outputOnly field is 
+  associated with multiple inputOutput fields, the results are undefined.</p>
+
+<h3><a name="PROTOdefinitionsemantics"></a>
+4.4.4.3 PROTO definition semantics</h3>
+
+<p>A prototype definition consists of one or more nodes, nested PROTO statements, 
+  and ROUTE statements. The first node type determines how instantiations of the 
+  prototype can be used in an X3D file. An instantiation is created by filling 
+  in the parameters of the prototype declaration and inserting copies of the first 
+  node (and its scene graph) wherever the prototype instantiation occurs.</p>
+<p class="Example">EXAMPLE&nbsp; If the first node in the prototype definition is a Material node, instantiations 
+  of the prototype can be used wherever a Material node can be used. Any other 
+  nodes and accompanying scene graphs are not part of the transformation hierarchy, 
+  but may be referenced by ROUTE statements or Script nodes in the prototype definition.</p>
+
+<p>Nodes in the prototype definition may have their fields associated with the fields
+  of the prototype interface declaration by using IS statements in the body of the node. 
+  When prototype instances are read from an X3D file, field values for the fields 
+  of the prototype interface may be given. If given, the field values are used 
+  for all nodes in the prototype definition that have IS statements for those 
+  fields. Similarly, when an input field of a prototype instance
+  is sent an event, the event is delivered to all nodes that have IS statements for that
+  field. When a node in a prototype instance generates an output event that has an IS statement,
+  the event is sent to any input fields connected (via ROUTE) to the prototype instance's
+  output field.</p>
+
+<p>IS statements may appear inside the prototype definition wherever fields may 
+  appear. IS statements shall refer to fields defined in the prototype 
+  declaration. Results are undefined if an IS statement refers to a non-existent 
+  declaration. Results are undefined if the type of the field being associated 
+  by the IS statement does not match the type declared in the prototype's interface 
+  declaration. For example, it is illegal to associate an SFColor with an SFVec3f. 
+  It is also illegal to associate an SFColor with an MFColor or <i>vice versa</i>.</p>
+
+<p>Results are undefined if an IS statement:</p>
+
+<ul>
+  <li>inputOnly field is associated with a initializeOnly field or an outputOnly field;</li>
+  <li>outputOnly field is associated with a initializeOnly field or inputOnly field;</li>
+  <li>initializeOnly field is associated with an inputOnly field or outputOnly field.</li>
+</ul>
+
+<p>An inputOutput field in the prototype interface may be associated only with an inputOutput
+  field in the prototype definition, but an inputOutput field in the prototype definition 
+  may be associated with either an inputOutput field, inputOnly field, or outputOnly field in 
+  the prototype interface. When associating an inputOutput field in a prototype definition 
+  with an inputOnly field or outputOnly field in the prototype declaration, it is valid to use 
+  either the shorthand inputOutput field name (<i>e.g.</i>,<i> translation</i>) or the 
+  explicit field name (<i>e.g.</i>,<i> set_translation</i> or <i>translation_changed</i>).
+<a href="#t-RulesmappingPROTOTYPEdecl">Table 4.4</a> defines the rules for mapping between 
+  the access types of fields in a prototype declarations and the access types for fields in
+  its primary scene graph's nodes (<i>yes </i>denotes a legal mapping, <i>no </i>denotes an error).</p>
+
+<div class="CenterDiv">
+<p class="TableCaption">
+<a name="t-RulesmappingPROTOTYPEdecl"></a>
+Table 4.4 &#8212; Rules for mapping PROTOTYPE declarations 
+to node instances</p> 
+
+<table>
+  <tbody> 
+  <tr> 
+    <td></td>
+    <td><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prototype 
+      declaration</b></td>
+  </tr>
+  <tr> 
+    <td><b>Prototype</b><br>
+      <p><b>definition</b></td>
+    <td>
+      <p> 
+      <center>
+        <table>
+          <tbody> 
+          <tr> 
+            <td></td>
+            <td><b><u>inputOutput</u></b></td>
+            <td><b><u>initializeOnly</u></b></td>
+            <td><b><u>inputOnly</u></b></td>
+            <td><b><u>outputOnly</u></b></td>
+          </tr>
+          <tr> 
+            <td><b><u>inputOutput</u></b></td>
+            <td><tt>yes</tt></td>
+            <td><tt>yes</tt></td>
+            <td><tt>yes</tt></td>
+            <td><tt>yes</tt></td>
+          </tr>
+          <tr> 
+            <td><b><u>intializeOnly</u></b></td>
+            <td><tt>no</tt></td>
+            <td><tt>yes</tt></td>
+            <td><tt>no</tt></td>
+            <td><tt>no</tt></td>
+          </tr>
+          <tr> 
+            <td><b><u>inputOnly</u></b></td>
+            <td><tt>no</tt></td>
+            <td><tt>no</tt></td>
+            <td><tt>yes</tt></td>
+            <td><tt>no</tt></td>
+          </tr>
+          <tr> 
+            <td><b><u>outputOnly</u></b></td>
+            <td><tt>no</tt></td>
+            <td><tt>no</tt></td>
+            <td><tt>no</tt></td>
+            <td><tt>yes</tt></td>
+          </tr>
+          </tbody>
+        </table>
+      </center>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</div>
+
+<p>Results are undefined if a field of a node in the prototype 
+  definition is associated with more than one field in the 
+  prototype's interface (<i>i.e.</i>, multiple IS statements for a field in a node in the
+  prototype definition), but multiple IS statements for the fields in the prototype
+  interface declaration is valid. Results are undefined if a field of a node in a
+  prototype definition is both defined with initial values (<i>i.e.</i>, field statement) and
+  associated  by an IS statement with a field in the prototype's interface. If a prototype 
+  interface has an outputOnly field <i>E</i> associated with multiple outputOnly fields in the 
+  prototype definition 
+<i>ED</i><sub><i>i</i></sub>, the value of <i>E</i> is the value of the field
+  that generated the event with the greatest timestamp. If two or more of the 
+  outputOnly fields generated events with identical timestamps, results are undefined.</p>
+
+<h3><a name="Prototypescopingrules"></a>
+4.4.4.4 Prototype scoping rules</h3>
+
+<p>Prototype definitions appearing inside a prototype definition (<i>i.e.</i>, nested) 
+  are local to the enclosing prototype. IS statements inside a nested prototype's 
+  implementation may refer to the prototype declarations of the innermost prototype.</p>
+
+<p>A PROTO statement establishes a DEF/USE name scope separate from the rest of 
+  the scene and separate from any nested PROTO statements. Nodes given a name 
+  by a DEF construct inside the prototype may not be referenced in a USE 
+  construct outside of the prototype's scope. Nodes given a name by a DEF construct 
+  outside the prototype scope may not be referenced in a USE construct inside 
+  the prototype scope.</p>
+
+<p>A prototype may be instantiated in a file anywhere after the completion of 
+  the prototype definition. A prototype may not be instantiated inside its own 
+  implementation <i>(i.e.</i>, recursive prototypes are illegal).</p>
+
+<h2><a name="Externalprototypesemantics"></a>
+4.4.5 External prototype semantics</h2>
+
+<h3><a name="ExternalprototypeIntro"></a>
+4.4.5.1 Introduction</h3>
+
+<p>The EXTERNPROTO statement defines a new node type. It is equivalent to the 
+  PROTO statement, with two exceptions. First, the implementation of the node 
+  type is stored externally, either in an X3D file containing an appropriate PROTO 
+  statement or using some other implementation-dependent mechanism. Second, default 
+  values for fields are not given since the implementation will define appropriate 
+  defaults.</p>
+
+<h3><a name="EXTERNPROTOInterfaceSemantics"></a>4.4.5.2 EXTERNPROTO interface semantics</h3>
+
+<p>The semantics of the EXTERNPROTO are exactly the same as for a PROTO statement, 
+  except that default field values are not specified locally. 
+  In addition, events sent to an instance of an externally prototyped node may 
+  be ignored until the implementation of the node is found.</p>
+
+<p>Until the definition has been loaded, the browser shall determine the initial 
+  value of inputOutput fields using the following rules (in order of precedence):</p>
+
+<p><!--NOEDIT--> 
+<ol type=a>
+  <li>the user-defined value in the instantiation (if one is specified);</li> 
+  <li>the default value for that field type.</li>
+</ol>
+<!--/NOEDIT--> 
+
+<p>For outputOnly fields, the initial value on startup will be the default value for that 
+  field type. During the loading of an EXTERNPROTO, if an initial value of an 
+  outputOnly field is found, that value is applied to the field and no event is generated.</p>
+
+<p>The names and types of the fields of the interface declaration shall be a subset of
+  those defined in the implementation. Declaring a field with a non-matching name is an error,
+  as is declaring a field with a matching name but a different type.</p>
+
+<p>It is recommended that user-defined field names defined in EXTERNPROTO 
+  interface statements follow the naming conventions described in <a href="#FieldSemantics">
+  4.4.2.2 Field semantics</a>.</p>
+
+<h3><a name="EXTERNPROTOURLSemantics"></a>4.4.5.3 EXTERNPROTO URL semantics</h3>
+
+<p>The string or strings specified after the interface declaration give the location 
+  of the prototype's implementation. If multiple strings are specified, the browser 
+  searches in the order of preference. For more information on URLs, see
+<a href="components/networking.html">9 Networking component</a>.</p>
+
+<p>If a URL in an EXTERNPROTO statement refers to an X3D file, the first PROTO 
+  statement found in the X3D file (excluding EXTERNPROTOs) is used to define 
+  the external prototype's definition. The name of that prototype does not need 
+  to match the name given in the EXTERNPROTO statement. Results are undefined 
+  if a URL in an EXTERNPROTO statement refers to a non-X3D file</p>
+
+<p>To enable the creation of libraries of reusable PROTO definitions, browsers 
+  shall recognize EXTERNPROTO URLs that end with "#<i>name</i>" to mean 
+  the PROTO statement for "name" in the given X3D file. For example, a library 
+  of standard materials might be stored in an X3D file called "materials.x3dv" 
+  that looks like:</p>
+
+<pre class="listing">#X3D V3.0 utf8
+PROTO Gold   [] { Material { ... } }
+PROTO Silver [] { Material { ... } }
+     ...etc.
+</pre>
+
+<p>A material from this library could be used as follows:</p>
+
+<pre class="listing">#X3D V3.0 utf8
+EXTERNPROTO GoldFromLibrary [] "http://.../materials.x3dv#Gold"
+   ...
+ Shape {
+   appearance Appearance { material GoldFromLibrary {} }
+   geometry   ...
+ }
+ ...
+</pre>
+
+<h2><a name="ImportExportsemantics"></a>
+4.4.6 Import/Export semantics</h2>
+
+<p>The IMPORT feature allows authors to incorporate content defined within Inline 
+  nodes or created programmatically into the namespace of the containing file 
+  for the purposes of event routing. In contrast with external prototyping (see 
+  <a href="#Externalprototypesemantics">4.4.5 External prototype semantics</a>), which allows access to individual fields of nodes defined as prototypes 
+  in external files, IMPORT provides access to all the fields of an externally 
+  defined node with a single statement (see
+<a href="components/networking.html#IMPORTStatement">9.2.5 IMPORT statement</a>).</p>
+
+<p>Importing nodes from an Inlined file is accomplished with two statements: IMPORT 
+  and EXPORT. The IMPORT statement is used in the containing file to define which 
+  nodes of an Inline are to be incorporated into the containing file's namespace. 
+  The EXPORT statement is used in the file being Inlined, to control access over 
+  which nodes within a file are visible to other files (see
+<a href="components/networking.html#EXPORTStatement">9.2.6 EXPORT statement</a>). 
+EXPORT statements are not allowed in prototype declarations.</p>
+
+
+<h2><a name="Runtimenamescope"></a>
+4.4.7 Run-time name scope</h2>
+
+<p>Each X3D browser defines a run-time name scope 
+ that contains all of the root nodes currently contained by the scene graph 
+ and all of the descendant nodes of the root nodes, with the exception of nodes 
+ hidden inside another name scope. Prototypes establish a name scope and therefore 
+ nodes inside prototype instances are hidden from the parent name scope.</p>
+
+<p>Each Inline node or prototype instance also 
+    defines a run-time name scope, consisting of all of the root nodes of the 
+    file referred to by the inline node or all of the root nodes of the prototype 
+    definition, restricted as above. Other nodes or extension mechanism may be 
+    introduced which specify their own name scope.</p>
+
+  <p>The IMPORT feature allows nodes defined within files referenced from
+	<a href="components/networking.html#Inline">Inline</a><i> </i>nodes to be 
+    incorporated into the run-time name scope of the containing scene graph. Once 
+    an IMPORT statement has been encountered, the new name may be used exactly like 
+    any other node name for the purposes of routing or programmatic access (<i>i.e.</i>, 
+    may be used in ROUTE statements and accessed as a field from the Scene Access 
+    Interface). Names imported from an Inline shall be explicitly declared as 
+    exportable within the content of the inlined file, using the EXPORT statement; 
+    only names exported using the EXPORT statement are available to be imported 
+    into other run-time name scopes. The optional AS keyword allows a unique name 
+    to be assigned to the imported node in order to avoid name conflicts in the 
+    containing scene graph's run-time name scope.</p>
+
+  <p>Nodes created dynamically (using the X3D Scene 
+    Access Interface) are not part of any name scope, until they are added to 
+    the scene graph, at which point they become part of the same name scope of 
+    their parent node(s). A node may be part of more than one run-time name scope. 
+    A node shall be removed from a name scope when it is removed from the scene 
+    graph.</p>
+
+
+<h2><a name="Eventmodel"></a>
+4.4.8 Event model</h2>
+
+<h3><a name="Events"></a>
+4.4.8.1 Events</h3>
+
+  <p><i>Events</i> are the primary means of generating behaviors in the X3D 
+  run-time 
+    environment. Events are used throughout X3D: driving time-based animations; 
+    handling object picking; detecting user movement and collision; changing the 
+    scene graph hierarchy. The run-time environment manages the propagation of 
+    events through the system according to a well-defined set of rules.</p>
+<p>Nodes define input fields (<i>i.e.</i>, fields with inputOutput or inputOnly access)
+    that trigger behavior. When a given event occurs, the node receives notification 
+    and can potentially change internal state and the value of one or more of its fields.
+	Nodes also define output fields (<i>i.e.</i>, fields with inputOutput or outputOnly access)
+	that are sent upon  signal state changes or other occurrences within the node.
+	Events sent to input fields and events sent by output fields are referred to
+	collectively in ISO/IEC 19775 as <i>Events</i>.</p>
+
+<h3><a name="Routes"></a>4.4.8.2 Routes</h3>
+
+<p><i>Routes</i> allows an author to declaratively 
+    connect the output events of a node to input events of other nodes, providing 
+    a way to implement complex behaviors without imperative programming. When 
+    a routed output event is fired, the corresponding destination input event 
+    receives notification and can process a response to that change. This processing 
+    can change the state of the node, generate additional events, or change the 
+    structure of the scene graph. Routes may be created declaratively in an X3D 
+    file or programmatically via an SAI call.</p>
+
+<p>Routes are 
+    not nodes. The ROUTE statement is a construct for establishing event paths 
+    between specified fields of nodes. ROUTE statements may either appear at the 
+    top level of an X3D file or inside a node wherever fields may appear. It can 
+    appear after its source or destination node and placing a ROUTE statement 
+    within a node does not associate it with that node in any way. A ROUTE statement 
+    does follow the name scoping rules as described in 
+<a href="#Runtimenamescope">4.4.7 
+    Run-time name scope</a>.</p>
+
+  <p>The type of the destination field shall 
+    be the same as the source type, unless a component or support level permits 
+    an extension to this rule.</p>
+
+  <p>Redundant routing is ignored. If an X3D file 
+    repeats a routing path, the second and subsequent identical routes are ignored. 
+    This also applies for routes created dynamically using the X3D SAI.</p>
+
+  <p>Nodes created through the X3D prototyping mechanism give authors an opportunity 
+    to create custom processing of incoming events. Events coming into a prototyped 
+    node through an interface field can be routed to internal nodes for processing, 
+    or routed to other interface fields for propagation outside the node. An author 
+    can also add programmatic processing logic to an interface field using the 
+    internal scripting support of the Script node.</p>
+
+<h3><a name="ExecutionModel"></a>4.4.8.3 Execution model</h3>
+
+<P>Once a sensor or Script has generated an <I>initial event</I>, the event is 
+propagated from the field producing the event along any ROUTEs to other 
+nodes. These other nodes may respond by generating additional events, continuing 
+until all routes have been honoured. This process is called an <I>event 
+cascade</I>. All events generated during a given event cascade are assigned the 
+same timestamp as the initial event, since all are considered to happen 
+instantaneously.</P>
+
+<P>Some sensors generate multiple events simultaneously. Similarly, it is 
+possible that asynchronously generated events could arrive at the identical time 
+as one or more sensor generated event. In these cases, all events generated are 
+part of the same initial event cascade and each event has the same 
+timestamp. The order in which the events are applied is not considered 
+significant. Conforming X3D worlds shall be able to accommodate simultaneous 
+events in arbitrary order.</P>
+
+<P>After all events of the initial event cascade are honored, post-event 
+processing performs actions stimulated by the event cascade. The browser
+shall perform the following sequence of actions during a single timestamp:</P>
+
+<P>
+<OL type="a">
+  <LI>Update camera based on currently bound Viewpoint&#39;s position and 
+	orientation.<LI>Evaluate input from sensors.<LI>Evalute routes.<LI>If any 
+	events were generated from steps b and c, go to step b and continue.<LI>If 
+	particle system evaluation is to take place, evaluate the particle systems 
+	here.<LI>If physics model evaluation is to take place, evaluate the physics 
+	model.</ol>
+
+<p>For profiles that support <a href="components/scripting.html#Script">Script</a> nodes and the Scene Access Interface, the 
+above order may have several intermediate steps. Details are described in
+<a href="components/scripting.html">29 Scripting </a>and
+<a href="references.html#[I19775_2]">2[I.19775-2]</a>.</p>
+
+<P><A 
+href="#f-ConceptualExecutionModel">Figure 
+4.3</A> provides a conceptual illustration of the execution model.<br>
+<a name="f-ConceptualExecutionModel"></a></P>
+<CENTER>
+<p>
+<IMG src="../Images/ConceptualExecutionModel.png" alt="Conceptual execution model" width="572" height="258"></p>
+<p class="FigureCaption">Figure 4.3 &#8212; Conceptual execution model</p>
+</CENTER>
+<P>Nodes that contain output events shall produce at most one event per field 
+per timestamp. If a field is connected to another field via a ROUTE, an 
+implementation shall send only one event per ROUTE per timestamp. This also 
+applies to scripts where the rules for determining the appropriate action for 
+sending output events are defined in <a href="components/scripting.html">29 Scripting component</a>.</P>
+
+<h3><a name="Loops"></a>
+4.4.8.4 Loops</h3>
+
+<p>Event cascades may contain <i>loops</i> where 
+an event <i>E</i> is routed to a node that generates an event that eventually 
+results in <i>E</i> being generated again. See <a href="#ExecutionModel">4.4.8.3 
+Execution model</a>, for the loop breaking rule that limits each event to 
+one event per timestamp. This rule shall also be used to break loops created 
+by cyclic dependencies between different sensor nodes.</p>
+
+<h3><a name="Fan-infan-out"></a>
+4.4.8.5 Fan-in and fan-out</h3>
+
+<p><i>Fan-in</i> occurs when two or more routes have the same destination field. 
+All events are considered to have been received simultaneously; therefore, the 
+order in which they are processed is not considered relevant.</p>
+
+<p><i>Fan-out</i> occurs when one field is the 
+source for more than one route. This results in sending any event generated 
+by the field along all routes. All events are considered to have been sent 
+simultaneously; therefore, the order in which they are processed is not 
+considered relevant.</p>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube">
+<a name="Components"></a>
+4.5 Components</h1>
+
+<h2><a name="ComponentsOverview"></a>4.5.1 Overview</h2>
+
+<p>An X3D component is a set of related functionality consisting of various X3D 
+objects and services as described below. </p>
+
+<p>Components are specified in this standard or may be defined elsewhere. This 
+standard specifies a set of requirements which shall be satisfied for a 
+component to be considered an X3D component. Components may be organized into 
+support levels as provided by the component specification. The support levels 
+are assigned an integer identifier starting with level 1 as the simplest support 
+level. Higher numbered support levels (if specified) should incorporate all of 
+the functionality of lower numbered support levels. Thus, the support levels 
+support a hierarchy of functionality.</p>
+
+<p>New components may be defined either through 
+  creation of a new part to this International Standard or through registration. 
+  Functionality may be added to an already defined component by amending the appropriate 
+  part of this International Standard or through registration. Such new functionality 
+  shall be in the form of one or more new levels that augment the functionality 
+  already provided. Levels already defined shall not be subdivided. Each such 
+  addition shall satisfy the requirements for component definition stated above.</p>
+
+<h2><a name="DefiningComponents"></a>4.5.2 Defining components</h2>
+
+<p>The following are the requirements for defining components:</p>
+
+<ol type="a">
+  <li> <span style="font-weight: 400">All node objects within a component shall 
+	be derived, either directly or indirectly, from the <i>
+	<a href="components/core.html#X3DNode">X3DNode</a></i> class.</span></li>
+  <li> <span style="font-weight: 400">All field objects within a component shall 
+    be derived from the<i> <a href="fieldsDef.html#X3DField">X3DField</a></i> or
+	<i><a href="fieldsDef.html#X3DArrayField">X3DArrayField</a></i> classes.</span></li>
+  <li> <span style="font-weight: 400">The names for nodes and fields shall follow 
+    the naming semantics set forth in this standard including those for scoping.</span></li>
+</ol>
+
+<p>Several components are defined in this standard 
+  as shown in the <a href="componentIndex.html">Component index</a>. These 
+  components are defined in their respective parts of this International Standard. 
+  In all cases, the X3D extension mechanism may be used to add new levels to the 
+  components or may be used to define separate new components.</p>
+
+<p>Each component definition is comprised of:</p>
+
+<ol type="a" start="4">
+  <li>a name for the component suitable for use in the COMPONENT statement;</li>
+  <li><span style="font-weight: 400">one or more levels starting with Level 1;</span></li>
+  <li> <span style="font-weight: 400">a list of prerequisites for the component 
+    (each prerequisite consisting of a statement of which level in which other 
+    component is required for support of the component being defined);</span></li>
+  <li> <span style="font-weight: 400">a conceptual description of the functionality 
+    being provided;</span></li>
+  <li> <span style="font-weight: 400">a definition of nodes being provided with 
+    an indication of in which level each node is; and</span></li>
+  <li> <span style="font-weight: 400">a statement of conformance for the component.</span></li>
+</ol>
+
+<h2><a name="Basecomponents"></a>
+4.5.3 Base components</h2>
+
+
+<p>Components are specified in this standard or 
+  may be defined elsewhere. See the <a href="componentIndex.html">Component 
+  index</a> for a list of the components of X3D which have been formally 
+accepted by the governing body.</p>
+
+
+<p>Each component is presented by describing the functionality to be supported. 
+This is followed by the specification of the abstract nodes of the component, if 
+any. Following the abstract node specifications, the concrete nodes of the 
+component are specified. Finally, the support levels are specified.</p>
+
+
+<p>The support levels are specified in a table in which the first column 
+presents the number of each support level. The second column specifies the 
+prerequisite components that are required by the particular support level for 
+the component being specified. Each new level is presented with its 
+prerequisites in a separate row of the table. Subsequent rows until the next new 
+level are used to specify node support for that level. The third column specifies the 
+nodes and other features of the 
+component that are to be supported, in whole or in part, by the indicated 
+support level. The fourth column specifies any  constraints on the  particular 
+feature or node for the indicated support level. For each support level i+1, all 
+features of the previous support level shall also be supported.</p>
+
+
+<p>In the second column, each prerequisite for a support level is listed by a 
+component name and a support level within that component. These table entries 
+indicate that, for the browser to claim support for that level of the component, 
+the browser implementation shall also support the component and support
+level(s) listed as a prerequisite. If there are no prerequisites, the word 
+&quot;None&quot; is specified.</p>
+
+
+<p>In the third column, abstract nodes introduced at that support level are 
+listed first followed by the concrete nodes introduced at that support level.</p>
+
+
+<p>In the fourth column, a listing of &quot;n/a&quot; means &quot;not applicable&quot;. When it is 
+indicated that a field is &quot;optionally supported&quot;, an X3D browser is not required 
+to support that field. If all fields of a node are to be entirely supported, the 
+phrase &quot;Full support&quot; is used.</p>
+
+
+<p><a href="#t-ExampleSupportLevelTable">Table 4.5</a> is an example of the format for a support level table:</p>
+
+<div class="CenterDiv">
+<p class="TableCaption">
+<a name="t-ExampleSupportLevelTable"></a>Table 4.5 &#8212; Example support level table</p> 
+
+   <table>
+      <tr> 
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr> 
+        <td><b>1</b></td>
+        <td>Core 1<br>
+        Networking 2</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td></td>
+        <td><i>X3DTimeDependentNode</i> (abstract)</td>
+        <td>n/a</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td></td>
+        <td>Node1Name</td>
+        <td>fieldi optionally supported.</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>Node2Name</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr> 
+        <td><b>2</b></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>Level 1 nodes</td>
+        <td>All fields as supported by Level 
+          1.</td>
+      </tr>
+      <tr> 
+        <td></td>
+        <td></td>
+        <td>NodeName</td>
+        <td>All fields fully supported.</td>
+      </tr>
+    </table>
+</div>
+
+<p>Any new components defined by amendment or in new parts of this International 
+Standard shall specify their functionality using the same format.</p>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube">
+<a name="Profiles"></a>
+4.6 Profiles </h1>
+
+<h2><a name="ProfilesOverview"></a>4.6.1 Overview</h2>
+
+<p>ISO/IEC 19775 supports the concept of profiles. 
+  A profile is a named collection of functionality and requirements that shall 
+  be supported in order for an implementation to conform to that profile. Profiles 
+  are defined as a set of components and levels of each component as well as the 
+  minimum support criteria for all of the objects contained within that set.</p>
+
+<p>This part of ISO/IEC 19775 defines seven profiles satisfying varying 
+sets of requirements:</p>
+
+<ol type="a">
+  <li>Core profile (see <a href="coreprofile.html">Annex A</a>)</li>
+  <li>Interchange profile (see <a href="interchange.html">Annex B</a>)</li>
+  <li>Interactive profile (see <a href="interactive.html">Annex C</a>)</li>
+  <li>MPEG-4 interactive profile (see <a href="MPEG4interactive.html">Annex D</a>)</li>
+  <li>Immersive profile (see <a href="immersive.html">Annex E</a>)</li>
+  <li>Full profile (see <a href="fullProfile.html">Annex F</a>)</li>
+	<li>CADInterchange profile (see <a href="CADInterchange.html">Annex H</a>)</li>
+</ol>
+
+<p>Each set of requirements is directed at supporting the needs of a particular 
+constituency. Not all constituencies may be satisfied by the functionality 
+represented by these  profiles. Therefore, this part of ISO/IEC 19775 
+allows for defining additional profiles either through amendment to this part of 
+this International Standard or by registration.</p>
+
+<p>A system that conforms to a given profile supports 
+  the full set of objects and capabilities defined for that profile.</p>
+
+<h2><a name="Definingprofiles"></a>
+4.6.2 Defining profiles</h2>
+
+<p>A profile definition consists of the following:</p>
+
+<ol type="a">
+  <li> a name for the profile suitable for use in the PROFILE statement;</li>
+  <li> <span style="font-weight: 400">an introduction defining the purpose for 
+    the profile;</span></li>
+  <li> <span style="font-weight: 400">a list of the components and levels within 
+    those components which comprise the profile;</span></li>
+  <li> <span style="font-weight: 400">a statement of conformance criteria for 
+    the profile;</span></li>
+  <li> <span style="font-weight: 400">a table containing the node type set supported 
+    by the profile stating the X3D File Limit and Minimum Browser Support for 
+    each node type;</span></li>
+  <li> <span style="font-weight: 400">a table of other limitations for the profile; 
+	and</span></li>
+  <li> <span style="font-weight: 400">any other information specific to the profile.</span></li>
+</ol>
+
+<h2><a name="RelationshipBetweenProfilesAndComponents"></a>4.6.3 Relationship 
+between profiles and components</h2>
+<p>A profile consists of a collection of components at given support levels. A 
+user may also supplement the predefined set of components for a given profile by 
+specifying extra component 
+statements (see <a href="components/core.html#COMPONENTStatement">7.2.5.4 COMPONENT statement</a>). If the user supplies additional 
+component declarations in addition to the components and levels defined as part 
+of the profile, the resultant components supported shall be the union of all 
+components and levels requested. That is, a user cannot force a lower level of 
+component conformance onto a profile by explicitly declaring the component with 
+a lower level of support than that defined by the profile.</p>
+<p>A profile definition shall be internally consistent. If a profile contains 
+components that list prerequisites that are not covered by the component levels 
+declared for that profile, the prerequisites shall not be automatically made 
+available. Authors wishing to use these missing prerequisites shall explicitly 
+declare the component and level required through the use of the COMPONENT 
+statement.</p>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube">
+<a name="Supportlevels"></a>
+4.7 Support levels</h1>
+
+<p>The X3D specification may be supported at varying <i>Levels</i>, or qualities 
+  of service. Any X3D component may designate a level of service by using a numbering 
+  scheme in which higher-numbered levels denote increasing qualities of service. 
+  A higher level of service may indicate any of the following:</p>
+
+<ol type="a">
+  <li> <span style="font-weight: 400">The presence (or absence) of features;</span></li>
+  <li> <span style="font-weight: 400">Improved support for a particular feature;</span></li>
+  <li> <span style="font-weight: 400">More rigorously defined semantics; or</span></li>
+  <li> <span style="font-weight: 400">More stringent conformance requirements.</span></li>
+</ol>
+
+<p>Note that service levels between different features do not necessarily correspond. 
+  For example, a profile may contain one component supported at level 2 and another 
+  at level 1. Any profile may combine components defined at different service 
+  levels, provided that the features interoperate properly, the behavior is deterministic 
+  (within practical limits) and the conformance requirements for that profile 
+  and components are well-defined.</p>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube">
+<a name="Dataencodings"></a>
+4.8 Data encodings</h1>
+
+  <p>The X3D run-time architecture is independent of the data encoding format. 
+   X3D content and applications can be authored in a variety of encodings, 
+    including textual (XML and Classic VRML encodings) and binary, either compressed 
+    or uncompressed. ISO/IEC 19775 contains 
+    an abstract  encoding specification that defines the structure of the 
+    X3D scene: hierarchical relationships among objects, initial values for objects, 
+    and dataflow connections between objects. All concrete data encodings for 
+    X3D shall conform to this abstract specification.</p>
+
+<p>Browsers and generators may support any or all of the standard encoding formats, 
+   depending on their application needs and the conformance requirements of a 
+   specific component or profile.</p>
+
+<p>X3D encodings are fully specified in the parts of
+<a href="references.html#[I19776]">ISO/IEC 19776</a>.</p>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube">
+<a name="SceneAccessInterface"></a>4.9 Scene access interface</h1>
+
+<p>X3D provides a set of application programmer interfaces (APIs), called the 
+Scene Access Interface (SAI), that defines run-time access to the scene. Using the 
+SAI a developer may create and destroy 
+  nodes, send events to nodes, create connections between nodes (<i>routes</i>), 
+  read or set field values in nodes, traverse the scene graph, and control the 
+  operations of the browser. Programmatic access may be <i>internal</i> (<i>i.e.</i>, used 
+  to create customized elements within the scene graph) or <i>external</i> 
+(<i>i.e.</i>, connecting 
+  to program elements outside the scene such as in a host application such as a 
+  web browser). Internal access is supported via a special node called a 
+<a href="components/scripting.html#Script">Script</a><i> </i>
+node. Script nodes allow developers to connect programming language functions 
+and object classes to the scene graph. Fields of a script are automatically 
+mapped to properties and methods of the object associated with that script. 
+Script node code may generate events which are propagated back to the scene 
+graph by the run-time environment. External access is supported through 
+integration between the X3D run-time system and a variety of programming 
+language run-time libraries.</p>
+
+<p>The X3D SAI is specified as a set of language-independent services and bindings to
+  several programming and scripting languages. A complete specification of the X3D SAI services and the component 
+  model interfaces may be found in <a href="references.html#[I19775_2]">2.[I19775-2]</a>. The language bindings for the services defined in 
+ISO/IEC 19775-2 are specified in <a href="references.html#[I19777]">2.[I19777]</a>. Internal programmatic access is enabled through the 
+  Script node, described in <a href="components/scripting.html">29 Scripting 
+  component</a>.</p>
+
+
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube">
+<a name="Componentprofilereg"></a>
+4.10 Component and profile registration</h1>
+
+<p>This part of ISO/IEC 19775 allows new concepts to be defined by registration 
+  of components, new levels within components, and profiles. Registration shall 
+ not be used to modify any existing component, level of a component, or profile. 
+  New functionality is registered using the established procedures of the 
+<a href="http://www.iso.org/jtc1/sc24/register/">ISO 
+  International Registry of Items</a><sup><a href="#Footnote1">1)</a></sup>. 
+  These procedures require the proposer to supply all information for a new registered 
+  item except for the level number. The level number (if applicable) is 
+  assigned and managed by the ISO International Registration Authority for Graphical 
+  Items. Registration shall be according to the procedures in 
+<a href="references.html#[I9973]">ISO/IEC 9973</a>.</p>
+<p class="Footnote"><sup><a name="Footnote1"></a>1)</sup><span class="normal">Contact 
+information for the ISO-designated Registration Authority for Items registered 
+under the ISO/IEC 9973 procedures is available at the ISO Maintenance Agencies 
+and Registration Authorities web site:
+<a href="http://www.iso.org/iso/standards_development/maintenance_agencies.htm">
+http://www.iso.org/iso/standards_development/maintenance_agencies.htm</a>.</span></p>
+
+<img class="x3dbar" src="../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</body>
+</html>

@@ -1,0 +1,975 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 28 DIS component</title>
+<link rel="stylesheet" href="../X3D.css" type="text/css">
+</head>
+
+<BODY>
+<DIV class=CenterDiv>
+  <a href="../X3D.html">
+  <IMG alt="X3D logo" src="../../Images/x3d.png"  style="border-width: 0px; width: 176px; height: 88px"></a>
+<P class=HeadingPart>Extensible 3D (X3D)<BR>Part 1: Architecture and base 
+components</P>
+<P class=HeadingClause>28 Distributed interactive simulation (DIS) component</P>
+</DIV>
+
+<IMG class=x3dbar height=23 alt="--- X3D separator bar ---" 
+src="../../Images/x3dbar.png" width=430> 
+
+<H1><A name=Introduction></A><IMG class=cube height=19 alt=cube 
+src="../../Images/cube.gif" width=20> 28.1 Introduction</H1>
+
+<H2><A name=Name></A>28.1.1 Name</H2>
+
+<P>The name of this component is &quot;DIS&quot;. This name shall be used when referring 
+to this component in the COMPONENT statement (see <A 
+href="core.html#COMPONENTStatement">7.2.5.4 Component statement</A>).</P>
+
+<H2><A name=Overview></A>28.1.2 Overview</H2>
+
+<P>This clause describes the Distributed Interactive Simulation (DIS) component 
+of this International Standard. <A href="#t-Topics">Table 28.1</A> provides 
+links to the major topics in this clause.</P>
+
+<DIV class=CenterDiv>
+<P class=TableCaption><A name=t-Topics></A>Table 28.1 &#8212; Topics</P>
+<TABLE class=topics>
+  <TBODY>
+  <TR>
+    <TD>
+      <UL>
+        <LI><A href="#Introduction">28.1 Introduction</A> 
+        <UL>
+          <LI><A href="#Name">28.1.1 Name</A> 
+          <LI><A href="#Overview">28.1.2 Overview</A> </LI></UL><A 
+        href="#Concepts">28.2 Concepts</A> 
+        <UL>
+          <LI><a href="#OverviewDIS">28.2.1 Overview of DIS</a> 
+          <LI><A href="#Networkcommunications">28.2.2 Network communications</A> 
+
+          <LI><A href="#CommonDISfields">28.2.3 Common DIS fields</A> </LI></UL>
+        <LI><A href="#Nodereference">28.3 Node reference</A> 
+        <UL>
+          <LI><a href="#DISEntityManager">28.3.1 DISEntityManager</a><LI>
+			<a href="#DISEntityTypeMapping">28.3.2 DISEntityTypeMapping</a><LI>
+			<A href="#EspduTransform">28.3.3 EspduTransform</A> 
+          <LI><A href="#ReceiverPdu">28.3.4 ReceiverPdu</A><LI><A href="#SignalPdu">
+			28.3.5 SignalPdu</A> 
+          <LI><A href="#TransmitterPdu">28.3.6 TransmitterPdu</A> </LI></UL>
+        <LI><a href="#SupportLevels">28.4 Support levels</a> </LI></UL>
+      <UL>
+        <LI><A href="#t-Topics">Table 28.1 &#8212; Topics</A> 
+        <LI><A href="#t-supportlevels">Table 28.2 &#8212; DIS component support levels</A> </LI></UL></TD></TR></TBODY></TABLE></DIV>
+<H1><IMG class=cube height=19 alt=cube src="../../Images/cube.gif" width=20> <A 
+name=Concepts></A>28.2 Concepts</H1>
+<H2><A name=OverviewDIS></A>28.2.1 Overview of DIS</H2>
+<P>IEEE 1278 (see <a href="../references.html#[IEEE1278]">2.[IEEE1278]</a>) is 
+an IEEE communications standard for physically based distributed simulations. 
+Known by the name Distributed Interactive Simulation (DIS), the standard defines 
+the binary layout of a series of messages used to transmit simulation 
+information. Often used by military applications, IEEE 1278 covers a wide range 
+of data, including entity location, velocity, and orientation, and more obscure 
+features such as electronic warfare and supply logistics. In addition to its 
+original focus on military simulations, DIS is also used in civilian 
+applications.</P>
+<P>The DIS component consists of the following X3D nodes:</P>
+<ul>
+	<li><a href="#DISEntityManager">DISEntityManager</a>,</li>
+	<li><a href="#DISEntityTypeMapping">DISEntityTypeMapping</a>,</li>
+	<li><a href="#EspduTransform">EspduTransform</a>,</li>
+	<li><a href="#ReceiverPdu">ReceiverPdu</a>,</li>
+	<li><a href="#SignalPdu">SignalPdu</a>, and</li>
+	<li><a href="#TransmitterPdu">TransmitterPdu</a>.</li>
+</ul>
+<P>Together, these nodes provide the means to send 
+and receive DIS-compliant messages, called Protocol Data Units (PDUs), across 
+the network. Together these nodes support seven DIS PDU message types: 
+Collision, Detonate, Entity State, Fire, Receiver, Signal and Transmitter. 
+Numerous other DIS PDUs are defined by the DIS protocol, but corresponding X3D 
+mappings are not defined. </P>
+<H2><A name=Networkcommunications></A>28.2.2 Network communications</H2>
+<P>DIS messages are typically transmitted on User Datagram Protocol (UDP) (see
+<a href="../bibliography.html#[UDP]">[UDP]</a>) sockets. Multicast, unicast or 
+broadcast transport mechanisms may be used for network communications. Each of 
+the X3D DIS nodes communicates via a UDP socket, usually multicast-enabled, and 
+uses it to read and/or write DIS messages. These messages can be used to 
+communicate and to modify both position and orientation of virtual entities in 
+the X3D scene among multiple hosts across the network. Each DIS implementation 
+is responsible for managing sockets. New entities are registered by the DIS node 
+to send/receive network updates. &quot;Entities&quot; are a high-level abstraction; in the 
+case of a position update, the actual X3D scene-graph object modified may be a 
+<a href="group.html#Transform">Transform</a> node (as for
+<a href="#EspduTransform">EspduTransform</a>), and the geometry for an animated entity 
+is contained in the corresponding children.</P>
+<H2><A name=CommonDISfields></A>28.2.3 Common DIS fields</H2>
+<P>The DIS nodes have a number of descriptive fields in common relating to the 
+desired behavior of the DIS node. Common fields include message header and 
+content information conforming to the DIS standard, network status, and 
+configuration data needed to establish or modify network communications. Since 
+nodes in the DIS component can receive data from the network, these nodes are 
+also sensors. Thus, these nodes implement the <i>
+<a href="core.html#X3DSensorNode">X3DSensorNode</a></i> 
+interface and include both <i>enabled</i> and <i>isActive</i> fields.</P>
+<P>Common fields relating to description of the desired behavior of the DIS node 
+are: <I>isActive</I>, <I>timestamp</I>, <I>networkMode</I>, <I>isStandAlone</I>, 
+<I>isNetworkReader</I>, <I>isNetworkWriter</I>, <I>readInterval</I>, and 
+<I>writeInterval</I>.</P>
+<P>The <I>isActive</I> field indicates if the node has received a DIS message 
+(when output as <CODE>TRUE</CODE>) or not (when output as <CODE>FALSE</CODE>). 
+Since DIS entities can be considered inactive after some period of time 
+(five&nbsp;seconds is specified as the default in
+<a href="../references.html#[IEEE1278]">IEEE 1278</a>) either event may be received by listening nodes. 
+An implementation may use a different value.</P>
+<P>The <I>timestamp</I> field provides the time (SFTime) at which the DIS 
+message arrived, referenced to local system time. </P>
+<P>The <I>networkMode</I> field indicates if the X3D DIS node is operating in 
+one of three distinct ways: independently from the network, as a sender writing 
+updates, or as a receiver reading updates. </P>
+<UL>
+  <LI><I>networkMode</I> <CODE>standAlone</CODE> only connects dynamic behavior 
+	via local ROUTEs and does not send/receive PDUs to/from the network. 
+  <LI><I>networkMode</I> <CODE>networkReader</CODE> reads messages at 
+  <I>readInterval</I> seconds from the network, which can modify fields in the 
+	node upon receipt. In this mode, the entity geometry in the DIS node (<i>e.g.</i>, 
+	<a href="#EspduTransform">EspduTransform</a>) acts as a remote copy of the entity that sent the PDUs. 
+  <LI><I>networkMode</I> <CODE>networkWriter</CODE> sends messages at 
+  <I>writeInterval</I> seconds to the network. In this mode, the entity geometry 
+	in the DIS node (<i>e.g.</i>, EspduTransform) acts as the master copy of the entity 
+	originating state updates. </LI></UL>
+<P>Fields <I>isStandAlone</I>, <I>isNetworkReader</I>, and 
+<I>isNetworkWriter</I> are respectively sent as appropriate <CODE>TRUE</CODE> or 
+<CODE>FALSE</CODE> events during initialization of the DIS node and whenever 
+<I>networkMode</I> is changed. These fields match the state of 
+<I>networkMode</I>. One and only one of these three fields can be 
+<span class="code">TRUE</span> at any 
+given time. </P>
+<P>The <I>readInterval</I> field is a time in seconds between checking for 
+receipt of DIS messages. Setting the <I>readInterval</I> to zero disables the 
+reading of DIS messages. The <I>writeInterval</I> is a time in seconds between 
+message transmissions by the node. Setting the <I>writeInterval</I> to zero 
+disables the transmission of DIS messages by the node.</P>
+<P>Common fields relating to standard identification of DIS entities are: 
+<I>siteID</I>, <I>applicationID</I>, and <I>entityID</I>.</P>
+<P>The <I>siteID</I> and <I>applicationID</I> fields are used to create the DIS 
+PDU Simulation Address record. The intent for each simulation exercise is for 
+each DIS site to be assigned a unique identifier, and each simulation 
+application at a DIS site assigned an application identifier unique within that 
+site. Both fields are 16-bit, unsigned numbers. A common practice is to assign 
+the four octets of a participant&#39;s Internet Protocol (IP) host address to <I>
+siteID</I>. The <I>entityID</I> field further identifies the DIS entity that is 
+the subject of the particular PDU (<span class="example">EXAMPLE&nbsp; an Entity 
+State PDU to update the location and orientation of a particular simulation 
+entity</span>). The 
+<I>entityID</I> is an unsigned, 16-bit number.</P>
+<P>Each entity in a DIS application is assigned a triplet identifier (<I>siteID</I>, <I>
+applicationID</I> and <I>entityID</I> fields) that is unique across all entities 
+in that application and in the particular exercise. The entity identifier 
+triplet is valid for the duration of the exercise. </P>
+<P>Common fields relating to DIS network communications are: <I>address</I>, 
+<I>port</I>, <I>multicastRelayHost</I>, <I>multicastRelayPort</I>, 
+<I>rtpHeaderExpected</I> and <I>rtpHeaderHeard</I>.</P>
+<P>The <I>address</I> field identifies the multicast address for the message 
+transmission (<span class="example">EXAMPLE&nbsp; &quot;224.2.181.145&quot; or &quot;localhost&quot;</span>). 
+The <I>port</I> field identifies the multicast port (<span class="example">EXAMPLE&nbsp; 
+62040</span>) for sending or receiving DIS messages. </P>
+<P>Fields <I>multicastRelayHost</I>, <I>multicastRelayPort</I>, 
+<I>rtpHeaderExpected</I> and <I>rtpHeaderHeard</I> provide networking extensions 
+to the IEEE DIS protocol (see <a href="../references.html#[IEEE1278]">
+2.[IEEE1278]</a>) intended to make DIS more compatible with Internet conventions 
+for unicast and multicast routing over wide-area networks (WANs). If wide-area 
+multicast is needed but not available locally, the <I>multicastRelayHost</I> and 
+<I>multicastRelayPort</I> fields are provided as a fallback server address and 
+associated port, used for creating a unicast tunnel connection to a 
+multicast-connected relay server. Field <I>rtpHeaderExpected</I> indicates that 
+the Real Time Protocol (see <a href="../references.html#[RFC1889]">2.[RFC1889]</a>) 
+header is expected to be prepended to the DIS PDU message to be sent or received 
+by the node (when the field is set to <CODE>TRUE</CODE>. Field <I>rtpHeaderHeard</I> 
+indicates that the RTP header has been prepended to the incoming DIS message.</P>
+<P>The <i style="mso-bidi-font-style:normal">geoSystem</i> field is used to 
+define the spatial reference frame and is described in
+<a href="geodata.html#Specifyingaspatialreference">25.2.3 Specifying a spatial 
+reference frame</a>.<br>
+<br>
+The geometry of the nodes in children is to be specified in base length units in 
+X3D coordinates relative to the location specified by the
+<i style="mso-bidi-font-style:
+normal">geoCoords</i> field. The geoCoords field should be provided in the 
+format described in <a href="geodata.html#Specifyingaspatialreference">25.2.3 
+Specifying a spatial reference frame</a>.<br>
+<br>
+The <em>geoCoords</em> field can be used to dynamically update the geospatial 
+location of the model; for example, an event could be sent from a 
+GeoPositionInterpolator node.</P>
+<H1><IMG class=cube height=19 alt=cube src="../../Images/cube.gif" width=20> <A 
+name=Nodereference></A>28.3 Node reference</H1>
+<h2><a name="DISEntityManager"></a>28.3.2 DISEntityManager</h2>
+<pre class="node">DISEntityManager : X3DChildNode {
+  SFString [in,out] address         &quot;localhost&quot;
+  SFInt32  [in,out] applicationID   1           [0,65535]
+  MFNode   [in,out] mapping         []          [DISEntityTypeMapping]
+  SFNode   [in,out] metadata        NULL        [X3DMetadataObject]
+  SFInt32  [in,out] port            0           [0,65535]
+  SFInt32  [in,out] siteID          0           [0,65535]
+  MFNode   [out]    addedEntities
+  MFNode   [out]    removedEntities
+}</pre>
+A DISEntityManager node notifies content when new entities arrive or current 
+entities leave.
+<p>The <em>mapping</em> field provides a mechanism for automatically creating an X3D 
+model for a new entity arriving. If a new entity matches one of the nodes, an 
+instance of the provided URL is created and added as a child to the 
+<a href="#EspduTransform">EspduTransform</a> specified in the <i>addedEntities</i> field. See
+<a href="#DISEntityTypeMapping">28.3.2 DISEntityTypeMapping</a> for details on 
+matching DIS parameters to URLs. </p>
+<p>The <i>addedEntities</i> field contains any new entities added last frame. 
+These will be EspduTransform nodes. </p>
+<p>The <i>removedEntities</i> field contains any entities removed last frame, 
+either from a timeout or from an explicit RemoveEntityPDU action. This will contain a 
+reference to the EspduTransform node. </p>
+<h2><a name="DISEntityTypeMapping"></a>28.3.2 DISEntityTypeMapping</h2>
+<pre class="node">DISEntityTypeMapping : X3DInfoNode,X3DUrlObject {
+  SFNode   [in,out] metadata    NULL [X3DMetadataObject]
+  MFString [in,out] url         []   [URI]
+  SFInt32  []       category    0    [0,255]
+  SFInt32  []       country     0    [0,65535]
+  SFInt32  []       domain      0    [0,255]
+  SFInt32  []       extra       0    [0,255]
+  SFInt32  []       kind        0    [0,255]
+  SFInt32  []       specific    0    [0,255]
+  SFInt32  []       subcategory 0    [0,255]
+}</pre>
+A DISEntityTypeMapping node provides a mapping from DIS Entity type information 
+to an X3D model. This model provides a visual and behavioral representation of 
+the entity for usage in X3D simulations. The mappings are done by selecting the 
+most specific record that fits the entity. A value of 0 is considered a 
+wildcard. All fields after the first zero shall be zero as well.
+<p>The fields are checked in the following order: kind, domain, country, 
+category, subcategory, specific, extra. </p>
+<p class="Example">EXAMPLE&nbsp; Given an entity whose entity type record was: 
+kind=1, domain=2, country=3, category=4, subcategory=5, specifc=6,extra=7. If 
+the mapping field of the DISEntityManager contained these nodes: </p>
+<pre>   DISEntityTypeMapping {
+      domain 1
+      kind 2
+      country 3
+      url [&quot;model-a.x3d&quot;]
+   }
+   DISEntityTypeMapping {
+      domain 1
+      kind 2
+      country 3
+      category 4
+      url [&quot;model-b.x3d&quot;]
+   }</pre>
+<p class="Example">Then, an entity using the second node with a url of 
+&quot;model-b.x3d&quot; is used as its the most specific mapping. </p>
+<H2><A name=EspduTransform></A>28.3.3 EspduTransform</H2>
+<PRE class=node>EspduTransform : X3DGroupingNode, X3DSensorNode { 
+  MFNode     [in]     addChildren
+  MFNode     [in]     removeChildren
+  SFFloat    [in]     set_articulationParameterValue0                         (-&#8734;,&#8734;)
+  SFFloat    [in]     set_articulationParameterValue1                         (-&#8734;,&#8734;)
+  SFFloat    [in]     set_articulationParameterValue2                         (-&#8734;,&#8734;)
+  SFFloat    [in]     set_articulationParameterValue3                         (-&#8734;,&#8734;)
+  SFFloat    [in]     set_articulationParameterValue4                         (-&#8734;,&#8734;)
+  SFFloat    [in]     set_articulationParameterValue5                         (-&#8734;,&#8734;)
+  SFFloat    [in]     set_articulationParameterValue6                         (-&#8734;,&#8734;)
+  SFFloat    [in]     set_articulationParameterValue7                         (-&#8734;,&#8734;)
+  SFString   [in,out] address                                    &quot;localhost&quot;
+  SFInt32    [in,out] applicationID                              1            [0,65535]
+  SFInt32    [in,out] articulationParameterCount                 0            [0,78]
+  MFInt32    [in,out] articulationParameterDesignatorArray       []           [0,255]
+  MFInt32    [in,out] articulationParameterChangeIndicatorArray  []           [0,255]
+  MFInt32    [in,out] articulationParameterIdPartAttachedToArray []           [0,65535]
+  MFInt32    [in,out] articulationParameterTypeArray             []     <!-- [0,2147483647] -->
+  MFFloat    [in,out] articulationParameterArray                 []           (-&#8734;,&#8734;)
+  SFVec3f    [in,out] center                                     0 0 0        (-&#8734;,&#8734;)
+  MFNode     [in,out] children                                   []
+  SFInt32    [in,out] collisionType                              0            [0,255]
+  SFInt32    [in,out] deadReckoning                              0            [0,255]
+  SFVec3f    [in,out] detonationLocation                         0 0 0        (-&#8734;,&#8734;)
+  SFVec3f    [in,out] detonationRelativeLocation                 0 0 0        (-&#8734;,&#8734;)
+  SFInt32    [in,out] detonationResult                           0            [0,255]
+  SFBool     [in,out] enabled                                    TRUE
+  SFInt32    [in,out] entityCategory                             0            [0,255]
+  SFInt32    [in,out] entityCountry                              0            [0,65535]
+  SFInt32    [in,out] entityDomain                               0            [0,255]
+  SFInt32    [in,out] entityExtra                                0            [0,255]
+  SFInt32    [in,out] entityID                                   0            [0,65535]
+  SFInt32    [in,out] entityKind                                 0            [0,255]
+  SFInt32    [in,out] entitySpecific                             0            [0,255]
+  SFInt32    [in,out] entitySubCategory                          0            [0,255]
+  SFInt32    [in,out] eventApplicationID                         1            [0,65535]
+  SFInt32    [in,out] eventEntityID                              0            [0,65535]
+  SFInt32    [in,out] eventNumber                                0            [0,65355]
+  SFInt32    [in,out] eventSiteID                                0            [0,65535]
+  SFBool     [in,out] fired1                                     FALSE
+  SFBool     [in,out] fired2                                     FALSE
+  SFInt32    [in,out] fireMissionIndex                           0            [0,65535]
+  SFFloat    [in,out] firingRange                                0.0          (0,&#8734;)
+  SFInt32    [in,out] firingRate                                 0            [0,65535]
+  SFInt32    [in,out] forceID                                    0            [0,255]
+  SFInt32    [in,out] fuse                                       0            [0,65535]
+  SFVec3d    [in,out] geoCoords                                  0 0 0        (-&#8734;,&#8734;)
+  SFVec3f    [in,out] linearVelocity                             0 0 0        (-&#8734;,&#8734;)
+  SFVec3f    [in,out] linearAcceleration                         0 0 0        (-&#8734;,&#8734;)
+  SFString   [in,out] marking                                    &quot;&quot;
+  SFNode     [in,out] metadata                                   NULL         [X3DMetadataObject]
+  SFString   [in,out] multicastRelayHost                         &quot;&quot;
+  SFInt32    [in,out] multicastRelayPort                         0             <!-- [0,4294967295] -->
+  SFInt32    [in,out] munitionApplicationID                      1            [0,65535]
+  SFVec3f    [in,out] munitionEndPoint                           0 0 0        (-&#8734;,&#8734;)
+  SFInt32    [in,out] munitionEntityID                           0            [0,65535]
+  SFInt32    [in,out] munitionQuantity                           0            [0,65535]
+  SFInt32    [in,out] munitionSiteID                             0            [0,65535]
+  SFVec3f    [in,out] munitionStartPoint                         0 0 0        (-&#8734;,&#8734;)
+  SFString   [in,out] networkMode                                &quot;standAlone&quot; [&quot;standAlone&quot;|
+                                                                               &quot;networkReader&quot;|
+                                                                               &quot;networkWriter&quot;]
+  SFInt32    [in,out] port                                       0            [0,65535]
+  SFTime     [in,out] readInterval                               0.1          [0,&#8734;)
+  SFRotation [in,out] rotation                                   0 0 1 0      (-&#8734;,&#8734;)|[-1,1]
+  SFVec3f    [in,out] scale                                      1 1 1        (-&#8734;,&#8734;)
+  SFRotation [in,out] scaleOrientation                           0 0 1 0      (-&#8734;,&#8734;)|[-1,1]
+  SFInt32    [in,out] siteID                                     0            [0,65535]
+  SFVec3f    [in,out] translation                                0 0 0        (-&#8734;,&#8734;)
+  SFInt32    [in,out] warhead                                    0            [0,65535]
+  SFTime     [in,out] writeInterval                              1.0          [0,&#8734;)
+  SFFloat    [out]    articulationParameterValue0_changed        0.0          (-&#8734;,&#8734;)
+  SFFloat    [out]    articulationParameterValue1_changed        0.0          (-&#8734;,&#8734;)
+  SFFloat    [out]    articulationParameterValue2_changed        0.0          (-&#8734;,&#8734;)
+  SFFloat    [out]    articulationParameterValue3_changed        0.0          (-&#8734;,&#8734;)
+  SFFloat    [out]    articulationParameterValue4_changed        0.0          (-&#8734;,&#8734;)
+  SFFloat    [out]    articulationParameterValue5_changed        0.0          (-&#8734;,&#8734;)
+  SFFloat    [out]    articulationParameterValue6_changed        0.0          (-&#8734;,&#8734;)
+  SFFloat    [out]    articulationParameterValue7_changed        0.0          (-&#8734;,&#8734;)
+  SFTime     [out]    collideTime                                0            [0,&#8734;)
+  SFTime     [out]    detonateTime                               0            [0,&#8734;)
+  SFTime     [out]    firedTime                                  0            [0,&#8734;)
+  SFBool     [out]    isActive                                   FALSE
+  SFBool     [out]    isCollided                                 FALSE                     
+  SFBool     [out]    isDetonated                                FALSE                    
+  SFBool     [out]    isNetworkReader                            FALSE
+  SFBool     [out]    isNetworkWriter                            FALSE
+  SFBool     [out]    isRtpHeaderHeard                           FALSE
+  SFBool     [out]    isStandAlone                               FALSE
+  SFTime     [out]    timestamp                                  0            [0,&#8734;)
+  SFVec3f    []       bboxCenter                                 0 0 0        (-&#8734;,&#8734;)
+  SFVec3f    []       bboxSize                                   -1 -1 -1     [0,&#8734;) or −1 −1 −1
+  MFString   []       geoSystem                                  [&quot;GD&quot;,&quot;WE&quot;]  [see <a href="geodata.html#Specifyingaspatialreference">25.2.3</a>]
+  SFBool     []       rtpHeaderExpected                          FALSE
+}
+</PRE>
+<P>EspduTransform is a <i><a href="group.html#X3DGroupingNode">X3DGroupingNode</a></i> that can contain most nodes, and also 
+implements the X3DBoundedObject interface. EspduTransform integrates 
+functionality of the following DIS PDUs: EntityStatePDU, CollisionPDU, 
+DetonationPDU, FirePDU, CreateEntity, and RemoveEntity. The following description 
+identifies the fields of the EspduTransform node that are associated with the 
+content of these PDUs.</P>
+<P>As an <i>X3DGroupingNode</i>, EspduTransform has <I>addChildren</I> and 
+<I>removeChildren</I> events to permit modification to the subordinate structure 
+of the scene graph. The <I>removeChildren</I> event removes nodes from the 
+EspduTransform&#39;s <I>children</I> field. Any nodes in the <I>removeChildren</I> 
+event that are not in the EspduTransform&#39;s <I>children</I> list are ignored. 
+Adding a node to the <I>children</I> field will add that node to the 
+EspduTransform&#39;s set of children. Adding any node to the EspduTransform&#39;s 
+<I>children</I> field that is already in that child list is illegal. Adding any 
+node to the EspduTransform&#39;s <I>children</I> that is an ancestor of that 
+grouping is illegal.</P>
+<P>Fields in the EspduTransform node that were not previously described in 
+<a href="#CommonDISfields">28.2.3 Common DIS fields</a> are: <I>translation</I>, <I>
+rotation</I>, <I>center</I>, 
+<I>scale</I>, <I>scaleOrientation</I>, <I>bboxCenter</I>, <I>bboxSize</I>, 
+<I>articulationParameterCount</I>, <I>articulationParameterDesignatorArray</I>, 
+<I>articulationParameterChangeIndicatorArray</I>, 
+<I>articulationParameterIdPartAttachedToArray</I>, 
+<I>articulationParameterTypeArray</I>, <I>articulationParameterArray</I>, 
+<I>set_articulationParameterValue0</I>, <I>set_articulationParameterValue1</I>, 
+<I>set_articulationParameterValue2</I>, <I>set_articulationParameterValue3</I>, 
+<I>set_articulationParameterValue4</I>, <I>set_articulationParameterValue5</I>, 
+<I>set_articulationParameterValue6</I>, <I>set_articulationParameterValue7</I>, 
+<I>articulationParameterValue0_changed</I>, 
+<I>articulationParameterValue1_changed</I>, 
+<I>articulationParameterValue2_changed</I>, 
+<I>articulationParameterValue3_changed</I>, 
+<I>articulationParameterValue4_changed</I>, 
+<I>articulationParameterValue5_changed</I>, 
+<I>articulationParameterValue6_changed</I>, 
+<I>articulationParameterValue7_changed</I>, <I>marking</I>, <I>forceID</I>, 
+<I>entityKind</I>, <I>entityDomain</I>, <I>entityCountry</I>, 
+<I>entityCategory</I>, <I>entitySubCategory</I>, <I>entitySpecific</I>, 
+<I>entityExtra</I>, <I>linearVelocity</I>, <I>linearAcceleration</I>, 
+<I>deadReckoning</I>, <I>isCollided</I>, <I>collidedTime</I>, 
+<I>eventApplicationID</I>, <I>eventSiteID</I>, <I>eventEntityID</I>, 
+<I>collisionType</I>, <I>eventNumber</I>, <I>fired1</I>, <I>fired2</I>, 
+<I>firedTime</I>, <I>munitionStartPoint</I>, <I>munitionEndPoint</I>, 
+<I>fireMissionIndex</I>, <I>munitionApplicationID</I>, <I>munitionSiteID</I>, 
+<I>munitionEntityID</I>, <I>warhead</I>, <I>fuse</I>, <I>munitionQuantity</I>, 
+<I>firingRate</I>, <I>firingRange</I>, <I>isDetonated</I>, <I>detonateTime</I>, 
+<I>detonationLocation</I>, <I>detonationRelativeLocation</I>, and 
+<I>detonationResult</I>.</P>
+<P>The Entity State PDU provides notification of a new position and orientation of 
+an entity, which directly corresponds to the functionality of the X3D
+<a href="group.html#Transform">Transform</a> node. The <I>translation</I> field corresponds to the new 
+position in the DIS coordinate system. It is important to distinguish between 
+the X3D coordinate system and the DIS coordinate system. If (x, y, z) are the 
+coordinates of a point in the X3D coordinate system, corresponding DIS 
+coordinates for the same point would be (x, −z, y). Note that only X3D 
+coordinates are used by the X3D scene. The EspduTransform node internally 
+performs all conversions to/from DIS coordinates when writing/reading DIS PDUs 
+to/from the network. </P>
+<P>The <I>rotation</I> field provides the rotation of the entity, where the 
+rotation is performed relative to the value of the <I>center</I> field. The 
+<I>scale</I> field provides scaling factors along the x, y, z axes, while the 
+<I>scaleOrientation</I> field provides scaling factors for the specified 
+<I>rotation</I>. The <I>translation</I>, <I>rotation</I>, <I>scale</I>, and 
+<I>center</I> fields corresponds directly with functionality of the Transform 
+node. The <I>bboxCenter</I> and <I>bboxSize</I> fields (of the <i>
+<a href="group.html#X3DBoundedObject">X3DBoundedObject</a></i> 
+interface) specify the center and size, respectively, of a cube bounding the 
+entity geometry contained in the EspduTransform grouping node, corresponding to 
+the same fields of an X3D Transform node.</P>Articulation parameter inputOnly 
+events and outputOnly events are provided for the articulationParameters array 
+in order to enable simple routing of primary events of interest into (and out 
+of) the array. As an example, if eight articulation parameters were needed for 
+an EspduTransform controlling the movable parts of a race-car model, each of 
+these articulation parameters might be individually routed as necessary. Events 
+into (and out of) articulationParameter subscripts [8] through [78] are 
+accomplished either by a separate Script node mechanism, or else by complete 
+routing/replacement using an MFFloat event.<p>The 
+<I>articulationParameterCount</I> field (8-bit unsigned integer) indicates the 
+number of parameters that are being used to describe articulation of various 
+segments of the entity model. For example, the orientation of a turret together 
+with the inclination of the gun for a tank entity may be described by two 
+articulation parameters, or the orientation of various segments in a humanoid 
+model may be provided by several articulation parameters. The maximum number of 
+articulated parameter records in an Entity State PDU is constrained to 78 by the 
+maximum length of a PDU. </p>
+<P></P>
+<P>For X3D authoring convenience in ROUTEing events to (or from) articulation 
+parameters, the first eight articulation parameter values may be accessed by 
+accessType inputOnly/outputOnly fields (<I>set_articulationParameterValue0</I>, 
+..., <I>set_articulationParameterValue7</I> and 
+<I>articulationParameterValue0_changed</I>, ..., 
+<I>articulationParameterValue7_changed</I>).</P>
+<P>Fields <I>articulationParameterDesignatorArray</I>, 
+<I>articulationParameterChangeIndicatorArray</I>, 
+<I>articulationParameterIdPartAttachedToArray</I>, 
+<I>articulationParameterTypeArray</I> are arrays that correspond to additional 
+values provided in each articulation parameter record. Elements in these arrays 
+correspond to each articulation parameter in sequential order. </P>
+<UL>
+  <LI>The Parameter Type Designator entries in the 
+  <I>articulationParameterDesignatorArray</I> indicate if the the parameter 
+	record is for an articulated or attached part. It is represented by an 8-bit 
+	enumeration. 
+  <LI>The Change Indicator entries in the 
+  <I>articulationChangeIndicatorArray</I> indicate the change of any parameter 
+	for the associated articulated part. This is specified by an 8-bit unsigned 
+	integer. The value is initially set to zero for each exercise and is 
+	sequentially incremented by one for each change in the articulation 
+	parameters. The proper indicator is updated automatically by an X3D DIS 
+	implementation upon receipt of a <I>set_articulationParameterValue</I> 
+	event. 
+  <LI>The ID - Part Attached To entries in the 
+  <I>articulationParameterIdPartAttachedToArray</I> identify the articulated 
+	part to which this articulation parameter is attached. The value is 
+	specified by a 16-bit unsigned integer, and is set to zero if the 
+	articulated part is attached directly to the entity. 
+  <LI>The Parameter Type entries in the <I>articulationParameterTypeArray</I> 
+  are specified by 32-bit enumeration values. 
+  <LI>The Parameter Value entries in the <I>articulationParameterArray</I> are 
+	specified by a 64-bit field. The definition of the 64 bits is determined 
+	based on the type of parameter indicated above. </LI></UL>
+<P>The <I>marking</I> field is a SFString value (with a maximum of 11 
+characters) corresponding to a selection from an enumerated set of markings in 
+the DIS standard (for full compliance) or an arbitrary string for non-compliant 
+applications using the EspduTransform node.</P>
+<P>The <I>forceID</I> and <I>entityKind</I> fields are 8-bit identification 
+enumerations. The <I>entityDomain</I> field (8-bit enumeration) identities the 
+domain of operation of the entity (<i>e.g.</i>, subsurface, surface, land), except for munition entities. For munition entities, this field specifies the domain of the 
+target. The <I>entityCountry</I> field (16-bit enumeration) specifies the 
+country to which the design of the entity is attributed. The 
+<I>entityCategory</I> field (8-bit enumeration) identifies the main category 
+that describes the entity. The <I>entitySubCategory</I> field (8-bit 
+enumeration) specifies a subcategory based on the identified category value. The 
+<I>entitySpecific</I> field (8-bit enumeration) provides specific information 
+about the entity based on the identified subcategory field. The 
+<I>entityExtra</I> field (8-bit enumeration) provides additional information 
+about the entity. The DIS specification also allows identification of an 
+Alternative Entity Type containing the same fields (Entity Kind, Domain, 
+Country, Category, Subcategory, Specific, Extra) as described above.</P>
+<P>Enumeration values are provided directly, or in additional references, as 
+specified by IEEE 1278 (see <A 
+href="../references.html#[IEEE1278]">2.[IEEE1278]</A>). </P>
+<P>The <I>linearVelocity</I> and <I>linearAcceleration</I> fields provide the 
+linear velocity and acceleration vectors, respectively, for dead reckoning 
+calculations. The dead reckoning algorithm to be applied is identified in the 
+<I>deadReckoning</I> field (8-bit enumeration).</P>
+<P>The CollisionPDU is sent to notify an entity that a collision has occurred. 
+The issuing entity is identified in the <I>entityID</I> field described in
+<a href="#CommonDISfields">28.2.3 Common DIS fields</a>. The <I>isCollided</I> 
+field is a Boolean value indicating if a collision (<CODE>TRUE</CODE>) has 
+occurred. The 
+<I>collideTime</I> field gives the time (SFTime) at which the collision was 
+determined to have occurred. In a CollisionPDU message, the <I>eventSiteID</I>, 
+<I>eventApplicationID</I>, <I>eventEntityID</I> triplet uniquely identifies the 
+entity colliding with the issuing entity (when known). The <I>collisionType</I> 
+field (8-bit enumeration) identifies the type of collision that occurred. </P>
+<P>The <I>eventNumber</I> field is set to one for each exercise and incremented 
+by one for each fire event, collision event, or electromagnetic mission event.</P>
+<P>The FirePDU notifies the simulation that an entity has fired a weapon. The 
+firing entity is identified in the <I>entityID</I> field described in 
+<a href="#CommonDISfields">28.2.3 Common DIS fields</a>. Field <I>fired1</I> 
+(set to <CODE>TRUE</CODE>) indicates the primary weapon was fired; field <I>
+fired2</I> (set to <CODE>TRUE</CODE>) indicates the entity&#39;s secondary weapon 
+was fired. The <I>firedTime</I> field gives the time (SFTime) at which the 
+firing occurred. Fields 
+<I>munitionStartPoint</I> and <I>munitionEndPoint</I> describe the path of the 
+munition from firing weapon to detonation or impact. The <I>fireMissionIndex</I> 
+field identifies the fire mission, if known. The <I>firingRange</I> field 
+specifies the range (in meters) that an entity&#39;s fire control system has assumed 
+in computing the fire control solution.</P>
+<P>In a FirePDU message, the <I>EventSiteID</I>, <I>EventApplicationID</I>, 
+<I>EventEntityID</I> triplet uniquely identifies the target entity, when known. 
+For the FirePDU and DetonationPDU messages, the <I>munitionSiteID</I>, 
+<I>munitionApplicationID</I>, <I>munitionEntityID</I> triplet uniquely 
+identifies the munition entity (if known).</P>
+<P>The FirePDU and DetonationPDU messages provide burst descriptor information in 
+the <I>warhead</I> (16-bit enumeration), <I>fuse</I> (16-bit enumeration), 
+<I>munitionQuantity</I> (16-bit unsigned integer), and <I>firingRate</I> (16-bit 
+unsigned integer) fields. </P>
+<P>The DetonationPDU provides notification that a munition has detonated or 
+impacted so that other entities can determine possible damage from the 
+detonation. The <I>detonated</I> field indicates if detonation has occurred (<CODE>TRUE</CODE>). 
+The <I>detonateTime</I> field gives the time (SFTime) at which the detonation is 
+determined to have occurred. This enables other entities to determine their 
+position relative to the detonation at the time the detonation occurred.</P>
+<P>The DetonationPDU provides the <I>detonationLocation</I> in world coordinates, 
+as well as the <I>detonationRelativeLocation</I>, the location of the detonation 
+or impact in the target entity&#39;s coordinate system. The <I>detonationResult</I> 
+field (8-bit enumeration) provides information on the outcome of the detonation 
+event.</P>
+<P>The CreateEntityPDU notifies other entities of a new entity in the 
+simulation. The <I>siteID</I>, <I>applicationID</I>, <I>entityID</I> triplet 
+described in <a href="#CommonDISfields">28.2.3 Common DIS fields</a>, uniquely 
+identifies the new entity. A CreateEntityPdu is sent upon startup or creation of 
+a new entity. </P>
+<P>The RemoveEntityPDU notifies other entities of the removal of an entity from 
+the simulation. The <I>siteID</I>, <I>applicationID</I>, <I>entityID</I> triplet 
+described in <a href="#CommonDISfields">28.2.3 Common DIS fields</a>, uniquely 
+identifies the entity to be removed. A RemoveEntityPDU is sent upon shutdown or 
+removal of an existing entity. </P>
+<H2><A name=ReceiverPdu></A>28.3.4 ReceiverPdu</H2><PRE class=node>ReceiverPdu : X3DNetworkSensorNode, X3DBoundedObject {
+  SFString [in,out] address                  &quot;localhost&quot;
+  SFInt32  [in,out] applicationID            1            [0,65535]
+  SFBool   [in,out] enabled                  TRUE
+  SFInt32  [in,out] entityID                 0            [0,65535]
+  SFVec3d  [in,out] geoCoords                0 0 0        (-&#8734;,&#8734;)
+  SFNode   [in,out] metadata                 NULL         [X3DMetadataObject]
+  SFString [in,out] multicastRelayHost       &quot;&quot;
+  SFInt32  [in,out] multicastRelayPort       0     <!-- [0,4294967295] -->
+  SFString [in,out] networkMode              &quot;standAlone&quot; [&quot;standAlone&quot;|
+                                                           &quot;networkReader&quot;|
+                                                           &quot;networkWriter&quot;]
+  SFInt32  [in,out] port                     0            [0,65535]
+  SFInt32  [in,out] radioID                  0            [0,65535]
+  SFFloat  [in,out] readInterval             0.1          [0,&#8734;)
+  SFFloat  [in,out] receivedPower            0.0          [0,&#8734;)
+  SFInt32  [in,out] receiverState            0            [0,65535]
+  SFBool   [in,out] rtpHeaderExpected        FALSE
+  SFInt32  [in,out] siteID                   0            [0,65535]
+  SFInt32  [in,out] transmitterApplicationID 1            [0,65535]
+  SFInt32  [in,out] transmitterEntityID      0            [0,65535]
+  SFInt32  [in,out] transmitterRadioID       0            [0,65535]
+  SFInt32  [in,out] transmitterSiteID        0            [0,65535]           
+  SFInt32  [in,out] whichGeometry            1            [-1,&#8734;)
+  SFFloat  [in,out] writeInterval            1.0          [0,&#8734;)
+  SFBool   [out]    isActive                 FALSE
+  SFBool   [out]    isNetworkReader          FALSE
+  SFBool   [out]    isNetworkWriter          FALSE
+  SFBool   [out]    isRtpHeaderHeard         FALSE
+  SFBool   [out]    isStandAlone             FALSE
+  SFTime   [out]    timestamp                0
+  SFVec3f  []       bboxCenter               0 0 0        (-&#8734;,&#8734;)
+  SFVec3f  []       bboxSize                 -1 -1 -1     [0,&#8734;) [0,&#8734;) [0,&#8734;) or −1 −1 −1
+  MFString []       geoSystem                [&quot;GD&quot;,&quot;WE&quot;]  [see <a href="geodata.html#Specifyingaspatialreference">25.2.3</a>]
+}
+</PRE>
+<P>ReceiverPdu is an <i><a href="core.html#X3DChildNode">X3DChildNode</a></i> node, and also implements the 
+<i><a href="group.html#X3DBoundedObject">X3DBoundedObject</a></i> 
+interface. The ReceiverPdu transmits the state of radio frequency (RF) receivers 
+modeled in the simulation. Fields in the ReceiverPdu node that were not 
+previously described in Common DIS Fields are: <I>whichGeometry</I>, 
+<I>radioID</I>, <I>receivedPower</I>, <I>receiverState</I>, 
+<I>transmitterSiteID</I>, <I>transmitterApplicationID</I>, 
+<I>transmitterEntityID</I>, and <I>transmitterRadioID</I>.</P>
+<P>The <I>radioID</I> field (16-bit unsigned integer) identifies a particular 
+radio within a given entity (<I>entityID</I>). The <I>radioID</I> is assigned 
+sequentially, starting with 1. The combination of Entity ID and Radio ID 
+uniquely identify a radio within a simulation exercise. The <I>receivedPower</I> 
+field (32-bit flowing point) indicates the RF power received, after applying any 
+propagation loss and antenna gain. The field value is in units of 
+decibel-milliwatts (dBm). The <I>receiverState</I> (16-bit enumeration) 
+indicates if the receiver is currently idle or busy via one of the following 
+enumerated values: </P>
+<BLOCKQUOTE>
+  <P>0 = off, <BR>1 = on but not receiving, or<BR>2 = on and receiving. 
+</P></BLOCKQUOTE>
+<P>The <I>transmitterEntityID</I> (16-bit unsigned integer) identifies the 
+transmitter entity that has emitted the signal being received. The 
+<I>transmitterRadioID</I> field (16-bit unsigned integer) identifies the 
+particular radio within the transmitter entity (<I>transmitterEntityID</I>).</P>
+<P>The <I>transmitterSiteID</I> field (16-bit unsigned integer) provides the 
+unique DIS site identifier for the transmitter entity. The 
+<I>transmitterApplicationID</I> (16-bit unsigned integer) provides the 
+application identifier for the transmitter entity that is unique within the DIS 
+site (<I>transmitterSiteID</I>).</P>
+<P>The <I>whichGeometry</I> field indicates to the rendering software what 
+geometry to draw for the receiverPdu node: −1 for no geometry; 0 for text trace; 
+1 for default geometry for this node. Additional alternative geometry modes may 
+optionally be supported by browsers. Lack of support for higher modes reverts to 
+<I>whichGeometry</I> value of 1. </P>
+<P>The <I>bboxCenter</I> and <I>bboxSize</I> fields (of the <i>X3DBoundedObject</i> 
+interface) specify the center and size, respectively, of a cube bounding the 
+display geometry (if any) for this node. </P>
+<H2><A name=SignalPdu></A>28.3.5 SignalPdu</H2><PRE class=node>SignalPdu : X3DNetworkSensorNode, X3DBoundedObject {
+  SFString [in,out] address            &quot;localhost&quot;
+  SFInt32  [in,out] applicationID      1            [0,65535]
+  MFInt32  [in,out] data               []           [0,255]                  
+  SFInt32  [in,out] dataLength         0            [0,65535]
+  SFBool   [in,out] enabled            TRUE
+  SFInt32  [in,out] encodingScheme     0            [0,65535]
+  SFInt32  [in,out] entityID           0            [0,65535]
+  SFVec3d  [in,out] geoCoords          0 0 0        (-&#8734;,&#8734;)
+  SFNode   [in,out] metadata           NULL         [X3DMetadataObject]
+  SFString [in,out] multicastRelayHost &quot;&quot;
+  SFInt32  [in,out] multicastRelayPort 0           <!-- [0,4294967295] -->
+  SFString [in,out] networkMode        &quot;standAlone&quot; [&quot;standAlone&quot;|
+                                                     &quot;networkReader&quot;|
+                                                     &quot;networkWriter&quot;]
+  SFInt32  [in,out] port               0            [0,65535]
+  SFInt32  [in,out] radioID            0            [0,65535]
+  SFFloat  [in,out] readInterval       0.1          [0,&#8734;)
+  SFBool   [in,out] rtpHeaderExpected  FALSE
+  SFInt32  [in,out] sampleRate         0            <!-- [0,2147483647] -->[0,65535]
+  SFInt32  [in,out] samples            0            [0,65535]
+  SFInt32  [in,out] siteID             0            [0,65535]
+  SFInt32  [in,out] tdlType            0            [0,65535]
+  SFInt32  [in,out] whichGeometry      1            [-1,&#8734;)
+  SFFloat  [in,out] writeInterval      1.0          [0,&#8734;)
+  SFBool   [out]    isActive
+  SFBool   [out]    isNetworkReader
+  SFBool   [out]    isNetworkWriter
+  SFBool   [out]    isRtpHeaderHeard
+  SFBool   [out]    isStandAlone
+  SFTime   [out]    timestamp
+  SFVec3f  []       bboxCenter         0 0 0        (-&#8734;,&#8734;)
+  SFVec3f  []       bboxSize           -1 -1 -1     [0,&#8734;) or −1 −1 −1
+  MFString []       geoSystem          [&quot;GD&quot;,&quot;WE&quot;]  [see <a href="geodata.html#Specifyingaspatialreference">25.2.3</a>]
+}
+</PRE>
+<P>SignalPdu is an <i><a href="core.html#X3DChildNode">X3DChildNode</a></i> node, and also implements the 
+<i><a href="group.html#X3DBoundedObject">X3DBoundedObject</a></i> 
+interface. Transmission of voice, audio or other data is communicated by issuing 
+a Signal PDU from the SignalPdu node. Fields in the SignalPdu node that were not 
+previously described in Common DIS Fields are: <I>radioID</I>, 
+<I>encodingScheme</I>, <I>tdlType</I>, <I>sampleRate</I>, <I>dataLength</I>, 
+<I>samples</I>, <I>data</I>, and<I>whichGeometry</I>. </P>
+<P>The <I>radioID</I> field identifies a particular radio within a given entity 
+(<I>entityID</I>). The <I>radioID</I> (16-bit unsigned integer) is assigned 
+sequentially, starting with 1. The combination of Entity ID and Radio ID 
+uniquely identify a radio within a simulation exercise. The 
+<I>encodingScheme</I> field (16-bit enumeration) designates both an Encoding 
+Class enumerated value (2 most significant bits): </P>
+<BLOCKQUOTE>
+  <P>0 = Encoded Voice; <BR>1 = Raw Binary Data; <BR>2 = Application-Specific 
+	Data; <BR>3 = Database Index.</P></BLOCKQUOTE>
+<P>and an Encoding Type enumerated value (14 least significant bits):</P>
+<BLOCKQUOTE>
+  <P>1 = 8-bit mu-law; <BR>2 = CVSD per MIL-STD-188-113; <BR>3 = ADPCM per CCITT 
+	G.721; <BR>4 = 16-bit linear PCM; <BR>5 = 8-bit linear PCM; <BR>6 = Vector 
+	Quantization. </P></BLOCKQUOTE>
+<P>The <I>tdlType</I> field (16-bit enumeration) specifies the Tactical Data 
+Link (TDL) type as an enumerated value when the Encoding Class is 
+<CODE>voice</CODE>, <CODE>raw binary</CODE>, <CODE>application-specific</CODE>, 
+or <CODE>database index</CODE> representation of a TDL message. The field is set 
+to zero when it is not representing a TDL message.</P>
+<P>The <I>sampleRate</I> field (32-bit unsigned integer) gives either (1) the 
+sample rate in samples per second if the Encoding Class is <CODE>encoded audio</CODE> 
+or (2) the data rate in bits per second for data transmissions. If the Encoding 
+Class is <CODE>database index</CODE>, <I>sampleRate</I> is set to zero.</P>
+<P>The <I>samples</I> field (16-bit unsigned integer) gives the number of 
+samples in the PDU if the Encoding Class is <CODE>encoded voice</CODE>; 
+otherwise, the field is set to zero.</P>
+<P>The <I>dataLength</I> field (16-bit unsigned integer) specifies the number of 
+bits of digital voice audio or digital data being sent in the Signal PDU. If the 
+Encoding Class is <CODE>database index</CODE>, the <I>dataLength</I> field is 
+set to the value 96.</P>
+<P>The <I>data</I> field specifies the audio or digital data conveyed by the 
+radio transmission. The interpretation of the field depends on the value of the 
+<I>encodingScheme</I> and <I>tdlType</I> fields. Refer to IEEE 1278 (<A 
+href="../references.html#[IEEE1278]">2.[IEEE1278]</A>) for details. </P>
+<P>The <I>whichGeometry</I> field indicates to the rendering software what 
+geometry to draw for the SignalPdu node: −1 for no geometry; 0 for text trace; 1 
+for default geometry for this node. Additional alternative geometry modes may 
+optionally be supported by browsers. Lack of support for higher modes reverts to 
+<I>whichGeometry</I> value of 1. </P>
+<P>The <I>bboxCenter</I> and <I>bboxSize</I> fields (of the <i>X3DBoundedObject</i> 
+interface) specify the center and size, respectively, of a cube bounding the 
+display geometry (if any) for this node. </P>
+<H2><A name=TransmitterPdu></A>28.3.6 TransmitterPdu</H2><PRE class=node>TransmitterPdu : X3DNetworkSensorNode, X3DBoundedObject { 
+  SFString [in,out] address                            &quot;localhost&quot;
+  SFVec3f  [in,out] antennaLocation                    0 0 0        (-&#8734;,&#8734;)
+  SFInt32  [in,out] antennaPatternLength               0            [0,65535]
+  SFInt32  [in,out] antennaPatternType                 0            [0,65535]
+  SFInt32  [in,out] applicationID                      1            [0,65535]
+  SFInt32  [in,out] cryptoKeyID                        0            [0,65535]           
+  SFInt32  [in,out] cryptoSystem                       0            [0,65535]
+  SFBool   [in,out] enabled                            TRUE
+  SFInt32  [in,out] entityID                           0            [0,65535]
+  SFInt32  [in,out] frequency                          0     <!-- [0,4294967296] --> 
+  SFVec3d  [in,out] geoCoords                          0 0 0        (-&#8734;,&#8734;)
+  SFInt32  [in,out] inputSource                        0            [0,255]
+  SFInt32  [in,out] lengthOfModulationParameters       0            [0,255]
+  SFNode   [in,out] metadata                           NULL         [X3DMetadataObject]
+  SFInt32  [in,out] modulationTypeDetail               0            [0,65535]
+  SFInt32  [in,out] modulationTypeMajor                0            [0,65535]
+  SFInt32  [in,out] modulationTypeSpreadSpectrum       0            [0,65535]
+  SFInt32  [in,out] modulationTypeSystem               0            [0,65535]
+  SFString [in,out] multicastRelayHost                 &quot;&quot;
+  SFInt32  [in,out] multicastRelayPort                 0           <!-- [0,4294967295] -->
+  SFString [in,out] networkMode                        &quot;standAlone&quot; [&quot;standAlone&quot;|
+                                                                     &quot;networkReader&quot;|
+                                                                     &quot;networkWriter&quot;]
+  SFInt32  [in,out] port                               0            [0,65535]
+  SFFloat  [in,out] power                              0.0          [0,&#8734;)
+  SFInt32  [in,out] radioEntityTypeCategory            0            [0,255]
+  SFInt32  [in,out] radioEntityTypeCountry             0            [0,65535]
+  SFInt32  [in,out] radioEntityTypeDomain              0            [0,255]
+  SFInt32  [in,out] radioEntityTypeKind                0            [0,255]
+  SFInt32  [in,out] radioEntityTypeNomenclature        0            [0,255]
+  SFInt32  [in,out] radioEntityTypeNomenclatureVersion 0            [0,65535]
+  SFInt32  [in,out] radioID                            0            [0,255]
+  SFFloat  [in,out] readInterval                       0.1          [0,&#8734;)
+  SFVec3f  [in,out] relativeAntennaLocation            0 0 0        (-&#8734;,&#8734;)
+  SFBool   [in,out] rtpHeaderExpected                  FALSE
+  SFInt32  [in,out] siteID                             0            [0,65535]
+  SFFloat  [in,out] transmitFrequencyBandwidth         0.0          (-&#8734;,&#8734;)
+  SFInt32  [in,out] transmitState                      0            [0,255]
+  SFInt32  [in,out] whichGeometry                      1            [-1,&#8734;)
+  SFFloat  [in,out] writeInterval                      1.0          [0,&#8734;)
+  SFBool   [out]    isActive                           FALSE
+  SFBool   [out]    isNetworkReader                    FALSE
+  SFBool   [out]    isNetworkWriter                    FALSE
+  SFBool   [out]    isRtpHeaderHeard                   FALSE
+  SFBool   [out]    isStandAlone                       FALSE
+  SFTime   [out]    timestamp                          0
+  SFVec3f  []       bboxCenter                         0 0 0        (-&#8734;,&#8734;)
+  SFVec3f  []       bboxSize                           -1 -1 -1     [0,&#8734;) [0,&#8734;) [0,&#8734;) or −1 −1 −1
+  MFString []       geoSystem                          [&quot;GD&quot;,&quot;WE&quot;]  [see <a href="geodata.html#Specifyingaspatialreference">25.2.3</a>]
+}
+</PRE>
+<P>TransmitterPdu is an X3DChildNode node, and also implements the 
+X3DBoundedObject interface. The TransmitterPdu provides detailed information 
+about a radio transmitter. Fields in the TransmitterPdu node that were not 
+previously described in Common DIS Fields are: <I>radioID</I>, 
+<I>radioEntityTypeKind</I>, <I>radioEntityTypeDomain</I>, 
+<I>radioEntityTypeCountry</I>, <I>radioEntityTypeCategory</I>, 
+<I>radioEntityTypeNomenclature</I>, <I>radioEntityTypeNomenclatureVersion</I>, 
+<I>transmitState</I>, <I>inputSource</I>, <I>antennaLocation</I>, 
+<I>antennaPatternType</I>, <I>antennaPatternLength</I>, <I>frequency</I>, 
+<I>transmitFrequencyBandwidth</I>, <I>power</I>, 
+<I>modulationTypeSpreadSpectrum</I>, <I>modulationTypeMajor</I>, 
+<I>modulationTypeDetail</I>, <I>modulationTypeSystem</I>, 
+<I>lengthOfModulationParameters</I>, <I>cryptoSystem</I>, <I>cryptoKeyID</I>, 
+<I>relativeAntennaLocation</I>, and <I>whichGeometry</I>.</P>
+<P>The <I>radioID</I> field identifies a particular radio within a given entity 
+(<I>entityID</I>). The <I>radioID</I> (16-bit unsigned integer) is assigned 
+sequentially, starting with 1. The combination of Entity ID and Radio ID 
+uniquely identify a radio within a simulation exercise.</P>
+<P>The radio entity type is described by a combination of fields: 
+<I>radioEntityTypeKind</I>, <I>radioEntityTypeDomain</I>, 
+<I>radioEntityTypeCountry</I>, <I>radioEntityTypeCategory</I>, 
+<I>radioEntityTypeNomenclatureVersion</I>, and 
+<I>radioEntityTypeNomenclature</I>. The <I>radioEntityTypeKind</I> is an 8-bit 
+enumeration (<i>e.g.</i>, value of 7 indicates Entity Kind of &quot;Radio&quot;). The 
+<I>radioEntityTypeDomain</I> field (8-bit enumeration) designates the domain of 
+operation of the radio enumerated value: </P>
+<BLOCKQUOTE>
+  <P>0 = other; <BR>1 = land; <BR>2 = air; <BR>3 = surface; <BR>4 = subsurface; 
+  <BR>5 = space. </P></BLOCKQUOTE>
+<P>The <I>radioEntityTypeCountry</I> field (16-bit enumeration) identifies the 
+country to which the design of the radio entity is attributed (see <A 
+href="../references.html#[IEEE1278]">2.[IEEE1278]</A>). </P>
+<P>The <I>radioEntityTypeCategory</I> field (8-bit enumeration) specifies the 
+main category describing the radio entity. The 
+<I>radioEntityTypeNomenclature</I> (16-bit enumeration) specifies the 
+nomenclature for a particular communications device. Nomenclatures are a 
+combination of letters and/or numbers arranged in a specific sequence to provide 
+a short method of identification. The 
+<I>radioEntityTypeNomenclatureVersion</I> field designates the specific 
+modification or individual unit type of a series and/or family of equipment.</P>
+<P>The <I>transmitterState</I> field (8-bit enumeration) indicates the 
+operational state of the transmitter entity enumerated value: </P>
+<BLOCKQUOTE>
+  <P>0 = off, <BR>1 = on but not transmitting, or <BR>2 = on and transmitting. 
+</P></BLOCKQUOTE>
+<P>The <I>inputSource</I> (8-bit enumeration) specifies which position or data 
+port in the entity utilizing the radio is providing the input audio or data 
+being transmitted enumerated value: </P>
+<BLOCKQUOTE>
+  <P>0 = other, <BR>1 = pilot, <BR>2 = copilot, <BR>3 = first officer, <BR>4 = 
+	driver,<br>
+	5 = loader,<BR>6 = gunner,<BR>7 = commander,<BR>8 = digital data device, or<BR>9 = intercom.</P></BLOCKQUOTE>
+<P>The <I>antennaLocation</I> field provides the location of the transmitter 
+antenna in the DIS coordinate system.</P>
+<P class="Example">NOTE&nbsp; IEEE 1278 (see
+<a href="../references.html#[IEEE1278]">2.[IEEE1278]</a>) allocates 
+64-bit floating point values for the components of the antenna location vector, 
+whereas it is represented here as SFVec3f for maximum interoperability with 
+X3D.</P>
+<P>The <I>relativeAntennaLocation</I> field provides an offset from the 
+location of the transmitter entity to simulate placement of antennas some 
+distance from the transmitter equipment.</P>
+<P>The <I>antennaPatternType</I> field (16-bit enumeration) indicates the type 
+of representation for the radiation pattern from the antenna enumerated value:</P>
+<BLOCKQUOTE>
+  <P>0 = omnidirectional; <BR>1 = beam; <BR>2 = spherical harmonic. 
+</P></BLOCKQUOTE>
+<P>The value of this field determines the interpretation of the Antenna Pattern 
+Parameter field of the DIS Transmitter PDU. The <I>antennaPatternLength</I> 
+field (16-bit unsigned integer) specifies the length of the Antenna Pattern 
+Parameters field in octets (value is a multiple of 8).</P>
+<P>The <I>frequency</I> field specifies the center frequency (in Hertz) being 
+used by the radio for transmission. Note that IEEE 1278 allocates a 
+64-bit unsigned integer to represent frequency values, whereas it is limited to 
+SFInt32 in X3D. The <I>transmitFrequencyBandwidth</I> (32-bit floating point) 
+identifies the bandpass of the transmitting radio entity. The <I>power</I> field 
+(32-bit floating point) provides the average power (in units of dBm) of the 
+radio entity transmission.</P>
+<P>Information about the type of modulation used for radio transmission is 
+represented in the Transmitter PDU by several fields. These fields identify the 
+signal parameters that are used to determine whether two radios may 
+interoperate. The <I>modulationTypeSpreadSpectrum</I> field indicates the spread 
+spectrum technique or combination of techniques in use enumerated value: </P>
+<BLOCKQUOTE>
+  <P>0 = frequency hopping; <BR>1 = pseudo-noise; <BR>2 = time hopping; <BR>3-15 
+	are to be determined. </P></BLOCKQUOTE>
+<P>The <I>modulationTypeMajor</I> (16-bit enumeration) provides the major 
+classification of the modulation type enumerated value: </P>
+<BLOCKQUOTE>
+  <P>0 = other; <BR>1 = amplitude; <BR>2 = amplitude and angle; <BR>3 = angle; 
+  <BR>4 = combination; <BR>5 = pulse; <BR>6 = unmodulated. </P></BLOCKQUOTE>
+<P>The <I>modulationTypeDetail</I> field (16-bit enumerations) contains detailed 
+information depending on the Major Modulation Type (<I>modulationTypeMajor</I>). 
+The <I>modulationTypeSystem</I> field (16-bit enumeration) specifies the 
+interpretation of the modulation parameter field(s) in the Transmitter PDU 
+(enumerated value): </P>
+<BLOCKQUOTE>
+  <P>0 = other; <BR>1 = generic; <BR>2 = HQ; <BR>3 = HQII; <BR>4 = HQIIA; <BR>5 
+	= SINCGARS; <BR>6 = CCTT SINCGARS.</P></BLOCKQUOTE>
+<P>The <I>cryptoSystem</I> field (16-bit enumeration) identifies the crypto 
+equipment used enumerated value:</P>
+<BLOCKQUOTE>
+  <P>0 = other; <BR>1 = KY-28; <BR>2 = KY-58; <BR>3 = Narrow Spectrum 
+	Secure Voice (NSVE);<BR>4 = Wide Spectrum Secure Voice (WSVE); <BR>5 = 
+	SINCGARS ICOM. </P></BLOCKQUOTE>
+<P>The <I>cryptoKeyID</I> field (16-bit unsigned integer) indicates whether the 
+crypto equipment is in the baseband encryption mode or the diphase encryption 
+mode (high order bit of the 16-bit field) and provides the key identifier (lower 
+order 15 bits). If the key identifiers of the transmitter and receiver match, 
+they are considered to be using the same encryption key (note that this is not 
+an actual crypto key).</P>
+<P>The <I>whichGeometry</I> field indicates to the rendering software what 
+geometry to draw for the TransmitterPdu node: −1 for no geometry; 0 for text 
+trace; 1 for default geometry for this node. Additional alternative geometry 
+modes may optionally be supported by browsers. Lack of support for higher modes 
+reverts to <I>whichGeometry</I> value of 1. </P>
+<P>The <I>bboxCenter</I> and <I>bboxSize</I> fields (of the X3DBoundedObject 
+interface) specify the center and size, respectively, of a cube bounding the 
+display geometry (if any) for this node. </P>
+<H1><IMG class=cube height=19 alt=cube src="../../Images/cube.gif" width=20> 
+<a name="SupportLevels"></a>28.4 Support levels</H1>
+<P>The DIS component provides two levels of support as specified in <A 
+href="#t-supportlevels">Table 28.2</A>.</P>
+<DIV class=CenterDiv>
+<P class=TableCaption><A name=t-supportlevels></A>Table 28.2 &#8212; DIS component 
+support levels</P>
+<TABLE>
+  <TBODY>
+  <TR>
+    <TH><B>Level</B></TH>
+    <TH>Prerequisites</TH>
+    <TH><B>Nodes/Features</B></TH>
+    <TH>Support</TH></TR>
+  <TR>
+    <TD>
+    <p align="center"><B>1</B></TD>
+    <TD>Core 1<BR>Time 1<BR>Grouping 3<BR>Networking 3<BR>Rendering 1<BR>Shape 1<BR>
+	Geometry3D 1<BR>Interpolator 1<BR>Point device sensor 1<BR>Navigation 1 </TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD></TR>
+  <TR>
+    <TD>
+    &nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>EspduTransform</TD>
+    <TD>All fields fully supported.</TD></TR>
+  <tr>
+    <TD>
+    &nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>ReceiverPDU</TD>
+    <TD>All fields fully supported.</TD>
+  </tr>
+  <TR>
+    <TD>
+    &nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>SignalPDU</TD>
+    <TD>All fields fully supported.</TD></TR>
+  <TR>
+    <TD>
+    &nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>TransmitterPDU</TD>
+    <TD>All fields fully supported.</TD></TR>
+  <TR>
+    <TD>
+    <p align="center"><b>2</b></TD>
+    <TD>Core 1<br>
+	Time 1<br>
+	Grouping 3<br>
+	Networking 3<br>
+	Rendering 1<br>
+	Shape 1<br>
+	Geometry3D 1<br>
+	Interpolator 1<br>
+	Point device sensor 1<br>
+	Navigation 1</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD></TR>
+  <TR>
+    <TD>
+    &nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>All Level 1 DIS nodes.</TD>
+    <TD>All fields fully supported.</TD></TR>
+  <TR>
+    <TD>
+    &nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>DISEntityManager</TD>
+    <TD>All fields fully supported.</TD></TR>
+  <TR>
+    <TD>
+    &nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>DISEntityTypeMapping</TD>
+    <TD>All fields fully supported.</TD></TR></TBODY></TABLE></DIV><IMG class=x3dbar height=23 
+alt="--- X3D separator bar ---" src="../../Images/x3dbar.png" width=430> 
+</BODY></HTML>

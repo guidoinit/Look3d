@@ -1,0 +1,1786 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, Annex F Full profile</TITLE>
+<link rel="stylesheet" href="X3D.css" type="text/css">
+</head>
+
+<body>
+
+<div class="CenterDiv">
+<a href="X3D.html">
+<img class="x3dlogo" SRC="../Images/x3d.png" ALT="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a> 
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="AnnexHeadingBottom">
+    Annex F</p>
+
+<p class="AnnexType">(normative)</p>
+
+<p class="HeadingClause">Full profile<br>
+        &nbsp;</p>
+</div>
+
+<img class="x3dbar" SRC="../Images/x3dbar.png" ALT="--- X3D separator bar ---" width="430" height="23">
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="General"></a>F.1 General</h1>
+
+<p>This annex defines the X3D components which comprise the Full profile. This 
+  includes not only the nodes which shall be supported but also which fields in 
+  the supported nodes may be ignored.</p>
+
+<p>The Full profile of X3D is comprised of all features of the standard.
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="Topics"></a>F.2 Topics</h1>
+
+<p><a href="#t-Topics">Table F.1</a> provides links to the major topics in 
+  this annex.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-Topics"></a>Table F.1 &#8212; Topics</p>
+
+  <table>
+    <tr> 
+      <td>
+        <ul>
+          <li><a href="#General">F.1 General</a></li> 
+          <li><a href="#Topics">F.2 Topics</a></li> 
+          <li><a href="#ComponentSupport">F.3 Component support</a></li> 
+          <li><a href="#ConformanceCriteria">F.4 Conformance criteria</a></li> 
+          <li><a href="#NodeSet">F.5 Node set</a></li> 
+          <li><a href="#OtherLimitations">F.6 Other limitations</a></li>
+        </ul>
+        <ul>
+<li><a href="#t-Topics">Table F.1 &#8212; Topics</a></li>
+<li><a href="#t-ComponentsAndLevels">Table F.2 &#8212; Components and levels</a></li>
+<li><a href="#t-NodesForConforming">Table F.3 &#8212; Nodes for conforming to the Full profile</a></li>
+<li><a href="#t-OtherLimitations">Table F.4 &#8212; Other limitations</a></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="ComponentSupport"></a>F.3 Component support</H1>
+
+<P><a href="#t-ComponentsAndLevels">Table F.2</a> lists the components and their 
+  levels which shall be supported in the Full profile. Tables F.2 and F.3 describe 
+  limitations on required support for nodes and fields contained within these 
+  components.</P>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-ComponentsAndLevels"></a>Table F.2 &#8212; Components and levels</p>
+
+<table>
+      <tr> 
+        <th>Component</th>
+        <th>Level</th>
+        <th>Reference</th>
+      </tr>
+      <tr> 
+        <td>Core</td>
+        <td align="center">2</td>
+        <td><a href="components/core.html#SupportLevels">7.5 Support levels</a></td>
+      </tr>
+      <tr> 
+        <td>Time</td>
+        <td align="center">2</td>
+        <td><a href="components/time.html#SupportLevels">8.5 Support levels</a></td>
+      </tr>
+      <tr> 
+        <td>Networking</td>
+        <td align="center">3</td>
+        <td><a href="components/networking.html#SupportLevels">9.5 Support 
+        levels</a></td>
+      </tr>
+      <tr> 
+        <td>Grouping</td>
+        <td align="center">3</td>
+        <td><a href="components/group.html#SupportLevels">10.5 Support levels</a></td>
+      </tr>
+      <tr> 
+        <td>Rendering</td>
+        <td align="center">5</td>
+        <td><a href="components/rendering.html#SupportLevels">11.5 Support 
+        levels</a></td>
+      </tr>
+      <tr> 
+        <td>Shape</td>
+        <td align="center">4</td>
+        <td><a href="components/shape.html#SupportLevels">12.5 Support levels</a></td>
+      </tr>
+      <tr> 
+        <td>Geometry3D</td>
+        <td align="center">4</td>
+        <td><a href="components/geometry3D.html#SupportLevels">13.4 Support 
+        levels</a></td>
+      </tr>
+      <tr> 
+        <td>Geometry2D</td>
+        <td align="center">2</td>
+        <td><a href="components/geometry2D.html#SupportLevels">14.4 Support 
+        levels</a></td>
+      </tr>
+      <tr> 
+        <td>Text</td>
+        <td align="center">1</td>
+        <td><a href="components/text.html#SupportlLevels">15.5 Support levels</a></td>
+      </tr>
+      <tr>
+        <td>Sound</td>
+        <td align="center">1</td>
+        <td><a href="components/sound.html#SupportLevels">16.5 Support levels</a></td>
+      </tr>
+      <tr> 
+        <td>Lighting</td>
+        <td align="center">3</td>
+        <td><a href="components/lighting.html#SupportLevels">17.5 Support levels</a></td>
+      </tr>
+      <tr>
+        <td>Texturing</td>
+        <td align="center">3</td>
+        <td><a href="components/texturing.html#SupportLevels">18.5 Support 
+        levels</a></td>
+      </tr>
+      <tr> 
+        <td>Interpolation</td>
+        <td align="center">5</td>
+        <td><a href="components/interp.html#SupportLevels">19.5 Support levels</a></td>
+      </tr>
+      <tr> 
+        <td>Pointing device sensor</td>
+        <td align="center">1</td>
+        <td><a href="components/pointingsensor.html#SupportLevels">20.5 Support 
+        levels</a></td>
+      </tr>
+      <tr>
+        <td>Key device sensor</td>
+        <td align="center">2</td>
+        <td><a href="components/keyboard.html#SupportLevels">21.5 Support levels</a></td>
+      </tr>
+      <tr> 
+        <td>Environmental sensor</td>
+        <td align="center">3</td>
+        <td><a href="components/envsensor.html#SupportLevels">22.5 Support 
+        levels</a></td>
+      </tr>
+      <tr>
+        <td>Navigation</td>
+        <td align="center">3</td>
+        <td><a href="components/navigation.html#SupportLevels">23.4 Support 
+        levels</a> 
+        </td>
+      </tr>
+      <tr> 
+        <td>Environmental effects</td>
+        <td align="center">4</td>
+        <td><a href="components/enveffects.html#SupportLevels">24.5 Support 
+        levels</a></td>
+      </tr>
+      <tr>
+        <td>Geospatial</td>
+        <td align="center">2</td>
+        <td><a href="components/geodata.html#SupportLevels">25.4 Support levels</a></td>
+      </tr>
+      <tr>
+        <td>Humanoid animation</td>
+        <td align="center">1</td>
+        <td><a href="components/hanim.html#SupportLevels">26.4 Support levels</a></td>
+      </tr>
+      <tr>
+        <td>Non-uniform Rational B-Spline (NURBS)</td>
+        <td align="center">4</td>
+        <td><a href="components/nurbs.html#SupportLevels">27.5 Support levels</a></td>
+      </tr>
+      <tr>
+        <td>Distributed interactive simulation</td>
+        <td align="center">2</td>
+        <td><a href="components/dis.html#SupportLevels">28.4 Support levels</a></td>
+      </tr>
+      <tr> 
+        <td>Scripting</td>
+        <td align="center">1</td>
+        <td><a href="components/scripting.html#SupportLevels">29.5 Support 
+        levels</a></td>
+      </tr>
+      <tr> 
+        <td>Event utilities</td>
+        <td align="center">1</td>
+        <td><a href="components/utils.html#SupportLevels">30.5 Support levels</a></td>
+      </tr>
+      <tr>
+        <td>Programmable shaders</td>
+        <td align="center">1</td>
+        <td><a href="components/shaders.html#SupportLevels">31.5 Support levels</a></td>
+      </tr>
+      <tr>
+        <td>CAD geometry</td>
+        <td align="center">2</td>
+        <td><a href="components/CADGeometry.html#SupportLevels">32.5 Support levels</a></td>
+      </tr>
+      <tr> 
+        <td>Texturing3D</td>
+        <td align="center">2</td>
+        <td><a href="components/texture3D.html#SupportLevels">33.5 Support 
+        levels</a></td>
+      </tr>
+      <tr> 
+        <td>Cube map environmental texturing</td>
+        <td align="center">3</td>
+        <td><a href="components/env_texture.html#SupportLevels">34.5 Support levels</a></td>
+      </tr>
+      <tr> 
+        <td>Layering component</td>
+        <td align="center">1</td>
+        <td><a href="components/layering.html#SupportLevels">35.5 Support levels</a></td>
+      </tr>
+      <tr> 
+        <td>Layout component</td>
+        <td align="center">2</td>
+        <td><a href="components/layout.html#SupportLevels">36.5 Support levels</a></td>
+      </tr>
+      <tr> 
+        <td>Rigid body physics component</td>
+        <td align="center">2</td>
+        <td><a href="components/rigid_physics.html#SupportLevels">37.5 Support 
+		levels</a></td>
+      </tr>
+      <tr> 
+        <td>Picking sensor component</td>
+        <td align="center">3</td>
+        <td><a href="components/picking.html#SupportLevels">38.5 Support levels</a></td>
+      </tr>
+      <tr> 
+        <td>Followers component</td>
+        <td align="center">1</td>
+        <td><a href="components/followers.html#SupportLevels">39.5 Support 
+		levels</a></td>
+      </tr>
+      <tr> 
+        <td>Particle systems component</td>
+        <td align="center">3</td>
+        <td><a href="components/particle_systems.html#SupportLevels">40.5 Support levels</a></td>
+      </tr>
+      <tr> 
+        <td>Volume rendering component</td>
+        <td align="center">4</td>
+        <td><a href="components/volume.html#SupportLevels">41.5 Support levels</a></td>
+      </tr>
+      </table>
+</div>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="ConformanceCriteria"></a>F.4 Conformance criteria</h1>
+
+<P>Conformance to this profile shall include conformance criteria defined by the 
+  specifications for those components and levels listed in 
+<a href="#t-ComponentsAndLevels">Table F.2</a>.</P>
+
+<P>In <a href="#t-NodesForConforming">Table F.3</a> and 
+<a href="#t-OtherLimitations">Table F.4</a>, the first column defines the item for which conformance 
+  is being defined. In some cases, general limits are defined but are later overridden 
+  in specific cases by more restrictive limits. The second column defines the 
+  requirements for a X3D file conforming to the Full profile; if a X3D 
+  file contains any items that exceed these limits, it may not be possible for 
+  a X3D browser conforming to the Full profile to successfully parse that 
+  X3D file. The third column defines the minimum complexity for a X3D scene that 
+  a X3D browser conforming to the Full profile shall be able to present 
+  to the user. Fields flagged as &quot;not supported&quot; may be supported by 
+  browsers which conform to the Full profile. The word &quot;ignore&quot; 
+  in the minimum browser support column refers only to the display of the item; 
+  in particular, <I>set_</I> events to ignored inputOutput fields shall still generate corresponding 
+  <I>_changed</I> events.</P>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="NodeSet"></a>F.5 Node set</H1>
+
+<P><a href="#t-NodesForConforming">Table F.3</a> lists the nodes which shall be 
+  supported in the Full profile and specifies any fields in these nodes for which 
+  this profile requires less than full support.</P>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-NodesForConforming"></a>Table F.3 &#8212; Nodes for conforming to the Full profile</p>
+
+  <table>
+  <tr> 
+    <th>Item</th>
+    <th>X3D File Limit</th>
+    <th>Minimum Browser Support</th>
+  </tr>
+  <tr> 
+    <td>Anchor</td>
+    <td>No restrictions.</td>
+    <td>Full support</td>
+  </tr>
+  <tr> 
+    <td>Appearance</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Arc2D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>ArcClose2D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>AudioClip</td>
+    <td>30 second uncompressed PCM WAV.</td>
+    <td>30 second uncompressed PCM WAV.</td>
+  </tr>
+  <tr>
+    <td>Background</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>BallJoint</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Billboard</td>
+    <td>Restrictions as for all groups.</td>
+    <td>Full support except as for all groups.</td>
+  </tr>
+  <tr> 
+    <td>BlendedVolumeStyle</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>BooleanFilter</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>BooleanSequencer</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>BooleanToggle</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>BooleanTrigger</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>BoundaryEnhancementVolumeStyle</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>BoundedPhysicsModel</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Box</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>CADAssembly</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>CADFace</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>CADLayer</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>CADPart</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>CartoonVolumeStyle</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>Circle2D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>ClipPlane</td>
+    <td>At least six planes.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>CollidableOffset</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>CollidableShape</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Collision</td>
+    <td>Restrictions as for all groups.</td>
+    <td>Full support except as for all groups. Any navigation behaviour 
+      acceptable when collision occurs.</td>
+  </tr>
+  <tr>
+    <td>CollisionCollection</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>CollisionSensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>CollisionSpace</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>Color</td>
+    <td>15,000 colours.</td>
+    <td>15,000 colours.</td>
+  </tr>
+  <tr> 
+    <td>ColorChaser</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>ColorDamper</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>ColorInterpolator</td>
+    <td>Restrictions as for all interpolators.</td>
+    <td>Full support except as for all interpolators.</td>
+  </tr>
+  <tr> 
+    <td>ColorRGBA</td>
+    <td>15,000 colours.</td>
+    <td>15,000 colours.</td>
+  </tr>
+  <tr> 
+    <td>ComposedCubeMapTexture</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>ComposedShader</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>ComposedTexture3D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>ComposedVolumeStyle</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Cone</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>ConeEmitter</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>Contact</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Contour2D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>ContourPolyline2D</td>
+    <td>1500 control points.</td>
+    <td>Order 30.</td>
+  </tr>
+  <tr> 
+    <td>Coordinate</td>
+    <td>15,000 points.</td>
+    <td>15,000 points.</td>
+  </tr>
+  <tr> 
+    <td>CoordinateChaser</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>CoordinateDamper</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>CoordinateDouble</td>
+    <td>15,000 points.</td>
+    <td>15,000 points.</td>
+  </tr>
+  <tr> 
+    <td>CoordinateInterpolator</td>
+    <td>15,000 coordinates per <i>keyValue</i>. Restrictions as for 
+      all interpolators.</td>
+    <td>15,000 coordinates per <i>keyValue</i>. Support as for all 
+      interpolators.</td>
+  </tr>
+  <tr>
+    <td>CoordinateInterpolator2D</td>
+    <td>15,000 coordinates per <i>keyValue</i>. Restrictions as for 
+      all interpolators.</td>
+    <td>15,000 coordinates per <i>keyValue</i>. Support as for all 
+      interpolators.</td>
+  </tr>
+  <tr> 
+    <td>Cylinder</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>CylinderSensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>DirectionalLight</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>DISEntityManager</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>DISEntityTypeMapping</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Disk2D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>DoubleAxisHingeJoint</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>EaseInEaseOut</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>EdgeEnhancementVolumeStyle</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>ElevationGrid</td>
+    <td>16,000 heights.</td>
+    <td>16,000 heights.</td>
+  </tr>
+  <tr> 
+    <td>EspduTransform</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>ExplosionEmitter</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Extrusion</td>
+    <td>(#<i>crossSection</i> points)&times;(#<i>spine</i> points) ≤ 
+      2,500.</td>
+    <td>(#<i>crossSection</i> points)&times;(#<i>spine</i> points) &le; 
+      2,500.</td>
+  </tr>
+  <tr> 
+    <td>FillProperties</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>FloatVertexAttribute</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Fog</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>FogCoordinate</td>
+    <td>15,000 coordinates.</td>
+    <td>15,000 coordinates.</td>
+  </tr>
+  <tr> 
+    <td>FontStyle</td>
+    <td>No restrictions.</td>
+    <td>If the values of the text aspects character set, <i>family</i>, 
+      <i>style</i> cannot be simultaneously supported, the order of precedence 
+      shall be: 1) character set 2) <i>family</i> 3) <i>style</i>. Browser must 
+      display all characters in ISO 8859-1 character set (see <a href="references.html#[I8859]">2.[I8859]</a>).
+    </td>
+  </tr>
+  <tr> 
+    <td>ForcePhysicsModel</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>GeneratedCubeMapTexture</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>GeoCoordinate</td>
+    <td>15,000 points.</td>
+    <td>15,000 points.</td>
+  </tr>
+  <tr> 
+    <td>GeoElevationGrid</td>
+    <td>16,000 heights.</td>
+    <td>16,000 heights.</td>
+  </tr>
+  <tr> 
+    <td>GeoLocation</td>
+    <td>Restrictions as for all groups.</td>
+    <td>Full support except as for all groups.</td>
+  </tr>
+  <tr> 
+    <td>GeoLOD</td>
+    <td>Restrictions as for all groups.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>GeoMetadata</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>GeoOrigin</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>GeoPositionInterpolator</td>
+    <td>1000 key-value pairs.</td>
+    <td>1000 key-value pairs.</td>
+  </tr>
+  <tr>
+    <td>GeoProximitySensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>GeoTouchSensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>GeoTransform</td>
+    <td>Restrictions as for all groups.</td>
+    <td>Full support except as for all groups.</td>
+  </tr>
+  <tr> 
+    <td>GeoViewpoint</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Group</td>
+    <td>Restrictions as for all groups.</td>
+    <td>Full support except as for all groups.</td>
+  </tr>
+  <tr> 
+    <td>HAnimDisplacer</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>HAnimHumanoid</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>HAnimJoint</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>HAnimSegment</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>HAnimSite</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>ImageCubeMapTexture</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>ImageTexture</td>
+    <td>JPEG (<a href="references.html#[JPEG]">2.[JPEG]</a>) and PNG (<a href="references.html#[I15948]">2.[I15948]</a>) 
+    format. Restrictions as for PixelTexture.</td>
+    <td>JPEG (<a href="references.html#[JPEG]">2.[JPEG]</a>) and PNG (<a href="references.html#[I15948]">2.[I15948]</a>) format. Support as for PixelTexture.</td>
+  </tr>
+  <tr> 
+    <td>ImageTexture3D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>IndexedFaceSet</td>
+    <td>10 vertices per face. 5000 faces. Less than 15,000 indices.</td>
+    <td>10 vertices per face. 5000 faces. 15,000 indices in any index 
+      field.</td>
+  </tr>
+  <tr> 
+    <td>IndexedLineSet</td>
+    <td>15,000 total vertices. 15,000 indices in any index field.</td>
+    <td>15,000 total vertices. 15,000 indices in any index field.</td>
+  </tr>
+  <tr> 
+    <td>IndexedQuadSet</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+<TD>IndexedTriangleFanSet</TD>
+    <td>15,000 total vertices. 15,000 indices in any index field.</td>
+    <td>15,000 total vertices. 15,000 indices in any index field.</td>
+  </tr>
+  <tr>
+<TD>IndexedTriangleSet</TD>
+    <td>15,000 total vertices. 15,000 indices in any index field.</td>
+    <td>15,000 total vertices. 15,000 indices in any index field.</td>
+  </tr>
+  <tr>
+<TD>IndexedTriangleStripSet</TD>
+    <td>15,000 total vertices. 15,000 indices in any index field.</td>
+    <td>15,000 total vertices. 15,000 indices in any index field.</td>
+  </tr>
+  <tr> 
+    <td>Inline</td>
+    <td>No restrictions.</td>
+    <td>Full support except as for all groups.</td>
+  </tr>
+  <tr> 
+    <td>IntegerSequencer</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>IntegerTrigger</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>IsoSurfaceVolumeData</td>
+    <td>Minimum dimensions: 512 width, 512 height, 512 depth.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>KeySensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>Layer</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>LayerSet</td>
+    <td>At least six layers.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>Layout</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>LayoutGroup</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>LayoutLayer</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>LinePickSensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>LineProperties</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <TD>LineSet</TD>
+    <TD>15,000 total vertices.</TD>
+    <TD>15,000 total vertices.</TD>
+  </tr>
+  <tr> 
+    <td>LoadSensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>LocalFog</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>LOD</td>
+    <td>Restrictions as for all groups.</td>
+    <td>At least first 4 <i>level</i>/<i>range</i> combinations 
+    interpreted, and support as for all groups.</td>
+  </tr>
+  <tr> 
+    <td>Material</td>
+    <td>No restrictions.</td>
+    <td>Full support</td>
+  </tr>
+  <tr> 
+    <td>Matrix3VertexAttribute</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Matrix4VertexAttribute</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MetadataBoolean</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MetadataDouble</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MetadataFloat</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MetadataInteger</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MetadataSet</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MetadataString</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>MotorJoint</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>MovieTexture</td>
+    <td>MPEG1-Systems and MPEG1-Video formats (see
+    <a href="references.html#[I14496_1]">2.[I14496-1]</a>).</td>
+    <td>MPEG1-Systems and MPEG1-Video formats (see
+    <a href="references.html#[I14496_1]">2.[I14496-1]</a>). Display one active 
+    movie texture.</td>
+  </tr>
+  <tr> 
+    <td>MultiTexture</td>
+    <td>No restrictions.</td>
+    <td>At least two textures displayed per node with any number specified.<p>Full support.</td>
+  </tr>
+  <tr> 
+    <td>MultiTextureCoordinate</td>
+    <td>15,000 coordinates.</td>
+    <td>15,000 coordinates.</td>
+  </tr>
+  <tr>
+    <TD>MultiTextureTransform</TD>
+    <TD>Restrictions as for all groups.</TD>
+    <TD><i>addChildren</i> optionally supported. <i>removeChildren</i> 
+    optionally supported. 
+      Otherwise, full support except as for all groups.</TD>
+  </tr>
+  <tr> 
+    <td>NavigationInfo</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Normal</td>
+    <td>15,000 normals</td>
+    <td>15,000 normals.</td>
+  </tr>
+  <tr> 
+    <td>NormalInterpolator</td>
+    <td>15,000 normals per <i>keyValue</i>. Restrictions as for all 
+      interpolators.</td>
+    <td>15,000 normals per <i>keyValue</i>. Support as for all interpolators.</td>
+  </tr>
+  <tr> 
+    <td>NurbsCurve</td>
+    <td>1500 control points.</td>
+    <td>Order 30.</td>
+  </tr>
+  <tr> 
+    <td>NurbsCurve2D</td>
+    <td>1500 control points</td>
+    <td>Order 30.</td>
+  </tr>
+  <tr>
+    <td>NurbsOrientationInterpolator</td>
+    <td>Restrictions as for all interpolators.</td>
+    <td>Full support except as for all interpolators.</td>
+  </tr>
+  <tr>
+    <td>NurbsPatchSurface</td>
+    <td>1500 control points.</td>
+    <td>Order 30.</td>
+  </tr>
+  <tr> 
+    <td>NurbsPositionInterpolator</td>
+    <td>Restrictions as for all interpolators.</td>
+    <td>Full support except as for all interpolators.</td>
+  </tr>
+  <tr>
+    <td>NurbsSet</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>NurbsSurfaceInterpolator</td>
+    <td>Restrictions as for all interpolators.</td>
+    <td>Full support except as for all interpolators.</td>
+  </tr>
+  <tr>
+    <td>NurbsSweptSurface</td>
+    <td>1500 control points.</td>
+    <td>Order 30.</td>
+  </tr>
+  <tr>
+    <td>NurbsSwungSurface</td>
+    <td>1500 control points.</td>
+    <td>Order 30.</td>
+  </tr>
+  <tr> 
+    <td>NurbsTextureCoordinate</td>
+    <td>1500 control points.</td>
+    <td>Order 30.</td>
+  </tr>
+  <tr>
+    <td>NurbsTrimmedSurface</td>
+    <td>1500 control points. 10 contours.</td>
+    <td>Order 30. 10 contours.</td>
+  </tr>
+  <tr>
+    <td>OrientationChaser</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>OrientationDamper</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>OrientationInterpolator</td>
+    <td>Restrictions as for all interpolators.</td>
+    <td>Full support except as for all interpolators.</td>
+  </tr>
+  <tr>
+    <td>OrthoViewpoint</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>PackagedShader</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>ParticleSystem</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>PickableGroup</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>PixelTexture</td>
+    <td>512 width. 512 height.</td>
+    <td>512 width. 512 height. Display fully transparent and fully 
+      opaque pixels.</td>
+  </tr>
+  <tr> 
+    <td>PixelTexture3D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>PlaneSensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>PointEmitter</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>PointLight</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>PointPickSensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>PointSet</td>
+    <td>5000 points.</td>
+    <td>5000 points.</td>
+  </tr>
+  <tr> 
+    <td>Polyline2D</td>
+    <td>15,000 vertices.</td>
+    <td>15,000 vertices.</td>
+  </tr>
+  <tr>
+    <td>PolylineEmitter</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Polypoint2D</td>
+    <td>5000 points.</td>
+    <td>5000 points.</td>
+  </tr>
+  <tr>
+    <td>PositionChaser</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>PositionChaser2D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>PositionDamper</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>PositionDamper2D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>PositionInterpolator</td>
+    <td>Restrictions as for all interpolators.</td>
+    <td>Full support except as for all interpolators.</td>
+  </tr>
+  <tr>
+    <td>PositionInterpolator2D</td>
+    <td>Restrictions as for all interpolators.</td>
+    <td>Full support except as for all interpolators.</td>
+  </tr>
+  <tr>
+    <td>PrimitivePickSensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>ProgramShader</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>ProjectionVolumeStyle</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>ProximitySensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>QuadSet</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>ReceiverPDU</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Rectangle2D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>RigidBody</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>RigidBodyCollection</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>ScalarChaser</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>ScalarDamper</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>ScalarInterpolator</td>
+    <td>Restrictions as for all interpolators.</td>
+    <td>Full support except as for all interpolators.</td>
+  </tr>
+  <tr>
+    <td>ScreenFontStyle</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>ScreenGroup</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Script</td>
+    <td>25 fields of each access type.</td>
+    <td>25 fields of each access type.<br>
+      ECMAScript and Java required.</td>
+  </tr>
+  <tr>
+    <td>SegmentedVolumeData</td>
+    <td>Minimum dimensions: 512 width, 512 height, 512 depth.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>ShadedVolumeStyle</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>ShaderPart</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>ShaderProgram</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Shape</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>SignalPDU</td>
+    <td>No restrictions.</td>
+    <td>Full support</td>
+  </tr>
+  <tr>
+    <td>SilhouetteEnhancementVolumeStyle</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>SingleAxisHingeJoint</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>SliderJoint</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Sound</td>
+    <td>No restrictions.</td>
+    <td>Full support</td>
+  </tr>
+  <tr> 
+    <td>Sphere</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>SphereSensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>SplinePositionInterpolator</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>SplinePositionInterpolator2D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>SplineScalarInterpolator</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>SpotLight</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>SquadOrientationInterpolator</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>StaticGroup</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>StringSensor</td>
+    <td>100 characters per string. 100 strings.</td>
+    <td>Full support. 100 characters per string. 100 strings.</td>
+  </tr>
+  <tr> 
+    <td>SurfaceEmitter</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Switch</td>
+    <td>Restrictions as for all groups.</td>
+    <td>Full support except as for all groups.</td>
+  </tr>
+  <tr> 
+    <td>TexCoordChaser2D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>TexCoordDamper2D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Text</td>
+    <td>100 characters per string. 100 strings.</td>
+    <td>100 characters per string. 100 strings.</td>
+  </tr>
+  <tr> 
+    <td>TextureBackground</td>
+    <td>No restrictions.</td>
+    <td>All fields fully supported. All texture 
+    node types supported in texture fields.</td>
+  </tr>
+  <tr> 
+    <td>TextureCoordinate</td>
+    <td>15,000 coordinates.</td>
+    <td>15,000 coordinates.</td>
+  </tr>
+  <tr>
+    <td>TextureCoordinate3D</td>
+    <td>15,000 coordinates.</td>
+    <td>15,000 coordinates.</td>
+  </tr>
+  <tr> 
+    <td>TextureCoordinate4D</td>
+    <td>15,000 coordinates.</td>
+    <td>15,000 coordinates.</td>
+  </tr>
+  <tr> 
+    <td>TextureCoordinateGenerator</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>TextureProperties</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>TextureTransform</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>TextureTransform3D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>TextureTransformMatrix3D</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>TimeSensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>TimeTrigger</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>TouchSensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Transform</td>
+    <td>Restrictions as for all groups.</td>
+    <td>Full support except as for all groups.</td>
+  </tr>
+  <tr> 
+    <td>TransformSensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>TransmitterPDU</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <TD>TriangleFanSet</TD>
+    <TD>15,000 coordinates.</TD>
+    <TD>Full support.</TD>
+  </tr>
+  <tr>
+    <TD>TriangleSet</TD>
+    <TD>15,000 coordinates.</TD>
+    <TD>Full support.</TD>
+  </tr>
+  <tr>
+    <TD>TriangleSet2D</TD>
+    <TD>15,000 coordinates.</TD>
+    <TD>Full support.</TD>
+  </tr>
+  <tr>
+    <TD>TriangleStripSet</TD>
+    <TD>15,000 coordinates.</TD>
+    <TD>Full support.</TD>
+  </tr>
+  <tr>
+    <td>TwoSidedMaterial</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>UniversalJoint</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>Viewpoint</td>
+    <td>No restrictions.</td>
+    <td>Full support</td>
+  </tr>
+  <tr>
+    <td>ViewpointGroup</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>Viewport</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>VisibilitySensor</td>
+    <td>No restrictions.</td>
+    <td>Always visible.</td>
+  </tr>
+  <tr>
+    <td>VolumeData</td>
+    <td>Minimum dimensions: 512 width, 512 height, 512 depth.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>VolumeEmitter</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>VolumePickSensor</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+	<tr>
+    <td>WindPhysicsModel</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>WorldInfo</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+</table>
+</div>
+
+<h1><img class="cube" src="../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="OtherLimitations"></a>F.6 Other limitations</H1>
+
+<p><a href="#t-OtherLimitations">Table F.4</a> 
+  specifies other aspects of X3D functionality which are supported by this profile. 
+  Note that general items refer only to those specific nodes listed in 
+<a href="#t-NodesForConforming">Table F.3</a>.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption">
+<a name="t-OtherLimitations"></a>Table F.4 &#8212; Other limitations</p>
+
+    <table>
+  <tr> 
+    <th>Item</th>
+    <th>X3D File Limit</th>
+    <th>Minimum Browser Support</th>
+  </tr>
+  <tr> 
+    <td>All groups</td>
+    <td>500 children</td>
+    <td>500 children. Ignore <i>bboxCenter</i> and <i>bboxSize</i>.</td>
+  </tr>
+  <tr> 
+    <td>All interpolators</td>
+    <td>1000 key-value pairs</td>
+    <td>1000 key-value pairs.</td>
+  </tr>
+  <tr> 
+    <td>All lights</td>
+    <td>8 simultaneous lights</td>
+    <td>8 simultaneous lights.</td>
+  </tr>
+  <tr> 
+    <td>Names for DEF/PROTO/field</td>
+    <td>50 utf8 octets</td>
+    <td>50 utf8 octets.</td>
+  </tr>
+  <tr> 
+    <td>All <i>url</i> fields</td>
+    <td>10 URLs</td>
+    <td>10 URLs. URN's ignored.<br>
+      Support `http', `file', and `ftp' protocols.<br>
+      Support relative URLs where relevant.</td>
+  </tr>
+  <tr> 
+    <td>Top-level fields</td>
+    <td>20 fields</td>
+    <td>20 fields</td>
+  </tr>
+  <tr> 
+    <td>Top-level functions</td>
+    <td>20 functions</td>
+    <td>20 functions</td>
+  </tr>
+  <tr> 
+    <td>PROTO/<br>
+      EXTERNPROTO</td>
+    <td>30 fields of each access type</td>
+    <td>30 fields of each access type</td>
+  </tr>
+  <tr> 
+    <td>&nbsp;EXTERNPROTO</td>
+    <td>n/a</td>
+    <td>URL references to X3D files conforming to the current profile/component 
+    configuration.</td>
+  </tr>
+  <tr> 
+    <td>PROTO definition nesting depth</td>
+    <td>5 levels</td>
+    <td>5 levels.</td>
+  </tr>
+  <tr> 
+    <td>SFBool</td>
+    <td>No restrictions</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>SFColor</td>
+    <td>No restrictions</td>
+    <td>Full support.</td>
+  </tr>
+  <tr>
+    <td>SFColorRGBA</td>
+    <td>No restrictions</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>SFDouble</td>
+    <td>No restrictions</td>
+    <td>Full support. Range &plusmn;1e&plusmn;12. Precision 1e&minus;7.</td>
+  </tr>
+  <tr> 
+    <td>SFFloat</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>SFImage</td>
+    <td>512 width. 512 height.</td>
+    <td>512 width. 512 height.</td>
+  </tr>
+  <tr> 
+    <td>SFInt32</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>SFMatrix3d</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>SFMatrix3f</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>SFMatrix4d</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>SFMatrix4f</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>SFNode</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>SFRotation</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>SFString</td>
+    <td>30,000 utf8 octets.</td>
+    <td>30,000 utf8 octets.</td>
+  </tr>
+  <tr> 
+    <td>SFTime</td>
+    <td>No restrictions.</td>
+    <td>Full support.</td>
+  </tr>
+  <tr> 
+    <td>SFVec2d</td>
+    <td>15,000 values.</td>
+    <td>15,000 values.</td>
+  </tr>
+  <tr> 
+    <td>SFVec2f</td>
+    <td>15,000 values.</td>
+    <td>15,000 values.</td>
+  </tr>
+  <tr> 
+    <td>SFVec3d</td>
+    <td>15,000 values.</td>
+    <td>15,000 values.</td>
+  </tr>
+  <tr> 
+    <td>SFVec3f</td>
+    <td>15,000 values.</td>
+    <td>15,000 values.</td>
+  </tr>
+  <tr> 
+    <td>SFVec4d</td>
+    <td>15,000 values.</td>
+    <td>15,000 values.</td>
+  </tr>
+  <tr> 
+    <td>SFVec4f</td>
+    <td>15,000 values.</td>
+    <td>15,000 values.</td>
+  </tr>
+  <tr> 
+    <td>MFColor</td>
+    <td>15,000 values.</td>
+    <td>15,000 values.</td>
+  </tr>
+  <tr>
+    <td>MFColorRGBA</td>
+    <td>15,000 values.</td>
+    <td>15,000 values.</td>
+  </tr>
+  <tr> 
+    <td>MFDouble</td>
+    <td>1000 values.</td>
+    <td>1000 values.</td>
+  </tr>
+  <tr> 
+    <td>MFFloat</td>
+    <td>1,000 values.</td>
+    <td>1,000 values.</td>
+  </tr>
+  <tr> 
+    <td>MFInt32</td>
+    <td>20,000 values.</td>
+    <td>20,000 values.</td>
+  </tr>
+  <tr> 
+    <td>MFMatrix3d</td>
+    <td>256 values.</td>
+    <td>256 values.</td>
+  </tr>
+  <tr> 
+    <td>MFMatrix3f</td>
+    <td>256 values.</td>
+    <td>256 values.</td>
+  </tr>
+  <tr> 
+    <td>MFMatrix4d</td>
+    <td>256 values.</td>
+    <td>256 values.</td>
+  </tr>
+  <tr> 
+    <td>MFMatrix4f</td>
+    <td>256 values.</td>
+    <td>256 values.</td>
+  </tr>
+  <tr> 
+    <td>MFNode</td>
+    <td>500 values.</td>
+    <td>500 values.</td>
+  </tr>
+  <tr> 
+    <td>MFRotation</td>
+    <td>1,000 values.</td>
+    <td>1,000 values.</td>
+  </tr>
+  <tr> 
+    <td>MFString</td>
+    <td>30,000 utf8 octets per string, 10 strings.</td>
+    <td>30,000 utf8 octets per string, 10 strings.</td>
+  </tr>
+  <tr> 
+    <td>MFTime</td>
+    <td>1,000 values.</td>
+    <td>1,000 values.</td>
+  </tr>
+  <tr> 
+    <td>MFVec2d</td>
+    <td>15,000 values.</td>
+    <td>15,000 values.</td>
+  </tr>
+  <tr> 
+    <td>MFVec2f</td>
+    <td>15,000 values.</td>
+    <td>15,000 values.</td>
+  </tr>
+  <tr> 
+    <td>MFVec3d</td>
+    <td>15,000 values.</td>
+    <td>15,000 values.</td>
+  </tr>
+  <tr> 
+    <td>MFVec3f</td>
+    <td>15,000 values.</td>
+    <td>15,000 values.</td>
+  </tr>
+  <tr>
+    <td>MFVec4d</td>
+    <td>15,000 values.</td>
+    <td>15,000 values.</td>
+  </tr>
+	<tr>
+    <td>MFVec4f</td>
+    <td>15,000 values.</td>
+    <td>15,000 values.</td>
+  </tr>
+</table>
+</div>
+
+<img class="x3dbar" src="../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+</BODY>
+</HTML>

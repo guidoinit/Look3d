@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>importobject</class>
+ <widget class="QDialog" name="importobject">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>191</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Import object</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../resources/mainresource.qrc">
+    <normaloff>:/mainres/images/main2.png</normaloff>:/mainres/images/main2.png</iconset>
+  </property>
+  <widget class="QListWidget" name="listWidget">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>10</y>
+     <width>281</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>md2 file</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../resources/mainresource.qrc">
+      <normaloff>:/mainres/images/oquake.png</normaloff>:/mainres/images/oquake.png</iconset>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>md2 player</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../resources/mainresource.qrc">
+      <normaloff>:/mainres/images/oquake.png</normaloff>:/mainres/images/oquake.png</iconset>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>.3ds</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../resources/mainresource.qrc">
+      <normaloff>:/mainres/images/3ds.png</normaloff>:/mainres/images/3ds.png</iconset>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>40</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>File</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pb_ok">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>160</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ok</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pb_exit">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>160</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancell</string>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../resources/mainresource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

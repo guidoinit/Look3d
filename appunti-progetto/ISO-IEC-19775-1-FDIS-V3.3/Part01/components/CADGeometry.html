@@ -1,0 +1,517 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+<HEAD>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<TITLE>Extensible 3D (X3D), ISO/IEC 19775-1:2013, 32 CADGeometry component</TITLE>
+<link href="../X3D.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="CenterDiv">
+<a href="../X3D.html">
+<img class="x3dlogo" src="../../Images/x3d.png" alt="X3D logo" style="border-width: 0px; width: 176px; height: 88px"></a>
+</div>
+
+<div class="CenterDiv">
+<p class="HeadingPart">
+    Extensible 3D (X3D)<br>
+    Part 1: Architecture and base components</p>
+
+<p class="HeadingClause">32 CAD geometry component</p>
+
+</div>
+
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23">
+
+<h1><a name="Introduction"></a>
+<img class="cube" src="../../Images/cube.gif" alt="cube">
+32.1 Introduction</h1>
+<h2><a name="Name"></a>32.1.1 Name</h2>
+<p>The name of this component is "CADGeometry". <span class="normal">The 
+CADGeometry component provides X3D support for Computer-Aided Design (CAD) model 
+geometry. </span>This name shall be used when
+referring to this component in the COMPONENT statement (see
+<a href="core.html#COMPONENTStatement">7.2.5.4 Component statement</a>).</p>
+<h2><a name="Overview"></a>32.1.2 Overview</h2>
+
+<p>This clause describes the CADGeometry component of this part of ISO/IEC 19775.
+  This includes how 3D geometry is specified and what shapes are available.
+<a href="#t-Topics">Table 32.1</a> provides links to the major topics in this clause.</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption"><a name="t-Topics"></a>Table 32.1 &#8212; Topics</p>
+
+<table class="topics">
+    <tbody><tr>
+      <td>
+        <ul>
+          <li><a href="#Introduction">32.1 Introduction</a>
+          <ul>
+            <li><a href="#Name">32.1.1 Name</a></li>
+            <li><a href="#Overview">32.1.2 Overview</a> </li>
+          </ul>
+          </li>
+          <li><a href="#Concepts">32.2 Concepts</a><ul>
+              <li><a href="#OverviewOfGeometry">32.2.1 Overview of CAD geometry</a></li>
+              <li><a href="#ProductStructure">32.2.2 Product Structure Nodes</a></li>
+				<li><a href="#CADLayerRelationships">32.2.3 CAD layer 
+				relationships</a></li>
+				<li><a href="#QuadNodes">32.2.4 Quad nodes</a></li>
+				<li><a href="#CommonGeometryFields">32.2.5 Common geometry 
+				fields</a></li>
+            </ul>
+          <li><a href="#AbstractTypes">32.3 Abstract Types</a><ul>
+              <li><a href="#X3DProductStructureChildNode">32.3.1 <i>X3DProductStructureChildNode</i></a></li>
+            </ul>
+          <li><a href="#Nodereference">32.4 Node reference</a><ul>
+              <li><a href="#CADAssembly">32.4.1 CADAssembly</a></li>
+              <li><a href="#CADFace">32.4.2 CADFace</a></li>
+              <li><a href="#CADLayer">32.4.3 CADLayer</a></li>
+              <li><a href="#CADPart">32.4.4 CADPart</a></li>
+              <li><a href="#IndexedQuadSet">32.4.5 IndexedQuadSet</a></li>
+              <li><a href="#QuadSet">32.4.6 QuadSet</a></li>
+            </ul>
+          <li><a href="#SupportLevels">32.5 Support levels</a></li>
+       </ul>
+       <ul>
+         <li><a href="#f-QuadSet">Figure 32.1 &#8212; QuadSet</a></li>
+       </ul>
+
+       <ul>
+         <li><a href="#t-Topics">Table 32.1 &#8212; Topics</a></li>
+         <li><a href="#t-supportlevels">Table 32.2 &#8212; CADGeometry component support levels</a></li>
+       </ul>
+      </td>
+    </tr>
+  </tbody></table>
+</div>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="Concepts"></a>
+32.2 Concepts</h1>
+
+<h2><a name="OverviewOfGeometry"></a>32.2.1 Overview of geometry</h2>
+
+<p>The CADGeometry component consists of two types of nodes:&nbsp; product structure 
+nodes and quad geometry nodes.
+  Together, these node types are used to describe CAD specific data representations for X3D worlds.</p>
+
+<h2><a name="ProductStructure"></a>
+32.2.2 Product structure nodes</h2>
+
+Three nodes maintain CAD structural relationships.  These nodes
+are, in hierarchy order:<ol type="a">
+	<li><a href="#CADAssembly">CADAssembly</a>,</li>
+	<li><a href="#CADPart">CADPart</a>, and</li>
+	<li><a href="#CADFace">CADFace</a>.</li>
+</ol>
+<p>This 
+hierarchy structures the file in a way that facilitates reuse of the CAD data in 
+different domains.</p>
+<h2><a name="CADLayerRelationships"></a>32.2.3 CAD layer relationships</h2>
+<p>The CADLayer node maintains CAD layer relationships. CAD layers are used to 
+visually and/or functionally organize geometric content.</p>
+<h2><a name="QuadNodes"></a>32.2.4 Quad nodes</h2>
+
+<p>Quad nodes represent collections of planar quadrilateral polygons. The 
+<a href="#IndexedQuadSet">IndexedQuadSet</a> node specifies the vertices using 
+indices while the <a href="#QuadSet">QuadSet</a> node 
+specifies the vertices directly.</p>
+
+<h2><a name="CommonGeometryFields"></a>32.2.5 Common geometry fields</h2>
+
+<p>Several 3D CADGeometry nodes share common fields to describe attributes. These
+  fields that specify the vertex ordering and whether the shape is solid are named
+  <i>ccw</i> and <i>solid</i> respectively.
+  Common 3D geometry fields are described in <a href="rendering.html#CommonGeometryFields">11.2.3 
+Common geometry fields</a>.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="AbstractTypes"></a>32.3 Abstract types</h1>
+
+<h2><a name="X3DProductStructureChildNode"></a>
+32	.3.1 <i>X3DProductStructureChildNode</i></h2>
+<pre class="node">
+X3DProductStructureChildNode : X3DChildNode {
+  SFNode   [in,out] metadata NULL [X3DMetadataObject]
+  SFString [in,out] name     ""
+}
+</pre>
+
+<p>The <i>X3DProductStructureChildNode</i> abstract node type marks nodes that are valid 
+product structure children.</p>
+
+<h1><img class="cube" src="../../Images/cube.gif" alt="cube">
+<a name="Nodereference"></a>
+32.4 Node reference</h1>
+
+<h2><a name="CADAssembly"></a>32.4.1 CADAssembly</h2>
+
+<pre class="node">CADAssembly : X3DGroupingNode, X3DProductStructureChildNode {
+  MFNode   [in]     addChildren
+  MFNode   [in]     removeChildren
+  MFNode   [in,out] children       []       [X3DProductStructureChildNode, X3DGroupingNode]
+  SFNode   [in,out] metadata       NULL     [X3DMetadataObject]
+  SFString [in,out] name           ""
+  SFVec3f  []       bboxCenter     0 0 0    (-&#8734;,&#8734;)
+  SFVec3f  []       bboxSize       -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+<p>The CADAssembly node holds a set of assemblies or parts grouped together.</p>
+
+The <i>children</i> field can contain <i>
+<a href="#X3DProductStructureChildNode">X3DProductStructureChildNode</a></i> types.  Each child will be either a sub-assembly
+or a part.<p>
+The <i>name</i> field specifies the name of the CADAssembly.
+<p>
+
+<h2><a name="CADFace"></a>32.4.2 CADFace</h2>
+
+<pre class="node">CADFace : X3DProductStructureChildNode, X3DBoundedObject {
+  SFNode   [in,out] metadata   NULL     [X3DMetadataObject]
+  SFString [in,out] name       ""
+  SFNode   [in,out] shape      NULL     [X3DShapeNode, LOD]
+  SFVec3f  []       bboxCenter 0 0 0    (-&infin;, &infin;)
+  SFVec3f  []       bboxSize   -1 -1 -1 [0, &infin;) or -1 -1 -1
+}
+</pre>
+
+<p>The CADFace node holds the geometry representing a face of a part. </p>
+The <i>name</i> field specifies the name of the CADFace.
+<p>
+The <i>shape</i> field contains the <a href="shape.html#Shape">Shape</a> node providing the geometry and appearance for the face or an
+<a href="navigation.html#LOD">LOD</a> node containing
+different detail levels of the shape.  If an LOD node is provided,
+each child of the LOD node shall be a single Shape of varying complexity.
+
+<h2><a name="CADLayer"></a>32.4.3 CADLayer</h2>
+
+
+<pre class="node">CADLayer : X3DGroupingNode {
+  MFNode   [in]     addChildren
+  MFNode   [in]     removeChildren
+  MFNode   [in,out] children       []       [X3DChildNode]
+  SFNode   [in,out] metadata       NULL     [X3DMetadataObject]
+  SFString [in,out] name           ""
+  MFBool   [in,out] visible        []
+  SFVec3f  []       bboxCenter     0 0 0    (-&#8734;,&#8734;)
+  SFVec3f  []       bboxSize       -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+<p>The CADLayer node defines a hierarchy of nodes used for showing layer structure 
+for the CAD model.   </p>
+The <i>name</i> field describes the content of the layer.
+<p>
+The <i>children</i> field contains all nodes defined for this layer.
+<p>
+The <i>visible</i> field specifies whether a particular child and its sub-children are visible.
+If the number of values is less than the number of children, the remaining children 
+shall be visible.
+
+<h2><a name="CADPart"></a>32.4.4 CADPart</h2>
+
+<pre class="node">CADPart : X3DGroupingNode, X3DProductStructureChildNode {
+  MFNode     [in]     addChildren
+  MFNode     [in]     removeChildren
+  SFVec3f    [in,out] center           0 0 0    (-&#8734;,&#8734;)
+  MFNode     [in,out] children         []       [CADFace]
+  SFNode     [in,out] metadata         NULL     [X3DMetadataObject]
+  SFString   [in,out] name             ""
+  SFRotation [in,out] rotation         0 0 1 0  [-1,1] or (-&#8734;,&#8734;)
+  SFVec3f    [in,out] scale            1 1 1    (0,&#8734;)
+  SFRotation [in,out] scaleOrientation 0 0 1 0  [-1,1] or (-&#8734;,&#8734;)
+  SFVec3f    [in,out] translation      0 0 0    (-&#8734;,&#8734;)
+  SFVec3f    []       bboxCenter       0 0 0    (-&#8734;,&#8734;)
+  SFVec3f    []       bboxSize         -1 -1 -1 [0,&#8734;) or &minus;1 &minus;1 &minus;1
+}
+</pre>
+
+<p>The CADPart node is a grouping node that defines a coordinate system for
+  its children that is relative to the coordinate systems of its ancestors.
+See <a href="../concepts.html#Transformationhierarchy">4.3.5 Transformation
+  hierarchy</a> and <a href="../concepts.html#Standardunitscoordinates">4.3.6
+  Standard units and coordinate system</a> for a description of coordinate
+  systems and transformations.</p>
+
+<p>The CADPart node represents the location and faces that constitute a part in 
+the CAD model. </p>
+
+<p><a href="group.html#GroupingAndChildrenNodes">10.2.1 Grouping and children node types</a>
+  provides a description of the <i>children</i>,
+<i>addChildren</i>, and <i>removeChildren</i> fields.</p>
+
+<p>The <i>bboxCenter</i> and <i>bboxSize</i> fields specify a bounding box that
+  encloses the children of the Part node. This is a hint that may be used
+  for optimization purposes. The results are undefined if the specified bounding
+  box is smaller than the actual bounding box of the children at any time. A default
+  <i>bboxSize</i> value, (-1,&nbsp;-1,&nbsp;-1), implies that the bounding box
+  is not specified and, if needed, shall be calculated by the browser. The bounding
+  box shall be large enough at all times to enclose the union of the group's children's
+  bounding boxes; it shall not include any transformations performed by the group
+  itself (<i>i.e.</i>, the bounding box is defined in the local coordinate system of
+  the children).
+
+<p>The <i>translation</i>, <i>rotation</i>, <i>scale</i>, <i>scaleOrientation</i>
+  and <i>center</i> fields define a geometric 3D transformation consisting of
+  (in order):</p>
+
+<ol start="1" type="a">
+
+  <li>a (possibly) non-uniform scale about an arbitrary point;</li>
+  <li>a rotation about an arbitrary point and axis;</li>
+  <li>a translation.</li>
+</ol>
+
+<p>The <i>center</i> field specifies a translation offset from the origin of the
+  local coordinate system (0,0,0). The <i>rotation</i> field specifies a rotation
+  of the coordinate system. The <i>scale</i> field specifies a non-uniform scale
+  of the coordinate system. The <i>scale</i> field may have values that are positive, negative
+(indicating a reflection), or zero. A value of zero indicates that any child
+geometry shall not be displayed.
+  The <i>scaleOrientation</i> specifies a rotation of the coordinate system before
+  the scale (to specify scales in arbitrary orientations). The <i>scaleOrientation</i>
+  applies only to the scale operation. The <i>translation</i> field specifies
+  a translation to the coordinate system.</p>
+
+<p>Given a 3-dimensional point <b>P</b> and Part node, <b>P</b> is transformed
+  into point <b>P'</b> in its parent's coordinate system by a series of intermediate
+  transformations. In matrix transformation notation, where C (<i>center</i>),
+  SR (<i>scaleOrientation</i>), T (<i>translation</i>), R (<i>rotation</i>), and
+  S (<i>scale</i>) are the equivalent transformation matrices,</p>
+
+<pre class="listing">  P' = T * C * R * SR * S * -SR * -C * P
+</pre>
+
+<p>The following Part node:</p>
+
+<pre class="listing">CADPart {
+  center           C
+  rotation         R
+  scale            S
+  scaleOrientation SR
+  translation      T
+  children         [...]
+}
+</pre>
+
+<p>is equivalent to the nested sequence of:</p>
+
+<pre class="listing">CADPart {
+  translation T
+  children CADPart {
+    translation C
+    children CADPart {
+      rotation R
+      children CADPart {
+        rotation SR
+        children CADPart {
+          scale S
+          children CADPart {
+            rotation -SR
+            children CADPart {
+              translation -C
+              children [...]
+}}}}}}}
+</pre>
+
+The name field documents the name of this part.
+
+
+<h2><a name="IndexedQuadSet"></a>
+32.4.5 IndexedQuadSet</h2>
+
+<pre class="node">IndexedQuadSet : X3DComposedGeometryNode {
+  MFInt32 [in]     set_index       []   [0,&infin;)
+  MFNode  [in,out] attrib          []   [X3DVertexAttributeNode]
+  SFNode  [in,out] color           NULL [X3DColorNode]
+  SFNode  [in,out] coord           NULL [X3DCoordinateNode]
+  SFNode  [in,out] fogCoord        NULL [FogCoordinate]
+  SFNode  [in,out] metadata        NULL [X3DMetadataObject]
+  SFNode  [in,out] normal          NULL [X3DNormalNode]
+  SFNode  [in,out] texCoord        NULL [X3DTextureCoordinateNode]
+  SFBool  []       ccw             TRUE
+  SFBool  []       colorPerVertex  TRUE
+  SFBool  []       normalPerVertex TRUE
+  SFBool  []       solid           TRUE
+  MFInt32 []       index           []   [0,&infin;)
+}</pre>
+<p>The IndexedQuadSet node represents a 3D shape composed of a collection of
+individual quadrilaterals (quads) as depicted in <a href="#f-QuadSet">Figure 32.1</a>. IndexedQuadSet uses the indices in its <i>index</i>
+field to specify the vertices of each quad from the <i>coord</i> field. Each
+quad is formed from a set of four vertices of the <i>
+<a href="rendering.html#X3DCoordinateNode">X3DCoordinateNode</a></i> node
+identified by four consecutive indices from the index field If the <i>index</i>
+
+field does not contain a multiple of four coordinate values, the remaining
+vertices shall be ignored.</p>
+<p>The IndexedQuadSet node is specified in the local coordinate system and
+is affected by the transformations of its ancestors. Descriptions of the <i>
+color</i>, <i>coord</i>, <i>normal</i>, and <i>texCoord </i>fields are provided
+in the <i><a href="rendering.html#X3DColorNode">X3DColorNode</a></i>, <i>X3DCoordinateNode</i>, 
+<i><a href="rendering.html#X3DNormalNode">X3DNormalNode</a></i>, and
+<a href="texturing.html#X3DTextureCoordinateNode">X3DTextureCoordinateNode</a> nodes, respectively. If
+values are provided for the <i>color</i>, <i>normal</i> and <i>texCoord</i>
+
+fields, the values are applied in the same manner as the values from the <i>
+coord</i> field and there shall be at least as many values as are present in the
+<i>coord</i> field. The value of the <i>colorPerVertex</i> field is ignored and
+always treated as <span class="code">TRUE</span>. If the <i>normal</i> field is
+not supplied, normals shall be generated as follows:</p>
+
+<ul>
+  <li>If <i>normalPerVertex</i> is <span class="code">TRUE</span>, the normal at
+  each vertex shall be the average of the normals for all quads that share
+  that vertex. </li>
+  <li>If <i>normalPerVertex</i> is <span class="code">FALSE</span>, the normal
+  at each vertex shall be perpendicular to the face for that quad.</li>
+
+</ul>
+
+<p>The <i>solid</i> field determines whether the IndexedQuadSet is visible when viewed
+from the inside. <a href="rendering.html#CommonGeometryFields">11.2.3 Common
+geometry fields</a> provides a complete description of the <i>solid</i> field.</p>
+<h2><a name="QuadSet"></a>
+32.4.6 QuadSet</h2>
+
+<pre class="node">QuadSet : X3DComposedGeometryNode {
+  MFNode  [in,out] attrib          []   [X3DVertexAttributeNode]
+  SFNode  [in,out] color           NULL [X3DColorNode]
+  SFNode  [in,out] coord           NULL [X3DCoordinateNode]
+  SFNode  [in,out] fogCoord        NULL [FogCoordinate]
+  SFNode  [in,out] metadata        NULL [X3DMetadataObject]
+  SFNode  [in,out] normal          NULL [X3DNormalNode]
+  SFNode  [in,out] texCoord        NULL [X3DTextureCoordinateNode]
+  SFBool  []       ccw             TRUE
+  SFBool  []       colorPerVertex  TRUE
+  SFBool  []       normalPerVertex TRUE
+  SFBool  []       solid           TRUE
+}
+</pre>
+
+<p>The QuadSet node represents a 3D shape that represents a collection of
+  individual planar quadrilaterals.</p>
+
+<p>The <i>coord</i> field contains an <a href="rendering.html#X3DCoordinateNode">
+X3DCoordinateNode</a> node that defines the 3D vertices
+  that define the quad. Each quad is formed from a consecutive set of four
+  vertices of the coordinate node. If the coordinate node does not contain a multiple
+  of four coordinate values, the remaining vertices
+shall be ignored.</p>
+
+<p><a href="#f-QuadSet">Figure 32.1</a> depicts a QuadSet node with two quads. 
+The ordering of the vertices is also shown.</p>
+
+<div class="CenterDiv">
+<a name="f-QuadSet"></a>
+
+<img src="../../Images/quadSet.png" alt="QuadSet"><p class="FigureCaption">
+
+Figure 32.1 &#8212; QuadSet node</p>
+
+</div>
+
+<p>The QuadSet node is specified in the local coordinate system and is
+affected by the transformations of its ancestors. Descriptions of the <i>color, coord</i>,
+  <i>normal</i>, and <i>texCoord </i>fields are provided in the <i>
+<a href="rendering.html#X3DColorNode">X3DColorNode</a></i>, <i>X3DCoordinateNode</i>, 
+<i><a href="rendering.html#X3DNormalNode">X3DNormalNode</a></i>, and
+<a href="texturing.html#X3DTextureCoordinateNode">X3DTextureCoordinateNode</a> nodes, respectively. If values are provided for the <i>
+
+color</i>, <i>normal</i>, and <i>texCoord</i> fields, there shall be at least as
+many values as are present in the <i>coord</i> field. The value of the <i>
+colorPerVertex</i> field is ignored and always treated as <span class="code">
+TRUE</span>. If the <i>normal</i> field is not supplied, the normal
+  shall be generated as perpendicular to the face for either
+version of <i>normalPerVertex</i>.</p>
+
+<p>The <i>solid</i> field determines whether the QuadSet is visible when viewed
+from the inside. <a href="rendering.html#CommonGeometryFields">11.2.3 Common
+geometry fields</a> provides a complete description of the <i>solid</i> field.</p>
+
+<h1><img src="../../Images/cube.gif" alt="cube" width="20" height="19">
+<a name="SupportLevels"></a>32.5 Support levels</h1>
+
+<p>The CADGeometry component provides two levels of support as specified in
+<a href="#t-supportlevels">Table 32.2</a>.
+Level 1 provides quad support.
+Level 2 adds support to describe product structure and layers.
+</p>
+
+<div class="CenterDiv">
+
+<p class="TableCaption"><a name="t-supportlevels"></a>
+Table 32.2 &#8212; CADGeometry component support levels</p>
+
+    <table>
+      <tbody><tr>
+        <th>Level</th>
+        <th>Prerequisites</th>
+        <th>Nodes/Features</th>
+        <th>Support</th>
+      </tr>
+      <tr>
+        <td align="center"><b>1</b></td>
+        <td>Core 1<br>
+        Grouping 1<br>
+        Rendering 1<br>
+        Shape 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>IndexedQuadSet</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>QuadSet</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"><b>2</b></td>
+        <td>Core 1<br>
+        Grouping 1<br>
+        Rendering 1<br>
+        Shape 1</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>CADAssembly</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>CADFace</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>CADLayer</td>
+        <td>All fields fully supported.</td>
+      </tr>
+      <tr>
+        <td align="center"></td>
+        <td></td>
+        <td>CADPart</td>
+        <td>All fields fully supported.</td>
+      </tr>
+    </tbody></table>
+</div>
+
+<p>
+<img class="x3dbar" src="../../Images/x3dbar.png" alt="--- X3D separator bar ---" width="430" height="23"></p>
+
+</body></html>

@@ -1,0 +1,6 @@
+/*!CK:2318744098!*//*1383661116,178134599*/
+
+if (self.CavalryLogger) { CavalryLogger.start_js(["P63QA"]); }
+
+__d("MultiInferenceNetego",["Button","DOM","Event","Form","Parent","$","csx"],function(a,b,c,d,e,f){var g=b('Button'),h=b('DOM'),i=b('Event'),j=b('Form'),k=b('Parent'),l=b('$'),m=b('csx');function n(o,p,q){"use strict";this._netego=l(o);var r=h.find(this._netego,"._5q_4");i.listen(this._netego,'click',function(event){var s=k.byClass(event.getTarget(),'uiInputLabel');if(!s)return;this._updateButton(q);}.bind(this));p.subscribe('select',function(){this._updateButton(q);}.bind(this));p.subscribe('unselect',function(){this._updateButton(q);}.bind(this));p.subscribe('focus',function(){r.checked=true;}.bind(this));this._updateButton(q);}n.prototype._updateButton=function(o){"use strict";var p=false,q=j.getInputsByName(this._netego),r=q.option;r.forEach(function(s){if(!s.checked)return;if(s.value==="typeahead"){var t=q.choice_id.value;if(t&&t!=="")p=true;}else p=true;}.bind(this));g.setEnabled(o,p);};e.exports=n;});
+__d("legacy:window-comm",["WindowComm"],function(a,b,c,d){a.WindowComm=b('WindowComm');},3);
