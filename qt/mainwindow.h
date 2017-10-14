@@ -1,7 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include <QOpenGLFunctions>
 
 #include <QMainWindow>
 #include "newsphere.h"

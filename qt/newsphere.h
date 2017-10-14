@@ -1,9 +1,7 @@
 #ifndef NEWSPHERE_H
 #define NEWSPHERE_H
-#define GLEW_STATIC
-#include <GL/glew.h>
-
-#include <QtOpenGL>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 #include <QDialog>
 
 
@@ -60,7 +58,7 @@ public slots:
 
 
 
-class SphereGL : public QGLWidget
+class SphereGL :public QOpenGLWidget, protected QOpenGLFunctions
 {
     Q_OBJECT
 public:

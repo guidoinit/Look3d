@@ -1,9 +1,6 @@
 #ifndef ACTIONVERTEX_H
 #define ACTIONVERTEX_H
-#define GLEW_STATIC
-
-#include <GL/glew.h>
-#include <QtOpenGL>
+#include <QOpenGLFunctions>
 
 #include "vertexlist.h"
 #include "mesh/action.h"

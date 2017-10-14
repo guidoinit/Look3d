@@ -1,7 +1,6 @@
 #ifndef L3D_MAINSCENEDOCUMENT_H
 #define L3D_MAINSCENEDOCUMENT_H
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include <QOpenGLFunctions>
 
 #include <math.h>
 #include <vector>

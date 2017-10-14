@@ -1,5 +1,4 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
+
 
 #include "mesh/l3d_mesh.h"
 

@@ -1,7 +1,7 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
 
-#include <QtOpenGL>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
+#include <QDebug>
 #include "scene/elements/lightmodel.h"
 #include "l3d_view.h"
 
@@ -1290,7 +1290,7 @@ l3d_uint l3d_view::drawSelect(l3d_uint _sx, l3d_uint _sy, l3d_uint _rx, l3d_uint
 
     {
         glGetIntegerv( GL_VIEWPORT , viewport );
-        gluPickMatrix(_sx,viewport[3]-_sy,5,5,viewport);
+        //gluPickMatrix(_sx,viewport[3]-_sy,5,5,viewport);
         Prospective();
 
         glMatrixMode(GL_MODELVIEW);
@@ -1596,7 +1596,7 @@ int l3d_view::SelectTools(int _sx,int _sy, int _rx, int _ry)
 
     {
         glGetIntegerv( GL_VIEWPORT , viewport );
-        gluPickMatrix(_sx,viewport[3]-_sy,5,5,viewport);
+        //gluPickMatrix(_sx,viewport[3]-_sy,5,5,viewport);
         Prospective();
 
         glMatrixMode(GL_MODELVIEW);

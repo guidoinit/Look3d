@@ -1,7 +1,6 @@
 #ifndef DIALOGMATERIAL_H
 #define DIALOGMATERIAL_H
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include <QOpenGLFunctions>
 
 #include <QDialog>
 

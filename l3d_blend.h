@@ -1,8 +1,6 @@
 #ifndef L3D_BLEND_H
 #define L3D_BLEND_H
-#define GLEW_STATIC
-#include <GL/glew.h>
-
+#include <QOpenGLFunctions>
 
 #include "l3d_include.h"
 

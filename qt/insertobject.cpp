@@ -1,8 +1,9 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
 
 #include <QColorDialog>
-
+#include <QTimer>
+#include <QDebug>
+#include <QFileDialog>
+#include <QMessageBox>
 #include "program_info.h"
 
 

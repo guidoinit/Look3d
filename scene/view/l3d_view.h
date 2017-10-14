@@ -1,6 +1,6 @@
 #ifndef LED_VIEW_H
 #define LED_VIEW_H
-
+#include <QOpenGLFunctions>
 #include "scene/elements/lightmodel.h"
 #include "mesh/l3d_vertex.h"
 #include "scene/sceneenum.h"
@@ -52,7 +52,7 @@ namespace l3d
         l3d_double _alpha,_beta;//angoli per la telecamera
         void init()
         {
-            gluLookAt(_pointEye.x,_pointEye.y,_pointEye.z,_pointCenter.x,_pointCenter.y,_pointCenter.z,_pointUp.x,_pointUp.y,_pointUp.z);
+           // gluLookAt(_pointEye.x,_pointEye.y,_pointEye.z,_pointCenter.x,_pointCenter.y,_pointCenter.z,_pointUp.x,_pointUp.y,_pointUp.z);
             //gluLookAt(0.0F,20.0F,50.0F,0.0F,0.0F,0.0F,0.0F,1.0F,0.0F);
         }
         void setalpha(l3d_double _a)
@@ -88,7 +88,7 @@ namespace l3d
             }
             if(_normal)
             {
-                gluPerspective(_fovy,_aspect,_znear2,_zfar2);
+                //gluPerspective(_fovy,_aspect,_znear2,_zfar2);
                 return;
             }
 

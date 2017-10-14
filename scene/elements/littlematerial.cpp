@@ -1,10 +1,9 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
+
 #include "littlematerial.h"
 
 
 littlematerial::littlematerial(QWidget *parent )
- : QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
+ : QOpenGLWidget( parent)
 {
 
 
@@ -20,7 +19,7 @@ void littlematerial::update()
 {
     paintGL();
 
-    this->swapBuffers();
+    //this->swapBuffers();
 
 }
 
@@ -76,9 +75,9 @@ void littlematerial::paintGL()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    gluPerspective(45.0f,1.5F,1.0F,10000.0F);
+    //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
 
-    gluLookAt(0.0,0.0,40.0,0.0,0.0,0.0,0.0,1.0,0.0);
+    //gluLookAt(0.0,0.0,40.0,0.0,0.0,0.0,0.0,1.0,0.0);
 
     glMatrixMode(GL_MODELVIEW);
 
@@ -102,6 +101,6 @@ void littlematerial::resizeGL(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    gluPerspective(45.0f,aspect,1.0F,10000.0F);
+    //gluPerspective(45.0f,aspect,1.0F,10000.0F);
     glMatrixMode(GL_MODELVIEW);
 }

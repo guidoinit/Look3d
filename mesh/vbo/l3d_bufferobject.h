@@ -1,9 +1,6 @@
 #ifndef L3D_BUFFEROBJECT_H
 #define L3D_BUFFEROBJECT_H
-#define GLEW_STATIC
-
-#include <GL/glew.h>
-#include <QGLWidget>
+#include <QOpenGLFunctions>
 
 #include "l3d_include.h"
 

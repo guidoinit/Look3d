@@ -1,13 +1,14 @@
 #ifndef OPENGL_H
 #define OPENGL_H
-#define GLEW_STATIC
-#include <GL/glew.h>
 
-#include <QGLWidget>
+
+
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 
 #include "scene/sceneinclude.h"
 
-class OpenGL : public  QGLWidget
+class OpenGL :public QOpenGLWidget, protected QOpenGLFunctions
 {
     Q_OBJECT
 public:

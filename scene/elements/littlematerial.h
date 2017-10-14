@@ -1,15 +1,15 @@
 #ifndef LITTLEMATERIAL_H
 #define LITTLEMATERIAL_H
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 
-#include <QGLWidget>
+
 
 #include "../../mesh/l3d_material.h"
 
 
 using namespace l3d::material;
-class littlematerial : public QGLWidget
+class littlematerial : public QOpenGLWidget, protected QOpenGLFunctions
 {
     Q_OBJECT
 public:

@@ -1,13 +1,12 @@
 #ifndef L3D_VERTEX_H
 #define L3D_VERTEX_H
-#define GLEW_STATIC
-#include <GL/glew.h>
+
 
 #include "l3d_include.h"
 
 
 
-#include <QtOpenGL>
+#include <QOpenGLFunctions>
 #include <iostream>
 #include <fstream>
 

@@ -1,12 +1,8 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
-
-
-#include <QtOpenGL>
 #include "qt/opengl.h"
-
+#include <QDebug>
+#include <QWheelEvent>
 OpenGL::OpenGL(QWidget *parent )
- : QGLWidget(parent)
+ : QOpenGLWidget(parent)
 {
 
 
@@ -132,11 +128,7 @@ void OpenGL::buttonclicked()
 void OpenGL::initializeGL()
 {
 
-    GLenum err = glewInit();
-    if (GLEW_OK != err)
-    {
-        return;
-    }
+    initializeOpenGLFunctions();
 
     pscene->InitScene();
 

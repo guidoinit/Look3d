@@ -1,6 +1,4 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <QtOpenGL>
+
 #include <stdlib.h>
 #include <math.h>
 

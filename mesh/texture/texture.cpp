@@ -7,12 +7,9 @@
  * E-mail:      texzk@gameprog.it or gnegno88@libero.it
  *
  */
-#define GLEW_STATIC
-#include <GL/glew.h>
 
-#include <QtOpenGL>
-
-#include <QGLWidget>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 #include <GL/glu.h>
 #include "jpeg.h"
 #include "texture.h"

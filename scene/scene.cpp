@@ -1,5 +1,4 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
+
 
 #include <cmath>
 #include <vector>
@@ -493,15 +492,15 @@ void scene::InitPipeline()
         switch(m_scene)
         {
         case SCENE::sall:
-            gluPerspective(45.0f,1.5F,1.0F,10000.0F);
+            //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
             break;
         case SCENE::s3d:
 
-                gluPerspective(45.0f,1.5F,1.0F,10000.0F);
+               // gluPerspective(45.0f,1.5F,1.0F,10000.0F);
             break;
         case SCENE::stelecamera:
 
-                gluPerspective(45.0f,1.5F,1.0F,10000.0F);
+               // gluPerspective(45.0f,1.5F,1.0F,10000.0F);
             break;
         //case SCENE::sleft:
         //	break;
@@ -804,7 +803,7 @@ void scene::Pipeline()
 
             glLoadIdentity();
 
-            gluPerspective(45.0f,1.5F,1.0F,10000.0F);
+            //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
 
             glPushMatrix();
 
@@ -1011,7 +1010,7 @@ void scene::DrawMultiSelect(int x,int y, int x1, int y1)
 
     qDebug() << "viewport:" << viewport[0] << " " << viewport[1]<<" " << viewport[2] << " " << viewport[3];
 
-    gluPickMatrix(x,viewport[3]-y,x1,y1,viewport);
+   // gluPickMatrix(x,viewport[3]-y,x1,y1,viewport);
     qDebug() << "x:"<< x << "y:" <<  viewport[3]-y << "x1" << x1 << "y1" << y1;
 
     InitPipeline();
@@ -1175,7 +1174,7 @@ int scene::SelectTools(int x,int y, int x1, int y1)
 
         qDebug() << "viewport:" << viewport[0] << " " << viewport[1]<<" " << viewport[2] << " " << viewport[3];
 
-        gluPickMatrix(x,viewport[3]-y,5,5,viewport);
+        //gluPickMatrix(x,viewport[3]-y,5,5,viewport);
         qDebug() << "x:"<< x << "y:" <<  viewport[3]-y << "x1" << x1 << "y1" << y1;
 
         _main_view.Prospective();
@@ -6195,7 +6194,7 @@ l3d_vertex_fast scene::getpoint3d(l3d_uint x,l3d_uint y)
     winY = (float)viewport[3] - (float)y;
     glReadPixels( x, int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
 
-    gluUnProject( winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
+    //gluUnProject( winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
 
     myv.x=posX;
     myv.y=posY;

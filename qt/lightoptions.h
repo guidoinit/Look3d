@@ -1,7 +1,6 @@
 #ifndef LIGHTOPTIONS_H
 #define LIGHTOPTIONS_H
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include <QOpenGLFunctions>
 
 #include <QDialog>
 #include "scene/elements/l3d_light.h"

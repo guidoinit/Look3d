@@ -1,13 +1,10 @@
 #ifndef INSERTCIRLCE_H
 #define INSERTCIRLCE_H
 
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include <QOpenGLFunctions>
 
 
 
-
-#include <QtOpenGL>
 #include <QDialog>
 
 class circleGL;

@@ -1,5 +1,4 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
+
 
 #include "lightoptions.h"
 #include "ui_lightoptions.h"

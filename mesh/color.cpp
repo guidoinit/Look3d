@@ -1,7 +1,4 @@
-#define GLEW_STATIC
-
-#include <GL/glew.h>
-#include <QtOpenGL>
+#include <QOpenGLFunctions>
 #include "color.h"
 
 color::color()
@@ -33,5 +30,6 @@ void color::set(float nr,float ng,float nb,float na)
 }
 void color::draw()
 {
+
     glColor4f(r,g,b,a);
 }

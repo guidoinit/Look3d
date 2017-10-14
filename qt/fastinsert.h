@@ -1,8 +1,8 @@
 #ifndef FASTINSERT_H
 #define FASTINSERT_H
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <QtOpenGL>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
+
 #include <QDialog>
 
 
@@ -41,7 +41,7 @@ private slots:
 };
 
 
-class insertGL : public QGLWidget
+class insertGL : public QOpenGLWidget, protected QOpenGLFunctions
 {
     Q_OBJECT
 public:

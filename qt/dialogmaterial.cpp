@@ -1,5 +1,5 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include <QTimer>
+#include <QMouseEvent>
 
 #include "dialogmaterial.h"
 #include "ui_dialogmaterial.h"
@@ -183,9 +183,9 @@ void previewmaterial::initializeGL()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    gluPerspective(45.0f,1.5F,1.0F,10000.0F);
+    //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
 
-    gluLookAt(0.0,0.0,40.0,0.0,0.0,0.0,0.0,1.0,0.0);
+    //gluLookAt(0.0,0.0,40.0,0.0,0.0,0.0,0.0,1.0,0.0);
 
 
 }
@@ -204,8 +204,8 @@ void previewmaterial::paintGL()
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45.0f,1.5F,1.0F,10000.0F);
-    gluLookAt(0.0,0.0,40.0,0.0,0.0,0.0,0.0,1.0,0.0);
+    //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
+    //gluLookAt(0.0,0.0,40.0,0.0,0.0,0.0,0.0,1.0,0.0);
     glMatrixMode(GL_MODELVIEW);
 
 
@@ -230,7 +230,7 @@ void previewmaterial::resizeGL(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    gluPerspective(45.0f,aspect,1.0F,10000.0F);
+   // gluPerspective(45.0f,aspect,1.0F,10000.0F);
     glMatrixMode(GL_MODELVIEW);
 }
 

@@ -1,7 +1,4 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
-
-#include <QGLWidget>
+#include <QOpenGLFunctions>
 #include "mesh/l3d_vertex.h"
 #include "settrackball.h"
 using namespace l3d::vertex3f;

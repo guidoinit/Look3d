@@ -1,10 +1,8 @@
 #ifndef INSERTOBJECT_H
 #define INSERTOBJECT_H
-#define GLEW_STATIC
-#include <GL/glew.h>
-
+#include <QOpenGLFunctions>
 #include <QObject>
-#include "qt/opengl.h"
+#include <QStandardItemModel>
 #include "ui_mainwindow.h"
 
 #include "newobject.h"

@@ -14,10 +14,9 @@
 //    along with Foobar.  If not, see <http://www.gnu.org/licenses/>
 //
 //
-#define GLEW_STATIC
-#include <GL/glew.h>
 
-#include <QGLWidget>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 #include <GL/glu.h>
 #include <math.h>
 

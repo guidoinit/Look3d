@@ -1,5 +1,3 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
 
 #include "blend_dialog.h"
 #include "ui_blend_dialog.h"

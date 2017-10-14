@@ -1,7 +1,6 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <QGLWidget>
-
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
+#include <QDebug>
 
 #include "l3d_include.h"
 #include "l3d_vertex.h"
@@ -2148,9 +2147,9 @@ void l3d_mesh::create_torus(l3d_float* par)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    gluPerspective(45.0f,1.5F,1.0F,10000.0F);
+    //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
 
-    gluLookAt(0.0,0.0,40.0,0.0,0.0,0.0,0.0,1.0,0.0);
+    //gluLookAt(0.0,0.0,40.0,0.0,0.0,0.0,0.0,1.0,0.0);
     GLfloat mat[16];
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

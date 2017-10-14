@@ -4,11 +4,11 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl
+QT       += core gui widgets opengl
 
 TARGET = Look3D
 TEMPLATE = app
-INCLUDEPATH += scene/lib/glew-1.9.0/include/
+#INCLUDEPATH += scene/lib/glew-1.9.0/include/
 INCLUDEPATH += lua52/include/
 #INCLUDEPATH += scene/lib/lib3ds-20080909/lib/
 #LIBS += -Lscene/lib/lib3ds-20080909/lib/ -llib3ds.lib

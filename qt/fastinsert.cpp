@@ -1,5 +1,4 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include <QTimer>
 
 #include "loadpackage.h"
 #include "ui_loadpackage.h"
@@ -46,7 +45,7 @@ void fastinsert::update()
 }
 
 insertGL::insertGL(QWidget *parent )
- : QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
+ : QOpenGLWidget( parent)
 {
 
    /* newsphere= new sphereuv();
@@ -77,7 +76,7 @@ void insertGL::update()
 {
     paintGL();
 
-    this->swapBuffers();
+    //this->swapBuffers();
 
 }
 
@@ -121,9 +120,9 @@ void insertGL::paintGL()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    gluPerspective(45.0f,1.5F,1.0F,10000.0F);
+    //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
 
-    gluLookAt(0.0,0.0,40.0,0.0,0.0,0.0,0.0,1.0,0.0);
+    //gluLookAt(0.0,0.0,40.0,0.0,0.0,0.0,0.0,1.0,0.0);
 
     glMatrixMode(GL_MODELVIEW);
 
@@ -144,7 +143,7 @@ void insertGL::resizeGL(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    gluPerspective(45.0f,1.5F,1.0F,10000.0F);
+    //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
     glMatrixMode(GL_MODELVIEW);
 }
 

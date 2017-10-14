@@ -1,10 +1,8 @@
 #ifndef NEWOBJECT_H
 #define NEWOBJECT_H
-#define GLEW_STATIC
-#include <GL/glew.h>
-
+#include <QOpenGLFunctions>
 #include <QDialog>
-#include <QGLWidget>
+
 
 #include "mesh/l3d_mesh.h"
 

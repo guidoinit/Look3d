@@ -1,7 +1,5 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <QGLWidget>
-
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 
 #include "l3d_include.h"
 #include "l3d_bufferobject.h"
@@ -42,13 +40,13 @@ void l3d_bufferobject::setbuffer(l3d_void _b)
 
 void l3d_bufferobject::bind()
 {
-    glBindBuffer(target, idb);
+    //glBindBuffer(target, idb);
 
 }
 void l3d_bufferobject::deletebuffer()
 {
 
-    glDeleteBuffers(1,&idb);
+    //glDeleteBuffers(1,&idb);
 
     //delete buffer;
 }
@@ -59,34 +57,34 @@ void l3d_bufferobject::draw(l3d_mode_draw mode)
 
     glDrawElements(mode, size(), GL_UNSIGNED_INT, 0);
 
-    glBindBuffer(target, 0);
+   // glBindBuffer(target, 0);
 
 }
 
 void l3d_bufferobject::create()
 {
-    glGenBuffers(1, &idb);
+    //glGenBuffers(1, &idb);
 
-    glBindBuffer(target, idb);
+    //glBindBuffer(target, idb);
 
-    glBufferData(target, lenght_element * lenght_buffer,buffer,usage);
+    //glBufferData(target, lenght_element * lenght_buffer,buffer,usage);
 
-    glBindBuffer(target, 0);
+    //glBindBuffer(target, 0);
 
     delete buffer;
 
 }
 void l3d_bufferobject::create_sub()
 {
-    glGenBuffers(1, &idb);
+    //glGenBuffers(1, &idb);
 
-    glBindBuffer(target, idb);
+    //glBindBuffer(target, idb);
 
-    glBufferData(target, lenght_element * lenght_buffer,NULL,usage);
+    //glBufferData(target, lenght_element * lenght_buffer,NULL,usage);
 
-    glBufferSubData(target, 0, lenght_element * lenght_buffer, buffer);
+    //glBufferSubData(target, 0, lenght_element * lenght_buffer, buffer);
 
-    glBindBuffer(target, 0);
+    //glBindBuffer(target, 0);
 
     delete buffer;
 
@@ -124,12 +122,12 @@ l3d_void l3d_bufferobject::getbufferobject(l3d_access _access)
 
     access=_access;
 
-    glBindBuffer(target, idb);
+  //  glBindBuffer(target, idb);
 
-    l3d_void ptr = (l3d_void*)glMapBuffer(target,access);
+ //   l3d_void ptr = (l3d_void*)glMapBuffer(target,access);
 
 
-    return(ptr);
+    //return(ptr);
 
 
 
@@ -148,6 +146,6 @@ void l3d_bufferobject::set_target(l3d_buffertype _t)
 void l3d_bufferobject::unmapbuffer()
 {
 
-    glUnmapBuffer(target);
+  //  glUnmapBuffer(target);
 
 }

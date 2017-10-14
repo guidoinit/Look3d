@@ -1,8 +1,7 @@
 #ifndef L3D_INCLUDE_H
 #define L3D_INCLUDE_H
 
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include <QOpenGLFunctions>
 
 typedef double l3d_double;
 typedef float l3d_float;

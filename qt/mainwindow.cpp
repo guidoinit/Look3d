@@ -1,5 +1,6 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include <QOpenGLFunctions>
+#include <QMessageBox>
+#include <QFileDialog>
 
 #include "insertobject.h"
 #include "ui_mainwindow.h"
@@ -67,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_insertobject->initMainDock(maintreemodel,ui);
 
-    glewInit();
+
 
 
 

@@ -1,9 +1,7 @@
 #ifndef ACTION_H
 #define ACTION_H
-#define GLEW_STATIC
+#include <QOpenGLFunctions>
 
-#include <GL/glew.h>
-#include <QtOpenGL>
 #include "l3d_vertex.h"
 
 using namespace l3d::vertex3f;

@@ -1,7 +1,6 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 
-#include <QGLWidget>
 #include <vector>
 
 #include "mesh/l3d_vertex.h"

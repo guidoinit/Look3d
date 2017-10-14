@@ -1,5 +1,3 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
 
 #include "l3d_modifier_draw.h"
 #include "l3d_include.h"

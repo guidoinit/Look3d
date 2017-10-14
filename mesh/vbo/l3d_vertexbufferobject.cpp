@@ -1,6 +1,5 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <QGLWidget>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 #include <QDebug>
 #include "l3d_bufferobject.h"
 #include "l3d_vertexbufferobject.h"

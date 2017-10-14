@@ -4,8 +4,7 @@
 #include <cstdlib>
 #include <vector>
 
-#define GLEW_STATIC
-#include <GL/glew.h>
+
 
 //#include "mesh/object3dinclude.h"
 #include "l3d_include.h"
