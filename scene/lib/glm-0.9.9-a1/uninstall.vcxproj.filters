@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\guido\Look3D-0.0.3\scene\lib\glm-0.9.9-a1\CMakeLists.txt" />
+    <CustomBuild Include="C:\Users\guido\Look3D-0.0.3\scene\lib\glm-0.9.9-a1\CMakeFiles\69886366b11b46dd3117863a091519b5\uninstall.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\guido\Look3D-0.0.3\scene\lib\glm-0.9.9-a1\CMakeFiles\uninstall" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{9DB99EF6-3BAB-3A83-BA7C-A08348E21955}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
