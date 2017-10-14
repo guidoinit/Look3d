@@ -1,7 +1,6 @@
-#define GLEW_STATIC
-#include <GL/glew.h>
 
-#include <QtOpenGL>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 
 #include <math.h>
 #include <vector>
@@ -20,9 +19,9 @@ lightmodel::lightmodel()
 }
 void lightmodel::set()
 {
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT,m_ambient);
-    glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER,m_local_viewer);
-    glLightModelf(GL_LIGHT_MODEL_TWO_SIDE,m_two_side);
+    //glLightModelfv(GL_LIGHT_MODEL_AMBIENT,m_ambient);
+    //glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER,m_local_viewer);
+    //glLightModelf(GL_LIGHT_MODEL_TWO_SIDE,m_two_side);
 
     /*
 GL_LIGHT_MODEL_AMBIENT

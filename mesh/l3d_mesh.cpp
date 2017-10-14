@@ -2144,20 +2144,20 @@ void l3d_mesh::create_torus(l3d_float* par)
 
 
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    //glMatrixMode(GL_PROJECTION);
+    //glLoadIdentity();
 
     //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
 
     //gluLookAt(0.0,0.0,40.0,0.0,0.0,0.0,0.0,1.0,0.0);
     GLfloat mat[16];
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glPushMatrix();
+   // glMatrixMode(GL_MODELVIEW);
+    //glLoadIdentity();
+   // glPushMatrix();
 
-    glLoadIdentity();
+   // glLoadIdentity();
 
-    glTranslatef(0.0F,0.0F,0.0F);
+   // glTranslatef(0.0F,0.0F,0.0F);
 
 
     for(double ix=(fx/2.0F); ix < 360.0F; ix+=fx)
@@ -2166,10 +2166,10 @@ void l3d_mesh::create_torus(l3d_float* par)
             appx=sin(ix * 3.1415F / 180.0F)*m_raggiox;
             appz=cos(ix * 3.1415F / 180.0F)*m_raggiox;
             appy=0.0F;
-            glPushMatrix();
-            glTranslatef(appx,appy,appz);
-            glRotatef(90.0F,1.0F,0.0F,0.0F);
-            glRotatef(90.0F-ix,0.0F,0.0F,1.0F);
+           // glPushMatrix();
+           // glTranslatef(appx,appy,appz);
+          //  glRotatef(90.0F,1.0F,0.0F,0.0F);
+           // glRotatef(90.0F-ix,0.0F,0.0F,1.0F);
 
             for(double iy=(fy/2.0F); iy<360.0F; iy+=fy)
             {
@@ -2181,7 +2181,7 @@ void l3d_mesh::create_torus(l3d_float* par)
                     appz1=cos(iy * 3.1415F /180.0F)*m_raggioy;
                     appy1=0.0F;
 
-                    glGetFloatv(GL_MODELVIEW_MATRIX,mat);
+           //         glGetFloatv(GL_MODELVIEW_MATRIX,mat);
                     m[0]=appx1;
                     m[1]=appy1;
                     m[2]=appz1;
@@ -2193,14 +2193,14 @@ void l3d_mesh::create_torus(l3d_float* par)
 
 
             }
-            glPopMatrix();
+          //  glPopMatrix();
 
 
 
     }
 
 
-    glPopMatrix();
+   // glPopMatrix();
 
             // creazione dei poligoni
             int start=0;
@@ -2834,23 +2834,23 @@ void l3d_mesh::draw_vbo(l3d_vertexbufferobject* vbo)
 
     //glBindBuffer(buffer_element_array, vbo->_idindex);
 
-    glEnableClientState(cap_texture_coord);
-    glEnableClientState(cap_normal);
-    glEnableClientState(cap_vertex);
+ //   glEnableClientState(cap_texture_coord);
+//    glEnableClientState(cap_normal);
+//    glEnableClientState(cap_vertex);
 
-    glTexCoordPointer(3, GL_FLOAT, sizeof(l3d_VBO_element) , (float*)(sizeof(l3d_glfloat)*3));
-    glNormalPointer(GL_FLOAT, sizeof(l3d_VBO_element) , (float*)(sizeof(l3d_glfloat)*5));
-    glVertexPointer(3, GL_FLOAT, sizeof(l3d_VBO_element) , NULL);
+//    glTexCoordPointer(3, GL_FLOAT, sizeof(l3d_VBO_element) , (float*)(sizeof(l3d_glfloat)*3));
+//    glNormalPointer(GL_FLOAT, sizeof(l3d_VBO_element) , (float*)(sizeof(l3d_glfloat)*5));
+    //glVertexPointer(3, GL_FLOAT, sizeof(l3d_VBO_element) , NULL);
 
     //if(vbo->_elementvert!=NULL)
     //    glDrawElements(GL_POINTS,  vbo->_elementvert->size() , GL_UNSIGNED_INT, NULL);
-    if(vbo->_elementface!=NULL)
-        glDrawElements(GL_TRIANGLES,  vbo->_elementface->size() , GL_UNSIGNED_INT, NULL);
+   // if(vbo->_elementface!=NULL)
+   //     glDrawElements(GL_TRIANGLES,  vbo->_elementface->size() , GL_UNSIGNED_INT, NULL);
 
 
-    glDisableClientState(cap_vertex);
-    glDisableClientState(cap_normal);
-    glDisableClientState(cap_texture_coord);
+  //  glDisableClientState(cap_vertex);
+  //  glDisableClientState(cap_normal);
+  //  glDisableClientState(cap_texture_coord);
 
     //glBindBuffer(buffer_array, 0);
     //glBindBuffer(buffer_element_array, 0);
@@ -2874,26 +2874,26 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
 
        int nIndex=0;
 
-       glDisable(GL_CULL_FACE);
-       glDisable(GL_DEPTH_TEST);
+//       glDisable(GL_CULL_FACE);
+//       glDisable(GL_DEPTH_TEST);
 
 
-       if(mesh->_display->invert)
-            glFrontFace(GL_CCW);
-       else
-            glFrontFace(GL_CW);
+//       if(mesh->_display->invert)
+    //        glFrontFace(GL_CCW);
+  //     else
+ //           glFrontFace(GL_CW);
 
 
-       glDisable(GL_LIGHTING);
+ //      glDisable(GL_LIGHTING);
 
 
        mesh->use_blend_edit();
 
 
-       glMatrixMode(GL_MODELVIEW);
+ //      glMatrixMode(GL_MODELVIEW);
 
 
-       glPushMatrix();
+ //      glPushMatrix();
 
 
        mesh->_transformation.draw();
@@ -2909,10 +2909,10 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
            while( pl)
            {
 
-               if (pl->selected())
-                   glColor4f(0.0F,0.5F,1.0F,alpha);
-               else
-                   glColor4f(0.0F,0.5F,0.5F,alpha);
+  //             if (pl->selected())
+  //                 glColor4f(0.0F,0.5F,1.0F,alpha);
+  //             else
+ //                  glColor4f(0.0F,0.5F,0.5F,alpha);
 
                l3d_uint v0,v1;
                pl3d_vertex_fast vp;
@@ -2921,20 +2921,20 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
 
 
 
-               glBegin(GL_LINES);
+  //             glBegin(GL_LINES);
 
                 vp=mesh->_vertex.find(v0);
 
-                glVertex3f(vp->x,vp->y,vp->z);
+ //               glVertex3f(vp->x,vp->y,vp->z);
 
                 vp=mesh->_vertex.find(v1);
 
-                glVertex3f(vp->x,vp->y,vp->z);
+ //               glVertex3f(vp->x,vp->y,vp->z);
 
 
 
 
-               glEnd();
+   //            glEnd();
 
 
                pl=pl->next;
@@ -2946,7 +2946,7 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
 
        if (mesh->_quad.size()>0){
 
-            glBegin(GL_QUADS);
+  //          glBegin(GL_QUADS);
 
             l3d_uint ix=0;
             face4=mesh->_quad.find(ix);
@@ -3000,16 +3000,16 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
 
 
 
-                glColor4f(0.0F,1.0F,0.5F,alpha);
+     //           glColor4f(0.0F,1.0F,0.5F,alpha);
 
 
-                if (face4->_selected)
+     //           if (face4->_selected)
 
-                    glColor4f(0.0F,0.5F,1.0F,alpha);
+     //               glColor4f(0.0F,0.5F,1.0F,alpha);
 
-                else
+    //            else
 
-                    glColor4f(0.0F,0.5F,0.5F,alpha);
+     //               glColor4f(0.0F,0.5F,0.5F,alpha);
 
 
 
@@ -3032,19 +3032,19 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
 
                         appv=mesh->_vertex.find(d);
 
-                        glVertex3f(appv->x,appv->y,appv->z);
+     //                   glVertex3f(appv->x,appv->y,appv->z);
 
                         appv=mesh->_vertex.find(c);
 
-                        glVertex3f(appv->x,appv->y,appv->z);
+     //                   glVertex3f(appv->x,appv->y,appv->z);
 
                         appv=mesh->_vertex.find(b);
 
-                        glVertex3f(appv->x,appv->y,appv->z);
+     //                   glVertex3f(appv->x,appv->y,appv->z);
 
                         appv=mesh->_vertex.find(a);
 
-                        glVertex3f(appv->x,appv->y,appv->z);
+     //                   glVertex3f(appv->x,appv->y,appv->z);
 
 
                     }
@@ -3061,19 +3061,19 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
 
                         appv=mesh->_vertex.find(a);
 
-                        glVertex3f(appv->x,appv->y,appv->z);
+   //                     glVertex3f(appv->x,appv->y,appv->z);
 
                         appv=mesh->_vertex.find(b);
 
-                        glVertex3f(appv->x,appv->y,appv->z);
+  //                      glVertex3f(appv->x,appv->y,appv->z);
 
                         appv=mesh->_vertex.find(c);
 
-                        glVertex3f(appv->x,appv->y,appv->z);
+    //                    glVertex3f(appv->x,appv->y,appv->z);
 
                         appv=mesh->_vertex.find(d);
 
-                        glVertex3f(appv->x,appv->y,appv->z);
+     //                   glVertex3f(appv->x,appv->y,appv->z);
 
 
 
@@ -3090,12 +3090,12 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
                 face4=face4->next;
 
             }
-            glEnd();
+      //      glEnd();
 
             ix=0;
             face4=mesh->_quad.find(ix);
 
-            glBegin(GL_LINES);
+     //       glBegin(GL_LINES);
             {
             pl3d_vertex_fast appv;
             while (face4 )
@@ -3108,7 +3108,7 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
                 }
                 pl3d_line_struct l0,l1,l2,l3;
 
-                glLineWidth(2.0F);
+      //          glLineWidth(2.0F);
 
 
                     l0=face4->_l0;
@@ -3118,69 +3118,69 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
 
                     if(!l0->erase)
                     {
-                        if(l0->selected())
-                            glColor4f(0.0F,1.0F,1.0F,alpha);
-                        else
-                            glColor4f(0.0F,0.0F,0.0F,alpha);
+ //                       if(l0->selected())
+  //                          glColor4f(0.0F,1.0F,1.0F,alpha);
+  //                      else
+  //                          glColor4f(0.0F,0.0F,0.0F,alpha);
 
 
 
 
                         appv=l0->_v0;
-                        glVertex3f(appv->x,appv->y,appv->z);
+//                        glVertex3f(appv->x,appv->y,appv->z);
                         appv=l0->_v1;
-                        glVertex3f(appv->x,appv->y,appv->z);
+ //                       glVertex3f(appv->x,appv->y,appv->z);
 
 
                     }
                     if(!l1->erase)
                     {
-                        if(l1->selected())
-                            glColor4f(0.0F,1.0F,1.0F,.2F);
-                        else
-                            glColor4f(0.0F,0.0F,0.0F,.2F);
+  //                      if(l1->selected())
+  //                          glColor4f(0.0F,1.0F,1.0F,.2F);
+  //                      else
+  //                          glColor4f(0.0F,0.0F,0.0F,.2F);
 
 
 
 
                         appv=l1->_v0;
-                        glVertex3f(appv->x,appv->y,appv->z);
+//                        glVertex3f(appv->x,appv->y,appv->z);
                         appv=l1->_v1;
-                        glVertex3f(appv->x,appv->y,appv->z);
+//                        glVertex3f(appv->x,appv->y,appv->z);
 
 
                     }
                     if(!l2->erase)
                     {
-                        if(l2->selected())
-                            glColor4f(0.0F,1.0F,1.0F,alpha);
-                        else
-                            glColor4f(0.0F,0.0F,0.0F,alpha);
+  //                      if(l2->selected())
+  //                          glColor4f(0.0F,1.0F,1.0F,alpha);
+  //                      else
+  //                          glColor4f(0.0F,0.0F,0.0F,alpha);
 
 
 
 
                         appv=l2->_v0;
-                        glVertex3f(appv->x,appv->y,appv->z);
+//                        glVertex3f(appv->x,appv->y,appv->z);
                         appv=l2->_v1;
-                        glVertex3f(appv->x,appv->y,appv->z);
+//                        glVertex3f(appv->x,appv->y,appv->z);
 
 
                     }
                     if(!l3->erase)
                     {
-                        if(l3->selected())
-                            glColor4f(0.0F,1.0F,1.0F,alpha);
-                        else
-                            glColor4f(0.0F,0.0F,0.0F,alpha);
+                        //if(l3->selected())
+                           // glColor4f(0.0F,1.0F,1.0F,alpha);
+                       // else
+                       //     glColor4f(0.0F,0.0F,0.0F,alpha);
 
 
 
 
                         appv=l3->_v0;
-                        glVertex3f(appv->x,appv->y,appv->z);
+                      //  glVertex3f(appv->x,appv->y,appv->z);
                         appv=l3->_v1;
-                        glVertex3f(appv->x,appv->y,appv->z);
+                     //   glVertex3f(appv->x,appv->y,appv->z);
 
 
                     }
@@ -3195,7 +3195,7 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
 
 
             }
-            }glEnd();
+            }//glEnd();
 
 
         }
@@ -3207,7 +3207,7 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
          if (mesh->_faces.size()>0)
         {
 
-            glBegin(GL_TRIANGLES);
+           // glBegin(GL_TRIANGLES);
             nIndex=0;
             pl3d_face3_struct face=mesh->_faces.find(nIndex);
 
@@ -3255,12 +3255,12 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
 
 
 
-                glColor4f(0.0F,1.0F,0.5F,alpha);
+            //    glColor4f(0.0F,1.0F,0.5F,alpha);
 
-                if (face->_selected)
-                    glColor4f(0.0F,0.5F,1.0F,alpha);
-                else
-                    glColor4f(0.0F,0.5F,0.5F,alpha);
+           //     if (face->_selected)
+           //         glColor4f(0.0F,0.5F,1.0F,alpha);
+           //     else
+           //         glColor4f(0.0F,0.5F,0.5F,alpha);
 
                 if(!ccw)
                 {
@@ -3284,11 +3284,11 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
                 if(app1 && app2 && app3)
                 {
 
-                    glVertex3f(app1->x,app1->y,app1->z);
+           //         glVertex3f(app1->x,app1->y,app1->z);
+//
+           //         glVertex3f(app2->x,app2->y,app2->z);
 
-                    glVertex3f(app2->x,app2->y,app2->z);
-
-                    glVertex3f(app3->x,app3->y,app3->z);
+           //         glVertex3f(app3->x,app3->y,app3->z);
 
                 }
 
@@ -3305,11 +3305,11 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
 
                 nIndex++;
                 face=face->next;
-                glLineWidth(2.0F);
+           //     glLineWidth(2.0F);
 
 
             }
-            glEnd();
+          //  glEnd();
 
 
 
@@ -3324,10 +3324,10 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
         l3d_uint ip=0;
 
         pl3d_vertex_fast vert=mesh->_vertex.find(ip);
+//
+     //   glPointSize(2.0F);
 
-        glPointSize(2.0F);
-
-        glBegin(GL_POINTS);
+     //   glBegin(GL_POINTS);
         while(vert)
         {
 
@@ -3345,12 +3345,12 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
                 //glPushMatrix();
 
 
-                if(vert->_selected)
-                    glColor4f(1.0F,0.0F,0.0F,alpha);
-                else
-                    glColor4f(1.0F,1.0F,0.0F,alpha);
+        //        if(vert->_selected)
+        //            glColor4f(1.0F,0.0F,0.0F,alpha);
+        //        else
+        //            glColor4f(1.0F,1.0F,0.0F,alpha);
 
-                glVertex3f(vert->x,vert->y,vert->z);
+        //        glVertex3f(vert->x,vert->y,vert->z);
 
 
 
@@ -3364,19 +3364,19 @@ void l3d_mesh::draw_edit(pl3d_mesh_struct  mesh)
 
         }
 
-        glEnd();
+        //glEnd();
 
-        glPopMatrix();
-        glPointSize(1.0F);
-
-
+        //glPopMatrix();
+        //glPointSize(1.0F);
 
 
-        glEnable(GL_LIGHTING);
-        glDisable(GL_BLEND);
 
-        glEnable(GL_CULL_FACE);
-        glEnable(GL_DEPTH_TEST);
+
+        //glEnable(GL_LIGHTING);
+        //glDisable(GL_BLEND);
+
+       // glEnable(GL_CULL_FACE);
+       /// glEnable(GL_DEPTH_TEST);
 
 
 }
@@ -3415,19 +3415,19 @@ void l3d_mesh::draw_vbo(pl3d_mesh_struct  m,SCENE::ModeDraw md)
         return;
     if(m->_vbo==l3d_null)
         return;
-    if(m->_display->invert)
-         glFrontFace(GL_CCW);
-    else
-         glFrontFace(GL_CW);
+  //  if(m->_display->invert)
+  //       glFrontFace(GL_CCW);
+  //  else
+  //       glFrontFace(GL_CW);
 
     if(m->blend())
         m->use_blend();
 
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
+ //   glEnable(GL_CULL_FACE);
+ //   glEnable(GL_DEPTH_TEST);
 
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
+//    glMatrixMode(GL_MODELVIEW);
+//    glPushMatrix();
 
 
     m->_transformation.draw();
@@ -3435,10 +3435,10 @@ void l3d_mesh::draw_vbo(pl3d_mesh_struct  m,SCENE::ModeDraw md)
 
 
 
-    if( m->_display->smooth)
-        glShadeModel(GL_SMOOTH);
-    else
-        glShadeModel(GL_FLAT);
+  //  if( m->_display->smooth)
+ //       glShadeModel(GL_SMOOTH);
+ //   else
+ //       glShadeModel(GL_FLAT);
 
 
     // Bind our buffers much like we would for texturing
@@ -3450,15 +3450,15 @@ void l3d_mesh::draw_vbo(pl3d_mesh_struct  m,SCENE::ModeDraw md)
     // order I set the pointers
 
 
-    glEnableClientState(cap_texture_coord);
-    glEnableClientState(cap_color);
-    glEnableClientState(cap_normal);
-    glEnableClientState(cap_vertex);
+//    glEnableClientState(cap_texture_coord);
+//    glEnableClientState(cap_color);
+//    glEnableClientState(cap_normal);
+//    glEnableClientState(cap_vertex);
 
-    glTexCoordPointer(3, GL_FLOAT, sizeof(l3d_VBO_element) , (float*)(sizeof(l3d_glfloat)*3));
-    glColorPointer(4,GL_FLOAT,sizeof(l3d_VBO_element),(float*)(sizeof(l3d_glfloat)*8));
-    glNormalPointer(GL_FLOAT, sizeof(l3d_VBO_element) , (float*)(sizeof(l3d_glfloat)*5));
-    glVertexPointer(3, GL_FLOAT, sizeof(l3d_VBO_element) , NULL);
+//    glTexCoordPointer(3, GL_FLOAT, sizeof(l3d_VBO_element) , (float*)(sizeof(l3d_glfloat)*3));
+//    glColorPointer(4,GL_FLOAT,sizeof(l3d_VBO_element),(float*)(sizeof(l3d_glfloat)*8));
+//    glNormalPointer(GL_FLOAT, sizeof(l3d_VBO_element) , (float*)(sizeof(l3d_glfloat)*5));
+//    glVertexPointer(3, GL_FLOAT, sizeof(l3d_VBO_element) , NULL);
 
 
 
@@ -3496,7 +3496,7 @@ void l3d_mesh::draw_vbo(pl3d_mesh_struct  m,SCENE::ModeDraw md)
             //glEnable(GL_LIGHTING);
             matsel.set();
 
-        glPointSize(2.0F);
+//        glPointSize(2.0F);
 
         if(m->_vbo->_elementvert!=NULL)
             m->_vbo->_elementvert->draw(draw_points);
@@ -3511,12 +3511,12 @@ void l3d_mesh::draw_vbo(pl3d_mesh_struct  m,SCENE::ModeDraw md)
     if(md==SCENE::solid)
     {
 
-        glDisable(GL_LIGHTING);
+  //      glDisable(GL_LIGHTING);
 
-        if(!m->selected())
-            glColor4f(0.2F,0.2F,1.0F,1.0F);
-        else
-            glColor4f(0.5F,0.5F,0.5F,1.0F);
+   //     if(!m->selected())
+  //          glColor4f(0.2F,0.2F,1.0F,1.0F);
+  //      else
+  //          glColor4f(0.5F,0.5F,0.5F,1.0F);
 
 
 
@@ -3533,7 +3533,7 @@ void l3d_mesh::draw_vbo(pl3d_mesh_struct  m,SCENE::ModeDraw md)
             m->_vbo->_elementface->draw(draw_triangles);
         }
 
-        glEnable(GL_LIGHTING);
+        //glEnable(GL_LIGHTING);
 
     }
     if(md==SCENE::color)
@@ -3562,16 +3562,16 @@ void l3d_mesh::draw_vbo(pl3d_mesh_struct  m,SCENE::ModeDraw md)
     }
 
 
-    glDisableClientState(cap_texture_coord);
-    glDisableClientState(cap_color);
-    glDisableClientState(cap_normal);
-    glDisableClientState(cap_vertex);
+//    glDisableClientState(cap_texture_coord);
+//    glDisableClientState(cap_color);
+//    glDisableClientState(cap_normal);
+//    glDisableClientState(cap_vertex);
 
 
 
-    glPopMatrix();
+ //   glPopMatrix();
 
-    glDisable(GL_BLEND);
+//    glDisable(GL_BLEND);
 
 }
 

@@ -158,28 +158,28 @@ void objectGL::initializeGL()
 
 
     //glewInit();
-    glClearColor(0.5,0.5,0.5,1.0);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glShadeModel(GL_SMOOTH);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
+//    glClearColor(0.5,0.5,0.5,1.0);
+//    glEnable(GL_DEPTH_TEST);
+//    glEnable(GL_CULL_FACE);
+//    glShadeModel(GL_SMOOTH);
+//    glEnable(GL_LIGHTING);
+//    glEnable(GL_LIGHT0);
 
     static GLfloat lightPosition[4] = { 0.0, 10.0, 0.0, 1.0 };
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+//    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 }
 void objectGL::paintGL()
 {
     static float rot[3]={0.0,0.0,0.0};
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//    glLoadIdentity();
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
-    //gluLookAt(0.0,0.0,40.0,0.0,0.0,0.0,0.0,1.0,0.0);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+//    glMatrixMode(GL_PROJECTION);
+//    glLoadIdentity();
+//    //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
+//    //gluLookAt(0.0,0.0,40.0,0.0,0.0,0.0,0.0,1.0,0.0);
+//    glMatrixMode(GL_MODELVIEW);
+//    glLoadIdentity();
 
 
     if(preview)
@@ -261,14 +261,14 @@ void objectGL::paintGL()
 }
 void objectGL::resizeGL(int width, int height)
 {
-    glViewport(0,0,width,height);
+//    glViewport(0,0,width,height);
 
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+//    glMatrixMode(GL_PROJECTION);
+//    glLoadIdentity();
 
-    //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
-    glMatrixMode(GL_MODELVIEW);
+//    //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
+//    glMatrixMode(GL_MODELVIEW);
 }
 
 

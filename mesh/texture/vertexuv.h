@@ -1,9 +1,7 @@
 #ifndef VERTEXUV_H
 #define VERTEXUV_H
-#define GLEW_STATIC
-#include <GL/glew.h>
 
-#include <QtOpenGL>
+
 #include <iostream>
 #include <fstream>
 

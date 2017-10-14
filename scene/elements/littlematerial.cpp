@@ -31,24 +31,24 @@ void littlematerial::initializeGL()
 
 
     static GLfloat lightPosition[4] = { 0.0, 25.0, 30.0, 1.0 };
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+    //glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
 
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[] = { 50.0 };
 
 
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+    //glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+   // glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+   // glMatrixMode(GL_MODELVIEW);
+   // glLoadIdentity();
 
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glShadeModel(GL_SMOOTH);
+   // glEnable(GL_LIGHTING);
+  //  glEnable(GL_LIGHT0);
+  //  glEnable(GL_DEPTH_TEST);
+  //  glEnable(GL_CULL_FACE);
+  //  glShadeModel(GL_SMOOTH);
 
 }
 void littlematerial::paintGL()
@@ -72,14 +72,14 @@ void littlematerial::paintGL()
 
 
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    //glMatrixMode(GL_PROJECTION);
+    //glLoadIdentity();
 
     //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
 
     //gluLookAt(0.0,0.0,40.0,0.0,0.0,0.0,0.0,1.0,0.0);
 
-    glMatrixMode(GL_MODELVIEW);
+    //glMatrixMode(GL_MODELVIEW);
 
     //m_cube->m_angolo[0]=rot[0]++;
     //m_cube->m_angolo[1]=rot[1]++;
@@ -98,9 +98,9 @@ void littlematerial::resizeGL(int width, int height)
     glViewport(0,0,width,height);
 
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    //glMatrixMode(GL_PROJECTION);
+   // glLoadIdentity();
 
     //gluPerspective(45.0f,aspect,1.0F,10000.0F);
-    glMatrixMode(GL_MODELVIEW);
+    //glMatrixMode(GL_MODELVIEW);
 }

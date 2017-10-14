@@ -144,16 +144,16 @@ void previewmaterial::update()
 void previewmaterial::initializeGL()
 {
 
-    glClearColor(0.5,0.5,0.5,1.0);
+    //glClearColor(0.5,0.5,0.5,1.0);
 
 
 
     static GLfloat lightPosition[4] = { 0.0F, 100.0F, 0.0F, 1.0F };
     static GLfloat lightvalue[4]={ 0.2F, 0.2F, 0.2F, 1.0F };
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, lightvalue);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightvalue);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, lightvalue);
+    //glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+    //glLightfv(GL_LIGHT0, GL_AMBIENT, lightvalue);
+    //glLightfv(GL_LIGHT0, GL_DIFFUSE, lightvalue);
+    //glLightfv(GL_LIGHT0, GL_SPECULAR, lightvalue);
 
 
 
@@ -161,27 +161,27 @@ void previewmaterial::initializeGL()
     GLfloat mat_shininess[] = { 50.0 };
 
 
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+   // glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+   // glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+   // glMatrixMode(GL_MODELVIEW);
+   // glLoadIdentity();
 
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glDisable(GL_LIGHT1);
-    glDisable(GL_LIGHT2);
-    glDisable(GL_LIGHT3);
-    glDisable(GL_LIGHT4);
-    glDisable(GL_LIGHT5);
-    glDisable(GL_LIGHT6);
-    glDisable(GL_LIGHT7);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glShadeModel(GL_SMOOTH);
+   // glEnable(GL_LIGHTING);
+   // glEnable(GL_LIGHT0);
+   // glDisable(GL_LIGHT1);
+   // glDisable(GL_LIGHT2);
+   // glDisable(GL_LIGHT3);
+   // glDisable(GL_LIGHT4);
+   // glDisable(GL_LIGHT5);
+   // glDisable(GL_LIGHT6);
+   // glDisable(GL_LIGHT7);
+   // glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_CULL_FACE);
+    //glShadeModel(GL_SMOOTH);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    //glMatrixMode(GL_PROJECTION);
+    //glLoadIdentity();
 
     //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
 
@@ -193,29 +193,29 @@ void previewmaterial::paintGL()
 {
 
     l3d_modifier_draw _draw;
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+   // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     static GLfloat lightPosition[4] = { 0.0F, 100.0F, 50.0F, 1.0F };
     static GLfloat lightvalue[4]={ 0.5F, 0.5F, 0.5F, 1.0F };
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, lightvalue);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightvalue);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, lightvalue);
+   // glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+   // glLightfv(GL_LIGHT0, GL_AMBIENT, lightvalue);
+   // glLightfv(GL_LIGHT0, GL_DIFFUSE, lightvalue);
+   // glLightfv(GL_LIGHT0, GL_SPECULAR, lightvalue);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+   // glMatrixMode(GL_PROJECTION);
+   // glLoadIdentity();
     //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
     //gluLookAt(0.0,0.0,40.0,0.0,0.0,0.0,0.0,1.0,0.0);
-    glMatrixMode(GL_MODELVIEW);
+    //glMatrixMode(GL_MODELVIEW);
 
 
-    glPushMatrix();
+   // glPushMatrix();
 
     _draw.draw(&m_sphere,SCENE::color);
 
     //m_sphere->DrawMaterial(false);
 
-    glPopMatrix();
+   // glPopMatrix();
 
 }
 void previewmaterial::resizeGL(int width, int height)
@@ -224,14 +224,14 @@ void previewmaterial::resizeGL(int width, int height)
 
     float aspect=(float)(width/height);
     //glViewport((width - side) / 2, (height - side) / 2, side, side);
-    glViewport(0,0,width,height);
+   // glViewport(0,0,width,height);
 
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+   // glMatrixMode(GL_PROJECTION);
+   // glLoadIdentity();
 
    // gluPerspective(45.0f,aspect,1.0F,10000.0F);
-    glMatrixMode(GL_MODELVIEW);
+   // glMatrixMode(GL_MODELVIEW);
 }
 
 

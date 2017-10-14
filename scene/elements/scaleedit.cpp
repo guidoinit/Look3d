@@ -94,100 +94,100 @@ void scaleedit::Draw(bool inmove)
     l3d_modifier_draw _draw;
 
 
-        glDisable(GL_LIGHTING);
-        glMatrixMode(GL_MODELVIEW);
-        glPushMatrix();
+        //glDisable(GL_LIGHTING);
+        //glMatrixMode(GL_MODELVIEW);
+        //glPushMatrix();
 
         if (_angolo.x>360) _angolo.x-=360;
         if (_angolo.y>360) _angolo.y-=360;
         if (_angolo.z>360) _angolo.z-=360;
 
-        glTranslatef(_wp.x,_wp.y,_wp.z);
+        //glTranslatef(_wp.x,_wp.y,_wp.z);
 
 
-        glRotatef(_angolo.x,1.0,0.0,0.0);
-        glRotatef(_angolo.y,0.0,1.0,0.0);
-        glRotatef(_angolo.z,0.0,0.0,1.0);
+        //glRotatef(_angolo.x,1.0,0.0,0.0);
+        //glRotatef(_angolo.y,0.0,1.0,0.0);
+        //glRotatef(_angolo.z,0.0,0.0,1.0);
 
         //calcola la scala del puntatore in base a m_radius
 
         float _Scale=1.0F;//m_radius/100.0F;
 
 
-        glScalef(_Scale,_Scale,_Scale);
+        //glScalef(_Scale,_Scale,_Scale);
 
 
 
-        glLineWidth(2.0f);
-        glBegin(GL_LINES);
+        //glLineWidth(2.0f);
+        //glBegin(GL_LINES);
 
 
 
-        glColor3f(0.0F,1.0F,0.0F);
+        //glColor3f(0.0F,1.0F,0.0F);
 
-        glVertex3f(_v[0].x,_v[0].y,_v[0].z);
-        glVertex3f(_v[1].x,_v[1].y,_v[1].z);
-
-
-
-
-        glColor3f(0.0F,0.0F,1.0F);
-        glVertex3f(_v[2].x,_v[2].y,_v[2].z);
-        glVertex3f(_v[3].x,_v[3].y,_v[3].z);
+        //glVertex3f(_v[0].x,_v[0].y,_v[0].z);
+        //glVertex3f(_v[1].x,_v[1].y,_v[1].z);
 
 
 
-        glColor3f(1.0F,0.0F,0.0F);
-        glVertex3f(_v[4].x,_v[4].y,_v[4].z);
-        glVertex3f(_v[5].x,_v[5].y,_v[5].z);
+
+        //glColor3f(0.0F,0.0F,1.0F);
+        //glVertex3f(_v[2].x,_v[2].y,_v[2].z);
+        //glVertex3f(_v[3].x,_v[3].y,_v[3].z);
 
 
 
-        glEnd();
-        glPushMatrix();
+        //glColor3f(1.0F,0.0F,0.0F);
+        //glVertex3f(_v[4].x,_v[4].y,_v[4].z);
+        //glVertex3f(_v[5].x,_v[5].y,_v[5].z);
 
-            glTranslatef(_v[1].x,_v[1].y,_v[1].z);
 
 
-            glColor4f(0.0F,1.0F,0.0F,1.0F);
+        //glEnd();
+        //glPushMatrix();
+
+          //  glTranslatef(_v[1].x,_v[1].y,_v[1].z);
+
+
+          //  glColor4f(0.0F,1.0F,0.0F,1.0F);
             _draw.draw(&_cube,SCENE::color);
 
 
 
-        glPopMatrix();
+        //glPopMatrix();
 
-        glPushMatrix();
+        //glPushMatrix();
 
-            glTranslatef(_v[3].x,_v[3].y,_v[3].z);
+        //    glTranslatef(_v[3].x,_v[3].y,_v[3].z);
 
-            glColor4f(.0F,0.0F,1.0F,1.0F);
+        //    glColor4f(.0F,0.0F,1.0F,1.0F);
             _draw.draw(&_cube,SCENE::color);
 
-        glPopMatrix();
+        //glPopMatrix();
 
-        glPushMatrix();
+        //glPushMatrix();
 
 
-            glTranslatef(_v[5].x,_v[5].y,_v[5].z);
+          //  glTranslatef(_v[5].x,_v[5].y,_v[5].z);
 
-            glColor4f(1.0F,0.0F,0.0F,1.0F);
+          //  glColor4f(1.0F,0.0F,0.0F,1.0F);
             _draw.draw(&_cube,SCENE::color);
 
-        glPopMatrix();
+        //glPopMatrix();
 
 
-        glPushMatrix();
+       // glPushMatrix();
 
 
             //glTranslatef(_wp.x,_wp.y,_wp.z);
-            glColor4f(1.0F,1.0F,0.0F,1.0F);
+         //   glColor4f(1.0F,1.0F,0.0F,1.0F);
             _draw.draw(&_cube,SCENE::solid);
 
-        glPopMatrix();
+        //glPopMatrix();
 
-        glPopMatrix();
+        //glPopMatrix();
 
-        glEnable(GL_LIGHTING);
+        //glEnable(GL_LIGHTING);
 
 }
 
@@ -197,21 +197,21 @@ void scaleedit::DrawSelect()
 
 
     l3d_modifier_draw _draw;
-    glMatrixMode(GL_MODELVIEW);
+    //glMatrixMode(GL_MODELVIEW);
 
-    glPushMatrix();
+    //glPushMatrix();
     {
 
         if (_angolo.x>360) _angolo.x-=360;
         if (_angolo.y>360) _angolo.y-=360;
         if (_angolo.z>360) _angolo.z-=360;
 
-        glTranslatef(_wp.x,_wp.y,_wp.z);
+      //  glTranslatef(_wp.x,_wp.y,_wp.z);
 
 
-        glRotatef(_angolo.x,1.0,0.0,0.0);
-        glRotatef(_angolo.y,0.0,1.0,0.0);
-        glRotatef(_angolo.z,0.0,0.0,1.0);
+      //  glRotatef(_angolo.x,1.0,0.0,0.0);
+      //  glRotatef(_angolo.y,0.0,1.0,0.0);
+      //  glRotatef(_angolo.z,0.0,0.0,1.0);
 
         //calcola la scala del puntatore in base a m_radius
 
@@ -219,79 +219,79 @@ void scaleedit::DrawSelect()
         float _Scale=1.0F;//m_radius/100.0F;
 
 
-        glScalef(_Scale,_Scale,_Scale);
+        //glScalef(_Scale,_Scale,_Scale);
 
 
-        glLoadName(MOVES);
+       // glLoadName(MOVES);
 
 
 
 
-        glPushMatrix();
+       // glPushMatrix();
 
-            glTranslatef(_v[1].x,_v[1].y,_v[1].z);
+       //     glTranslatef(_v[1].x,_v[1].y,_v[1].z);
 
             _draw.draw(&_cube,SCENE::solid);
 
-        glPopMatrix();
+       // glPopMatrix();
 
-        glBegin(GL_LINES);
-
-
-
-                glVertex3f(_v[0].x,_v[0].y,_v[0].z);
-                glVertex3f(_v[1].x,_v[1].y,_v[1].z);
-
-        glEnd();
+       // glBegin(GL_LINES);
 
 
-        glLoadName(MOVES+1);
-        glPushMatrix();
 
-                glTranslatef(_v[3].x,_v[3].y,_v[3].z);
+         //       glVertex3f(_v[0].x,_v[0].y,_v[0].z);
+         //       glVertex3f(_v[1].x,_v[1].y,_v[1].z);
+
+       // glEnd();
+
+
+        //glLoadName(MOVES+1);
+       // glPushMatrix();
+
+         //       glTranslatef(_v[3].x,_v[3].y,_v[3].z);
 
                 _draw.draw(&_cube,SCENE::solid);
 
-        glPopMatrix();
+       // glPopMatrix();
 
-        glBegin(GL_LINES);
+       // glBegin(GL_LINES);
 
-                glVertex3f(_v[2].x,_v[2].y,_v[2].z);
-                glVertex3f(_v[3].x,_v[3].y,_v[3].z);
+       //         glVertex3f(_v[2].x,_v[2].y,_v[2].z);
+       //         glVertex3f(_v[3].x,_v[3].y,_v[3].z);
 
-        glEnd();
+       // glEnd();
 
-        glLoadName(MOVES+2);
+       // glLoadName(MOVES+2);
 
-        glPushMatrix();
-
-
-            glTranslatef(_v[5].x,_v[5].y,_v[5].z);
-
-            _draw.draw(&_cube,SCENE::solid);
-
-        glPopMatrix();
-
-        glBegin(GL_LINES);
+      //  glPushMatrix();
 
 
-
-                glVertex3f(_v[4].x,_v[4].y,_v[4].z);
-                glVertex3f(_v[5].x,_v[5].y,_v[5].z);
-
-        glEnd();
-
-
-        glLoadName(MOVES+3);
-
-        glColor4f(1.0F,1.0F,0.0F,1.0F);
-        glPushMatrix();
-
-            glTranslatef(_wp.x,_wp.y,_wp.z);
+        //    glTranslatef(_v[5].x,_v[5].y,_v[5].z);
 
             _draw.draw(&_cube,SCENE::solid);
 
-        glPopMatrix();
+        //glPopMatrix();
+
+        //glBegin(GL_LINES);
+
+
+
+          //      glVertex3f(_v[4].x,_v[4].y,_v[4].z);
+          //      glVertex3f(_v[5].x,_v[5].y,_v[5].z);
+
+        //glEnd();
+
+
+       // glLoadName(MOVES+3);
+
+       // glColor4f(1.0F,1.0F,0.0F,1.0F);
+      //  glPushMatrix();
+
+        //    glTranslatef(_wp.x,_wp.y,_wp.z);
+
+            _draw.draw(&_cube,SCENE::solid);
+
+      //  glPopMatrix();
 
 
 
@@ -305,7 +305,7 @@ void scaleedit::DrawSelect()
 
 
     }
-    glPopMatrix();
+    //glPopMatrix();
 
 }
 void scaleedit::setpos(l3d_vertex_fast _p)

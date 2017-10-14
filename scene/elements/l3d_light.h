@@ -258,16 +258,16 @@ namespace light
         {
             calculate();
 
-            glPushMatrix();
+//            glPushMatrix();
 
-            glBegin(GL_LINES);
+//            glBegin(GL_LINES);
 
-                glVertex3f(m_pos.x,m_pos.y,m_pos.z);
-                glVertex3f(m_pos2.x,m_pos2.y,m_pos2.z);
+//                glVertex3f(m_pos.x,m_pos.y,m_pos.z);
+//                glVertex3f(m_pos2.x,m_pos2.y,m_pos2.z);
 
 
 
-            glEnd();
+//            glEnd();
 
             _circle._transformation._rotate.x=-(m_angoloa+90.0F);
             _circle._transformation._rotate.z=m_angolob-90.0F;
@@ -291,17 +291,17 @@ namespace light
                 pv0=_circle._vertex.get(v0);
                 pv1=_circle._vertex.get(v1);
 
-                glBegin(GL_LINES);
+//                glBegin(GL_LINES);
 
 
-                    glVertex3f(pv0->x,pv0->y,pv0->z);
-                    glVertex3f(pv1->x,pv1->y,pv1->z);
+//                    glVertex3f(pv0->x,pv0->y,pv0->z);
+//                    glVertex3f(pv1->x,pv1->y,pv1->z);
 
-                    glVertex3f(pv0->x,pv0->y,pv0->z);
-                    glVertex3f(m_pos.x,m_pos.y,m_pos.z);
+//                    glVertex3f(pv0->x,pv0->y,pv0->z);
+//                    glVertex3f(m_pos.x,m_pos.y,m_pos.z);
 
 
-                glEnd();
+//                glEnd();
 
                 _line=_line->next;
             }
@@ -310,7 +310,7 @@ namespace light
 
 
 
-            glPopMatrix();
+//            glPopMatrix();
 
         }
 

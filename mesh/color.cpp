@@ -31,5 +31,5 @@ void color::set(float nr,float ng,float nb,float na)
 void color::draw()
 {
 
-    glColor4f(r,g,b,a);
+    //glColor4f(r,g,b,a);
 }

@@ -57,15 +57,15 @@ void l3d_blend::use_edit()
 {
 
 
-    glEnable(GL_BLEND);
+//    glEnable(GL_BLEND);
 
     //if(_iscull)
-        glDisable(GL_CULL_FACE);
-        glDisable(GL_DEPTH_TEST);
+        //glDisable(GL_DEPTH_TEST);
+       // glDisable(GL_CULL_FACE);
     //else
     //    glDisable(GL_CULL_FACE);
 
-    glBlendFunc(src_color,dst_color);
+    //glBlendFunc(src_color,dst_color);
 
 }
 void l3d_blend::use()
@@ -73,13 +73,13 @@ void l3d_blend::use()
 
     if(!_blend)
         return;
-    glEnable(GL_BLEND);
+    //glEnable(GL_BLEND);
 
-    if(_iscull)
-        glEnable(GL_CULL_FACE);
-    else
-        glDisable(GL_CULL_FACE);
+//    if(_iscull)
+//        glEnable(GL_CULL_FACE);
+//    else
+//        glDisable(GL_CULL_FACE);
 
-    glBlendFunc(_sfactor,_dfactor);
+//    glBlendFunc(_sfactor,_dfactor);
 
 }

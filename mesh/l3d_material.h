@@ -53,16 +53,16 @@ namespace l3d
 
         void set()
         {
-            if(m_bambientanddiffuse)
-                    glMaterialfv (_mface, GL_AMBIENT_AND_DIFFUSE, mat_ambient);
+            if(m_bambientanddiffuse){}
+                    //glMaterialfv (_mface, GL_AMBIENT_AND_DIFFUSE, mat_ambient);
             else
             {
-                    glMaterialfv (_mface, GL_AMBIENT, mat_ambient);
-                    glMaterialfv (_mface, GL_DIFFUSE, mat_diffuse);
+                   // glMaterialfv (_mface, GL_AMBIENT, mat_ambient);
+                   // glMaterialfv (_mface, GL_DIFFUSE, mat_diffuse);
             }
-            glMaterialfv (_mface, GL_SPECULAR, mat_specular);
-            glMaterialfv (_mface, GL_EMISSION, mat_emission);
-            glMaterialf (_mface, GL_SHININESS, mat_shininess[0]);
+           // glMaterialfv (_mface, GL_SPECULAR, mat_specular);
+          //  glMaterialfv (_mface, GL_EMISSION, mat_emission);
+          //  glMaterialf (_mface, GL_SHININESS, mat_shininess[0]);
 
         }
         _l3d_material operator=(const _l3d_material& _m)

@@ -83,7 +83,7 @@ namespace l3d
 
             if(_ortho)
             {
-                glOrtho(_left,_right,_bottom,_top,_znear,_zfar);
+//                glOrtho(_left,_right,_bottom,_top,_znear,_zfar);
                 return;
             }
             if(_normal)

@@ -45,8 +45,6 @@ SOURCES +=    mesh/vertex2f.cpp \
     scene/elements/moveedit.cpp \
     scene/elements/lightmodel.cpp \
     scene/elements/gridviewuv.cpp \
-    scene/exports/md2/Md2Player.cpp \
-    scene/exports/md2/Md2Model.cpp \
     scene/project/projectmanager.cpp \
     scene/project/project.cpp \
     mesh/line.cpp \
@@ -104,7 +102,6 @@ SOURCES +=    mesh/vertex2f.cpp \
     scene/lib/lib3ds-20080909/src/lib3ds_camera.c \
     scene/lib/lib3ds-20080909/src/lib3ds_background.c \
     scene/lib/lib3ds-20080909/src/lib3ds_atmosphere.c \
-    scene/lib/glew-1.9.0/src/glew.c \
     mesh/vbo/bufferobject.cpp \
     mesh/l3d_vertex.cpp \
     mesh/l3d_line.cpp \
@@ -221,9 +218,6 @@ HEADERS  += mesh/vertex2f.h \
     scene/elements/lightmodel.h \
     scene/elements/insert.h \
     scene/elements/gridviewuv.h \
-    scene/exports/md2/Md2Player.h \
-    scene/exports/md2/Md2Model.h \
-    scene/exports/md2/Anorms.h \
     scene/maindocument/mainscenedocument.h \
     scene/project/projectmanager.h \
     scene/project/project.h \
@@ -271,7 +265,6 @@ HEADERS  += mesh/vertex2f.h \
     scene/lib/lib3ds-20080909/src/lib3ds_impl.h \
     scene/lib/lib3ds-20080909/src/lib3ds.h \
     mesh/vbo/objectvbo.h \
-    scene/lib/glew-1.9.0/include/GL/glew.h \
     mesh/vbo/bufferobject.h \
     l3d_include.h \
     mesh/l3d_vertex.h \

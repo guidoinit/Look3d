@@ -66,40 +66,40 @@ void bezierline::init()
         points[ix][1]=_cpoint.get(ix)->y;
         points[ix][2]=_cpoint.get(ix)->z;
     }
-    glMap1f(GL_MAP1_VERTEX_3, 0.0, 1.0, 3, size, &points[0][0]);
-    glEnable(GL_MAP1_VERTEX_3);
+    //glMap1f(GL_MAP1_VERTEX_3, 0.0, 1.0, 3, size, &points[0][0]);
+    //glEnable(GL_MAP1_VERTEX_3);
 }
 void bezierline::drawselect()
 {
 
-    glLoadName(iname);
+    //glLoadName(iname);
     draw();
 }
 
 void bezierline::draw()
 {
 
-    glDisable(GL_LIGHTING);
+    //glDisable(GL_LIGHTING);
 
-    glPushMatrix();
+    //glPushMatrix();
 
-    glColor3f(1.0, 1.0, 1.0);
+    //glColor3f(1.0, 1.0, 1.0);
 
-    glTranslatef(m_wp.x,m_wp.y,m_wp.z);
+    //glTranslatef(m_wp.x,m_wp.y,m_wp.z);
 
-    glRotatef(m_rotate.x,1.0F,0.0F,0.0F);
+    //glRotatef(m_rotate.x,1.0F,0.0F,0.0F);
 
-    glRotatef(m_rotate.y,0.0F,1.0F,0.0F);
+   // glRotatef(m_rotate.y,0.0F,1.0F,0.0F);
 
-    glRotatef(m_rotate.z,0.0F,0.0F,1.0F);
+   // glRotatef(m_rotate.z,0.0F,0.0F,1.0F);
 
     //glScalef(1.0F,1.0F,1.0F);//m_scale.GetX(),m_scale.GetY(),m_scale.GetZ());
-    glScalef(m_scale.x,m_scale.y,m_scale.z);
+   // glScalef(m_scale.x,m_scale.y,m_scale.z);
 
-    glBegin(GL_LINE_STRIP);
-       for (int i = 0; i <= 30; i++)
-          glEvalCoord1f((GLfloat) i/30.0);
-    glEnd();
+   // glBegin(GL_LINE_STRIP);
+       for (int i = 0; i <= 30; i++);
+   //       glEvalCoord1f((GLfloat) i/30.0);
+   // glEnd();
 
     int size=_cpoint.size();
 
@@ -112,22 +112,22 @@ void bezierline::draw()
         points[ix][2]=_cpoint.get(ix)->z;
     }
 
-    glPointSize(5.0);
+   // glPointSize(5.0);
 
-    if(m_selected)
-        glColor3f(1.0, 1.0, 0.0);
-    else
-        glColor3f(1.0, 0.0, 0.0);
+   // if(m_selected)
+    //    glColor3f(1.0, 1.0, 0.0);
+  //  else
+  //      glColor3f(1.0, 0.0, 0.0);
 
-    glBegin(GL_POINTS);
+   // glBegin(GL_POINTS);
 
-        for (int i = 0; i < size; i++)
-          glVertex3fv(&points[i][0]);
+   //     for (int i = 0; i < size; i++)
+  //        glVertex3fv(&points[i][0]);
 
-    glEnd();
+  //  glEnd();
 
-    glPopMatrix();
-    glEnable(GL_LIGHTING);
+ //   glPopMatrix();
+  //  glEnable(GL_LIGHTING);
 }
 void bezierline::applyscale()
 {

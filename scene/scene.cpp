@@ -306,19 +306,19 @@ bool scene::InitScene()
     GLfloat mat_shininess[] = { 50.0 };
 
 
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+    //glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    //glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    //glMatrixMode(GL_MODELVIEW);
+    //glLoadIdentity();
 
 
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glShadeModel(GL_SMOOTH);
+    //glEnable(GL_LIGHTING);
+    //glEnable(GL_LIGHT0);
+    //glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_CULL_FACE);
+    //glShadeModel(GL_SMOOTH);
 
     /*
         GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -354,17 +354,17 @@ void scene::ResetScene(void)
     GLfloat mat_shininess[] = { 50.0 };
 
 
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+    //glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    //glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    //glMatrixMode(GL_MODELVIEW);
+    //glLoadIdentity();
 
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glShadeModel(GL_SMOOTH);
+    //glEnable(GL_LIGHTING);
+    //glEnable(GL_LIGHT0);
+    //glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_CULL_FACE);
+    //glShadeModel(GL_SMOOTH);
     /*
 
         GLfloat ambient[4]={0.3f,0.3f,0.3f,1.0f};
@@ -508,12 +508,12 @@ void scene::InitPipeline()
         //	break;
         case SCENE::stop:
                 //glOrtho(-(opengl.m_view_width/2),(opengl.m_view_width/2),-(opengl.m_view_height/2),(opengl.m_view_height/2),1.0F,1000.0F);
-                glOrtho((-forthox+m_fortho+m_ftop[0])*aspect,(forthox-m_fortho+m_ftop[0])*aspect,(-forthoy+m_fortho+m_ftop[1])*aspect,(forthoy-m_fortho+m_ftop[1])*aspect,1.0F+m_fortho,1000.0F+m_fortho);
+      //          glOrtho((-forthox+m_fortho+m_ftop[0])*aspect,(forthox-m_fortho+m_ftop[0])*aspect,(-forthoy+m_fortho+m_ftop[1])*aspect,(forthoy-m_fortho+m_ftop[1])*aspect,1.0F+m_fortho,1000.0F+m_fortho);
 
             break;
         case SCENE::sleft:
                 //glOrtho(-(opengl.m_view_width/2),(opengl.m_view_width/2),-(opengl.m_view_height/2),(opengl.m_view_height/2),1.0F,1000.0F);
-                glOrtho((-forthox+m_fortho+m_ftop[0])*aspect,(forthox-m_fortho+m_ftop[0])*aspect,(-forthoy+m_fortho+m_ftop[1])*aspect,(forthoy-m_fortho+m_ftop[1])*aspect,1.0F+m_fortho,1000.0F+m_fortho);
+        //        glOrtho((-forthox+m_fortho+m_ftop[0])*aspect,(forthox-m_fortho+m_ftop[0])*aspect,(-forthoy+m_fortho+m_ftop[1])*aspect,(forthoy-m_fortho+m_ftop[1])*aspect,1.0F+m_fortho,1000.0F+m_fortho);
 
             break;
 
@@ -899,7 +899,7 @@ void scene::Pipeline()
 
 void scene::InitLigth()
 {
-    glEnable(GL_LIGHTING);
+    //glEnable(GL_LIGHTING);
 
     m_light_model.set();
 
@@ -932,28 +932,28 @@ void scene::draw_multy_select_pointer(l3d_uint x,l3d_uint y)
     //v3.y+=20.0F;
     v3.x-=side;
     v3.z-=side;
-    glPushMatrix();
+    //glPushMatrix();
 
-    glScalef(1.0F,1.0F,1.0F);
-    glDisable(GL_LIGHTING);
+    //glScalef(1.0F,1.0F,1.0F);
+    //glDisable(GL_LIGHTING);
 
-    glEnable(GL_BLEND);
+    //glEnable(GL_BLEND);
 
-    glFrontFace(GL_CW);
+    //glFrontFace(GL_CW);
 
-    glDisable(GL_CULL_FACE);
+    //glDisable(GL_CULL_FACE);
 
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glColor4f(1.0F,1.0F,0.0F,.3F);
-    glBegin(GL_QUADS);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glColor4f(1.0F,1.0F,0.0F,.3F);
+    //glBegin(GL_QUADS);
 
-    glVertex3f(v0.x,v0.y,v0.z);
+    //glVertex3f(v0.x,v0.y,v0.z);
 
-    glVertex3f(v3.x,v3.y,v3.z);
+    //glVertex3f(v3.x,v3.y,v3.z);
 
-    glVertex3f(v2.x,v2.y,v2.z);
+    //glVertex3f(v2.x,v2.y,v2.z);
 
-    glVertex3f(v1.x,v1.y,v1.z);
+    //glVertex3f(v1.x,v1.y,v1.z);
 
 
     /*glVertex3f(v0.x,v0.y,v0.z);
@@ -969,15 +969,15 @@ void scene::draw_multy_select_pointer(l3d_uint x,l3d_uint y)
     glVertex3f(v0.x,v0.y,v0.z);
     */
 
-    glEnd();
+    //glEnd();
 
-    glPopMatrix();
+    //glPopMatrix();
 
-    glEnable(GL_LIGHTING);
+    //glEnable(GL_LIGHTING);
 
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
 
-    glDisable(GL_BLEND);
+    //glDisable(GL_BLEND);
 
 
 }
@@ -990,12 +990,12 @@ void scene::DrawMultiSelect(int x,int y, int x1, int y1)
 
 
 
-    glSelectBuffer(10000,buffer );
+    //glSelectBuffer(10000,buffer );
 
 
-    glRenderMode(GL_SELECT);
+    //glRenderMode(GL_SELECT);
 
-    glMatrixMode(GL_PROJECTION);
+    //glMatrixMode(GL_PROJECTION);
 
 
 
@@ -1004,9 +1004,9 @@ void scene::DrawMultiSelect(int x,int y, int x1, int y1)
     //glPushMatrix ();
     {
     //inserimento della definizione della viewport per gli hint del mouse
-    glLoadIdentity();
+    //glLoadIdentity();
 
-    glGetIntegerv( GL_VIEWPORT , viewport );
+    //glGetIntegerv( GL_VIEWPORT , viewport );
 
     qDebug() << "viewport:" << viewport[0] << " " << viewport[1]<<" " << viewport[2] << " " << viewport[3];
 
@@ -1019,7 +1019,7 @@ void scene::DrawMultiSelect(int x,int y, int x1, int y1)
     //	gluPerspective(45.0f,1.5f,10,10000);
 
 
-    glMatrixMode(GL_MODELVIEW);
+    //glMatrixMode(GL_MODELVIEW);
     //glLoadIdentity();
 
     //initNames();
@@ -1032,8 +1032,8 @@ void scene::DrawMultiSelect(int x,int y, int x1, int y1)
 //	PosizionaLuce();
 
 
-    glInitNames();
-    glPushName(0);
+    //glInitNames();
+    //glPushName(0);
     //if (m_nModality==2)
 
     switch(m_modedoc)
@@ -1085,7 +1085,7 @@ void scene::DrawMultiSelect(int x,int y, int x1, int y1)
     //glMatrixMode(GL_MODELVIEW);
     //glFlush();
 
-    m_hint=glRenderMode(GL_RENDER);
+    //m_hint=glRenderMode(GL_RENDER);
 
     int ns=-1;
     qDebug() << "hint select:" << m_hint;
@@ -1156,21 +1156,21 @@ int scene::SelectTools(int x,int y, int x1, int y1)
 
 
 
-    glSelectBuffer(10000,buffer );
+    //glSelectBuffer(10000,buffer );
 
 
-    glRenderMode(GL_SELECT);
+    //glRenderMode(GL_SELECT);
 
 
-    glMatrixMode(GL_PROJECTION);
+    //glMatrixMode(GL_PROJECTION);
 
 
 
-    glLoadIdentity();
+    //glLoadIdentity();
 
-    glPushMatrix ();
+    //glPushMatrix ();
     {
-        glGetIntegerv( GL_VIEWPORT , viewport );
+      //  glGetIntegerv( GL_VIEWPORT , viewport );
 
         qDebug() << "viewport:" << viewport[0] << " " << viewport[1]<<" " << viewport[2] << " " << viewport[3];
 
@@ -1180,16 +1180,16 @@ int scene::SelectTools(int x,int y, int x1, int y1)
         _main_view.Prospective();
         //InitPipeline();
 
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
+        //glMatrixMode(GL_MODELVIEW);
+        //glLoadIdentity();
 
         _main_view.Camera();
 
 
 
 
-        glInitNames();
-        glPushName(~0);
+        //glInitNames();
+       // glPushName(~0);
 
         pos=m_maindocument->getmainscenedoc()->gettoolpos();
 
@@ -1233,12 +1233,12 @@ int scene::SelectTools(int x,int y, int x1, int y1)
 
     }
 
-    glPopMatrix();
+    //glPopMatrix();
 
 
 //    glFlush();
 
-    m_hint=glRenderMode(GL_RENDER);
+   // m_hint=glRenderMode(GL_RENDER);
 
     int ns=-1;
     qDebug() << "hint select:" << m_hint;
@@ -2047,26 +2047,26 @@ void scene::DrawPiano()
         float width=300.0F;
         float densita;
 
-        glDisable(GL_CULL_FACE);
-        glDisable(GL_DEPTH_TEST);
+     //   glDisable(GL_CULL_FACE);
+     //   glDisable(GL_DEPTH_TEST);
 
-        glMatrixMode(GL_MODELVIEW);
-        glDisable(GL_LIGHTING);
-        glPushMatrix();
+       // glMatrixMode(GL_MODELVIEW);
+       // glDisable(GL_LIGHTING);
+      //  glPushMatrix();
 
-        glTranslatef(0.0F,0.0F,0.0F);
+      //  glTranslatef(0.0F,0.0F,0.0F);
 
-        glRotatef(0.0F,1.0,0.0,0.0);
-        glRotatef(0.0F,0.0,1.0,0.0);
-        glRotatef(0.0F,0.0,0.0,1.0);
+      //  glRotatef(0.0F,1.0,0.0,0.0);
+      //  glRotatef(0.0F,0.0,1.0,0.0);
+      //  glRotatef(0.0F,0.0,0.0,1.0);
 
         //glScalef(m_Scale[0],m_Scale[1],m_Scale[2]);
         //int nNorm= sqrt((double) pdoc->m_plane.num_vertici);
         //glColor3f(pdoc->m_plane.m_color[0],pdoc->m_plane.m_color[1],pdoc->m_plane.m_color[2]);
 
-        glLineWidth(1.0F);
+      //  glLineWidth(1.0F);
 
-        glBegin(GL_LINES);
+      //  glBegin(GL_LINES);
 
         fx=0.0F;
         fz=0.0F;
@@ -2075,13 +2075,13 @@ void scene::DrawPiano()
 
         densita=width*4.0f;
 
-        glColor3f(0.6F,0.6F,0.6F);
+      //  glColor3f(0.6F,0.6F,0.6F);
 
         for (ix=0; ix <= width*2 ; ix+=(densita/width))
         {
 
-                glVertex3f(fx-width,0.0F,fz-width);
-                glVertex3f(fx+width,0.0F,fz-width);
+        //        glVertex3f(fx-width,0.0F,fz-width);
+        //        glVertex3f(fx+width,0.0F,fz-width);
 
 
                 fz+=(densita/width);
@@ -2091,34 +2091,34 @@ void scene::DrawPiano()
 
         for (ix=0; ix <= width*2 ; ix+=(densita/width))
         {
-                glVertex3f(fx-width,0.0F,fz-width);
-                glVertex3f(fx-width,0.0F,fz+width);
+          //      glVertex3f(fx-width,0.0F,fz-width);
+          //      glVertex3f(fx-width,0.0F,fz+width);
 
                 fx+=(densita/width);
         }
 
         //Disegno frecce x,y,z
 
-        glColor3f(0.0F,1.0F,0.0F);
+       // glColor3f(0.0F,1.0F,0.0F);
 
-        glVertex3f(-width,0.0F,0.0F);
-        glVertex3f(width,0.0F,0.0F);
+      //  glVertex3f(-width,0.0F,0.0F);
+      //  glVertex3f(width,0.0F,0.0F);
 
-        glColor3f(0.0F,0.0F,1.0F);
+      //  glColor3f(0.0F,0.0F,1.0F);
 
         //glVertex3f(0.0F,0.0F,0.0F);
         //glVertex3f(0.0F,20.0F,0.0F);
 
-        glColor3f(1.0F,0.0F,0.0F);
+     //   glColor3f(1.0F,0.0F,0.0F);
 
-        glVertex3f(0.0F ,0.0F ,-width);
-        glVertex3f(0.0F ,0.0F , width);
+     //   glVertex3f(0.0F ,0.0F ,-width);
+     //   glVertex3f(0.0F ,0.0F , width);
 
 
-        glEnd();
-        glPopMatrix();
+     //   glEnd();
+     //   glPopMatrix();
 
-        glEnable(GL_LIGHTING);
+     //   glEnable(GL_LIGHTING);
 
 }
 void scene::DrawPointer()
@@ -4061,7 +4061,7 @@ void scene::OnLButtonUp(unsigned int flags,int pointx,int pointy)
 {
     GLint viewport[4];
 
-    glGetIntegerv( GL_VIEWPORT  ,  viewport);
+    //glGetIntegerv( GL_VIEWPORT  ,  viewport);
 
     m_mousecord.x1=pointx;
     m_mousecord.y1=pointy;
@@ -6019,7 +6019,7 @@ void scene::Import3ds_file(std::string filename)
 
 void scene::ImportModel_md2(std::string filename)
 {
-    Md2Model model(filename);
+   // Md2Model model(filename);
 
     //object3d appobject(&model);
     //appobject.m_angolo[0]-=90.0F;
@@ -6032,10 +6032,10 @@ void scene::ImportModel_md2(std::string filename)
 }
 void scene::ImportPlayer_md2(std::string filename)
 {
-    Md2Player modelplayer(filename);
+  //  Md2Player modelplayer(filename);
 
-    Md2Model* model;
-    model=(Md2Model *)modelplayer.playerMesh();
+  //  Md2Model* model;
+  //  model=(Md2Model *)modelplayer.playerMesh();
 
 
     /*object3d appplayer(model);
@@ -6186,13 +6186,13 @@ l3d_vertex_fast scene::getpoint3d(l3d_uint x,l3d_uint y)
     GLdouble posX, posY, posZ;
     l3d_vertex_fast myv;
 
-    glGetDoublev( GL_MODELVIEW_MATRIX, modelview );
-    glGetDoublev( GL_PROJECTION_MATRIX, projection );
-    glGetIntegerv( GL_VIEWPORT, viewport );
+    //glGetDoublev( GL_MODELVIEW_MATRIX, modelview );
+    //glGetDoublev( GL_PROJECTION_MATRIX, projection );
+    //glGetIntegerv( GL_VIEWPORT, viewport );
 
     winX = (float)x;
     winY = (float)viewport[3] - (float)y;
-    glReadPixels( x, int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
+   // glReadPixels( x, int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
 
     //gluUnProject( winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
 

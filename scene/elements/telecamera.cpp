@@ -114,54 +114,54 @@ void telecamera::Draw()
 {
         //disegna in OpenGL la telecamera
 
-    glDisable(GL_LIGHTING);
-        glPushMatrix();
-        glTranslatef(vpos.x,vpos.y,vpos.z);
-        glRotatef(m_angolox,1.0F,0.0F,0.0F);
-        glRotatef(m_angoloy,0.0F,1.0F,0.0F);
+//    glDisable(GL_LIGHTING);
+//        glPushMatrix();
+//        glTranslatef(vpos.x,vpos.y,vpos.z);
+//        glRotatef(m_angolox,1.0F,0.0F,0.0F);
+//        glRotatef(m_angoloy,0.0F,1.0F,0.0F);
 
-        glColor3f(0.0F,0.0F,0.0F);
-        if(selected)
-                glColor3f(1.0F,1.0F,0.0F);
+//        glColor3f(0.0F,0.0F,0.0F);
+//        if(selected)
+//                glColor3f(1.0F,1.0F,0.0F);
 
-        glPointSize(.5F);
-
-
-        glBegin(GL_LINES);
-        //disegno della telecamera
-        //0-1 1-2 2-3 3-1
-        glVertex3f(vertici[0].x,vertici[0].y,vertici[0].z);
-        glVertex3f(vertici[1].x,vertici[1].y,vertici[1].z);
-
-        glVertex3f(vertici[1].x,vertici[1].y,vertici[1].z);
-        glVertex3f(vertici[2].x,vertici[2].y,vertici[2].z);
-
-        glVertex3f(vertici[2].x,vertici[2].y,vertici[2].z);
-        glVertex3f(vertici[3].x,vertici[3].y,vertici[3].z);
-
-        glVertex3f(vertici[3].x,vertici[3].y,vertici[3].z);
-        glVertex3f(vertici[0].x,vertici[0].y,vertici[0].z);
-
-        glVertex3f(vertici[0].x,vertici[0].y,vertici[0].z);
-        glVertex3f(vertici[4].x,vertici[4].y,vertici[4].z);
-
-        glVertex3f(vertici[1].x,vertici[1].y,vertici[1].z);
-        glVertex3f(vertici[4].x,vertici[4].y,vertici[4].z);
-
-        glVertex3f(vertici[2].x,vertici[2].y,vertici[2].z);
-        glVertex3f(vertici[4].x,vertici[4].y,vertici[4].z);
-
-        glVertex3f(vertici[3].x,vertici[3].y,vertici[3].z);
-        glVertex3f(vertici[4].x,vertici[4].y,vertici[4].z);
+//        glPointSize(.5F);
 
 
+//        glBegin(GL_LINES);
+//        //disegno della telecamera
+//        //0-1 1-2 2-3 3-1
+//        glVertex3f(vertici[0].x,vertici[0].y,vertici[0].z);
+//        glVertex3f(vertici[1].x,vertici[1].y,vertici[1].z);
 
-        glEnd();
+//        glVertex3f(vertici[1].x,vertici[1].y,vertici[1].z);
+//        glVertex3f(vertici[2].x,vertici[2].y,vertici[2].z);
+
+//        glVertex3f(vertici[2].x,vertici[2].y,vertici[2].z);
+//        glVertex3f(vertici[3].x,vertici[3].y,vertici[3].z);
+
+//        glVertex3f(vertici[3].x,vertici[3].y,vertici[3].z);
+//        glVertex3f(vertici[0].x,vertici[0].y,vertici[0].z);
+
+//        glVertex3f(vertici[0].x,vertici[0].y,vertici[0].z);
+//        glVertex3f(vertici[4].x,vertici[4].y,vertici[4].z);
+
+//        glVertex3f(vertici[1].x,vertici[1].y,vertici[1].z);
+//        glVertex3f(vertici[4].x,vertici[4].y,vertici[4].z);
+
+//        glVertex3f(vertici[2].x,vertici[2].y,vertici[2].z);
+//        glVertex3f(vertici[4].x,vertici[4].y,vertici[4].z);
+
+//        glVertex3f(vertici[3].x,vertici[3].y,vertici[3].z);
+//        glVertex3f(vertici[4].x,vertici[4].y,vertici[4].z);
 
 
 
-        glPopMatrix();
-        glEnable(GL_LIGHTING);
+//        glEnd();
+
+
+
+//        glPopMatrix();
+//        glEnable(GL_LIGHTING);
 
 }
 void telecamera::SetName(int nn)
@@ -237,11 +237,11 @@ void telecamera::Serialize(CArchive& ar)
 void telecamera::SetPos(void)
 {
 
-        glMatrixMode(GL_MODELVIEW);
+//        glMatrixMode(GL_MODELVIEW);
 
         Updatefree();
 
-        gluLookAt(vpos.x,vpos.y,vpos.z,vposwhere.x,vposwhere.y,vposwhere.z,vposup.x,vposup.y,vposup.z);
+//        gluLookAt(vpos.x,vpos.y,vpos.z,vposwhere.x,vposwhere.y,vposwhere.z,vposup.x,vposup.y,vposup.z);
 
 
 }
@@ -269,23 +269,23 @@ void telecamera::Updatefree(void)
 
         raggio=5.0F;
 
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
+//        glMatrixMode(GL_MODELVIEW);
+//        glLoadIdentity();
 
-        glPushMatrix();
+//        glPushMatrix();
 
-        glLoadIdentity();
+//        glLoadIdentity();
 
-        glTranslatef(vpos.x,vpos.y,vpos.z);
+//        glTranslatef(vpos.x,vpos.y,vpos.z);
 
-        glRotatef(m_angolox,1.0F,0.0F,0.0F);
-        glRotatef(m_angoloy,0.0F,1.0F,0.0F);
+//        glRotatef(m_angolox,1.0F,0.0F,0.0F);
+//        glRotatef(m_angoloy,0.0F,1.0F,0.0F);
 
         GLfloat mat[16];
         GLfloat m[4];
 
 
-        glGetFloatv(GL_MODELVIEW_MATRIX,mat);
+//        glGetFloatv(GL_MODELVIEW_MATRIX,mat);
 
         x1=sin(0.0F * 3.141592F /180.0F)*raggio;
         z1=cos(0.0F * 3.141592F /180.0F)*raggio;
@@ -299,7 +299,7 @@ void telecamera::Updatefree(void)
 
         MatMult(mat,m);
 
-        glPopMatrix();
+//        glPopMatrix();
 
 
 
@@ -314,23 +314,23 @@ void telecamera::Updatefree(float xa, float ya)
 
     raggio=5.0F;
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+//    glMatrixMode(GL_MODELVIEW);
+//    glLoadIdentity();
 
-    glPushMatrix();
+//    glPushMatrix();
 
-    glLoadIdentity();
+//    glLoadIdentity();
 
-    glTranslatef(vpos.x,vpos.y,vpos.z);
+//    glTranslatef(vpos.x,vpos.y,vpos.z);
 
-    glRotatef(xa,1.0F,0.0F,0.0F);
-    glRotatef(ya,0.0F,1.0F,0.0F);
+//    glRotatef(xa,1.0F,0.0F,0.0F);
+//    glRotatef(ya,0.0F,1.0F,0.0F);
 
     GLfloat mat[16];
     GLfloat m[4];
 
 
-    glGetFloatv(GL_MODELVIEW_MATRIX,mat);
+//    glGetFloatv(GL_MODELVIEW_MATRIX,mat);
 
     x1=sin(m_angoloy * 3.1415F /180.0F)*raggio;
     z1=cos(m_angoloy * 3.1415F /180.0F)*raggio;
@@ -344,7 +344,7 @@ void telecamera::Updatefree(float xa, float ya)
 
     MatMult(mat,m);
 
-    glPopMatrix();
+//    glPopMatrix();
 
 
 

@@ -44,7 +44,7 @@ void gridviewuv::draw()
 
 
 
-    glBegin(GL_POINTS);
+    //glBegin(GL_POINTS);
 
     for(int ix=0; ix < m_vertexgrid.size(); ix++)
     {
@@ -53,14 +53,14 @@ void gridviewuv::draw()
         m_vertexgrid[ix].get(&x,&y);
 
 
-        glVertex2f(x,y);
+      //  glVertex2f(x,y);
 
     }
 
 
 
 
-    glEnd();
+    //glEnd();
 
 
 

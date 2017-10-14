@@ -712,7 +712,7 @@ l3d_double l3d_view::get_prospective_distance3()
 void l3d_view::setViewport(l3d_uint x0, l3d_uint y0, l3d_uint x1, l3d_uint y1)
 {
     _viewport.set(x0,y0,x1,y1);
-    glViewport(x0,y0,x1,y1);
+//    glViewport(x0,y0,x1,y1);
 
     _viewport4[0].set(0.0,x1/2.0,y1/2.0,x1/2.0);
 
@@ -795,54 +795,54 @@ void l3d_view::setDrawFunction(void (*_draw)(void))
 
 void l3d_view::PipeLine4()
 {
-    glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+//    glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
-    glClearColor(0.5f,0.5f,0.5f,0.0F);
+//    glClearColor(0.5f,0.5f,0.5f,0.0F);
 
 
-    glMatrixMode(GL_PROJECTION);
+//    glMatrixMode(GL_PROJECTION);
 
-    glLoadIdentity();
+//    glLoadIdentity();
 
     //_prospective.set(SCENE::s3d);
-    glOrtho(-1.0F,1.0F,-1.0F,1.0F,-100.0F,100.0F);
+//    glOrtho(-1.0F,1.0F,-1.0F,1.0F,-100.0F,100.0F);
 
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+//    glMatrixMode(GL_MODELVIEW);
+//    glLoadIdentity();
 
 
 
-    glDrawBuffer(GL_BACK);
+//    glDrawBuffer(GL_BACK);
 
-    glPushMatrix();
-        //glDisable(GL_LIGHTING);
-        //_viewport.init();
+//    glPushMatrix();
+//        //glDisable(GL_LIGHTING);
+//        //_viewport.init();
 
-        glLineWidth(4.0F);
-        glColor3f(1.0F,1.0F,1.0F);
-        glBegin(GL_LINES);
+//        glLineWidth(4.0F);
+//        glColor3f(1.0F,1.0F,1.0F);
+//        glBegin(GL_LINES);
 
-            glVertex2f(0.0F,1.0F);
-            glVertex2f(0.0F,-1.0F);
+//            glVertex2f(0.0F,1.0F);
+//            glVertex2f(0.0F,-1.0F);
 
-            glVertex2f(-1.0F,0.0F);
-            glVertex2f(1.0F,0.0F);
+//            glVertex2f(-1.0F,0.0F);
+//            glVertex2f(1.0F,0.0F);
 
-        glEnd();
-        glLineWidth(6.0F);
-        glColor3f(0.2F,0.2F,0.2F);
-        glBegin(GL_LINES);
+//        glEnd();
+//        glLineWidth(6.0F);
+//        glColor3f(0.2F,0.2F,0.2F);
+//        glBegin(GL_LINES);
 
-            glVertex2f(0.0F,1.0F);
-            glVertex2f(0.0F,-1.0F);
+//            glVertex2f(0.0F,1.0F);
+//            glVertex2f(0.0F,-1.0F);
 
-            glVertex2f(-1.0F,0.0F);
-            glVertex2f(1.0F,0.0F);
+//            glVertex2f(-1.0F,0.0F);
+//            glVertex2f(1.0F,0.0F);
 
-        glEnd();
+//        glEnd();
 
-    glPopMatrix();
+//    glPopMatrix();
 
     //init view 1
     /*glMatrixMode(GL_PROJECTION);
@@ -930,7 +930,7 @@ void l3d_view::PipeLine4()
 
         Draw();*/
 
-    glPopMatrix();
+//    glPopMatrix();
 
 }
 
@@ -939,18 +939,18 @@ void l3d_view::PipeLine()
     if(_scene==SCENE::sall)
         PipeLine4();
 
-    glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+//    glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
-    glClearColor(0.5f,0.5f,0.5f,0.0F);
+//    glClearColor(0.5f,0.5f,0.5f,0.0F);
 
-    glEnable(GL_LIGHTING);
+//    glEnable(GL_LIGHTING);
 
     _lightmodel.set();
 
 
-    glMatrixMode(GL_PROJECTION);
+//    glMatrixMode(GL_PROJECTION);
 
-    glLoadIdentity();
+//    glLoadIdentity();
 
 
     Prospective();
@@ -960,11 +960,11 @@ void l3d_view::PipeLine()
     Camera();
 
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+//    glMatrixMode(GL_MODELVIEW);
+//    glLoadIdentity();
 
 
-    glPushMatrix();
+//    glPushMatrix();
     //scene trasformation
     /*switch(_scene)
     {
@@ -998,20 +998,20 @@ void l3d_view::PipeLine()
 
 
 
-    glTranslatef(_world_pos.x,_world_pos.y,_world_pos.z);
+//    glTranslatef(_world_pos.x,_world_pos.y,_world_pos.z);
 
 
 
-    glRotatef(0.0F,1.0,0.0,0.0);
+//    glRotatef(0.0F,1.0,0.0,0.0);
 
-    glRotatef(0.0F,0.0,1.0,0.0);
+//    glRotatef(0.0F,0.0,1.0,0.0);
 
-    glRotatef(0.0F,0.0,0.0,1.0);
+//    glRotatef(0.0F,0.0,0.0,1.0);
 
     Draw();
     drawTool(_maindocument->getmainscenedoc()->gettoolpos(),false);
 
-    glPopMatrix();
+//    glPopMatrix();
 
 }
 void l3d_view::setTool(SCENE::SelectTool st)
@@ -1026,7 +1026,7 @@ void l3d_view::setDocument(document* _doc)
 }
 void l3d_view::drawTool(l3d_vertex_fast _pos,l3d_bool _select)
 {
-    glDisable(GL_LIGHTING);
+//    glDisable(GL_LIGHTING);
     //float fmax=-1.0F;
     switch(_selectedtool)
     {
@@ -1061,7 +1061,7 @@ void l3d_view::drawTool(l3d_vertex_fast _pos,l3d_bool _select)
         break;
 
     }
-    glEnable(GL_LIGHTING);
+//    glEnable(GL_LIGHTING);
 }
 
 void l3d_view::DrawPiano()
@@ -1073,30 +1073,30 @@ void l3d_view::DrawPiano()
         float width=200.0F;
         float densita;
 
-        glDisable(GL_CULL_FACE);
-        glDisable(GL_DEPTH_TEST);
+//        glDisable(GL_CULL_FACE);
+//        glDisable(GL_DEPTH_TEST);
 
-        glMatrixMode(GL_MODELVIEW);
+//        glMatrixMode(GL_MODELVIEW);
 
-        glDisable(GL_LIGHTING);
-        glPushMatrix();
+//        glDisable(GL_LIGHTING);
+//        glPushMatrix();
 
-        glTranslatef(0.0F,0.0F,0.0F);
-
-
-        glRotatef(0.0F,1.0,0.0,0.0);
-
-        glRotatef(0.0F,0.0,1.0,0.0);
-
-        glRotatef(0.0F,0.0,0.0,1.0);
+//        glTranslatef(0.0F,0.0F,0.0F);
 
 
+//        glRotatef(0.0F,1.0,0.0,0.0);
+
+//        glRotatef(0.0F,0.0,1.0,0.0);
+
+//        glRotatef(0.0F,0.0,0.0,1.0);
 
 
 
-        glLineWidth(1.0F);
 
-        glBegin(GL_LINES);
+
+//        glLineWidth(1.0F);
+
+//        glBegin(GL_LINES);
 
         fx=0.0F;
         fz=0.0F;
@@ -1104,13 +1104,13 @@ void l3d_view::DrawPiano()
 
         densita=width*10.0f;
 
-        glColor4f(0.6F,0.6F,0.6F,1.0F);
+//        glColor4f(0.6F,0.6F,0.6F,1.0F);
 
         for (ix=0; ix <= width*2 ; ix+=(densita/width))
         {
 
-                glVertex3f(fx-width,0.0F,fz-width);
-                glVertex3f(fx+width,0.0F,fz-width);
+//                glVertex3f(fx-width,0.0F,fz-width);
+//                glVertex3f(fx+width,0.0F,fz-width);
 
 
                 fz+=(densita/width);
@@ -1120,31 +1120,31 @@ void l3d_view::DrawPiano()
 
         for (ix=0; ix <= width*2 ; ix+=(densita/width))
         {
-                glVertex3f(fx-width,0.0F,fz-width);
-                glVertex3f(fx-width,0.0F,fz+width);
+//                glVertex3f(fx-width,0.0F,fz-width);
+//                glVertex3f(fx-width,0.0F,fz+width);
 
                 fx+=(densita/width);
         }
 
 
-        glColor3f(0.0F,1.0F,0.0F);
+//        glColor3f(0.0F,1.0F,0.0F);
 
-        glVertex3f(-width,0.0F,0.0F);
-        glVertex3f(width,0.0F,0.0F);
+//        glVertex3f(-width,0.0F,0.0F);
+//        glVertex3f(width,0.0F,0.0F);
 
-        glColor3f(0.0F,0.0F,1.0F);
-
-
-        glColor3f(1.0F,0.0F,0.0F);
-
-        glVertex3f(0.0F ,0.0F ,-width);
-        glVertex3f(0.0F ,0.0F , width);
+//        glColor3f(0.0F,0.0F,1.0F);
 
 
-        glEnd();
-        glPopMatrix();
+//        glColor3f(1.0F,0.0F,0.0F);
 
-        glEnable(GL_LIGHTING);
+//        glVertex3f(0.0F ,0.0F ,-width);
+//        glVertex3f(0.0F ,0.0F , width);
+
+
+//        glEnd();
+//        glPopMatrix();
+
+//        glEnable(GL_LIGHTING);
 
 }
 
@@ -1157,42 +1157,42 @@ void l3d_view::DrawPianoOrtho()
         float width=300.0F;
         float densita;
 
-        glDisable(GL_CULL_FACE);
-        glDisable(GL_DEPTH_TEST);
+//        glDisable(GL_CULL_FACE);
+//        glDisable(GL_DEPTH_TEST);
 
-        glMatrixMode(GL_MODELVIEW);
+//        glMatrixMode(GL_MODELVIEW);
 
-        glDisable(GL_LIGHTING);
-        glPushMatrix();
+//        glDisable(GL_LIGHTING);
+//        glPushMatrix();
 
-        glTranslatef(0.0F,0.0F,0.0F);
+//        glTranslatef(0.0F,0.0F,0.0F);
         if(_scene==SCENE::sleft || _scene==SCENE::sright )
         {
-            glRotatef(0.0F,1.0,0.0,0.0);
-            glRotatef(0.0F,0.0,1.0,0.0);
-            glRotatef(90.0F,0.0,0.0,1.0);
+//            glRotatef(0.0F,1.0,0.0,0.0);
+//            glRotatef(0.0F,0.0,1.0,0.0);
+//            glRotatef(90.0F,0.0,0.0,1.0);
 
         }
         else if ( _scene==SCENE::sfront|| _scene==SCENE::sback)
         {
-            glRotatef(0.0F,1.0,0.0,0.0);
-            glRotatef(0.0F,0.0,1.0,0.0);
-            glRotatef(0.0F,0.0,0.0,1.0);
+//            glRotatef(0.0F,1.0,0.0,0.0);
+//            glRotatef(0.0F,0.0,1.0,0.0);
+//            glRotatef(0.0F,0.0,0.0,1.0);
 
         }
         else
         {
-            glRotatef(0.0F,1.0,0.0,0.0);
-            glRotatef(0.0F,0.0,1.0,0.0);
-            glRotatef(0.0F,0.0,0.0,1.0);
+//            glRotatef(0.0F,1.0,0.0,0.0);
+//            glRotatef(0.0F,0.0,1.0,0.0);
+//            glRotatef(0.0F,0.0,0.0,1.0);
         }
 
 
 
 
-        glLineWidth(1.0F);
+//        glLineWidth(1.0F);
 
-        glBegin(GL_LINES);
+//        glBegin(GL_LINES);
 
         fx=0.0F;
         fz=0.0F;
@@ -1200,13 +1200,13 @@ void l3d_view::DrawPianoOrtho()
 
         densita=width*5.0f;
 
-        glColor4f(0.6F,0.6F,0.6F,1.0F);
+//        glColor4f(0.6F,0.6F,0.6F,1.0F);
 
         for (ix=0; ix <= width*2 ; ix+=(densita/width))
         {
 
-                glVertex3f(fx-width,0.0F,fz-width);
-                glVertex3f(fx+width,0.0F,fz-width);
+//                glVertex3f(fx-width,0.0F,fz-width);
+//                glVertex3f(fx+width,0.0F,fz-width);
 
 
                 fz+=(densita/width);
@@ -1216,34 +1216,34 @@ void l3d_view::DrawPianoOrtho()
 
         for (ix=0; ix <= width*2 ; ix+=(densita/width))
         {
-                glVertex3f(fx-width,0.0F,fz-width);
-                glVertex3f(fx-width,0.0F,fz+width);
+//                glVertex3f(fx-width,0.0F,fz-width);
+//                glVertex3f(fx-width,0.0F,fz+width);
 
                 fx+=(densita/width);
         }
 
 
-        if(_scene==SCENE::sleft || _scene==SCENE::sright)
-            glColor3f(0.0F,0.0F,1.0F);
-        else
-            glColor3f(0.0F,1.0F,0.0F);
+//        if(_scene==SCENE::sleft || _scene==SCENE::sright)
+//            glColor3f(0.0F,0.0F,1.0F);
+//        else
+//            glColor3f(0.0F,1.0F,0.0F);
 
-        glVertex3f(-width,0.0F,0.0F);
-        glVertex3f(width,0.0F,0.0F);
+//        glVertex3f(-width,0.0F,0.0F);
+//        glVertex3f(width,0.0F,0.0F);
 
-        glColor3f(0.0F,0.0F,1.0F);
-
-
-        glColor3f(1.0F,0.0F,0.0F);
-
-        glVertex3f(0.0F ,0.0F ,-width);
-        glVertex3f(0.0F ,0.0F , width);
+//        glColor3f(0.0F,0.0F,1.0F);
 
 
-        glEnd();
-        glPopMatrix();
+//        glColor3f(1.0F,0.0F,0.0F);
 
-        glEnable(GL_LIGHTING);
+//        glVertex3f(0.0F ,0.0F ,-width);
+//        glVertex3f(0.0F ,0.0F , width);
+
+
+//        glEnd();
+//        glPopMatrix();
+
+//        glEnable(GL_LIGHTING);
 
 }
 void l3d_view::Draw()
@@ -1282,23 +1282,23 @@ l3d_uint l3d_view::drawSelect(l3d_uint _sx, l3d_uint _sy, l3d_uint _rx, l3d_uint
     GLuint *buffer=(GLuint*) ::malloc(sizeof(GLuint)*10000);
 
     GLint viewport[4];
-    glSelectBuffer(10000,buffer );
-    glRenderMode(GL_SELECT);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glPushMatrix ();
+//    glSelectBuffer(10000,buffer );
+//    glRenderMode(GL_SELECT);
+//    glMatrixMode(GL_PROJECTION);
+//    glLoadIdentity();
+//    glPushMatrix ();
 
     {
-        glGetIntegerv( GL_VIEWPORT , viewport );
+//        glGetIntegerv( GL_VIEWPORT , viewport );
         //gluPickMatrix(_sx,viewport[3]-_sy,5,5,viewport);
         Prospective();
 
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
+//        glMatrixMode(GL_MODELVIEW);
+//        glLoadIdentity();
         Camera();
 
-        glInitNames();
-        glPushName(~0);
+//        glInitNames();
+//        glPushName(~0);
 
         //scene trasformation
         /*switch(_scene)
@@ -1331,13 +1331,13 @@ l3d_uint l3d_view::drawSelect(l3d_uint _sx, l3d_uint _sy, l3d_uint _rx, l3d_uint
 
         }*/
 
-        glTranslatef(_world_pos.x,_world_pos.y,_world_pos.z);
+//        glTranslatef(_world_pos.x,_world_pos.y,_world_pos.z);
 
-        glRotatef(0.0F,1.0,0.0,0.0);
+//        glRotatef(0.0F,1.0,0.0,0.0);
 
-        glRotatef(0.0F,0.0,1.0,0.0);
+//        glRotatef(0.0F,0.0,1.0,0.0);
 
-        glRotatef(0.0F,0.0,0.0,1.0);
+//        glRotatef(0.0F,0.0,0.0,1.0);
 
         /*switch(_maindocument->getmainscenedoc()->getmodedocument())
         {
@@ -1448,40 +1448,40 @@ l3d_uint l3d_view::drawSelect(l3d_uint _sx, l3d_uint _sy, l3d_uint _rx, l3d_uint
         }*/
 
 
-    }glPopMatrix();
+    }//glPopMatrix();
 
-    int m_hint=glRenderMode(GL_RENDER);
+//    int m_hint=glRenderMode(GL_RENDER);
 
     int ns=0;
-    if (m_hint)
-    {
-            int n=0;double minz=buffer[1];
+//    if (m_hint)
+//    {
+//            int n=0;double minz=buffer[1];
 
-            for(int i=1 ; i <m_hint ; i++)
-            {
-                if ( buffer[1+i*4] < minz )
-                {
-                    n=i;
-                    minz=buffer[1+i*4];
-                }
-            }
+//            for(int i=1 ; i <m_hint ; i++)
+//            {
+//                if ( buffer[1+i*4] < minz )
+//                {
+//                    n=i;
+//                    minz=buffer[1+i*4];
+//                }
+//            }
 
-            ns=buffer[3+n*4];
-
-
-    }
-
-    else
-
-    {
-
-            if(_modedoc==SCENE::normal)
-                 _maindocument->getmainscenedoc()->unselectobject();
-            //Main_insert->update();
+//            ns=buffer[3+n*4];
 
 
+//    }
 
-    }
+//    else
+
+//    {
+
+//            if(_modedoc==SCENE::normal)
+//                 _maindocument->getmainscenedoc()->unselectobject();
+//            //Main_insert->update();
+
+
+
+//    }
     free(buffer);
 
     //Main_insert->update();
@@ -1588,32 +1588,32 @@ int l3d_view::SelectTools(int _sx,int _sy, int _rx, int _ry)
     GLuint *buffer=(GLuint*) ::malloc(sizeof(GLuint)*10000);
 
     GLint viewport[4];
-    glSelectBuffer(10000,buffer );
-    glRenderMode(GL_SELECT);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glPushMatrix ();
+//    glSelectBuffer(10000,buffer );
+//    glRenderMode(GL_SELECT);
+//    glMatrixMode(GL_PROJECTION);
+//    glLoadIdentity();
+//    glPushMatrix ();
 
     {
-        glGetIntegerv( GL_VIEWPORT , viewport );
+//        glGetIntegerv( GL_VIEWPORT , viewport );
         //gluPickMatrix(_sx,viewport[3]-_sy,5,5,viewport);
         Prospective();
 
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
+//        glMatrixMode(GL_MODELVIEW);
+//        glLoadIdentity();
         Camera();
 
-        glInitNames();
-        glPushName(~0);
+//        glInitNames();
+//        glPushName(~0);
 
         //world transformaton
-        glTranslatef(_world_pos.x,_world_pos.y,_world_pos.z);
+//        glTranslatef(_world_pos.x,_world_pos.y,_world_pos.z);
 
-        glRotatef(0.0F,1.0,0.0,0.0);
+//        glRotatef(0.0F,1.0,0.0,0.0);
 
-        glRotatef(0.0F,0.0,1.0,0.0);
+//        glRotatef(0.0F,0.0,1.0,0.0);
 
-        glRotatef(0.0F,0.0,0.0,1.0);
+//        glRotatef(0.0F,0.0,0.0,1.0);
 
         switch(_selectedtool)
             {
@@ -1648,35 +1648,35 @@ int l3d_view::SelectTools(int _sx,int _sy, int _rx, int _ry)
             }
     }
 
-    glPopMatrix();
+//    glPopMatrix();
 
-    unsigned int m_hint=glRenderMode(GL_RENDER);
+//    unsigned int m_hint=glRenderMode(GL_RENDER);
 
     int ns=-1;
-    qDebug() << "hint select:" << m_hint;
+//    qDebug() << "hint select:" << m_hint;
 
-    if (m_hint)
-    {
-        int n=0;double minz=buffer[1];
+//    if (m_hint)
+//    {
+//        int n=0;double minz=buffer[1];
 
-        for(int i=1 ; i <m_hint ; i++)
-        {
-            if ( buffer[1+i*4] < minz )
-            {
-                n=i;
-                minz=buffer[1+i*4];
-            }
-        }
+//        for(int i=1 ; i <m_hint ; i++)
+//        {
+//            if ( buffer[1+i*4] < minz )
+//            {
+//                n=i;
+//                minz=buffer[1+i*4];
+//            }
+//        }
 
-        ns=buffer[3+n*4];
+//        ns=buffer[3+n*4];
 
-    }
-    else
-    {
-        free(buffer);
-        return (-1);
+//    }
+//    else
+//    {
+//        free(buffer);
+//        return (-1);
 
-    }
+//    }
 
     if (ns==20000 || ns==20001 || ns==20002 || ns==20003)
     {

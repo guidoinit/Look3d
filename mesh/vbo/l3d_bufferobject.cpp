@@ -55,7 +55,7 @@ void l3d_bufferobject::draw(l3d_mode_draw mode)
 {
     bind();
 
-    glDrawElements(mode, size(), GL_UNSIGNED_INT, 0);
+    //glDrawElements(mode, size(), GL_UNSIGNED_INT, 0);
 
    // glBindBuffer(target, 0);
 

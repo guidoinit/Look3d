@@ -41,15 +41,15 @@ namespace l3d
             if (_rotate.y>360) _rotate.y-=360;
             if (_rotate.z>360) _rotate.z-=360;
 
-            if(! inmove)
-                glTranslatef(_wp.x,_wp.y,_wp.z);
-            else
-                glTranslatef(_wp2.x,_wp2.y,_wp2.z);
+           // if(! inmove)
+          //      glTranslatef(_wp.x,_wp.y,_wp.z);
+          //  else
+          //      glTranslatef(_wp2.x,_wp2.y,_wp2.z);
 
-            glRotatef(_rotate.x,1.0,0.0,0.0);
-            glRotatef(_rotate.y,0.0,1.0,0.0);
-            glRotatef(_rotate.z,0.0,0.0,1.0);
-            glScalef( _scale.x, _scale.y, _scale.z);
+          //  glRotatef(_rotate.x,1.0,0.0,0.0);
+         //   glRotatef(_rotate.y,0.0,1.0,0.0);
+          //  glRotatef(_rotate.z,0.0,0.0,1.0);
+         //   glScalef( _scale.x, _scale.y, _scale.z);
         }
         void draw_group()
         {
@@ -59,11 +59,11 @@ namespace l3d
 
 
 
-            glTranslatef(_wpgroup.x,_wpgroup.y,_wpgroup.z);
-            glRotatef(_rotategroup.x,1.0,0.0,0.0);
-            glRotatef(_rotategroup.y,0.0,1.0,0.0);
-            glRotatef(_rotategroup.z,0.0,0.0,1.0);
-            glScalef( _scalegroup.x,_scalegroup.y,_scalegroup.z);
+           // glTranslatef(_wpgroup.x,_wpgroup.y,_wpgroup.z);
+          //  glRotatef(_rotategroup.x,1.0,0.0,0.0);
+          //  glRotatef(_rotategroup.y,0.0,1.0,0.0);
+          //  glRotatef(_rotategroup.z,0.0,0.0,1.0);
+          //  glScalef( _scalegroup.x,_scalegroup.y,_scalegroup.z);
 
         }
         void draw_group(_transform *pg)
@@ -72,19 +72,19 @@ namespace l3d
             if (_rotategroup.y>360) _rotategroup.y-=360;
             if (_rotategroup.z>360) _rotategroup.z-=360;
 
-            glTranslatef(pg->_wp.x,pg->_wp.y,pg->_wp.z);
+        //    glTranslatef(pg->_wp.x,pg->_wp.y,pg->_wp.z);
 
-            glRotatef(pg->_rotate.x,1.0,0.0,0.0);
-            glRotatef(pg->_rotate.y,0.0,1.0,0.0);
-            glRotatef(pg->_rotate.z,0.0,0.0,1.0);
+        //    glRotatef(pg->_rotate.x,1.0,0.0,0.0);
+        //    glRotatef(pg->_rotate.y,0.0,1.0,0.0);
+        //    glRotatef(pg->_rotate.z,0.0,0.0,1.0);
 
-            glScalef(pg->_scale.x,pg->_scale.y,pg->_scale.z);
+         //   glScalef(pg->_scale.x,pg->_scale.y,pg->_scale.z);
 
-            glTranslatef(_wpgroup.x,_wpgroup.y,_wpgroup.z);
-            glRotatef(_rotategroup.x,1.0,0.0,0.0);
-            glRotatef(_rotategroup.y,0.0,1.0,0.0);
-            glRotatef(_rotategroup.z,0.0,0.0,1.0);
-            glScalef( _scalegroup.x,_scalegroup.y,_scalegroup.z);
+        //    glTranslatef(_wpgroup.x,_wpgroup.y,_wpgroup.z);
+       //     glRotatef(_rotategroup.x,1.0,0.0,0.0);
+       //     glRotatef(_rotategroup.y,0.0,1.0,0.0);
+       //     glRotatef(_rotategroup.z,0.0,0.0,1.0);
+       //     glScalef( _scalegroup.x,_scalegroup.y,_scalegroup.z);
 
         }
 

@@ -42,9 +42,9 @@ void l3d_meshselect::selectvertex()
 {
     int iname=m_istartname;
 
-    glMatrixMode(GL_MODELVIEW);
+  //  glMatrixMode(GL_MODELVIEW);
 
-    glPushMatrix();
+  //  glPushMatrix();
 
 
 
@@ -84,23 +84,23 @@ void l3d_meshselect::selectvertex()
 
                 appv->picking_name=iname;
 
-                glLoadName(iname);//da definire
+                //glLoadName(iname);//da definire
 
                 iname++;
 
-                glPointSize(20.0F);
+               // glPointSize(20.0F);
 
-                glBegin(GL_POINTS);
+                //glBegin(GL_POINTS);
 
-                    glVertex3f(appv->x,appv->y,appv->z);
+                //    glVertex3f(appv->x,appv->y,appv->z);
 
 
-                glEnd();
+               // glEnd();
             }
-            glPointSize(1.0F);
+           // glPointSize(1.0F);
     }
 
-    glPopMatrix();
+   // glPopMatrix();
 
 }
 
@@ -114,9 +114,9 @@ void l3d_meshselect::selectvertex(pl3d_mesh_struct value)
 void l3d_meshselect::selectedge()
 {
     int iname=m_istartname;
-    glMatrixMode(GL_MODELVIEW);
+  //  glMatrixMode(GL_MODELVIEW);
 
-    glPushMatrix();
+  //  glPushMatrix();
 
 
 
@@ -155,21 +155,21 @@ void l3d_meshselect::selectedge()
                 }
                 line->iname=iname;
 
-                glLoadName(iname);
+  //              glLoadName(iname);
                 iname++;
 
-                glBegin(GL_LINES);
+ //               glBegin(GL_LINES);
 
 
-                    glVertex3f(m_pobject->_vertex.find(line->v0)->x,
-                           m_pobject->_vertex.find(line->v0)->y,
-                           m_pobject->_vertex.find(line->v0)->z);
+ //                   glVertex3f(m_pobject->_vertex.find(line->v0)->x,
+  //                         m_pobject->_vertex.find(line->v0)->y,
+  //                         m_pobject->_vertex.find(line->v0)->z);
 
-                    glVertex3f(m_pobject->_vertex.find(line->v1)->x,
-                           m_pobject->_vertex.find(line->v1)->y,
-                           m_pobject->_vertex.find(line->v1)->z);
+ //                   glVertex3f(m_pobject->_vertex.find(line->v1)->x,
+  //                         m_pobject->_vertex.find(line->v1)->y,
+ //                          m_pobject->_vertex.find(line->v1)->z);
 
-                glEnd();
+ //               glEnd();
 
 
 
@@ -178,7 +178,7 @@ void l3d_meshselect::selectedge()
     }
 
 
-    glPopMatrix();
+ //   glPopMatrix();
 
 
 
@@ -195,15 +195,15 @@ void l3d_meshselect::selectface()
 {
     int iname=m_istartname;
 
-    if(m_pobject->_display->invert)
-            glFrontFace(GL_CCW);
-    else
-            glFrontFace(GL_CW);
+  //  if(m_pobject->_display->invert)
+  //          glFrontFace(GL_CCW);
+  //  else
+  //          glFrontFace(GL_CW);
 
-    glEnable(GL_CULL_FACE);
+  //  glEnable(GL_CULL_FACE);
 
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
+ //   glMatrixMode(GL_MODELVIEW);
+  //  glPushMatrix();
 
 
 
@@ -230,7 +230,7 @@ void l3d_meshselect::selectface()
 
 
 
-            glColor4f(1.0F,1.0F,1.0F,0.5F);
+   //         glColor4f(1.0F,1.0F,1.0F,0.5F);
 
             l3d_uint nindex=0;
             pl3d_face4_struct pol4;
@@ -297,10 +297,10 @@ void l3d_meshselect::selectface()
 
 
 
-                glLoadName(iname++);
+   //             glLoadName(iname++);
 
-                glBegin(GL_QUADS);
-
+  //              glBegin(GL_QUADS);
+//
                 if(!ccw)
                     {
                         //d----c
@@ -311,10 +311,10 @@ void l3d_meshselect::selectface()
 
 
 
-                    glVertex3f(d->x,d->y,d->z);
-                    glVertex3f(c->x,c->y,c->z);
-                    glVertex3f(b->x,b->y,b->z);
-                    glVertex3f(a->x,a->y,a->z);
+  //                  glVertex3f(d->x,d->y,d->z);
+  //                  glVertex3f(c->x,c->y,c->z);
+  //                  glVertex3f(b->x,b->y,b->z);
+  //                  glVertex3f(a->x,a->y,a->z);
 
 
 
@@ -332,10 +332,10 @@ void l3d_meshselect::selectface()
                        //cw:  d,c,b,a
                         //ccw: a,b,c,d
 
-                    glVertex3f(a->x,a->y,a->z);
-                    glVertex3f(b->x,b->y,b->z);
-                    glVertex3f(c->x,c->y,c->z);
-                    glVertex3f(d->x,d->y,d->z);
+//                    glVertex3f(a->x,a->y,a->z);
+//                    glVertex3f(b->x,b->y,b->z);
+//                    glVertex3f(c->x,c->y,c->z);
+//                    glVertex3f(d->x,d->y,d->z);
 
 
 
@@ -358,7 +358,7 @@ void l3d_meshselect::selectface()
 
 
 
-                glEnd();
+//                glEnd();
 
                 nindex++;
                 pol4=pol4->next;
@@ -369,7 +369,7 @@ void l3d_meshselect::selectface()
     }
 
 
-    glPopMatrix();
+//    glPopMatrix();
 }
 
 void l3d_meshselect::selectface(pl3d_mesh_struct value)
@@ -388,15 +388,15 @@ void l3d_meshselect::selectobject(pl3d_mesh_struct value)
 void l3d_meshselect::selectobject()
 {
     int iname=m_istartname;
-    if(m_pobject->_display->invert)
-            glFrontFace(GL_CW);
-    else
-            glFrontFace(GL_CCW);
+//    if(m_pobject->_display->invert)
+//            glFrontFace(GL_CW);
+//    else
+//            glFrontFace(GL_CCW);
 
-    glEnable(GL_CULL_FACE);
-
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
+//    glEnable(GL_CULL_FACE);
+//
+//    glMatrixMode(GL_MODELVIEW);
+//    glPushMatrix();
 
     if(m_pobject->_lgroup==l3d_null)
     {
@@ -414,7 +414,7 @@ void l3d_meshselect::selectobject()
 
     m_pobject->_pick._iname=iname;
 
-    glLoadName(iname++);
+//    glLoadName(iname++);
 
     m_pobject->_bbox.draw_cube_select();
     /*
@@ -499,7 +499,7 @@ void l3d_meshselect::selectobject()
     */
 
 
-     glPopMatrix();
+ //    glPopMatrix();
 
     m_istartname++;
 

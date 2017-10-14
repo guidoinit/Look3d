@@ -125,7 +125,7 @@ end:
 void texture::bind()
 {
 
-    glBindTexture(GL_TEXTURE_2D, id);
+    //glBindTexture(GL_TEXTURE_2D, id);
 
 }
 
@@ -154,14 +154,14 @@ void texture::loadnull()
     mode = GL_RGB;
 
 
-    glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
-    glGenTextures( 1, &id );
-    glBindTexture( GL_TEXTURE_2D, id );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, TEX_MAG_FILTER );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, TEX_MIN_FILTER );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-    glTexImage2D( GL_TEXTURE_2D, 0, mode, w, h, 0, mode, GL_UNSIGNED_BYTE, data );
+    //glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
+    //glGenTextures( 1, &id );
+    //glBindTexture( GL_TEXTURE_2D, id );
+    //glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, TEX_MAG_FILTER );
+    //glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, TEX_MIN_FILTER );
+    //glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+    //glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+    //glTexImage2D( GL_TEXTURE_2D, 0, mode, w, h, 0, mode, GL_UNSIGNED_BYTE, data );
     //gluBuild2DMipmaps( GL_texture_2D, mode, w, h, mode, GL_UNSIGNED_BYTE, data );
 
 
@@ -262,15 +262,15 @@ void texture::build( void )
     if( !data ) return;
     
 
-    glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
-    glGenTextures( 1, &id );
-    glBindTexture( GL_TEXTURE_2D, id );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, TEX_MAG_FILTER );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, TEX_MIN_FILTER );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-    glTexImage2D( GL_TEXTURE_2D, 0, mode, w, h, 0, mode, GL_UNSIGNED_BYTE, data );
-    gluBuild2DMipmaps( GL_TEXTURE_2D, mode, w, h, mode, GL_UNSIGNED_BYTE, data );
+   // glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
+   // glGenTextures( 1, &id );
+   // glBindTexture( GL_TEXTURE_2D, id );
+   // glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, TEX_MAG_FILTER );
+   // glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, TEX_MIN_FILTER );
+   // glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+   // glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+   // glTexImage2D( GL_TEXTURE_2D, 0, mode, w, h, 0, mode, GL_UNSIGNED_BYTE, data );
+   // gluBuild2DMipmaps( GL_TEXTURE_2D, mode, w, h, mode, GL_UNSIGNED_BYTE, data );
 
 }
 

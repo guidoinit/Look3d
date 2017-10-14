@@ -269,7 +269,7 @@ void animationmanager::DrawEdit()
         for (nIndex=0; nIndex<nSize; nIndex++)
 
         {
-                glLoadName(nSizet);
+                //glLoadName(nSizet);
                 m_telecamera[nIndex].SetName(nSizet++);
                 m_telecamera[nIndex].Draw();
 

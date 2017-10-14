@@ -87,7 +87,7 @@ namespace l3d
 
             void draw_cube_select()
             {
-                glBegin(GL_QUADS);
+                //glBegin(GL_QUADS);
                 {
                     //0-----1
                     //|     |
@@ -104,54 +104,54 @@ namespace l3d
                     //base of box up
                     //
 
-                    glVertex3f(_v[1].x,_v[1].y,_v[1].z);
-                    glVertex3f(_v[0].x,_v[0].y,_v[0].z);
-                    glVertex3f(_v[2].x,_v[2].y,_v[2].z);
-                    glVertex3f(_v[3].x,_v[3].y,_v[3].z);
+//                    glVertex3f(_v[1].x,_v[1].y,_v[1].z);
+//                    glVertex3f(_v[0].x,_v[0].y,_v[0].z);
+//                    glVertex3f(_v[2].x,_v[2].y,_v[2].z);
+//                    glVertex3f(_v[3].x,_v[3].y,_v[3].z);
 
-                    glVertex3f(_v[4].x,_v[4].y,_v[4].z);
-                    glVertex3f(_v[5].x,_v[5].y,_v[5].z);
-                    glVertex3f(_v[7].x,_v[7].y,_v[7].z);
-                    glVertex3f(_v[6].x,_v[6].y,_v[6].z);
+//                    glVertex3f(_v[4].x,_v[4].y,_v[4].z);
+//                    glVertex3f(_v[5].x,_v[5].y,_v[5].z);
+//                    glVertex3f(_v[7].x,_v[7].y,_v[7].z);
+//                    glVertex3f(_v[6].x,_v[6].y,_v[6].z);
 
 
-                    //4-6-2-0
-                    glVertex3f(_v[4].x,_v[4].y,_v[4].z);
-                    glVertex3f(_v[6].x,_v[6].y,_v[6].z);
-                    glVertex3f(_v[2].x,_v[2].y,_v[2].z);
-                    glVertex3f(_v[0].x,_v[0].y,_v[0].z);
+//                    //4-6-2-0
+//                    glVertex3f(_v[4].x,_v[4].y,_v[4].z);
+//                    glVertex3f(_v[6].x,_v[6].y,_v[6].z);
+//                    glVertex3f(_v[2].x,_v[2].y,_v[2].z);
+//                    glVertex3f(_v[0].x,_v[0].y,_v[0].z);
 
-                    //6-7-2-3
-                    glVertex3f(_v[6].x,_v[6].y,_v[6].z);
-                    glVertex3f(_v[7].x,_v[7].y,_v[7].z);
-                    glVertex3f(_v[2].x,_v[2].y,_v[2].z);
-                    glVertex3f(_v[3].x,_v[3].y,_v[3].z);
+//                    //6-7-2-3
+//                    glVertex3f(_v[6].x,_v[6].y,_v[6].z);
+//                    glVertex3f(_v[7].x,_v[7].y,_v[7].z);
+//                    glVertex3f(_v[2].x,_v[2].y,_v[2].z);
+//                    glVertex3f(_v[3].x,_v[3].y,_v[3].z);
 
-                    //5-4-0-1
-                    glVertex3f(_v[5].x,_v[5].y,_v[5].z);
-                    glVertex3f(_v[4].x,_v[4].y,_v[4].z);
-                    glVertex3f(_v[0].x,_v[0].y,_v[0].z);
-                    glVertex3f(_v[1].x,_v[1].y,_v[1].z);
+//                    //5-4-0-1
+//                    glVertex3f(_v[5].x,_v[5].y,_v[5].z);
+//                    glVertex3f(_v[4].x,_v[4].y,_v[4].z);
+//                    glVertex3f(_v[0].x,_v[0].y,_v[0].z);
+//                    glVertex3f(_v[1].x,_v[1].y,_v[1].z);
 
-                    //7-5-1-3
-                    glVertex3f(_v[7].x,_v[7].y,_v[7].z);
-                    glVertex3f(_v[5].x,_v[5].y,_v[5].z);
-                    glVertex3f(_v[1].x,_v[1].y,_v[1].z);
-                    glVertex3f(_v[3].x,_v[3].y,_v[3].z);
+//                    //7-5-1-3
+//                    glVertex3f(_v[7].x,_v[7].y,_v[7].z);
+//                    glVertex3f(_v[5].x,_v[5].y,_v[5].z);
+//                    glVertex3f(_v[1].x,_v[1].y,_v[1].z);
+//                    glVertex3f(_v[3].x,_v[3].y,_v[3].z);
 
 
 
 
 
                 }
-                glEnd();
+       //         glEnd();
             }
 
             void draw_cube()
             {
 
 
-                glBegin(GL_LINES);
+          //      glBegin(GL_LINES);
 
                 {
                     //a-----b
@@ -166,20 +166,20 @@ namespace l3d
                     //a=0,b=1,c=2,d=3
 
                     //0-1
-                    glVertex3f(_v[0].x,_v[0].y,_v[0].z);
-                    glVertex3f(_v[1].x,_v[1].y,_v[1].z);
+//                    glVertex3f(_v[0].x,_v[0].y,_v[0].z);
+//                    glVertex3f(_v[1].x,_v[1].y,_v[1].z);
 
-                    //1-2
-                    glVertex3f(_v[1].x,_v[1].y,_v[1].z);
-                    glVertex3f(_v[3].x,_v[3].y,_v[3].z);
+//                    //1-2
+//                    glVertex3f(_v[1].x,_v[1].y,_v[1].z);
+//                    glVertex3f(_v[3].x,_v[3].y,_v[3].z);
 
-                    //3-2
-                    glVertex3f(_v[3].x,_v[3].y,_v[3].z);
-                    glVertex3f(_v[2].x,_v[2].y,_v[2].z);
+//                    //3-2
+//                    glVertex3f(_v[3].x,_v[3].y,_v[3].z);
+//                    glVertex3f(_v[2].x,_v[2].y,_v[2].z);
 
-                    //2-0
-                    glVertex3f(_v[2].x,_v[2].y,_v[2].z);
-                    glVertex3f(_v[0].x,_v[0].y,_v[0].z);
+//                    //2-0
+//                    glVertex3f(_v[2].x,_v[2].y,_v[2].z);
+//                    glVertex3f(_v[0].x,_v[0].y,_v[0].z);
 
                     //a-----b
                     //|     |
@@ -193,22 +193,22 @@ namespace l3d
                     //a=4,b=5,c=6,d=7
 
                     //4-5
-                    glVertex3f(_v[4].x,_v[4].y,_v[4].z);
-                    glVertex3f(_v[5].x,_v[5].y,_v[5].z);
+//                    glVertex3f(_v[4].x,_v[4].y,_v[4].z);
+//                    glVertex3f(_v[5].x,_v[5].y,_v[5].z);
 
-                    //5-7
-                    glVertex3f(_v[5].x,_v[5].y,_v[5].z);
-                    glVertex3f(_v[7].x,_v[7].y,_v[7].z);
+//                    //5-7
+//                    glVertex3f(_v[5].x,_v[5].y,_v[5].z);
+//                    glVertex3f(_v[7].x,_v[7].y,_v[7].z);
 
-                    //7-6
-                    glVertex3f(_v[7].x,_v[7].y,_v[7].z);
-                    glVertex3f(_v[6].x,_v[6].y,_v[6].z);
+//                    //7-6
+//                    glVertex3f(_v[7].x,_v[7].y,_v[7].z);
+//                    glVertex3f(_v[6].x,_v[6].y,_v[6].z);
 
-                    //6-4
-                    glVertex3f(_v[6].x,_v[6].y,_v[6].z);
-                    glVertex3f(_v[4].x,_v[4].y,_v[4].z);
+//                    //6-4
+//                    glVertex3f(_v[6].x,_v[6].y,_v[6].z);
+//                    glVertex3f(_v[4].x,_v[4].y,_v[4].z);
 
-                    //0-----1
+//                    //0-----1
                     //|     |
                     //|     |
                     //|     |
@@ -224,26 +224,26 @@ namespace l3d
                     //draw lines 0-4 1-5 3-7 2-6
 
 
-                    glVertex3f(_v[0].x,_v[0].y,_v[0].z);
-                    glVertex3f(_v[4].x,_v[4].y,_v[4].z);
+//                    glVertex3f(_v[0].x,_v[0].y,_v[0].z);
+//                    glVertex3f(_v[4].x,_v[4].y,_v[4].z);
 
 
-                    glVertex3f(_v[1].x,_v[1].y,_v[1].z);
-                    glVertex3f(_v[5].x,_v[5].y,_v[5].z);
+//                    glVertex3f(_v[1].x,_v[1].y,_v[1].z);
+//                    glVertex3f(_v[5].x,_v[5].y,_v[5].z);
 
 
-                    glVertex3f(_v[3].x,_v[3].y,_v[3].z);
-                    glVertex3f(_v[7].x,_v[7].y,_v[7].z);
+//                    glVertex3f(_v[3].x,_v[3].y,_v[3].z);
+//                    glVertex3f(_v[7].x,_v[7].y,_v[7].z);
 
 
-                    glVertex3f(_v[2].x,_v[2].y,_v[2].z);
-                    glVertex3f(_v[6].x,_v[6].y,_v[6].z);
+//                    glVertex3f(_v[2].x,_v[2].y,_v[2].z);
+//                    glVertex3f(_v[6].x,_v[6].y,_v[6].z);
 
 
 
                 }
 
-                glEnd();
+//                glEnd();
 
             }
 

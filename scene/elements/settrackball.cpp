@@ -82,10 +82,10 @@ void settrackball::set(float sx,float sy,float wx, float wy)
         //   4. Pre-multiply it by the saved matrix.
         //
         GLfloat objectXform2[4][4];
-        glGetFloatv( GL_MODELVIEW_MATRIX, (GLfloat *) objectXform2 );
-        glLoadIdentity();
-        glRotatef( rot_angle, rotAxis.x, rotAxis.y, rotAxis.z );
-        glMultMatrixf( (GLfloat *) objectXform2 );
+        //glGetFloatv( GL_MODELVIEW_MATRIX, (GLfloat *) objectXform2 );
+        //glLoadIdentity();
+        //glRotatef( rot_angle, rotAxis.x, rotAxis.y, rotAxis.z );
+        //glMultMatrixf( (GLfloat *) objectXform2 );
 
 
         }
