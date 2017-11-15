@@ -2,7 +2,7 @@
 #define L3D_TRANSFORM_H
 
 #include "l3d_vertex.h"
-
+#include <glm/glm.hpp>
 
 
 using namespace l3d::vertex3f;
@@ -14,6 +14,7 @@ namespace l3d
         l3d_vertex_fast _wp,_wp2,_wpgroup;
         l3d_vertex_fast _scale,_scalegroup,_scalevertex;
         l3d_vertex_fast _rotate,_rotategroup;
+        glm::mat4 _mat_scale,_mat_rotate,_mat_translate;
 
 
         l3d_bool inmove;

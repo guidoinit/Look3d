@@ -2458,7 +2458,353 @@ void l3d_mesh::delete_vbo(l3d_uint _e)
 
 
 }
+void l3d_mesh::create_vao(l3d_uint _e)
+{
 
+
+    pl3d_mesh_struct mesh=find(_e);
+    if(mesh==NULL)
+    {
+
+        mesh->_vao=l3d_null;
+        return;
+    }
+    l3d_uint size=mesh->_vertex.size();
+
+    if(size==0)
+    {
+
+        mesh->_vao=l3d_null;
+        return;
+
+    }
+
+
+    l3d_uint size_index=mesh->_edges.size();
+
+    l3d_uint size_index_face=mesh->_faces.size();
+
+    l3d_uint size_index_quad=mesh->_quad.size();
+
+    l3d_vetexarrayobject *vao=new l3d_vetexarrayobject;
+
+    vao->_elementvbo=NULL;
+    vao->_elementedge=NULL;
+    vao->_elementface=NULL;
+    vao->_elementquad=NULL;
+    vao->_elementvert=NULL;
+
+
+    vao->_elementvbo= new l3d_vertexbufferobjectVAO;
+    vao->_elementvbo->setlenght(sizeof(l3d_float));
+    vao->_elementvbo->setsize(size);
+
+    vao->_elementvert= new l3d_vertexbufferobjectVAO;
+    vao->_elementvert->setlenght(sizeof(l3d_uint));
+    vao->_elementvert->setsize(size);
+
+
+    //vbo->_vbosize=size; ?? da inserire?
+
+    if(size_index>0)
+    {
+        vao->_elementedge= new l3d_vertexbufferobjectVAO;
+        vao->_elementedge->setlenght(sizeof(l3d_uint));
+        vao->_elementedge->setsize  (size_index  *  2);
+
+    }
+
+
+
+    if(size_index_face>0)
+    {
+        vao->_elementface=new l3d_vertexbufferobjectVAO;
+        vao->_elementface->setlenght(sizeof(l3d_uint));
+        vao->_elementface->setsize (size_index_face  *  3);
+
+    }
+    if(size_index_quad>0)
+    {
+        vao->_elementquad=new l3d_vertexbufferobjectVAO;
+        vao->_elementquad->setlenght(sizeof(l3d_uint));
+        vao->_elementquad->setsize (size_index_quad  *  4);
+    }
+
+
+
+
+
+
+
+
+    //vbo->_linesize=size_index;
+
+
+    l3d_float* first=(l3d_float*)vao->_elementvbo->getbuffer();
+
+    //vbo->_index=new l3d_uint[size_index*2];
+
+
+    l3d_uint * pvert=(l3d_uint *)vao->_elementvert->getbuffer();
+
+    l3d_uint * pedge;
+    l3d_uint * pface;
+    l3d_uint * pquad;
+
+    if(vao->_elementedge!=NULL)
+        pedge=(l3d_uint *)vao->_elementedge->getbuffer();
+
+    if(vao->_elementface!=NULL)
+        pface=(l3d_uint *)vao->_elementface->getbuffer();
+
+    if(vao->_elementquad!=NULL)
+        pquad=(l3d_uint *)vao->_elementquad->getbuffer();
+    int ix=0;
+    pl3d_vertex_fast v=mesh->_vertex.find(ix);
+    while(v)
+    {
+
+
+        *pvert++=ix;
+
+        *first++=v->x;
+        *first++=v->y;
+        *first++=v->z;
+
+        ix++;
+        v=v->next;
+    }
+
+    for(int ix=0; ix < size_index;ix++)
+    {
+        pl3d_line_struct  l=mesh->_edges.find(ix);
+
+        *pedge++=l->v0;
+        *pedge++=l->v1;
+    }
+    for(int ix=0; ix < size_index_face;ix++)
+    {
+        pl3d_face3_struct f=mesh->_faces.find(ix);
+
+        if(mesh->_display->invert)
+
+        {
+
+            *pface++=f->v0;
+            *pface++=f->v1;
+            *pface++=f->v2;
+
+        }
+
+        else
+        {
+            *pface++=f->v0;
+            *pface++=f->v2;
+            *pface++=f->v1;
+
+        }
+
+    }
+    pl3d_face4_struct q=mesh->_quad.first();
+    while(q)
+    {
+        *pquad++=q->get(0);
+        *pquad++=q->get(1);
+        *pquad++=q->get(2);
+        *pquad++=q->get(3);
+
+        q=q->next;
+    }
+    vao->load();
+
+    //vbo->_elementvbo->create_sub(buffer_array,usage_dynamic_draw);
+
+   // vbo->_elementvert->create(buffer_element_array,usage_static_draw);
+
+    //if(vbo->_elementedge!=NULL)
+    //    vbo->_elementedge->create(buffer_element_array,usage_static_draw);
+
+    //if(vbo->_elementface!=NULL)
+    //    vbo->_elementface->create(buffer_element_array,usage_static_draw);
+
+    /*
+    glBindBuffer(buffer_array, 0);
+
+    glGenBuffers(1, &vbo->_idindex);
+
+    glBindBuffer(buffer_element_array,vbo->_idindex);
+
+    glBufferData(buffer_element_array, sizeof(l3d_uint)*size_index*2, NULL, usage_static_draw);
+
+    glBufferSubData(buffer_element_array, 0, sizeof(l3d_uint)*size_index*2, vbo->_index);
+
+    glBindBuffer(buffer_element_array, 0);
+
+    */
+
+    //delete vbo->_index;
+
+    mesh->_vao=vao;
+
+}
+void l3d_mesh::create_vao(pl3d_mesh_struct m)
+{
+
+    pl3d_mesh_struct mesh=m;
+
+    if(mesh==NULL)
+        return;
+    l3d_uint size=mesh->_vertex.size();
+    if(size==0)
+        {
+
+        mesh->_vbo=l3d_null;
+        return;
+
+    }
+
+
+    l3d_uint size_index=mesh->_edges.size();
+
+    l3d_uint size_index_face=mesh->_faces.size();
+
+    l3d_vertexbufferobject *vbo=new l3d_vertexbufferobject;
+
+    vbo->_elementvbo=NULL;
+    vbo->_elementedge=NULL;
+    vbo->_elementface=NULL;
+    vbo->_elementquad=NULL;
+    vbo->_elementvert=NULL;
+
+
+    vbo->_elementvbo= new l3d_bufferobject;
+    vbo->_elementvbo->setlenght(sizeof(l3d_VBO_element));
+    vbo->_elementvbo->setsize(size);
+
+    vbo->_elementvert= new l3d_bufferobject;
+    vbo->_elementvert->setlenght(sizeof(l3d_uint));
+    vbo->_elementvert->setsize(size);
+
+
+    vbo->_vbosize=size;
+
+    if(size_index>0)
+    {
+        vbo->_elementedge= new l3d_bufferobject;
+        vbo->_elementedge->setlenght(sizeof(l3d_uint));
+        vbo->_elementedge->setsize  (size_index  *  2);
+
+    }
+
+
+
+    if(size_index_face>0)
+    {
+        vbo->_elementface=new l3d_bufferobject;
+        vbo->_elementface->setlenght(sizeof(l3d_uint));
+        vbo->_elementface->setsize (size_index_face  *  3);
+
+    }
+
+
+
+
+
+
+
+
+    //vbo->_linesize=size_index;
+
+
+    pl3d_VBO_element first=(pl3d_VBO_element)vbo->_elementvbo->getbuffer();
+
+    //vbo->_index=new l3d_uint[size_index*2];
+
+
+    l3d_uint * pvert=(l3d_uint *)vbo->_elementvert->getbuffer();
+
+    l3d_uint * pedge;
+    l3d_uint * pface;
+
+    if(vbo->_elementedge!=NULL)
+        pedge=(l3d_uint *)vbo->_elementedge->getbuffer();
+
+    if(vbo->_elementface!=NULL)
+        pface=(l3d_uint *)vbo->_elementface->getbuffer();
+
+    for(int ix=0; ix < size;ix++)
+    {
+        pl3d_vertex_fast v=mesh->_vertex.find(ix);
+
+        *pvert++=ix;
+
+        first->location[0]=v->x;
+        first->location[1]=v->y;
+        first->location[2]=v->z;
+
+        first->tex[0]=v->u;
+        first->tex[1]=v->v;
+
+        first->normal[0]=v->normals[0];
+        first->normal[1]=v->normals[1];
+        first->normal[2]=v->normals[2];
+
+        first->color[0]=0.5F;
+        first->color[1]=0.5F;
+        first->color[2]=0.5F;
+        first->color[3]=1.0F;
+
+        first->imaterial=0;
+
+        *first++;
+    }
+
+    for(int ix=0; ix < size_index;ix++)
+    {
+        pl3d_line_struct  l=mesh->_edges.find(ix);
+
+        *pedge++=l->v0;
+        *pedge++=l->v1;
+    }
+    for(int ix=0; ix < size_index_face;ix++)
+    {
+        pl3d_face3_struct f=mesh->_faces.find(ix);
+        if(mesh->_display->invert)
+
+        {
+
+            *pface++=f->v0;
+            *pface++=f->v1;
+            *pface++=f->v2;
+
+        }
+
+        else
+        {
+            *pface++=f->v0;
+            *pface++=f->v2;
+            *pface++=f->v1;
+
+        }
+
+
+
+
+    }
+
+    vbo->_elementvbo->create_sub(buffer_array,usage_static_draw);
+
+    vbo->_elementvert->create(buffer_element_array,usage_static_draw);
+
+    if(vbo->_elementedge!=NULL)
+        vbo->_elementedge->create(buffer_element_array,usage_static_draw);
+
+    if(vbo->_elementface!=NULL)
+        vbo->_elementface->create(buffer_element_array,usage_static_draw);
+
+     mesh->_vbo=vbo;
+
+}
 void l3d_mesh::create_vbo(l3d_uint _e)
 {
 

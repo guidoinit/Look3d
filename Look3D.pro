@@ -8,9 +8,9 @@ QT       += core gui widgets opengl
 
 TARGET = Look3D
 TEMPLATE = app
-#INCLUDEPATH += scene/lib/glew-1.9.0/include/
+
 INCLUDEPATH += lua52/include/
-#INCLUDEPATH += scene/lib/lib3ds-20080909/lib/
+INCLUDEPATH += scene/lib/glm-0.9.9-a1/
 #LIBS += -Lscene/lib/lib3ds-20080909/lib/ -llib3ds.lib
 
 SOURCES +=    mesh/vertex2f.cpp \
@@ -172,7 +172,12 @@ SOURCES +=    mesh/vertex2f.cpp \
     qt/newobject.cpp \
     mesh/action.cpp \
     scene/elements/telecamera.cpp \
-    qt/fastinsert.cpp
+    qt/fastinsert.cpp \
+    scene/elements/l3d_mainplane.cpp \
+    mesh/vao/l3d_vetexarrayobject.cpp \
+    scene/shaders/l3d_shaderprogram.cpp \
+    mesh/vao/l3d_vertexbufferobjectvao.cpp \
+    scene/shaders/l3d_shader.cpp
 
 HEADERS  += mesh/vertex2f.h \
     mesh/variable.h \
@@ -334,7 +339,13 @@ HEADERS  += mesh/vertex2f.h \
     scene/elements/l3d_light.h \
     mesh/l3d_action.h \
     scene/animation/l3d_frame.h \
-    scene/elements/telecamera.h
+    scene/elements/telecamera.h \
+    scene/elements/l3d_mainplane.h \
+    scene/lib/glm-0.9.9-a1/glm/glm.hpp \
+    mesh/vao/l3d_vetexarrayobject.h \
+    scene/shaders/l3d_shaderprogram.h \
+    mesh/vao/l3d_vertexbufferobjectvao.h \
+    scene/shaders/l3d_shader.h
 QT           += opengl
 
 FORMS    +=  qt/newproject.ui \
@@ -362,6 +373,12 @@ OTHER_FILES += \
     tolua++package/l3d_mesh.pkg \
     tolua++package/l3d_mesh_struct.pkg \
     tolua++package/l3d_mesh_struct.pkg
+
+DISTFILES += \
+    scene/shaders/fragmentShader.txt \
+    scene/shaders/vertexShader.txt \
+    scene/shaders/mainfragment.frag \
+    scene/shaders/mainvertex.vert
 
 
 

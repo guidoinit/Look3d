@@ -1,10 +1,11 @@
-
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 
 #include <cmath>
 #include <vector>
 #include <cstddef>
 #include <cstdlib>
-#include <QtOpenGL>
+
 #include <QtDebug>
 #include <QtGlobal>
 
@@ -299,7 +300,9 @@ void scene::RemoveAll()
 }
 bool scene::InitScene()
 {
-        //opengl.Init(hDC);
+
+    ogl_function.initializeOpenGLFunctions();
+    //opengl.Init(hDC);
 
         //_DC=hDC;
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -598,11 +601,15 @@ void scene::Pipeline()
 
     _main_view.PipeLine();
     DoUserAction();
-    return;
-        glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+    ogl_function.glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+    ogl_function.glClearColor(0.5f,0.5f,0.5f,0.0F);
+    ogl_function.glEnable(GL_LIGHTING);
+    ogl_function.glEnable(GL_BLEND);
+//    return;
+//        glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
-        glClearColor(0.5f,0.5f,0.5f,0.0F);
-        glEnable(GL_LIGHTING);
+//        glClearColor(0.5f,0.5f,0.5f,0.0F);
+//        glEnable(GL_LIGHTING);
        //glEnable(GL_BLEND);
 
 
@@ -610,19 +617,19 @@ void scene::Pipeline()
              InitLigth();
         }
 
-        glMatrixMode(GL_PROJECTION);
+//        glMatrixMode(GL_PROJECTION);
 
-        glLoadIdentity();
+//        glLoadIdentity();
 
 
 
         InitPipeline();
 
 
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
+//        glMatrixMode(GL_MODELVIEW);
+//        glLoadIdentity();
 
-        glShadeModel(GL_SMOOTH);
+//        glShadeModel(GL_SMOOTH);
 
 
         //if(_pmanager!=NULL)
@@ -668,7 +675,7 @@ void scene::Pipeline()
 
         }
 */
-        glDrawBuffer(GL_BACK);
+//        glDrawBuffer(GL_BACK);
 
         DoUserAction();
 
@@ -708,115 +715,115 @@ void scene::Pipeline()
             //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
 
             //init view
-            glMatrixMode(GL_PROJECTION);
+//            glMatrixMode(GL_PROJECTION);
 
-            glLoadIdentity();
+//            glLoadIdentity();
 
-            glOrtho(-1.0F,1.0F,-1.0F,1.0F,-100.0F,100.0F);
+//            glOrtho(-1.0F,1.0F,-1.0F,1.0F,-100.0F,100.0F);
 
-            glPushMatrix();
-                glDisable(GL_LIGHTING);
-                //m_view.set();
+//            glPushMatrix();
+//                glDisable(GL_LIGHTING);
+//                //m_view.set();
 
-                glLineWidth(4.0F);
-                glColor3f(1.0F,1.0F,1.0F);
-                glBegin(GL_LINES);
+//                glLineWidth(4.0F);
+//                glColor3f(1.0F,1.0F,1.0F);
+//                glBegin(GL_LINES);
 
-                    glVertex2f(0.0F,1.0F);
-                    glVertex2f(0.0F,-1.0F);
+//                    glVertex2f(0.0F,1.0F);
+//                    glVertex2f(0.0F,-1.0F);
 
-                    glVertex2f(-1.0F,0.0F);
-                    glVertex2f(1.0F,0.0F);
+//                    glVertex2f(-1.0F,0.0F);
+//                    glVertex2f(1.0F,0.0F);
 
-                glEnd();
-                glLineWidth(6.0F);
-                glColor3f(0.2F,0.2F,0.2F);
-                glBegin(GL_LINES);
+//                glEnd();
+//                glLineWidth(6.0F);
+//                glColor3f(0.2F,0.2F,0.2F);
+//                glBegin(GL_LINES);
 
-                    glVertex2f(0.0F,1.0F);
-                    glVertex2f(0.0F,-1.0F);
+//                    glVertex2f(0.0F,1.0F);
+//                    glVertex2f(0.0F,-1.0F);
 
-                    glVertex2f(-1.0F,0.0F);
-                    glVertex2f(1.0F,0.0F);
+//                    glVertex2f(-1.0F,0.0F);
+//                    glVertex2f(1.0F,0.0F);
 
-                glEnd();
+//                glEnd();
 
-            glPopMatrix();
+//            glPopMatrix();
 
-            //init view 1
-            glMatrixMode(GL_PROJECTION);
+//            //init view 1
+//            glMatrixMode(GL_PROJECTION);
 
-            glLoadIdentity();
+//            glLoadIdentity();
 
-            glOrtho(-100.0F,100.0F,-100.0F,100.0F,-100.0F,10000.0F);
+//            glOrtho(-100.0F,100.0F,-100.0F,100.0F,-100.0F,10000.0F);
 
-            glPushMatrix();
-                //m_mainviewport[0].set();
+//            glPushMatrix();
+//                //m_mainviewport[0].set();
 
-                glMatrixMode(GL_MODELVIEW);
-                glLoadIdentity();
-                //m_mainviewport[0].m_cam.SetPos();
+//                glMatrixMode(GL_MODELVIEW);
+//                glLoadIdentity();
+//                //m_mainviewport[0].m_cam.SetPos();
 
-                Draw();
-            glPopMatrix();
+//                Draw();
+//            glPopMatrix();
 
-            //init view 2
+//            //init view 2
 
-            glMatrixMode(GL_PROJECTION);
+//            glMatrixMode(GL_PROJECTION);
 
-            glLoadIdentity();
+//            glLoadIdentity();
 
-            glOrtho(-100.0F,100.0F,-100.0F,100.0F,-100.0F,10000.0F);
+//            glOrtho(-100.0F,100.0F,-100.0F,100.0F,-100.0F,10000.0F);
 
-            glPushMatrix();
+//            glPushMatrix();
 
-                //m_mainviewport[1].set();
-                glMatrixMode(GL_MODELVIEW);
-                glLoadIdentity();
-                //m_mainviewport[1].m_cam.SetPos();
+//                //m_mainviewport[1].set();
+//                glMatrixMode(GL_MODELVIEW);
+//                glLoadIdentity();
+//                //m_mainviewport[1].m_cam.SetPos();
 
-                Draw();
+//                Draw();
 
-            glPopMatrix();
+//            glPopMatrix();
 
-            //init view 3
+//            //init view 3
 
-            glMatrixMode(GL_PROJECTION);
+//            glMatrixMode(GL_PROJECTION);
 
-            glLoadIdentity();
+//            glLoadIdentity();
 
-            glOrtho(-100.0F,100.0F,-100.0F,100.0F,-100.0F,10000.0F);
+//            glOrtho(-100.0F,100.0F,-100.0F,100.0F,-100.0F,10000.0F);
 
-            glPushMatrix();
-                //m_mainviewport[2].set();
-                glMatrixMode(GL_MODELVIEW);
-                glLoadIdentity();
-                //m_mainviewport[2].m_cam.SetPos();
+//            glPushMatrix();
+//                //m_mainviewport[2].set();
+//                glMatrixMode(GL_MODELVIEW);
+//                glLoadIdentity();
+//                //m_mainviewport[2].m_cam.SetPos();
 
-                Draw();
-            glPopMatrix();
+//                Draw();
+//            glPopMatrix();
 
 
-            //init view 4
+//            //init view 4
 
-            glMatrixMode(GL_PROJECTION);
+//            glMatrixMode(GL_PROJECTION);
 
-            glLoadIdentity();
+//            glLoadIdentity();
 
-            //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
+//            //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
 
-            glPushMatrix();
+//            glPushMatrix();
 
-                //m_mainviewport[3].set();
-                glMatrixMode(GL_MODELVIEW);
-                glLoadIdentity();
+//                //m_mainviewport[3].set();
+//                glMatrixMode(GL_MODELVIEW);
+//                glLoadIdentity();
 
-                //m_maincamera.Draw();
-                //m_mainviewport[0].set();
+//                //m_maincamera.Draw();
+//                //m_mainviewport[0].set();
 
-                Draw();
+//                Draw();
 
-            glPopMatrix();
+//            glPopMatrix();
 
             return;
         }//else
@@ -836,22 +843,22 @@ void scene::Pipeline()
             //m_view.set();
             Draw();
 
-            glMatrixMode(GL_PROJECTION);
+//            glMatrixMode(GL_PROJECTION);
 
-            glLoadIdentity();
+//            glLoadIdentity();
 
             //gluPerspective(45.0f,1.5F,1.0F,10000.0F);
             /*
               GLdouble  left,  GLdouble  right,  GLdouble  bottom,  GLdouble  top,  GLdouble  nearVal,  GLdouble  farVal);
               */
-            glFrustum(-1.0F,1.0F,-1.0F,1.0F,1.0F,10000.0F);
+//            glFrustum(-1.0F,1.0F,-1.0F,1.0F,1.0F,10000.0F);
 //            glOrtho(-100.0F,100.0F,-100.0F,100.0F,1.0F,10000.0F);
 
-            glPushMatrix();
+//            glPushMatrix();
 
                 //m_view.set();
-                glMatrixMode(GL_MODELVIEW);
-                glLoadIdentity();
+//                glMatrixMode(GL_MODELVIEW);
+//                glLoadIdentity();
 
                 //m_maincamera.Draw();
                 //m_mainviewport[0].set();
@@ -860,7 +867,7 @@ void scene::Pipeline()
 
                 //Drawtool(m_maindocument->getmainscenedoc()->gettoolpos());
                 draw_multy_select_pointer(m_mousecord.x,m_mousecord.y);
-            glPopMatrix();
+//            glPopMatrix();
 
         }
 

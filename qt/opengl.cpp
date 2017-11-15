@@ -132,7 +132,9 @@ void OpenGL::initializeGL()
 
     pscene->InitScene();
 
-
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
 
     /*
     QColor color(1.0,0,0,1.0);
@@ -155,6 +157,7 @@ void OpenGL::initializeGL()
 //! [7]
 void OpenGL::paintGL()
 {
+
     pscene->Pipeline();
     /*
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

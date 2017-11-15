@@ -59,7 +59,7 @@ private:
         pipeline* m_pipelinetop;
 
         //Ui::MainWindow *m_ui;
-
+        QOpenGLFunctions ogl_function;
 
         //maincamera m_maincamera;
         settrackball m_track;

@@ -13,6 +13,9 @@
 #include "l3d_blend.h"
 #include "vbo/l3d_bufferobject.h"
 #include "vbo/l3d_vertexbufferobject.h"
+#include "vao/l3d_vertexbufferobjectvao.h"
+#include "vao/l3d_vetexarrayobject.h"
+
 #include "group.h"
 #include "scene/sceneenum.h"
 
@@ -307,6 +310,7 @@ namespace l3d
 
             bbox _bbox;
             l3d_vertexbufferobject *_vbo;
+            l3d_vetexarrayobject *_vao;
 
             l3d_material _material;
             void make_box()
@@ -1582,6 +1586,12 @@ namespace l3d
                 void delete_vbo(l3d_uint _e);
                 void delete_vbo(pl3d_mesh_struct _e);
                 void create_vbo(pl3d_mesh_struct _e);
+
+                void create_vao(l3d_uint _e);
+                void delete_vao(l3d_uint _e);
+                void delete_vao(pl3d_mesh_struct _e);
+                void create_vao(pl3d_mesh_struct _e);
+
                 void matmult(GLfloat M[], GLfloat v[]);
                 l3d_bool isfirst();
                 l3d_bool vertex_alone(int);
