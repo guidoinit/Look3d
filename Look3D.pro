@@ -177,7 +177,8 @@ SOURCES +=    mesh/vertex2f.cpp \
     mesh/vao/l3d_vetexarrayobject.cpp \
     scene/shaders/l3d_shaderprogram.cpp \
     mesh/vao/l3d_vertexbufferobjectvao.cpp \
-    scene/shaders/l3d_shader.cpp
+    scene/shaders/l3d_shader.cpp \
+    scene/shaders/l3d_shaderprogram_list.cpp
 
 HEADERS  += mesh/vertex2f.h \
     mesh/variable.h \
@@ -345,7 +346,8 @@ HEADERS  += mesh/vertex2f.h \
     mesh/vao/l3d_vetexarrayobject.h \
     scene/shaders/l3d_shaderprogram.h \
     mesh/vao/l3d_vertexbufferobjectvao.h \
-    scene/shaders/l3d_shader.h
+    scene/shaders/l3d_shader.h \
+    scene/shaders/l3d_shaderprogram_list.h
 QT           += opengl
 
 FORMS    +=  qt/newproject.ui \

@@ -73,3 +73,4 @@ void l3d_shader::set_source(l3d_const_string _source)
 {
     this->_source=_source;
 }
+

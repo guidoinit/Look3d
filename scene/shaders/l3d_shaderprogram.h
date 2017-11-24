@@ -19,6 +19,7 @@ public:
     void success();
     l3d_bool is_success();
     l3d_shaderprogram();
+    void use();
 };
 
 #endif // L3D_SHADERPROGRAM_H

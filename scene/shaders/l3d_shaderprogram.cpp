@@ -91,3 +91,7 @@ void l3d_shaderprogram::attach_fragment_shader(l3d_shader *_fragment_shader)
 {
     this->_fragment_shader=_fragment_shader;
 }
+void l3d_shaderprogram::use()
+{
+    glUseProgram(_id);
+}
